@@ -62,7 +62,10 @@
     "card.repo": "Репозиторій",
     "card.live": "Сайт",
     "card.org": "Організація",
-    "card.comingSoon": "Скоро"
+    "card.comingSoon": "Скоро",
+    "status.active": "Активний",
+    "status.building": "У збірці",
+    "status.parked": "На холді"
   },
   en: {
     "nav.roles": "Roles",
@@ -127,7 +130,10 @@
     "card.repo": "Repository",
     "card.live": "Live site",
     "card.org": "Organization",
-    "card.comingSoon": "Coming soon"
+    "card.comingSoon": "Coming soon",
+    "status.active": "Active",
+    "status.building": "Building",
+    "status.parked": "Parked"
   }
 };
 
@@ -200,6 +206,7 @@ const workCards = [
     },
     role: "producer",
     type: "project",
+    status: "active",
     tags: ["analytics", "education", "case-study"],
     repo: "https://github.com/TEZv/master_prep_2026"
   },
@@ -211,6 +218,7 @@ const workCards = [
     },
     role: "producer",
     type: "research",
+    status: "active",
     tags: ["prototype", "research", "lab"],
     repo: "https://github.com/TEZv/K-RnD-Lab-PHYLO-DEMO_03-2026"
   },
@@ -222,6 +230,7 @@ const workCards = [
     },
     role: "strategist",
     type: "hire",
+    status: "active",
     tags: ["data", "portfolio", "analysis"],
     repo: "https://github.com/TEZv/Data-Specialist-Portfolio"
   },
@@ -233,6 +242,7 @@ const workCards = [
     },
     role: "strategist",
     type: "hire",
+    status: "active",
     tags: ["seo", "growth", "strategy"],
     repo: "https://github.com/TEZv/SEO-Specialist-Portfolio"
   },
@@ -244,18 +254,31 @@ const workCards = [
     },
     role: "strategist",
     type: "project",
+    status: "active",
     tags: ["market", "monitoring", "analysis"],
     repo: "https://github.com/TEZv/it-market-monitor"
   },
   {
     title: { ua: "K Mentorship Hub", en: "K Mentorship Hub" },
     body: {
-      ua: "Окремий підрозділ для навчальних маршрутів, менторської структури та self&supply-інструментів. Поки готується до винесення в окремий репозиторій.",
-      en: "A separate subdivision for learning paths, mentorship structure, and self&supply tools. It is currently being prepared for a standalone repository."
+      ua: "Цей хаб краще вести як окремий GitHub-проєкт і публічну beta-сторінку, але поки тримати його в статусі parked: без Discord-first моделі, з одним intake і чітким описом, що саме тут буде згодом.",
+      en: "This hub should eventually become a separate GitHub project and public beta page, but for now it should stay parked: no Discord-first model, one intake, and a clear explanation of what the hub will include later."
     },
     role: "producer",
     type: "self",
-    tags: ["mentorship", "learning", "internal"]
+    status: "parked",
+    tags: ["mentorship", "learning", "beta"]
+  },
+  {
+    title: { ua: "K Venture AI Studio", en: "K Venture AI Studio" },
+    body: {
+      ua: "Майбутній вузол для automation, AI-пайплайнів, startup tooling і сервісних build-проєктів. Його варто показувати як building hub ще до окремого повного запуску.",
+      en: "A future node for automation, AI pipelines, startup tooling, and service-facing build projects. It should be visible as a building hub before a full standalone launch."
+    },
+    role: "producer",
+    type: "project",
+    status: "building",
+    tags: ["ai", "automation", "studio"]
   },
   {
     title: { ua: "Kosatiks Group", en: "Kosatiks Group" },
@@ -265,6 +288,7 @@ const workCards = [
     },
     role: "creator",
     type: "project",
+    status: "active",
     tags: ["brand", "portal", "infrastructure"],
     repo: "https://github.com/TEZv/Kosatiks-Group"
   },
@@ -276,6 +300,7 @@ const workCards = [
     },
     role: "creator",
     type: "project",
+    status: "active",
     tags: ["space", "hackathon", "product"],
     repo: "https://github.com/TEZv/ACTINSPACE-2026-Zorepad"
   },
@@ -287,6 +312,7 @@ const workCards = [
     },
     role: "strategist",
     type: "research",
+    status: "active",
     tags: ["organization", "research", "umbrella"],
     org: "https://github.com/K-RnD-Lab"
   },
@@ -298,6 +324,7 @@ const workCards = [
     },
     role: "creator",
     type: "self",
+    status: "building",
     tags: ["books", "notes", "future"]
   }
 ];
@@ -401,6 +428,7 @@ function renderCards() {
         <div class="card-meta">
           <span class="meta-pill">${t(`filter.${card.role}`)}</span>
           <span class="meta-pill">${t(`filter.${card.type}`)}</span>
+          <span class="meta-pill">${t(`status.${card.status}`)}</span>
         </div>
         <div>
           <h3>${card.title[state.lang]}</h3>

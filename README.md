@@ -68,3 +68,8 @@ This repo can work as:
 - dedicated cards for each public hub/repo
 - a public "training -> analytics -> result" story block for `master_prep_2026`
 - a dedicated page for books / notes / library
+
+## Planning Docs
+
+- `DEPLOYMENT.md` - how to publish via Vercel and connect a custom domain
+- `HUB_OPERATING_MODEL.md` - recommended hub structure, data system, and monetization logic
