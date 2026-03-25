@@ -6,274 +6,151 @@
     <title>Kosatiks Group</title>
     <meta
       name="description"
-      content="Kosatiks Group is the umbrella portal for roles, case studies, labs, and public repositories by Oksana Kolisnyk."
+      content="Kosatiks Group is the umbrella portal for hubs, client work, self systems, research projects, and public artifacts by Oksana Kolisnyk."
     />
     <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
-    <link rel="stylesheet" href="./assets/css/styles.css" />
-    <script defer src="./assets/js/main.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260325u2" />
+    <script defer src="assets/js/main.js?v=20260325u2"></script>
   </head>
   <body>
-    <div class="page-shell">
-      <header class="topbar">
-        <a class="brand" href="#home" aria-label="Kosatiks Group home">
-          <span class="brand-mark"></span>
-          <span class="brand-text">KOSATIKS GROUP</span>
-        </a>
+    <div class="grain"></div>
+    <div class="ink"></div>
 
-        <nav class="topnav" aria-label="Primary">
-          <a href="#roles" data-i18n="nav.roles">Ролі</a>
-          <a href="#work" data-i18n="nav.work">Напрями</a>
-          <a href="#featured" data-i18n="nav.featured">Фокус</a>
-          <a href="#research" data-i18n="nav.research">Дослідження</a>
-          <a href="#contact" data-i18n="nav.contact">Контакти</a>
-        </nav>
-
-        <div class="toolbar">
-          <div class="lang-switch" aria-label="Language switch">
-            <button type="button" data-lang="ua" class="is-active">UA</button>
-            <button type="button" data-lang="en">EN</button>
-          </div>
-          <a
-            class="ghost-button"
-            href="https://github.com/TEZv/Kosatiks-Group"
-            target="_blank"
-            rel="noreferrer"
-            data-i18n="actions.github"
-            >GitHub</a
-          >
+    <div class="nav">
+      <div class="navInner">
+        <div class="brand">
+          <span class="mark"></span><a href="#chapters"><span>KOSATIKS GROUP</span></a>
         </div>
-      </header>
 
-      <main>
-        <section class="hero section" id="home">
-          <div class="hero-copy">
-            <p class="eyebrow" data-i18n="hero.eyebrow">
-              personal umbrella for roles, labs, and public work
-            </p>
-            <h1 data-i18n="hero.title">
-              One portal for strategy, systems, and creative research.
-            </h1>
-            <p class="lead" data-i18n="hero.lead">
-              Kosatiks Group brings together my three working roles, public
-              repositories, research hubs, and case studies in one clear
-              structure.
-            </p>
+        <div class="links">
+          <a href="#chapters" data-i18n="navchapters">Ролі</a>
+          <a href="#chapters" data-i18n="navhire">Клієнтське</a>
+          <a href="#contact" data-i18n="navcanon">Контакти</a>
 
-            <div class="hero-actions">
-              <a class="primary-button" href="#work" data-i18n="actions.explore"
-                >Переглянути напрями</a
-              >
-              <a
-                class="secondary-button"
-                href="https://github.com/K-RnD-Lab"
-                target="_blank"
-                rel="noreferrer"
-                data-i18n="actions.krnd"
-                >K-RnD Lab</a
-              >
-            </div>
+          <div class="lang">
+            <button id="btnEN" type="button">EN</button>
+            <button id="btnUA" class="active" type="button">UA</button>
           </div>
 
-          <aside class="hero-panel">
-            <div class="portrait-stack">
-              <img
-                src="./assets/img/k-me-logo.jpg"
-                alt="Kosatiks portrait"
-                class="portrait portrait-main"
-              />
-              <img
-                src="./assets/img/k-logo.jpg"
-                alt="Kosatiks ecosystem"
-                class="portrait portrait-secondary"
-              />
+          <div class="avatar-container">
+            <div class="nav-hint hint-left">
+              <span data-i18n="hintEco">Екосистема</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v13M5 12l7 7 7-7" />
+              </svg>
             </div>
 
-            <div class="quick-facts">
-              <article class="fact-card">
-                <span class="fact-label" data-i18n="facts.roles">Roles</span>
-                <strong>3</strong>
-              </article>
-              <article class="fact-card">
-                <span class="fact-label" data-i18n="facts.layers">Layers</span>
-                <strong data-i18n="facts.layers.value">self / hire / project</strong>
-              </article>
-              <article class="fact-card">
-                <span class="fact-label" data-i18n="facts.stack">Stack</span>
-                <strong data-i18n="facts.stack.value">GitHub + Vercel + case studies</strong>
-              </article>
-            </div>
-          </aside>
-        </section>
-
-        <section class="section" id="roles">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="roles.eyebrow">three roles</p>
-            <h2 data-i18n="roles.title">Three roles, one operating system.</h2>
-            <p data-i18n="roles.lead">
-              The structure is simple: strategy defines direction, production
-              builds systems, and creativity shapes meaning and form.
-            </p>
-          </div>
-
-          <div class="role-grid" id="roleGrid"></div>
-        </section>
-
-        <section class="section" id="work">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="work.eyebrow">public map</p>
-            <h2 data-i18n="work.title">Directions, hubs, and linked repositories.</h2>
-            <p data-i18n="work.lead">
-              This is the practical layer: the things I build, study, publish,
-              or use as active portfolio and research infrastructure.
-            </p>
-          </div>
-
-          <div class="filters" aria-label="Card filters">
-            <div class="filter-group" id="roleFilters"></div>
-            <div class="filter-group" id="typeFilters"></div>
-          </div>
-
-          <div class="card-grid" id="cardGrid"></div>
-        </section>
-
-        <section class="section featured" id="featured">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="featured.eyebrow">featured case</p>
-            <h2 data-i18n="featured.title">Training -> analytics -> result.</h2>
-            <p data-i18n="featured.lead">
-              The current flagship example is the master's admission prep system:
-              a personal learning environment with tracking, analytics, and a
-              public case-study angle.
-            </p>
-          </div>
-
-          <div class="featured-panel">
-            <div class="featured-copy">
-              <h3 data-i18n="featured.caseTitle">Master Prep 2026</h3>
-              <p data-i18n="featured.caseBody">
-                A structured preparation environment for EVI / EFVV with
-                analytics, study logging, review loops, and a public research
-                story about effort, discipline, and measurable progress.
-              </p>
-              <ul class="bullet-list">
-                <li data-i18n="featured.point1">
-                  study flow and question practice in one environment
-                </li>
-                <li data-i18n="featured.point2">
-                  progress snapshots suitable for GitHub and LinkedIn
-                </li>
-                <li data-i18n="featured.point3">
-                  a research-oriented narrative that fits K-RnD positioning
-                </li>
-              </ul>
-
-              <div class="hero-actions">
-                <a
-                  class="primary-button"
-                  href="https://github.com/TEZv/master_prep_2026"
-                  target="_blank"
-                  rel="noreferrer"
-                  data-i18n="actions.caseRepo"
-                  >Case study repo</a
-                >
-                <a
-                  class="secondary-button"
-                  href="https://github.com/K-RnD-Lab"
-                  target="_blank"
-                  rel="noreferrer"
-                  data-i18n="actions.researchHub"
-                  >Research hub</a
-                >
-              </div>
+            <div class="nav-hint hint-right">
+              <span data-i18n="hintMe">Я</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v13M5 12l7 7 7-7" />
+              </svg>
             </div>
 
-            <div class="featured-metrics">
-              <article class="metric">
-                <span data-i18n="featured.metric1.label">Format</span>
-                <strong data-i18n="featured.metric1.value">training system</strong>
-              </article>
-              <article class="metric">
-                <span data-i18n="featured.metric2.label">Outcome</span>
-                <strong data-i18n="featured.metric2.value">portfolio + analytics case</strong>
-              </article>
-              <article class="metric">
-                <span data-i18n="featured.metric3.label">Placement</span>
-                <strong data-i18n="featured.metric3.value">Kosatiks + K-RnD</strong>
-              </article>
+            <div class="avatars-wrapper">
+              <button type="button" class="nav-avatar" data-special="ecosystem" title="Ecosystem">
+                <img src="./assets/img/k-logo.jpg" alt="Ecosystem" />
+              </button>
+              <button type="button" class="nav-avatar" data-special="me" title="Me">
+                <img src="./assets/img/k-me-logo.jpg" alt="Me" />
+              </button>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
+    </div>
 
-        <section class="section" id="research">
-          <div class="section-head">
-            <p class="eyebrow" data-i18n="research.eyebrow">ecosystem links</p>
-            <h2 data-i18n="research.title">Research and public ecosystem.</h2>
-            <p data-i18n="research.lead">
-              Kosatiks should not exist in isolation. It should route people to
-              the right repository, lab, or public artifact depending on the
-              context.
-            </p>
+    <main class="wrap" id="chapters">
+      <div class="section-header">
+        <div class="kicker" data-i18n="kicker">KOSATIKS GROUP</div>
+        <div class="title" data-i18n="title">Три ролі. Один umbrella-простір.</div>
+        <div class="subtitle" data-i18n-html="subtitle">
+          Це портал моїх хабів: тут є клієнтські напрями, власні системи, активні проєкти й дослідницькі артефакти.
+        </div>
+      </div>
+
+      <div class="facetTabs" id="facetTabs">
+        <button class="facetTab active" type="button" data-facet="strategist" data-i18n="rstrategist">
+          Стратегиня
+        </button>
+        <button class="facetTab" type="button" data-facet="producer" data-i18n="rproducer">
+          Продюсерка
+        </button>
+        <button class="facetTab" type="button" data-facet="creator" data-i18n="rcreator">
+          Мисткиня
+        </button>
+      </div>
+
+      <div class="pills" id="modePills">
+        <button class="pill active" type="button" data-mode="all" data-i18n="fall">Усе</button>
+        <button class="pill" type="button" data-mode="hire" data-i18n="fhire">For hire</button>
+        <button class="pill" type="button" data-mode="self" data-i18n="fself">Self &amp; Supply only</button>
+        <button class="pill" type="button" data-mode="project" data-i18n="fproject">Project</button>
+      </div>
+
+      <section class="panel" aria-label="Hub panel">
+        <div class="panelHero">
+          <div class="panelTitle" id="panelTitle">Стратегиня</div>
+          <div class="panelDesc" id="panelDesc"></div>
+          <div class="panelGuide" data-i18n-html="guide">
+            Відкрий картку, щоб побачити, що саме входить у хаб, як він працює і куди вести клієнта або себе далі.
           </div>
+        </div>
 
-          <div class="ecosystem-grid">
-            <article class="ecosystem-card">
-              <h3>K-RnD Lab</h3>
-              <p data-i18n="research.krnd">
-                The broader research umbrella. Best for public cross-links to
-                experiments, analytical systems, and technology-adjacent case
-                studies.
-              </p>
-              <a
-                href="https://github.com/K-RnD-Lab"
-                target="_blank"
-                rel="noreferrer"
-                data-i18n="actions.openHub"
-                >Open hub</a
-              >
-            </article>
-            <article class="ecosystem-card">
-              <h3>Hugging Face</h3>
-              <p data-i18n="research.hf">
-                Keep this for model demos, datasets, or ML-facing artifacts. For
-                non-ML portfolio infrastructure, GitHub should remain the source
-                of truth.
-              </p>
-              <a
-                href="https://huggingface.co/K-RnD-Lab"
-                target="_blank"
-                rel="noreferrer"
-                data-i18n="actions.openLab"
-                >Open lab</a
-              >
-            </article>
-            <article class="ecosystem-card">
-              <h3 data-i18n="research.hostingTitle">Hosting model</h3>
-              <p data-i18n="research.hostingBody">
-                Recommended setup: GitHub for source and credibility, Vercel for
-                deployment and previews, custom domain for presentation.
-              </p>
-              <a href="https://github.com/TEZv/Kosatiks-Group" target="_blank" rel="noreferrer" data-i18n="actions.openRepo">Open repo</a>
-            </article>
-          </div>
-        </section>
-      </main>
+        <div class="cards" id="cards"></div>
+      </section>
 
-      <footer class="footer section" id="contact">
-        <div>
-          <p class="eyebrow" data-i18n="footer.eyebrow">contact and routing</p>
-          <h2 data-i18n="footer.title">Make the portal legible first.</h2>
-          <p data-i18n="footer.lead">
-            The immediate goal is clarity: each card should lead to a repo, a
-            live site, or a clear next step. No dead ends, no hidden layers.
+      <section class="socialZone" id="contact">
+        <div class="socialHead">
+          <div class="socialKicker" data-i18n="socialKicker">social + routing</div>
+          <h2 data-i18n="socialTitle">Зовнішні переходи й публічна присутність.</h2>
+          <p data-i18n-html="socialSubtitle">
+            Тут можна тримати агрегатори посилань, профілі й зовнішні маршрути. Поки частина з них у draft-стані, але shell уже готовий.
           </p>
         </div>
-        <div class="footer-links">
-          <a href="https://github.com/TEZv" target="_blank" rel="noreferrer">GitHub / TEZv</a>
-          <a href="https://github.com/K-RnD-Lab" target="_blank" rel="noreferrer">GitHub / K-RnD-Lab</a>
-          <a href="https://huggingface.co/K-RnD-Lab" target="_blank" rel="noreferrer">Hugging Face / K-RnD-Lab</a>
+        <div class="socialRow" id="socialRow"></div>
+      </section>
+
+      <div class="footer-note" data-i18n-html="foot">
+        Кожен хаб має власний контекст: десь це intake-форма, десь repo, десь live-site, а десь дослідницький маршрут.
+      </div>
+    </main>
+
+    <div class="modal" id="modal" aria-hidden="true">
+      <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modalTop">
+          <div class="modalTitle" id="modalTitle">ITEM</div>
+
+          <div class="modalActions">
+            <div class="tabs">
+              <button class="tab active" id="tabOverview" type="button" data-tab="overview" data-i18n="mOverview">
+                Огляд
+              </button>
+              <button class="tab" id="tabLinks" type="button" data-tab="links" data-i18n="mLinks">
+                Переходи
+              </button>
+            </div>
+
+            <div class="lang modalLang">
+              <button id="btnModalEN" type="button">EN</button>
+              <button id="btnModalUA" class="active" type="button">UA</button>
+            </div>
+
+            <button class="btn primary" id="btnModalClose" type="button" data-i18n="mClose">
+              Закрити
+            </button>
+          </div>
         </div>
-      </footer>
+
+        <div class="modalBody">
+          <div class="pane is-active" id="paneOverview">
+            <div class="embedWrap" id="overviewSlot"></div>
+          </div>
+          <div class="pane" id="paneLinks">
+            <div class="embedWrap" id="linksSlot"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
-

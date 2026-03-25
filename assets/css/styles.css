@@ -1,18 +1,6 @@
-﻿:root {
-  --bg: #12110f;
-  --panel: rgba(245, 239, 231, 0.06);
-  --panel-strong: rgba(245, 239, 231, 0.1);
-  --text: #f6efe6;
-  --muted: rgba(246, 239, 230, 0.72);
-  --line: rgba(246, 239, 230, 0.14);
-  --accent: #9c6c4a;
-  --accent-soft: #465d5b;
-  --shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
-  --radius: 26px;
-  --max-width: 1200px;
-}
-
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -21,13 +9,24 @@ html {
 }
 
 body {
-  margin: 0;
-  font-family: "Segoe UI", Inter, system-ui, sans-serif;
-  color: var(--text);
-  background:
-    radial-gradient(circle at top left, rgba(70, 93, 91, 0.35), transparent 30%),
-    radial-gradient(circle at top right, rgba(156, 108, 74, 0.24), transparent 30%),
-    linear-gradient(180deg, #161411 0%, #11100e 55%, #0e0d0c 100%);
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Inter,
+    Arial;
+  background: #0b0b0cf4;
+  color: #0b0b0c;
+  overflow-x: hidden;
+}
+
+/* lock background scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 a {
@@ -35,426 +34,2368 @@ a {
   text-decoration: none;
 }
 
-button {
-  font: inherit;
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+  pointer-events: none;
+  opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
 }
 
-.section {
-  width: min(calc(100% - 32px), var(--max-width));
-  margin: 0 auto;
+.ink {
+  position: fixed;
+  inset: -10%;
+  z-index: -3;
+  pointer-events: none;
+  filter: blur(0.2px);
+  opacity: 0.92;
+  background:
+    radial-gradient(
+      120px 90px at 10% 18%,
+      rgba(0, 0, 0, 0.88) 20%,
+      rgba(0, 0, 0, 0) 62%
+    ),
+    radial-gradient(
+      180px 140px at 18% 76%,
+      rgba(0, 0, 0, 0.86) 18%,
+      rgba(0, 0, 0, 0) 62%
+    ),
+    radial-gradient(
+      210px 160px at 86% 18%,
+      rgba(0, 0, 0, 0.86) 16%,
+      rgba(0, 0, 0, 0) 64%
+    ),
+    radial-gradient(
+      240px 180px at 78% 74%,
+      rgba(0, 0, 0, 0.84) 16%,
+      rgba(0, 0, 0, 0) 66%
+    ),
+    radial-gradient(
+      140px 120px at 52% 18%,
+      rgba(0, 0, 0, 0.8) 18%,
+      rgba(0, 0, 0, 0) 66%
+    ),
+    radial-gradient(
+      160px 140px at 58% 86%,
+      rgba(0, 0, 0, 0.82) 18%,
+      rgba(0, 0, 0, 0) 66%
+    ),
+    radial-gradient(
+      90px 70px at 36% 52%,
+      rgba(0, 0, 0, 0.78) 22%,
+      rgba(0, 0, 0, 0) 62%
+    ),
+    radial-gradient(
+      110px 90px at 62% 48%,
+      rgba(0, 0, 0, 0.8) 20%,
+      rgba(0, 0, 0, 0) 64%
+    );
+  transform: rotate(-2deg);
+  animation: inkDrift 18s ease-in-out infinite;
 }
 
-.topbar {
+@keyframes inkDrift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-2deg) scale(1);
+  }
+  50% {
+    transform: translate3d(10px, -8px, 0) rotate(1deg) scale(1.02);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-2deg) scale(1);
+  }
+}
+
+.nav {
   position: sticky;
   top: 0;
-  z-index: 30;
-  width: min(calc(100% - 32px), var(--max-width));
-  margin: 16px auto 0;
-  padding: 14px 18px;
+  z-index: 20;
+  background: rgba(52, 52, 52, 0.904);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.navInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(18, 17, 15, 0.75);
-  backdrop-filter: blur(18px);
-  box-shadow: var(--shadow);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.86rem;
-  font-weight: 800;
-  letter-spacing: 0.22em;
+  gap: 12px;
+  font-weight: 950;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.brand-mark {
+.mark {
   width: 10px;
   height: 10px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--accent-soft), var(--accent));
+  border-radius: 50%;
+  background: #0b0b0c;
 }
 
-.topnav,
-.toolbar,
-.lang-switch,
-.hero-actions,
-.filters,
-.filter-group,
-.footer-links {
+.links {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.topnav {
+  gap: 12px;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
-.topnav a,
-.ghost-button,
-.lang-switch button,
-.primary-button,
-.secondary-button,
-.filter-chip,
-.footer-links a,
-.ecosystem-card a {
-  border: 1px solid var(--line);
-  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+.links a {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.72);
 }
 
-.topnav a,
-.ghost-button,
-.lang-switch button,
-.filter-chip {
-  padding: 10px 14px;
-  border-radius: 999px;
-  color: var(--muted);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.topnav a:hover,
-.ghost-button:hover,
-.lang-switch button:hover,
-.filter-chip:hover,
-.primary-button:hover,
-.secondary-button:hover,
-.footer-links a:hover,
-.ecosystem-card a:hover {
-  transform: translateY(-1px);
-  border-color: rgba(246, 239, 230, 0.28);
-}
-
-.lang-switch button.is-active,
-.filter-chip.is-active {
-  color: var(--text);
+.links a:hover {
+  border-color: rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.08);
 }
 
-.hero {
-  padding: 88px 0 56px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.8fr);
-  gap: 28px;
-  align-items: start;
-}
-
-.hero-copy,
-.hero-panel,
-.featured-panel,
-.ecosystem-card,
-.role-card,
-.work-card,
-.footer {
-  border: 1px solid var(--line);
-  background: var(--panel);
-  backdrop-filter: blur(8px);
-  box-shadow: var(--shadow);
-}
-
-.hero-copy,
-.hero-panel,
-.footer,
-.featured-panel {
-  border-radius: 32px;
-  padding: 32px;
-}
-
-.eyebrow {
-  margin: 0 0 14px;
-  color: rgba(246, 239, 230, 0.58);
-  letter-spacing: 0.24em;
-  font-size: 0.76rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.hero h1,
-.section-head h2,
-.footer h2 {
-  margin: 0 0 16px;
-  font-size: clamp(2.4rem, 6vw, 5.3rem);
-  line-height: 0.96;
-  letter-spacing: -0.05em;
-  max-width: 14ch;
-}
-
-.section-head h2,
-.footer h2 {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  max-width: 18ch;
-}
-
-.lead,
-.section-head p,
-.footer p,
-.featured-copy p,
-.ecosystem-card p,
-.role-card p,
-.work-card p {
-  color: var(--muted);
-  line-height: 1.7;
-  font-size: 1rem;
-}
-
-.primary-button,
-.secondary-button,
-.ecosystem-card a,
-.footer-links a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 13px 18px;
+.lang {
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
+  padding: 6px;
 }
 
-.primary-button {
-  background: linear-gradient(135deg, var(--accent-soft), #2d4543);
+.lang button {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 7px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 900;
+  opacity: 0.7;
 }
 
-.secondary-button,
-.ecosystem-card a,
-.footer-links a {
+.lang button.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 34px 22px 60px;
+}
+
+.section-header {
+  margin: 10px auto 22px;
+  text-align: center;
+  max-width: 980px;
+}
+
+.kicker {
+  font-size: 0.86rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 980;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.65;
+  font-size: 1rem;
+  margin: 0 auto;
+}
+
+/* Role tabs */
+.facetTabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0 12px;
+}
+
+.facetTab {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.82);
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease,
+    border-color 0.16s ease;
+  font-size: 0.84rem;
+}
+
+.facetTab:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.facetTab.active {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b0b0c;
+  border-color: rgba(255, 255, 255, 0.92);
+}
+
+/* Mode pills */
+.pills {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 10px 0 22px;
+}
+
+.pill {
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 950;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease,
+    border-color 0.16s ease,
+    opacity 0.16s ease;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.84rem;
+}
+
+.pill:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.pill.active {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b0b0c;
+  border-color: rgba(255, 255, 255, 0.92);
+}
+
+/* Panel + cards */
+.panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+  padding: 18px;
 }
 
-.hero-panel {
+.panelHero {
+  text-align: center;
+  padding: 10px 10px 18px;
+}
+
+.panelTitle {
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 980;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+}
+
+.panelDesc {
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+  margin-top: 6px;
+}
+
+.cards {
   display: grid;
-  gap: 22px;
-}
-
-.portrait-stack {
-  display: grid;
-  grid-template-columns: 1fr 0.8fr;
-  gap: 14px;
-}
-
-.portrait {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 24px;
-  border: 1px solid var(--line);
-}
-
-.portrait-secondary {
-  margin-top: 28px;
-}
-
-.quick-facts {
-  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.fact-card,
-.metric {
-  border-radius: 22px;
-  border: 1px solid var(--line);
-  background: var(--panel-strong);
-  padding: 18px 20px;
+@media (max-width: 980px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-.fact-label,
-.metric span {
-  display: block;
-  margin-bottom: 6px;
-  color: rgba(246, 239, 230, 0.58);
-  font-size: 0.78rem;
+@media (max-width: 620px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.93),
+    rgba(245, 245, 240, 0.95)
+  );
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(11, 11, 12, 0.55);
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.cardTitle {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: rgba(11, 11, 12, 0.95);
+}
+
+.cardLine {
+  margin-top: 6px;
+  color: rgba(11, 11, 12, 0.72);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.badgeRow {
+  margin-top: 10px;
+  color: rgba(11, 11, 12, 0.52);
+  font-weight: 950;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  font-size: 0.72rem;
 }
 
-.fact-card strong,
-.metric strong {
-  font-size: 1.1rem;
-  line-height: 1.4;
+.btn {
+  padding: 12px 16px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.82);
+  font-weight: 950;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease,
+    border-color 0.16s ease;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
 }
 
-.section-head {
-  margin-bottom: 24px;
+.btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-.role-grid,
-.card-grid,
-.ecosystem-grid {
-  display: grid;
-  gap: 18px;
+.btn.primary {
+  background: rgba(34, 31, 31, 0.815);
+  color: rgba(255, 255, 255, 0.92);
+  border-color: rgba(255, 255, 255, 0.92);
+  padding: 10px 20px;
 }
 
-.role-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.btn.ghost {
+  background: rgba(0, 0, 0, 0.724);
 }
 
-.card-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.ecosystem-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.role-card,
-.work-card,
-.ecosystem-card {
-  padding: 24px;
-  border-radius: var(--radius);
-}
-
-.role-card h3,
-.work-card h3,
-.featured-copy h3,
-.ecosystem-card h3 {
-  margin: 0 0 12px;
-  font-size: 1.35rem;
-}
-
-.role-card ul,
-.bullet-list {
-  padding-left: 18px;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.filters {
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.filter-group {
-  flex-wrap: wrap;
-}
-
-.work-card {
-  display: grid;
-  gap: 16px;
-}
-
-.card-meta,
-.card-actions,
-.tag-row {
+.cardActions {
   display: flex;
+  gap: 10px;
+  margin-top: auto;
   flex-wrap: wrap;
-  gap: 8px;
 }
 
-.meta-pill,
-.tag {
-  padding: 7px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  color: rgba(246, 239, 230, 0.68);
-  font-size: 0.78rem;
+.footer-note {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-top: 18px;
 }
 
-.tag.role-strategist {
-  background: rgba(70, 93, 91, 0.18);
+/* Empty state inside .cards (grid) */
+.placeholder {
+  grid-column: 1 / -1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: rgba(255, 255, 255, 0.62);
+  text-align: center;
+  line-height: 1.6;
 }
 
-.tag.role-producer {
-  background: rgba(156, 108, 74, 0.18);
+.placeholderText {
+  max-width: 34ch;
+  text-wrap: balance;
 }
 
-.tag.role-creator {
-  background: rgba(90, 76, 112, 0.18);
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(15px);
+  padding: 22px;
+  overscroll-behavior: contain;
+}
+.modal.open {
+  display: flex;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-.card-actions a {
-  padding: 10px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
+.modalCard {
+  width: min(1200px, 100vw);
+  height: min(780px, 100vh);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(20, 20, 24, 0.72);
+  box-shadow: 0 40px 160px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.modalTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
 }
 
-.featured {
-  padding-top: 10px;
+.modalTitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
 }
 
-.featured-panel {
+.modalActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b0b0c;
+  border-color: rgba(255, 255, 255, 0.92);
+}
+
+.modalBody {
+  height: calc(100% - 58px);
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
-  gap: 18px;
+  grid-template-columns: 1fr;
 }
 
-.featured-metrics {
-  display: grid;
-  gap: 14px;
+.pane {
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  padding: 18px;
 }
 
-.footer {
-  margin-top: 24px;
-  margin-bottom: 36px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-  gap: 24px;
+.pane h3 {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.05rem;
+  margin-bottom: 10px;
 }
 
-@media (max-width: 1040px) {
-  .topbar,
-  .hero,
-  .role-grid,
-  .card-grid,
-  .featured-panel,
-  .ecosystem-grid,
-  .footer {
-    grid-template-columns: 1fr;
+.pane .note {
+  color: rgba(255, 255, 255, 0.68);
+  line-height: 1.7;
+  font-size: 0.98rem;
+  max-width: 78ch;
+}
+
+.embedWrap {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.embedWrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ink {
+    animation: none;
+  }
+  .btn,
+  .pill,
+  .facetTab {
+    transition: none;
+  }
+}
+
+/* Стилі для круглих аватарок у меню */
+.nav-avatar {
+  display: block;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+  position: relative;
+  background: #000;
+  padding: 0;
+  cursor: pointer;
+}
+
+.nav-avatar:hover {
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  z-index: 10;
+}
+
+.nav-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* === СТИЛІ ДЛЯ ПІДКАЗКИ В МЕНЮ === */
+
+/* Контейнер для позиціонування підказок */
+.avatar-container {
+  position: relative;
+  margin-left: 10px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 10px;
+}
+
+.avatars-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Підказка (Текст + Стрілка) */
+.nav-hint {
+  position: absolute;
+  /* Розміщуємо знизу */
+  top: auto;
+  bottom: -32px;
+
+  display: flex;
+  flex-direction: column-reverse; /* Текст знизу, стрілка зверху */
+  align-items: center;
+  gap: 2px;
+
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  animation: bounceHintUp 2s infinite ease-in-out;
+}
+
+.nav-hint svg {
+  width: 12px;
+  height: 12px;
+  /* Стрілка вказує вгору */
+  transform: rotate(180deg);
+}
+
+/* Окремі позиції для лівої і правої підказки */
+.hint-left {
+  left: 35px; /* Центр лівого кружечка */
+  transform: translateX(-50%);
+}
+
+.hint-right {
+  left: 90px; /* Центр правого кружечка */
+  transform: translateX(-50%);
+  animation-delay: 0.2s; /* Легка затримка */
+}
+
+@keyframes bounceHintUp {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -3px);
+    opacity: 1;
+  }
+}
+
+/* Приховуємо підказки на дуже малих екранах */
+@media (max-width: 600px) {
+  .avatar-container {
+    margin-top: 0;
+  }
+  .nav-hint {
+    display: none;
+  }
+}
+
+/* === МОБІЛЬНІ ПРАВКИ === */
+@media (max-width: 600px) {
+  /* 1. Повертаємо підказки (стрілочки), але робимо їх компактнішими */
+  .avatar-container {
+    margin-top: 0; /* Прибираємо зайвий відступ */
+  }
+  .nav-hint {
+    display: flex !important; /* ПРИМУСОВО ПОКАЗУЄМО */
+    font-size: 9px; /* Трохи менший шрифт */
+    bottom: -28px; /* Підтягуємо вище */
   }
 
-  .topbar {
-    border-radius: 28px;
-    padding: 18px;
+  /* 2. Фіксимо обрізання модалки і гіфок */
+  .modal {
+    padding: 0; /* Прибираємо відступи навколо модалки на телефоні */
+    align-items: flex-end; /* Модалка виїжджає знизу (як шторка) або на весь екран */
   }
 
-  .topbar,
-  .topnav,
-  .toolbar {
-    flex-wrap: wrap;
+  .modalCard {
+    width: 100% !important;
+    height: 100% !important; /* На весь екран */
+    border-radius: 0 !important; /* Без скруглень по кутах екрану */
+    max-height: 100vh; /* Точно не більше екрану */
+  }
+
+  .modalBody {
+    height: calc(100% - 60px); /* Місце під шапку */
+    overflow-y: auto; /* Дозволяємо скрол тексту всередині */
+    -webkit-overflow-scrolling: touch; /* Плавний скрол на iPhone */
+  }
+
+  .pane {
+    padding: 14px; /* Менші відступи всередині */
+  }
+
+  /* 3. Щоб картинки і гіфки не вилазили за екран */
+  img,
+  video,
+  iframe {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+  }
+}
+/* === ОНОВЛЕНИЙ ГЛОБАЛЬНИЙ CSS ДЛЯ ME & ECOSYSTEM === */
+
+/* Контейнер на всю висоту модалки */
+.sc-wrapper {
+  display: flex;
+  flex-direction: row; /* На ПК: зліва текст, справа відео */
+  width: 100%;
+  height: 100%; /* Займає весь простір модалки */
+  overflow: hidden; /* Ховаємо загальний скрол, скролимо всередині */
+  gap: 0; /* Прибираємо дірки */
+}
+
+/* Ліва частина (Текст) */
+.sc-text {
+  flex: 1; /* Займає вільне місце */
+  padding: 30px;
+  overflow-y: auto; /* Скрол, якщо тексту багато */
+  background: rgba(0, 0, 0, 0.3); /* Легке затемнення */
+  z-index: 2;
+  /* Гарний скролбар */
+  scrollbar-width: thin;
+  scrollbar-color: #465d5b transparent;
+}
+
+/* Права частина (Відео) */
+.sc-media {
+  flex: 1.2; /* Відео трохи ширше/більше за текст */
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Саме відео - розтягуємо як фон (Cover) */
+.sc-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Відео заповнює весь блок без чорних смуг */
+  display: block;
+}
+
+/* === МОБІЛЬНА ВЕРСІЯ (ТЕЛЕФОН) === */
+@media (max-width: 800px) {
+  .sc-wrapper {
+    flex-direction: column-reverse; /* ВІДЕО ЗНИЗУ, ТЕКСТ ЗВЕРХУ (або навпаки, як зручніше) */
+    /* АЛЕ ти хотіла прокрутку вниз до відео. Тоді краще column: */
+    flex-direction: column;
+    overflow-y: auto; /* Дозволяємо скрол всього блоку на мобільному */
+    height: auto; /* Висота не фіксована, хай росте */
+    display: block; /* Блочне відображення */
+  }
+
+  .sc-text {
+    width: 100%;
+    height: auto; /* Текст займає скільки треба */
+    overflow: visible;
+    padding: 20px 20px 40px 20px; /* Відступ знизу */
+  }
+
+  .sc-media {
+    width: 100%;
+    height: 60vh; /* Відео займає 60% висоти екрану (досить велике) */
+    min-height: 400px;
+  }
+}
+/* === ФІКСОВАНА ВЕРСТКА ДЛЯ ME / ECOSYSTEM === */
+
+/* Глобальні фікси шарів */
+.modal {
+  z-index: 9999 !important;
+}
+.nav {
+  z-index: 50 !important;
+}
+
+/* Контейнер */
+.sc-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent; /* Прибираємо будь-які фони */
+}
+
+/* ЛІВА КОЛОНКА (Текст) */
+.sc-text {
+  flex: 0 0 50%; /* Жорстко 50% ширини */
+  max-width: 50%;
+  padding: 40px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #465d5b transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Центруємо текст по вертикалі */
+}
+
+/* ПРАВА КОЛОНКА (Відео) */
+.sc-media {
+  flex: 0 0 50%; /* Жорстко 50% ширини */
+  max-width: 50%;
+  height: 100%;
+  background: #000;
+  position: relative;
+}
+
+.sc-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* === ДИЗАЙН СПИСКІВ ("КРУЖЕЧКИ"/ПІГУЛКИ) === */
+.role-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none !important;
+}
+
+.role-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 16px;
+  border-radius: 50px; /* Робимо круглим/овальним */
+  color: #fff;
+  font-size: 0.9em;
+  transition: all 0.3s ease;
+}
+
+.role-item:hover {
+  background: rgba(255, 152, 0, 0.2);
+  border-color: #465d5b;
+  transform: translateY(-2px);
+}
+
+.role-item b {
+  color: #465d5b; /* Помаранчевий акцент */
+}
+
+/* Блоки типів взаємодії */
+.interaction-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #465d5b;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 0 12px 12px 0;
+}
+
+/* === МОБІЛЬНА ВЕРСІЯ === */
+@media (max-width: 900px) {
+  .sc-wrapper {
+    flex-direction: column;
+    overflow-y: visible;
+    height: auto;
+    display: block;
+  }
+
+  .sc-text {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    padding: 20px 20px 40px 20px;
+    overflow: visible;
+  }
+
+  .sc-media {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    height: 60vh; /* Висота відео на телефоні */
+    min-height: 350px;
+  }
+}
+
+/* === ВИПРАВЛЕННЯ КОЛЬОРІВ ТЕКСТУ === */
+
+.interaction-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #465d5b;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 0 12px 12px 0;
+  /* ПРИМУСОВО ставимо колір тексту */
+  color: #e0e0e0 !important;
+}
+
+.interaction-box b {
+  color: #fff !important; /* Заголовки (For Hire, Project) яскраво-білі */
+  font-size: 1.05em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.interaction-desc {
+  color: #bbb !important; /* Опис світло-сірий, читабельний */
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+/* === ФІКС ПРОКРУТКИ (ВАЖЛИВО!) === */
+
+/* 1. Дозволяємо контейнеру прокручуватися */
+.pane {
+  overflow-y: auto !important; /* Вмикає скрол, якщо контент не влазить */
+  height: 100%;
+  /* Для плавності на iPhone */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 2. Якщо модалка на телефоні, гарантуємо, що вона скролиться */
+@media (max-width: 900px) {
+  .modalBody {
+    overflow-y: auto !important;
+    display: block !important; /* Прибираємо grid, щоб висота рахувалася чесно */
+  }
+
+  .pane {
+    height: auto !important; /* Дозволяємо блоку рости вниз */
+    min-height: 100%;
+    padding-bottom: 40px; /* Відступ знизу, щоб відео не липло до краю */
+  }
+}
+
+/* === ОНОВЛЕНИЙ ДИЗАЙН: ME / ECOSYSTEM === */
+
+/* Глобальні фікси шарів */
+.modal {
+  z-index: 9999 !important;
+}
+.nav {
+  z-index: 50 !important;
+}
+
+/* 1. Головний контейнер */
+.sc-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  position: relative;
+}
+
+/* 2. ЛІВА ЧАСТИНА (Текст) */
+.sc-text {
+  flex: 1; /* Гнучка ширина */
+  padding: 40px;
+  overflow-y: auto; /* Скрол залишається */
+
+  /* ХОВАЄМО СКРОЛБАР, АЛЕ СКРОЛ ПРАЦЮЄ */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Центруємо контент вертикально */
+}
+
+/* Ховаємо скролбар для Chrome/Safari */
+.sc-text::-webkit-scrollbar {
+  display: none;
+}
+
+/* 3. РОЗДІЛЬНИК (DIVIDER) */
+.sc-divider {
+  width: 1px; /* Тонка лінія */
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #465d5b,
+    transparent
+  ); /* Градієнт */
+  height: 80%; /* Не на всю висоту */
+  align-self: center; /* Центруємо по вертикалі */
+  flex-shrink: 0; /* Щоб не зникав */
+  opacity: 0.5;
+}
+
+/* 4. ПРАВА ЧАСТИНА (Відео/Медіа) */
+.sc-media {
+  flex: 1.2; /* Трохи ширше за текст */
+  height: 100%;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Відео на ПК - гарно заповнює */
+.sc-media video,
+.sc-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Заповнює площу */
+  display: block;
+}
+
+/* === МОБІЛЬНА ВЕРСІЯ (FIX ГІФОК І СКРОЛУ) === */
+@media (max-width: 900px) {
+  /* Перемикаємо в стовпчик */
+  .sc-wrapper {
+    flex-direction: column;
+    overflow-y: auto !important; /* Скрол всієї сторінки */
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Текст зверху */
+  .sc-text {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    padding: 20px 20px 40px 20px;
     justify-content: flex-start;
   }
 
-  .hero {
-    padding-top: 40px;
+  /* Роздільник на мобільному стає горизонтальним */
+  .sc-divider {
+    width: 80%;
+    height: 1px;
+    margin: 0 auto 20px auto;
+    background: linear-gradient(to right, transparent, #465d5b, transparent);
+  }
+
+  /* Відео/Гіфки - ФІКС ОБРІЗАННЯ */
+  .sc-media {
+    width: 100%;
+    height: auto !important; /* Висота автоматична! */
+    aspect-ratio: 16/9; /* Зберігаємо пропорцію */
+    background: #000;
+    margin-bottom: 20px;
+    min-height: auto; /* Прибираємо жорстку висоту */
+  }
+
+  /* Щоб відео/гіфка влазила повністю */
+  .sc-media video,
+  .sc-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Тепер видно ВСЮ картинку, без обрізки! */
+    /* Якщо хочете без чорних полів, поверніть cover, але тоді буде обрізати */
+    /* object-fit: cover; */
+    max-height: 50vh; /* Обмеження висоти, щоб не було на 2 екрани */
+  }
+
+  /* Важливі фікси прокрутки контейнерів */
+  .pane {
+    overflow-y: visible !important;
+    height: auto !important;
+    padding-bottom: 60px;
+  }
+  .modalBody {
+    overflow-y: auto !important;
+    display: block !important;
+  }
+}
+/* === 👇 ДОДАЙТЕ ЦЕЙ КОД ДЛЯ РОЗДІЛЬНИКА 👇 === */
+
+.sc-divider {
+  width: 2px; /* Товщина лінії */
+  /* Градієнт від прозорого до помаранчевого і знову до прозорого */
+  background: linear-gradient(to bottom, transparent, #465d5b, transparent);
+  height: 80%; /* Висота лінії (не на весь екран, а акуратно по центру) */
+  align-self: center; /* Вирівнювання по центру */
+  flex-shrink: 0; /* Забороняємо лінії зникати, якщо мало місця */
+  opacity: 0.8; /* Прозорість */
+  box-shadow: 0 0 10px rgba(255, 183, 0, 0.3); /* Легке світіння */
+}
+
+/* На мобільному лінія стає горизонтальною */
+@media (max-width: 900px) {
+  .sc-divider {
+    width: 80%; /* Ширина на весь екран (з відступами) */
+    height: 1px; /* Висота */
+    margin: 0 auto 20px auto; /* Відступи зверху/знизу */
+    background: linear-gradient(to right, transparent, #465d5b, transparent);
+  }
+}
+
+/* Quiz Modal */
+.quiz-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: none; /* JS покаже це */
+  align-items: center;
+  justify-content: center;
+}
+
+.quiz-modal.open {
+  display: flex;
+}
+
+.quiz-content {
+  background: #141418;
+  color: #ffffff; /* Робимо текст білим */
+  border: 1px solid #465d5b;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 50px rgba(70, 93, 91, 0.2);
+}
+
+.quiz-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.quiz-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: left;
+}
+
+.quiz-btn:hover {
+  background: #465d5b;
+  border-color: #465d5b;
+}
+
+.progress-bar {
+  height: 4px;
+  background: #465d5b;
+  width: 0%;
+  transition: 0.3s;
+  margin-top: 20px;
+  border-radius: 2px;
+}
+/* === ОНОВЛЕНІ СТИЛІ ДЛЯ КВІЗУ === */
+
+.quiz-modal {
+  /* ...ваші старі стилі... */
+  display: none; /* За замовчуванням */
+}
+
+/* Розширюємо контейнер для результатів */
+.quiz-content {
+  background: #141418;
+  border: 1px solid #465d5b;
+  border-radius: 20px;
+  padding: 30px; /* Трохи менше відступів */
+  width: 90%;
+
+  /* ЗБІЛЬШУЄМО ШИРИНУ ДЛЯ РЕЗУЛЬТАТУ */
+  max-width: 700px;
+
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 50px rgba(70, 93, 91, 0.2);
+  max-height: 90vh;
+  overflow-y: auto; /* Скрол на маленьких екранах */
+}
+
+/* Заголовки результату */
+.res-title {
+  font-size: 2rem;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.res-subtitle {
+  color: #465d5b;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+/* Сітка для блоків результату */
+.result-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+  text-align: left; /* Текст вирівнюємо вліво для читабельності */
+}
+
+.res-section {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.res-section h4 {
+  margin: 0 0 10px 0;
+  color: #ddd;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+/* Теги (Скіли та сили) */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.res-text-sm {
+  font-size: 0.85rem;
+  color: #aaa;
+  line-height: 1.4;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.res-text {
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.res-meta {
+  font-size: 0.9rem;
+  color: #465d5b;
+}
+
+.res-meta b {
+  color: #fff;
+}
+
+/* Кнопки дій */
+.result-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* === KOSATIKS VISUAL QUIZ (OPTIMIZED) === */
+
+/* 1. Глобальний фон та контейнер (Fullscreen) */
+div#quizModal.modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.96) !important; /* Глибокий чорний */
+  z-index: 2147483647 !important;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  backdrop-filter: blur(20px);
+}
+
+div#quizModal.modal-overlay.open {
+  display: flex !important;
+}
+
+#quizModal .quiz-container {
+  width: 100%;
+  max-width: 1100px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 20px;
+  overflow: visible !important;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 2. Текстовий контент */
+.quiz-content {
+  text-align: center;
+  position: relative;
+  color: #fff;
+}
+
+.quiz-content h2,
+.quiz-content h3 {
+  font-size: clamp(2rem, 5vw, 3rem) !important;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #fff !important;
+  text-shadow: 0 0 30px rgba(70, 93, 91, 0.4);
+  letter-spacing: -0.02em;
+}
+
+.quiz-content p {
+  font-size: clamp(1rem, 2vw, 1.3rem) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  margin: 0 auto 50px auto;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+/* 3. Сітка карток (Visual Grid) */
+.quiz-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  width: 100%;
+  perspective: 1000px;
+}
+
+/* 4. Картка (Visual Card) */
+.quiz-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 40px 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 250px; /* Високі картки */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ефекти наведення */
+.quiz-card:hover {
+  background: rgba(70, 93, 91, 0.25);
+  border-color: #465d5b;
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+}
+
+.quiz-card:hover .quiz-icon {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.quiz-card:active {
+  transform: scale(0.95);
+}
+
+/* Контент картки */
+.quiz-icon {
+  font-size: 5rem;
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+}
+
+.quiz-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* 5. Елементи управління */
+.quiz-lang-switch {
+  position: absolute;
+  top: -60px; /* Вище заголовка */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 5px;
+  display: flex;
+  gap: 5px;
+}
+
+.quiz-lang-switch button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.quiz-lang-switch button.active {
+  background: #fff;
+  color: #000;
+}
+
+.quiz-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 40px;
+  cursor: pointer;
+  z-index: 100;
+  transition: 0.3s;
+  line-height: 1;
+}
+
+.quiz-close:hover {
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Прогрес бар */
+.quiz-progress-bg {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  height: 6px;
+  border-radius: 3px;
+  margin-top: 50px;
+  overflow: hidden;
+}
+
+.quiz-progress-bar {
+  height: 100%;
+  background: #465d5b;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+/* 6. Адаптивність (Mobile) */
+@media (max-width: 800px) {
+  .quiz-options {
+    grid-template-columns: 1fr; /* Одна колонка */
+    gap: 15px;
+  }
+
+  .quiz-card {
+    flex-direction: row; /* Горизонтальна картка */
+    justify-content: flex-start;
+    padding: 20px 30px;
+    min-height: auto;
+    text-align: left;
+  }
+
+  .quiz-icon {
+    font-size: 3rem;
+    margin-right: 20px;
+  }
+
+  .quiz-content h2 {
+    font-size: 2rem !important;
+  }
+  .quiz-lang-switch {
+    top: -50px;
+  }
+}
+
+/* === VISUAL QUIZ MODAL (FIXED LANGUAGE SWITCHER) === */
+
+/* Глобальний контейнер (на весь екран) */
+#quizModal.modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: #050505 !important;
+  z-index: 2147483647 !important;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#quizModal.modal-overlay.open {
+  display: flex !important;
+}
+
+/* Контейнер вмісту */
+.quiz-container {
+  width: 100%;
+  max-width: 600px;
+  background: #0b0b0c;
+  border: 1px solid #333;
+  border-radius: 20px;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 90vh;
+  position: relative;
+}
+
+/* ВЕРХНЯ ПАНЕЛЬ (Top Bar) */
+.quiz-top-bar {
+  flex-shrink: 0;
+  padding: 15px 20px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #0b0b0c;
+  z-index: 2;
+}
+
+/* Логотип/Назва */
+.quiz-brand {
+  font-weight: 800;
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  opacity: 0.7;
+}
+
+/* ПРАВА ЧАСТИНА: МОВА + ЗАКРИТИ */
+.quiz-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* КНОПКА ЗАКРИТИ (Стиль як у твоєму меню) */
+.btn-close-quiz {
+  padding: 6px 16px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+  letter-spacing: 0.5px;
+}
+.btn-close-quiz:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* ОБЛАСТЬ ГРИ (Скролиться) */
+.game-area {
+  padding: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
+  /* Скролбар */
+  scrollbar-width: thin;
+  scrollbar-color: #333 #111;
+}
+
+/* VISUAL CARDS (Блок 1) */
+.visual-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.visual-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.visual-card:hover {
+  border-color: #465d5b;
+  background: rgba(70, 93, 91, 0.2);
+  transform: translateY(-2px);
+}
+.visual-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+.visual-label {
+  font-size: 11px;
+  color: #ddd;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* MATRIX GAME */
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 20px auto;
+  width: fit-content;
+}
+.matrix-cell {
+  width: 50px;
+  height: 50px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.1s;
+}
+.matrix-cell.active {
+  background: #465d5b;
+  border-color: #fff;
+  box-shadow: 0 0 10px #465d5b;
+}
+.matrix-cell.wrong {
+  background: #822;
+}
+
+/* РЕЗУЛЬТАТ */
+.res-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+.res-bar-bg {
+  background: #222;
+  height: 4px;
+  border-radius: 2px;
+  width: 100%;
+  margin-top: 5px;
+}
+.res-bar-fill {
+  background: #465d5b;
+  height: 100%;
+  border-radius: 2px;
+}
+.res-tag {
+  background: #465d5b;
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  margin-right: 5px;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+/* АДАПТИВ */
+@media (max-width: 600px) {
+  .quiz-container {
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    border: none;
+  }
+  .visual-grid {
+    grid-template-columns: 1fr;
+  }
+  .visual-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+    padding: 15px;
+  }
+  .visual-icon {
+    margin-bottom: 0;
+  }
+}
+
+/* Плавна поява тексту */
+.fade-text {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Запобігання стрибкам контенту */
+.game-area {
+  /* Забезпечуємо стабільність блоку при зміні вмісту */
+  min-height: 300px;
+}
+/* === QUIZ SPECIFIC STYLES (SCOPED) === */
+.quiz-container {
+  width: 100%;
+  max-width: 900px;
+  height: 100%;
+  max-height: 85vh;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+}
+@media (max-width: 768px) {
+  .quiz-container {
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+}
+
+.quiz-top-bar {
+  padding: 16px 24px;
+  border-bottom: 1px solid #222;
+  background: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+/* FIX: Scope button styles so they don't break other modals */
+.quiz-container .lang {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px;
+  border-radius: 20px;
+}
+.quiz-container .lang button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.quiz-container .lang button.active {
+  background: #fff;
+  color: #000;
+}
+
+.game-area {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* ANIMATION */
+.fade-in {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  animation: slideUp 0.4s ease-out forwards;
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* QUIZ ELEMENTS */
+.visual-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+.visual-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 25px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.visual-card:hover {
+  border-color: #465d5b;
+  background: rgba(70, 93, 91, 0.2);
+  transform: translateY(-3px);
+}
+.visual-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+.visual-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ddd;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* DRAG ITEM */
+.drag-item {
+  padding: 16px;
+  margin-bottom: 8px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  transition: 0.2s;
+}
+.drag-item:hover {
+  border-color: #666;
+  background: #222;
+}
+.drag-item.picked {
+  background: #465d5b !important;
+  border-color: #fff !important;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+/* MATRIX STYLE */
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 30px auto;
+  width: fit-content;
+}
+.matrix-cell {
+  width: 60px;
+  height: 60px;
+  background: #222;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  border: 1px solid #333;
+}
+
+/* Highlight for Found/Fixed Cells */
+.matrix-cell.fixed {
+  background: #465d5b !important; /* Filled Color */
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 10px rgba(70, 93, 91, 0.8) !important; /* Glow Effect */
+}
+.matrix-cell.active-flash {
+  background: #fff !important; /* Bright Flash for new items */
+  box-shadow: 0 0 15px #fff;
+}
+
+/* RESULTS */
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: #465d5b;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn-primary:hover {
+  background: #5a7875;
+}
+
+@media (max-width: 600px) {
+  .visual-grid {
+    grid-template-columns: 1fr;
+  }
+  .visual-card {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 20px;
+    padding: 15px;
+  }
+}
+
+/* === Kosatiks 2026 overrides === */
+.section-header {
+  margin-bottom: 26px;
+}
+
+.subtitle br,
+.panelGuide br,
+.footer-note br {
+  display: block;
+  content: "";
+  margin-top: 8px;
+}
+
+.panelGuide {
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.56);
+  line-height: 1.7;
+  max-width: 68ch;
+  margin-inline: auto;
+}
+
+.card {
+  gap: 10px;
+}
+
+.cardTop {
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.cardCode,
+.cardRole,
+.modeTag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cardCode {
+  background: rgba(11, 11, 12, 0.08);
+  color: rgba(11, 11, 12, 0.82);
+}
+
+.cardRole {
+  background: rgba(70, 93, 91, 0.12);
+  color: rgba(46, 61, 60, 0.9);
+}
+
+.modeTag {
+  background: rgba(11, 11, 12, 0.06);
+  color: rgba(11, 11, 12, 0.72);
+}
+
+.cardTitleRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.cardLogo {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: 0 0 46px;
+  border: 2px solid rgba(70, 93, 91, 0.22);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.cardLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardTitleWrap {
+  min-width: 0;
+}
+
+.cardTitle {
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.cardModeSummary {
+  color: rgba(11, 11, 12, 0.54);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.cardLine {
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.cardActions {
+  margin-top: auto;
+  align-items: center;
+}
+
+.cardCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialZone {
+  margin-top: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+  padding: 22px 18px;
+}
+
+.socialHead h2 {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.45rem;
+  margin: 8px 0 10px;
+}
+
+.socialHead p,
+.socialKicker {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.65;
+}
+
+.socialKicker {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+}
+
+.socialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.socialChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+.socialChip:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+.socialChip.is-draft {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.socialChip small {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.modalLang {
+  margin-right: 2px;
+}
+
+.pane {
+  overflow-y: auto;
+}
+
+.embedWrap {
+  overflow: visible;
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 18px;
+  min-height: 100%;
+}
+
+.overviewText,
+.overviewMedia,
+.linksGrid {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 18px;
+}
+
+.overviewText {
+  padding: 20px;
+}
+
+.overviewMedia {
+  overflow: hidden;
+  min-height: 360px;
+  position: relative;
+}
+
+.overviewMedia img,
+.overviewMedia video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mediaOverlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(10, 10, 12, 0) 0%, rgba(10, 10, 12, 0.76) 100%);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.modalBadgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.modalBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.overviewTitleRow {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.overviewLogo {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  flex: 0 0 58px;
+}
+
+.overviewLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overviewHeading h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.overviewHeading p {
+  color: rgba(255, 255, 255, 0.62);
+  margin-top: 6px;
+  line-height: 1.55;
+}
+
+.infoBlock + .infoBlock {
+  margin-top: 18px;
+}
+
+.infoBlock h4 {
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.88);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+
+.infoBlock p,
+.infoBlock li {
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.7;
+}
+
+.infoBlock ul {
+  padding-left: 18px;
+}
+
+.projectList {
+  display: grid;
+  gap: 10px;
+}
+
+.projectItem {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.projectItem strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.projectItem p {
+  margin-top: 6px;
+}
+
+.linksGrid {
+  padding: 20px;
+}
+
+.linkIntro {
+  color: rgba(255, 255, 255, 0.66);
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+
+.linkCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.linkCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 150px;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: none;
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+.linkCard:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.linkCard.is-disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.linkKind {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.linkCard strong {
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 1rem;
+}
+
+.linkCard p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.55;
+}
+
+.linkFooter {
+  margin-top: auto;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+@media (max-width: 980px) {
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .overviewMedia {
+    min-height: 280px;
   }
 }
 
 @media (max-width: 720px) {
-  .section {
-    width: min(calc(100% - 20px), var(--max-width));
+  .modalTop {
+    align-items: flex-start;
   }
 
-  .hero-copy,
-  .hero-panel,
-  .footer,
-  .featured-panel,
-  .role-card,
-  .work-card,
-  .ecosystem-card {
-    padding: 22px;
-    border-radius: 24px;
+  .modalTitle {
+    max-width: 100%;
   }
 
-  .hero-actions,
-  .footer-links {
-    flex-direction: column;
-    align-items: stretch;
+  .cardTitleRow,
+  .overviewTitleRow {
+    align-items: flex-start;
   }
 
-  .hero h1,
-  .section-head h2,
-  .footer h2 {
-    max-width: none;
-  }
-
-  .portrait-stack {
-    grid-template-columns: 1fr;
-  }
-
-  .portrait-secondary {
-    margin-top: 0;
+  .socialChip {
+    width: 100%;
+    justify-content: space-between;
   }
 }
