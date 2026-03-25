@@ -1,0 +1,278 @@
+﻿<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kosatiks Group</title>
+    <meta
+      name="description"
+      content="Kosatiks Group is the umbrella portal for roles, case studies, labs, and public repositories by Oksana Kolisnyk."
+    />
+    <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <script defer src="./assets/js/main.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#home" aria-label="Kosatiks Group home">
+          <span class="brand-mark"></span>
+          <span class="brand-text">KOSATIKS GROUP</span>
+        </a>
+
+        <nav class="topnav" aria-label="Primary">
+          <a href="#roles" data-i18n="nav.roles">Ролі</a>
+          <a href="#work" data-i18n="nav.work">Напрями</a>
+          <a href="#featured" data-i18n="nav.featured">Фокус</a>
+          <a href="#research" data-i18n="nav.research">Дослідження</a>
+          <a href="#contact" data-i18n="nav.contact">Контакти</a>
+        </nav>
+
+        <div class="toolbar">
+          <div class="lang-switch" aria-label="Language switch">
+            <button type="button" data-lang="ua" class="is-active">UA</button>
+            <button type="button" data-lang="en">EN</button>
+          </div>
+          <a
+            class="ghost-button"
+            href="https://github.com/TEZv/Kosatiks-Group"
+            target="_blank"
+            rel="noreferrer"
+            data-i18n="actions.github"
+            >GitHub</a
+          >
+        </div>
+      </header>
+
+      <main>
+        <section class="hero section" id="home">
+          <div class="hero-copy">
+            <p class="eyebrow" data-i18n="hero.eyebrow">
+              personal umbrella for roles, labs, and public work
+            </p>
+            <h1 data-i18n="hero.title">
+              One portal for strategy, systems, and creative research.
+            </h1>
+            <p class="lead" data-i18n="hero.lead">
+              Kosatiks Group brings together my three working roles, public
+              repositories, research hubs, and case studies in one clear
+              structure.
+            </p>
+
+            <div class="hero-actions">
+              <a class="primary-button" href="#work" data-i18n="actions.explore"
+                >Переглянути напрями</a
+              >
+              <a
+                class="secondary-button"
+                href="https://github.com/K-RnD-Lab"
+                target="_blank"
+                rel="noreferrer"
+                data-i18n="actions.krnd"
+                >K-RnD Lab</a
+              >
+            </div>
+          </div>
+
+          <aside class="hero-panel">
+            <div class="portrait-stack">
+              <img
+                src="./assets/img/k-me-logo.jpg"
+                alt="Kosatiks portrait"
+                class="portrait portrait-main"
+              />
+              <img
+                src="./assets/img/k-logo.jpg"
+                alt="Kosatiks ecosystem"
+                class="portrait portrait-secondary"
+              />
+            </div>
+
+            <div class="quick-facts">
+              <article class="fact-card">
+                <span class="fact-label" data-i18n="facts.roles">Roles</span>
+                <strong>3</strong>
+              </article>
+              <article class="fact-card">
+                <span class="fact-label" data-i18n="facts.layers">Layers</span>
+                <strong data-i18n="facts.layers.value">self / hire / project</strong>
+              </article>
+              <article class="fact-card">
+                <span class="fact-label" data-i18n="facts.stack">Stack</span>
+                <strong data-i18n="facts.stack.value">GitHub + Vercel + case studies</strong>
+              </article>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section" id="roles">
+          <div class="section-head">
+            <p class="eyebrow" data-i18n="roles.eyebrow">three roles</p>
+            <h2 data-i18n="roles.title">Three roles, one operating system.</h2>
+            <p data-i18n="roles.lead">
+              The structure is simple: strategy defines direction, production
+              builds systems, and creativity shapes meaning and form.
+            </p>
+          </div>
+
+          <div class="role-grid" id="roleGrid"></div>
+        </section>
+
+        <section class="section" id="work">
+          <div class="section-head">
+            <p class="eyebrow" data-i18n="work.eyebrow">public map</p>
+            <h2 data-i18n="work.title">Directions, hubs, and linked repositories.</h2>
+            <p data-i18n="work.lead">
+              This is the practical layer: the things I build, study, publish,
+              or use as active portfolio and research infrastructure.
+            </p>
+          </div>
+
+          <div class="filters" aria-label="Card filters">
+            <div class="filter-group" id="roleFilters"></div>
+            <div class="filter-group" id="typeFilters"></div>
+          </div>
+
+          <div class="card-grid" id="cardGrid"></div>
+        </section>
+
+        <section class="section featured" id="featured">
+          <div class="section-head">
+            <p class="eyebrow" data-i18n="featured.eyebrow">featured case</p>
+            <h2 data-i18n="featured.title">Training -> analytics -> result.</h2>
+            <p data-i18n="featured.lead">
+              The current flagship example is the master's admission prep system:
+              a personal learning environment with tracking, analytics, and a
+              public case-study angle.
+            </p>
+          </div>
+
+          <div class="featured-panel">
+            <div class="featured-copy">
+              <h3 data-i18n="featured.caseTitle">Master Prep 2026</h3>
+              <p data-i18n="featured.caseBody">
+                A structured preparation environment for EVI / EFVV with
+                analytics, study logging, review loops, and a public research
+                story about effort, discipline, and measurable progress.
+              </p>
+              <ul class="bullet-list">
+                <li data-i18n="featured.point1">
+                  study flow and question practice in one environment
+                </li>
+                <li data-i18n="featured.point2">
+                  progress snapshots suitable for GitHub and LinkedIn
+                </li>
+                <li data-i18n="featured.point3">
+                  a research-oriented narrative that fits K-RnD positioning
+                </li>
+              </ul>
+
+              <div class="hero-actions">
+                <a
+                  class="primary-button"
+                  href="https://github.com/TEZv/master_prep_2026"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-i18n="actions.caseRepo"
+                  >Case study repo</a
+                >
+                <a
+                  class="secondary-button"
+                  href="https://github.com/K-RnD-Lab"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-i18n="actions.researchHub"
+                  >Research hub</a
+                >
+              </div>
+            </div>
+
+            <div class="featured-metrics">
+              <article class="metric">
+                <span data-i18n="featured.metric1.label">Format</span>
+                <strong data-i18n="featured.metric1.value">training system</strong>
+              </article>
+              <article class="metric">
+                <span data-i18n="featured.metric2.label">Outcome</span>
+                <strong data-i18n="featured.metric2.value">portfolio + analytics case</strong>
+              </article>
+              <article class="metric">
+                <span data-i18n="featured.metric3.label">Placement</span>
+                <strong data-i18n="featured.metric3.value">Kosatiks + K-RnD</strong>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="research">
+          <div class="section-head">
+            <p class="eyebrow" data-i18n="research.eyebrow">ecosystem links</p>
+            <h2 data-i18n="research.title">Research and public ecosystem.</h2>
+            <p data-i18n="research.lead">
+              Kosatiks should not exist in isolation. It should route people to
+              the right repository, lab, or public artifact depending on the
+              context.
+            </p>
+          </div>
+
+          <div class="ecosystem-grid">
+            <article class="ecosystem-card">
+              <h3>K-RnD Lab</h3>
+              <p data-i18n="research.krnd">
+                The broader research umbrella. Best for public cross-links to
+                experiments, analytical systems, and technology-adjacent case
+                studies.
+              </p>
+              <a
+                href="https://github.com/K-RnD-Lab"
+                target="_blank"
+                rel="noreferrer"
+                data-i18n="actions.openHub"
+                >Open hub</a
+              >
+            </article>
+            <article class="ecosystem-card">
+              <h3>Hugging Face</h3>
+              <p data-i18n="research.hf">
+                Keep this for model demos, datasets, or ML-facing artifacts. For
+                non-ML portfolio infrastructure, GitHub should remain the source
+                of truth.
+              </p>
+              <a
+                href="https://huggingface.co/K-RnD-Lab"
+                target="_blank"
+                rel="noreferrer"
+                data-i18n="actions.openLab"
+                >Open lab</a
+              >
+            </article>
+            <article class="ecosystem-card">
+              <h3 data-i18n="research.hostingTitle">Hosting model</h3>
+              <p data-i18n="research.hostingBody">
+                Recommended setup: GitHub for source and credibility, Vercel for
+                deployment and previews, custom domain for presentation.
+              </p>
+              <a href="https://github.com/TEZv/Kosatiks-Group" target="_blank" rel="noreferrer" data-i18n="actions.openRepo">Open repo</a>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer section" id="contact">
+        <div>
+          <p class="eyebrow" data-i18n="footer.eyebrow">contact and routing</p>
+          <h2 data-i18n="footer.title">Make the portal legible first.</h2>
+          <p data-i18n="footer.lead">
+            The immediate goal is clarity: each card should lead to a repo, a
+            live site, or a clear next step. No dead ends, no hidden layers.
+          </p>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/TEZv" target="_blank" rel="noreferrer">GitHub / TEZv</a>
+          <a href="https://github.com/K-RnD-Lab" target="_blank" rel="noreferrer">GitHub / K-RnD-Lab</a>
+          <a href="https://huggingface.co/K-RnD-Lab" target="_blank" rel="noreferrer">Hugging Face / K-RnD-Lab</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
