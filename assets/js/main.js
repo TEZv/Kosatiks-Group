@@ -660,9 +660,9 @@ const HUBS = [
 
     format: { ua: "У клієнтському режимі це можна замовити як впровадження. У проєктному — це частина власних ініціатив і експериментів, які потім можуть ставати окремими кейсами.", en: "In client mode this can be commissioned as implementation work. In project mode it becomes part of my own initiatives and experiments that can later turn into standalone cases." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-me-logo.jpg",
 
-    media: { type: "video", src: "./assets/video/k3.mp4", caption: { ua: "Продюсерський хаб для систем і flow-архітектури.", en: "A producer hub for systems and flow architecture." } },
+    media: { type: "video", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Продюсерський хаб для систем і flow-архітектури.", en: "A producer hub for systems and flow architecture." } },
 
     links: [
 
@@ -694,9 +694,9 @@ const HUBS = [
 
     format: { ua: "Це чисто клієнтський шар. Якщо людині треба не лише стратегія, а ще й зібране доведення до виконання — маршрут іде сюди.", en: "This is a purely client-facing layer. If someone needs not only strategy but also structured follow-through, this is the correct route." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-me-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/client-projects.png", caption: { ua: "Execution теж має виглядати як система, а не як пожежогасіння.", en: "Execution should look like a system, not like firefighting." } },
+    media: { type: "image", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Execution теж має виглядати як система, а не як пожежогасіння.", en: "Execution should look like a system, not like firefighting." } },
 
     links: [
 
@@ -726,9 +726,9 @@ const HUBS = [
 
     format: { ua: "У цьому хабі добре живуть окремі build-напрями. Для зовнішнього перегляду я лишаю Google Site, а GitHub і Kosatiks — як source-of-truth і маршрутизатор.", en: "This hub is a good home for standalone build directions. Google Site can stay as the lightweight presentation layer while GitHub and Kosatiks remain the source of truth and router." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-me-logo.jpg",
 
-    media: { type: "video", src: "./assets/video/k.mp4", caption: { ua: "Venture Studio як окремий build-маршрут.", en: "Venture Studio as a standalone build route." } },
+    media: { type: "video", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Venture Studio як окремий build-маршрут.", en: "Venture Studio as a standalone build route." } },
 
     links: [
 
@@ -800,9 +800,9 @@ const HUBS = [
 
     format: { ua: "Клієнтський хаб для тих, кому вже потрібне не натхнення, а нормальна процесна опора.", en: "A client-facing hub for people who no longer need inspiration but solid process support." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-me-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/ops.png", caption: { ua: "Система має бути передаваною, а не тільки зрозумілою авторці.", en: "A system should be transferable, not only understandable to its author." } },
+    media: { type: "image", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Система має бути передаваною, а не тільки зрозумілою авторці.", en: "A system should be transferable, not only understandable to its author." } },
 
     links: [
 
@@ -832,9 +832,9 @@ const HUBS = [
 
     format: { ua: "Це client-facing хаб для тих, кому треба не просто «лідити», а зробити командну систему адекватною.", en: "This is a client-facing hub for those who need more than generic leadership talk and want a functional team system instead." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-me-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/leadership.png", caption: { ua: "Командна структура теж є частиною продюсування.", en: "Team structure is part of production work too." } },
+    media: { type: "image", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Командна структура теж є частиною продюсування.", en: "Team structure is part of production work too." } },
 
     links: [
 
@@ -864,9 +864,9 @@ const HUBS = [
 
     format: { ua: "Це міст між execution і research. Саме тому хаб живе в продюсерському шарі, але може працювати і як окремий project-mode маршрут.", en: "This hub bridges execution and research. That is why it lives in the producer layer while still functioning as a standalone project-mode route." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-me-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/experiments.png", caption: { ua: "Експеримент — це не хаос, а спосіб валідувати рух.", en: "An experiment is not chaos; it is a way to validate movement." } },
+    media: { type: "image", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Експеримент — це не хаос, а спосіб валідувати рух.", en: "An experiment is not chaos; it is a way to validate movement." } },
 
     links: [
 
@@ -898,9 +898,9 @@ const HUBS = [
 
     format: { ua: "Тут доречні форма, відбір, beta-доступ і поступове нарощування. Якщо буде потрібно, далі можна додати private layer, але не зобов’язано вже зараз.", en: "This hub works well with a form, selection, beta access, and gradual scaling. A private layer can be added later if needed, but it should not be forced now." },
 
-    logo: "./assets/img/hubs/mentorship.png",
+    logo: "./assets/img/k-me-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/mentorship.png", caption: { ua: "Mentorship краще запускати як beta-оболонку, а не як перевантажену платформу.", en: "Mentorship is better launched as a beta shell than as an overloaded platform." } },
+    media: { type: "image", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Mentorship краще запускати як beta-оболонку, а не як перевантажену платформу.", en: "Mentorship is better launched as a beta shell than as an overloaded platform." } },
 
     links: [
 
