@@ -456,7 +456,7 @@ const specialEntries = {
 
         "Producer: execution, structure, MVPs, operations.",
 
-        "Creator: narrative, aesthetics, publishing, and Life OS.",
+        "Creator: narrative, aesthetics and publishing.",
 
       ],
 
@@ -968,9 +968,9 @@ const HUBS = [
 
     format: { ua: "Quest hub не обов’язково продається як окрема послуга. Часто це швидше смисловий і creative-shell, який підсилює інші напрями.", en: "Quest hub does not have to be sold as a separate service. Often it works better as a meaning and creative shell that strengthens other directions." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/favicon.png",
 
-    media: { type: "image", src: "./assets/img/hubs/quest.png", caption: { ua: "Коли шлях має форму квесту, система перестає бути нудною.", en: "When a path becomes a quest, the system stops feeling dull." } },
+    media: { type: "image", src: "./assets/img/favicon.png", caption: { ua: "Коли шлях має форму квесту, система перестає бути нудною.", en: "When a path becomes a quest, the system stops feeling dull." } },
 
     links: [
 
@@ -1002,9 +1002,9 @@ const HUBS = [
 
     format: { ua: "Це self-only хаб. Його варто показувати як частину філософії Kosatiks Group, але не як звичайну форму замовлення.", en: "This is a self-only hub. It should be shown as part of the philosophy of Kosatiks Group rather than as a standard order form." },
 
-    logo: "./assets/img/hubs/creative.png",
+    logo: "./assets/img/favicon.png",
 
-    media: { type: "image", src: "./assets/img/hubs/creative.png", caption: { ua: "Творча практика — джерело, а не тільки deliverable.", en: "Creative practice is a source, not only a deliverable." } },
+    media: { type: "image", src: "./assets/img/favicon.png", caption: { ua: "Творча практика — джерело, а не тільки deliverable.", en: "Creative practice is a source, not only a deliverable." } },
 
     links: [
 
