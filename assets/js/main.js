@@ -524,7 +524,7 @@ const HUBS = [
 
     format: { ua: "Клієнтський маршрут тут іде у форму запиту. Self-layer потрібен мені для фіксації власного голосу, тональності й канону подачі.", en: "The client route goes into an intake form. The self layer is where I keep track of voice, tone, and presentation canon for myself." },
 
-    logo: "./assets/img/hubs/identity.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/identity.png", caption: { ua: "Хаб про формулювання себе й своєї рамки.", en: "A hub for defining yourself and your framing." } },
 
@@ -558,7 +558,7 @@ const HUBS = [
 
     format: { ua: "Тут можна замовляти стратегію партнерств або використовувати хаб як мою внутрішню карту social-garden логіки.", en: "This can be commissioned as a partnership strategy layer or used internally as my own social-garden map." },
 
-    logo: "./assets/img/hubs/community.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/community.png", caption: { ua: "Карта зв’язків має бути вибірковою, а не хаотичною.", en: "A relationship map should be selective, not chaotic." } },
 
@@ -592,7 +592,7 @@ const HUBS = [
 
     format: { ua: "Це радше структурний і дослідницький хаб, ніж обіцянка фінансових порад. Він потрібен для мислення, відбору та аналітичної рамки.", en: "This is primarily a structural and analytical hub rather than a promise of financial advice. It supports thinking, filtering, and decision framing." },
 
-    logo: "./assets/img/hubs/investments.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/investments.png", caption: { ua: "Інвестиційна рамка теж має свій канон і дисципліну.", en: "Investment thinking also needs its own canon and discipline." } },
 
@@ -626,7 +626,7 @@ const HUBS = [
 
     format: { ua: "Поки найкращий маршрут тут — через Notion build. Далі це може стати продуктом, бібліотекою шаблонів або формою запиту на персоналізацію без прямого Calendly-спаму.", en: "For now the best route is through the Notion build. Later this can become a product, a template library, or a request-based customization flow without turning into Calendly spam." },
 
-    logo: "./assets/img/hubs/life-os.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/life-os.png", caption: { ua: "Life OS — це і нотатки, і ритми, і майбутні продукти.", en: "Life OS holds notes, rhythms, and future product logic." } },
 
@@ -660,7 +660,7 @@ const HUBS = [
 
     format: { ua: "У клієнтському режимі це можна замовити як впровадження. У проєктному — це частина власних ініціатив і експериментів, які потім можуть ставати окремими кейсами.", en: "In client mode this can be commissioned as implementation work. In project mode it becomes part of my own initiatives and experiments that can later turn into standalone cases." },
 
-    logo: "./assets/img/hubs/automation.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "video", src: "./assets/video/k3.mp4", caption: { ua: "Продюсерський хаб для систем і flow-архітектури.", en: "A producer hub for systems and flow architecture." } },
 
@@ -694,7 +694,7 @@ const HUBS = [
 
     format: { ua: "Це чисто клієнтський шар. Якщо людині треба не лише стратегія, а ще й зібране доведення до виконання — маршрут іде сюди.", en: "This is a purely client-facing layer. If someone needs not only strategy but also structured follow-through, this is the correct route." },
 
-    logo: "./assets/img/hubs/client-projects.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/client-projects.png", caption: { ua: "Execution теж має виглядати як система, а не як пожежогасіння.", en: "Execution should look like a system, not like firefighting." } },
 
@@ -726,7 +726,7 @@ const HUBS = [
 
     format: { ua: "У цьому хабі добре живуть окремі build-напрями. Для зовнішнього перегляду я лишаю Google Site, а GitHub і Kosatiks — як source-of-truth і маршрутизатор.", en: "This hub is a good home for standalone build directions. Google Site can stay as the lightweight presentation layer while GitHub and Kosatiks remain the source of truth and router." },
 
-    logo: "./assets/img/hubs/venture.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "video", src: "./assets/video/k.mp4", caption: { ua: "Venture Studio як окремий build-маршрут.", en: "Venture Studio as a standalone build route." } },
 
@@ -800,7 +800,7 @@ const HUBS = [
 
     format: { ua: "Клієнтський хаб для тих, кому вже потрібне не натхнення, а нормальна процесна опора.", en: "A client-facing hub for people who no longer need inspiration but solid process support." },
 
-    logo: "./assets/img/hubs/ops.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/ops.png", caption: { ua: "Система має бути передаваною, а не тільки зрозумілою авторці.", en: "A system should be transferable, not only understandable to its author." } },
 
@@ -832,7 +832,7 @@ const HUBS = [
 
     format: { ua: "Це client-facing хаб для тих, кому треба не просто «лідити», а зробити командну систему адекватною.", en: "This is a client-facing hub for those who need more than generic leadership talk and want a functional team system instead." },
 
-    logo: "./assets/img/hubs/leadership.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/leadership.png", caption: { ua: "Командна структура теж є частиною продюсування.", en: "Team structure is part of production work too." } },
 
@@ -864,7 +864,7 @@ const HUBS = [
 
     format: { ua: "Це міст між execution і research. Саме тому хаб живе в продюсерському шарі, але може працювати і як окремий project-mode маршрут.", en: "This hub bridges execution and research. That is why it lives in the producer layer while still functioning as a standalone project-mode route." },
 
-    logo: "./assets/img/hubs/experiments.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/experiments.png", caption: { ua: "Експеримент — це не хаос, а спосіб валідувати рух.", en: "An experiment is not chaos; it is a way to validate movement." } },
 
@@ -968,7 +968,7 @@ const HUBS = [
 
     format: { ua: "Quest hub не обов’язково продається як окрема послуга. Часто це швидше смисловий і creative-shell, який підсилює інші напрями.", en: "Quest hub does not have to be sold as a separate service. Often it works better as a meaning and creative shell that strengthens other directions." },
 
-    logo: "./assets/img/hubs/quest.png",
+    logo: "./assets/img/hubs/client-shared.jpg",
 
     media: { type: "image", src: "./assets/img/hubs/quest.png", caption: { ua: "Коли шлях має форму квесту, система перестає бути нудною.", en: "When a path becomes a quest, the system stops feeling dull." } },
 
