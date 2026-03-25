@@ -49,3 +49,18 @@ If you later want dynamic content:
 - keep the public portal static
 - add content APIs separately
 - do not mix portfolio hosting with experimental backend logic unless needed
+
+## Vercel Safe Mode
+
+If Vercel showed a failed production deployment, use the simplest import settings:
+
+1. Import `TEZv/Kosatiks-Group` as a new project.
+2. Framework preset: `Other`.
+3. Root directory: repository root.
+4. Build command: leave empty.
+5. Output directory: leave empty.
+6. Install command: leave empty.
+
+This repository is fully static. It should be served directly without a build step.
+
+If an older Vercel project is red, the fastest fix is often to delete that project and import the repository again with the settings above.
