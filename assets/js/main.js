@@ -524,9 +524,9 @@ const HUBS = [
 
     format: { ua: "Клієнтський маршрут тут іде у форму запиту. Self-layer потрібен мені для фіксації власного голосу, тональності й канону подачі.", en: "The client route goes into an intake form. The self layer is where I keep track of voice, tone, and presentation canon for myself." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/identity.png", caption: { ua: "Хаб про формулювання себе й своєї рамки.", en: "A hub for defining yourself and your framing." } },
+    media: { type: "image", src: "./assets/img/k-logo.jpg", caption: { ua: "Хаб про формулювання себе й своєї рамки.", en: "A hub for defining yourself and your framing." } },
 
     links: [
 
@@ -558,9 +558,9 @@ const HUBS = [
 
     format: { ua: "Тут можна замовляти стратегію партнерств або використовувати хаб як мою внутрішню карту social-garden логіки.", en: "This can be commissioned as a partnership strategy layer or used internally as my own social-garden map." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/community.png", caption: { ua: "Карта зв’язків має бути вибірковою, а не хаотичною.", en: "A relationship map should be selective, not chaotic." } },
+    media: { type: "image", src: "./assets/img/k-logo.jpg", caption: { ua: "Карта зв’язків має бути вибірковою, а не хаотичною.", en: "A relationship map should be selective, not chaotic." } },
 
     links: [
 
@@ -592,9 +592,9 @@ const HUBS = [
 
     format: { ua: "Це радше структурний і дослідницький хаб, ніж обіцянка фінансових порад. Він потрібен для мислення, відбору та аналітичної рамки.", en: "This is primarily a structural and analytical hub rather than a promise of financial advice. It supports thinking, filtering, and decision framing." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/investments.png", caption: { ua: "Інвестиційна рамка теж має свій канон і дисципліну.", en: "Investment thinking also needs its own canon and discipline." } },
+    media: { type: "image", src: "./assets/img/k-logo.jpg", caption: { ua: "Інвестиційна рамка теж має свій канон і дисципліну.", en: "Investment thinking also needs its own canon and discipline." } },
 
     links: [
 
@@ -626,9 +626,9 @@ const HUBS = [
 
     format: { ua: "Поки найкращий маршрут тут — через Notion build. Далі це може стати продуктом, бібліотекою шаблонів або формою запиту на персоналізацію без прямого Calendly-спаму.", en: "For now the best route is through the Notion build. Later this can become a product, a template library, or a request-based customization flow without turning into Calendly spam." },
 
-    logo: "./assets/img/hubs/client-shared.jpg",
+    logo: "./assets/img/k-logo.jpg",
 
-    media: { type: "image", src: "./assets/img/hubs/life-os.png", caption: { ua: "Life OS — це і нотатки, і ритми, і майбутні продукти.", en: "Life OS holds notes, rhythms, and future product logic." } },
+    media: { type: "image", src: "./assets/img/k-logo.jpg", caption: { ua: "Life OS — це і нотатки, і ритми, і майбутні продукти.", en: "Life OS holds notes, rhythms, and future product logic." } },
 
     links: [
 
