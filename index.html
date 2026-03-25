@@ -1,17 +1,19 @@
-﻿<!doctype html>
-<html lang="uk">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Kosatiks Group</title>
-    <meta
-      name="description"
-      content="Kosatiks Group is the umbrella portal for hubs, client work, self systems, research projects, and public artifacts by Oksana Kolisnyk."
-    />
+
     <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260325u2" />
-    <script defer src="assets/js/main.js?v=20260325u2"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+
+    <!-- 1. Спочатку логіка квіза -->
+    <script defer src="assets/js/quiz.js"></script>
+    <!-- 2. Потім основний додаток -->
+    <script defer src="assets/js/app.js"></script>
   </head>
+
   <body>
     <div class="grain"></div>
     <div class="ink"></div>
@@ -19,39 +21,66 @@
     <div class="nav">
       <div class="navInner">
         <div class="brand">
-          <span class="mark"></span><a href="#chapters"><span>KOSATIKS GROUP</span></a>
+          <span class="mark"></span><a href="/"><span>KOSATIKS GROUP</span></a>
         </div>
 
         <div class="links">
-          <a href="#chapters" data-i18n="navchapters">Ролі</a>
-          <a href="#chapters" data-i18n="navhire">Клієнтське</a>
-          <a href="#contact" data-i18n="navcanon">Контакти</a>
+          <!-- Текстові посилання -->
+          <a href="#chapters" data-i18n="navchapters">Roles</a>
+          <a href="#chapters" data-i18n="navhire">For hire</a>
+          <a href="#chapters" data-i18n="navcanon">Links</a>
 
+          <!-- Перемикач мови -->
           <div class="lang">
-            <button id="btnEN" type="button">EN</button>
-            <button id="btnUA" class="active" type="button">UA</button>
+            <button id="btnEN" class="active" type="button">EN</button>
+            <button id="btnUA" type="button">UA</button>
           </div>
 
+          <!-- Контейнер для аватарок з ДВОМА стрілочками -->
           <div class="avatar-container">
+            <!-- Стрілочка для лівого кружечка (Me) -->
             <div class="nav-hint hint-left">
-              <span data-i18n="hintEco">Екосистема</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <span data-i18n="hintEco">Ecosystem</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
                 <path d="M12 5v13M5 12l7 7 7-7" />
               </svg>
             </div>
 
+            <!-- Стрілочка для правого кружечка (Ecosystem) -->
             <div class="nav-hint hint-right">
-              <span data-i18n="hintMe">Я</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <span data-i18n="hintMe">Me</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
                 <path d="M12 5v13M5 12l7 7 7-7" />
               </svg>
             </div>
 
+            <!-- Самі аватарки -->
             <div class="avatars-wrapper">
-              <button type="button" class="nav-avatar" data-special="ecosystem" title="Ecosystem">
+              <button
+                type="button"
+                class="nav-avatar"
+                data-special="ecosystem"
+                title="Ecosystem"
+              >
                 <img src="./assets/img/k-logo.jpg" alt="Ecosystem" />
               </button>
-              <button type="button" class="nav-avatar" data-special="me" title="Me">
+
+              <button
+                type="button"
+                class="nav-avatar"
+                data-special="me"
+                title="Me"
+              >
                 <img src="./assets/img/k-me-logo.jpg" alt="Me" />
               </button>
             </div>
@@ -63,91 +92,259 @@
     <main class="wrap" id="chapters">
       <div class="section-header">
         <div class="kicker" data-i18n="kicker">KOSATIKS GROUP</div>
-        <div class="title" data-i18n="title">Три ролі. Один umbrella-простір.</div>
-        <div class="subtitle" data-i18n-html="subtitle">
-          Це портал моїх хабів: тут є клієнтські напрями, власні системи, активні проєкти й дослідницькі артефакти.
+        <div class="title" data-i18n="title">A hub system, not a random portfolio.</div>
+        <div class="subtitle" data-i18n="subtitle">
+          Choose a role. Filter by for-hire offers or active routes.
         </div>
       </div>
 
       <div class="facetTabs" id="facetTabs">
-        <button class="facetTab active" type="button" data-facet="strategist" data-i18n="rstrategist">
-          Стратегиня
+        <button
+          class="facetTab active"
+          type="button"
+          data-facet="strategist"
+          data-i18n="rstrategist"
+        >
+          Strategist
         </button>
-        <button class="facetTab" type="button" data-facet="producer" data-i18n="rproducer">
-          Продюсерка
+        <button
+          class="facetTab"
+          type="button"
+          data-facet="producer"
+          data-i18n="rproducer"
+        >
+          Producer
         </button>
-        <button class="facetTab" type="button" data-facet="creator" data-i18n="rcreator">
-          Мисткиня
+        <button
+          class="facetTab"
+          type="button"
+          data-facet="creator"
+          data-i18n="rcreator"
+        >
+          Creator
         </button>
       </div>
 
       <div class="pills" id="modePills">
-        <button class="pill active" type="button" data-mode="all" data-i18n="fall">Усе</button>
-        <button class="pill" type="button" data-mode="hire" data-i18n="fhire">For hire</button>
-        <button class="pill" type="button" data-mode="self" data-i18n="fself">Self &amp; Supply only</button>
-        <button class="pill" type="button" data-mode="project" data-i18n="fproject">Project</button>
+        <button
+          class="pill active"
+          type="button"
+          data-mode="all"
+          data-i18n="fall"
+        >
+          All
+        </button>
+        <button class="pill" type="button" data-mode="hire" data-i18n="fhire">
+          For hire
+        </button>
+        <button
+          class="pill"
+          type="button"
+          data-mode="practice"
+          data-i18n="fpractice"
+        >
+          Routes
+        </button>
       </div>
 
-      <section class="panel" aria-label="Hub panel">
+      <section class="panel" aria-label="Facet panel">
         <div class="panelHero">
-          <div class="panelTitle" id="panelTitle">Стратегиня</div>
+          <div class="panelTitle" id="panelTitle">Strategist</div>
           <div class="panelDesc" id="panelDesc"></div>
-          <div class="panelGuide" data-i18n-html="guide">
-            Відкрий картку, щоб побачити, що саме входить у хаб, як він працює і куди вести клієнта або себе далі.
-          </div>
         </div>
 
         <div class="cards" id="cards"></div>
       </section>
 
-      <section class="socialZone" id="contact">
-        <div class="socialHead">
-          <div class="socialKicker" data-i18n="socialKicker">social + routing</div>
-          <h2 data-i18n="socialTitle">Зовнішні переходи й публічна присутність.</h2>
-          <p data-i18n-html="socialSubtitle">
-            Тут можна тримати агрегатори посилань, профілі й зовнішні маршрути. Поки частина з них у draft-стані, але shell уже готовий.
-          </p>
-        </div>
-        <div class="socialRow" id="socialRow"></div>
-      </section>
-
-      <div class="footer-note" data-i18n-html="foot">
-        Кожен хаб має власний контекст: десь це intake-форма, десь repo, десь live-site, а десь дослідницький маршрут.
+      <div class="footer-note" data-i18n="foot">
+        No generic contact form. Each offer has its own intake so requests land
+        correctly. Note: I take only 2-3 projects per month; availability is
+        limited.
       </div>
     </main>
 
+    <!-- Основне модальне вікно (Деталі картки) -->
     <div class="modal" id="modal" aria-hidden="true">
-      <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalCard" role="dialog" aria-modal="true">
         <div class="modalTop">
           <div class="modalTitle" id="modalTitle">ITEM</div>
 
           <div class="modalActions">
+            <!-- 1. Tabs -->
             <div class="tabs">
-              <button class="tab active" id="tabOverview" type="button" data-tab="overview" data-i18n="mOverview">
-                Огляд
+              <button
+                class="tab active"
+                id="tabOverview"
+                type="button"
+                data-i18n="mOverview"
+              >
+                Overview
               </button>
-              <button class="tab" id="tabLinks" type="button" data-tab="links" data-i18n="mLinks">
-                Переходи
+              <button class="tab" id="tabEmbed" type="button" data-i18n="mForm">
+                Links
               </button>
             </div>
 
-            <div class="lang modalLang">
+            <!-- КНОПКА ЗАПУСКУ ТЕСТУ (В модальному вікні картки) -->
+            <button
+              id="btnModalTest"
+              class="btn primary"
+              type="button"
+              style="
+                display: none;
+                background: #465d5b;
+                color: #000000;
+                margin-right: 15px;
+              "
+              onclick="window.openQuiz()"
+            >
+              🚀 PRE-TEST
+            </button>
+
+            <!-- 2. Modal Language Switcher -->
+            <div class="lang" style="margin-right: 10px">
               <button id="btnModalEN" type="button">EN</button>
-              <button id="btnModalUA" class="active" type="button">UA</button>
+              <button id="btnModalUA" type="button">UA</button>
             </div>
 
-            <button class="btn primary" id="btnModalClose" type="button" data-i18n="mClose">
-              Закрити
+            <!-- 3. Close Button -->
+            <button
+              class="btn primary"
+              id="btnModalClose"
+              type="button"
+              data-i18n="mClose"
+            >
+              Close
             </button>
           </div>
         </div>
 
         <div class="modalBody">
-          <div class="pane is-active" id="paneOverview">
+          <div class="pane" id="paneOverview">
             <div class="embedWrap" id="overviewSlot"></div>
           </div>
-          <div class="pane" id="paneLinks">
-            <div class="embedWrap" id="linksSlot"></div>
+
+          <div class="pane" id="paneEmbed" style="display: none">
+            <div class="embedWrap" id="embedSlot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- МОДАЛКА КВІЗУ (Додано в кінець body) -->
+    <div id="quizModal" class="modal-overlay">
+      <div class="modal-content quiz-container">
+        <!-- quiz-container це ваш існуючий клас -->
+        <div class="quiz-content">
+          <button class="quiz-close" onclick="closeQuiz()">×</button>
+
+          <!-- Lang Switch -->
+          <div class="quiz-lang-switch">
+            <button id="qLangEN" class="active" onclick="setQuizLang('en')">
+              EN
+            </button>
+            <button id="qLangUA" onclick="setQuizLang('ua')">UA</button>
+          </div>
+
+          <!-- 1. INTRO -->
+          <div id="quizIntro">
+            <h2 id="introTitle">...</h2>
+            <p id="introDesc">...</p>
+            <button class="btn primary" onclick="startQuiz()" id="introBtn">
+              ...
+            </button>
+          </div>
+
+          <!-- 2. KANBAN GAME -->
+          <div id="quizGameArea" style="display: none">
+            <div class="kanban-deck" id="kanbanDeck">
+              <!-- Card appears here -->
+            </div>
+
+            <!-- Mobile Controls (Click instead of Drag) -->
+            <div
+              class="mobile-controls"
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+                margin-bottom: 10px;
+              "
+            >
+              <button class="ctrl-btn" onclick="handleDrop(1)" id="btnZone1">
+                ❤️ My Zone
+              </button>
+              <button class="ctrl-btn" onclick="handleDrop(2)" id="btnZone2">
+                🤝 Delegate
+              </button>
+              <button class="ctrl-btn" onclick="handleDrop(3)" id="btnZone3">
+                🗑️ Ignore
+              </button>
+            </div>
+
+            <div class="kanban-columns">
+              <!-- Zone 1 -->
+              <div
+                class="k-column"
+                ondragover="allowDrop(event)"
+                ondragleave="leaveDrop(event)"
+                ondrop="onDropVal(event, 1)"
+              >
+                <div class="k-header" id="head1">MY ZONE</div>
+                <div id="colList1" style="width: 100%"></div>
+              </div>
+              <!-- Zone 2 -->
+              <div
+                class="k-column"
+                ondragover="allowDrop(event)"
+                ondragleave="leaveDrop(event)"
+                ondrop="onDropVal(event, 2)"
+              >
+                <div class="k-header" id="head2">DELEGATE</div>
+                <div id="colList2" style="width: 100%"></div>
+              </div>
+              <!-- Zone 3 -->
+              <div
+                class="k-column"
+                ondragover="allowDrop(event)"
+                ondragleave="leaveDrop(event)"
+                ondrop="onDropVal(event, 3)"
+              >
+                <div class="k-header" id="head3">IGNORE</div>
+                <div id="colList3" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. RESULT -->
+          <div id="quizResult" style="display: none">
+            <div class="result-header">
+              <h2 class="res-title"><span id="resRole">...</span></h2>
+              <p class="res-subtitle" id="resType">...</p>
+            </div>
+            <div class="result-body">
+              <div class="res-section">
+                <h4 id="lblStrengths">...</h4>
+                <div id="resStrengths" class="tags-container"></div>
+                <p id="resGrowth" class="res-text-sm"></p>
+              </div>
+              <div class="res-section interaction-box" style="text-align: left">
+                <b id="lblFocus">...</b>
+                <p id="resPotential" class="res-text"></p>
+              </div>
+            </div>
+            <div class="result-actions">
+              <button
+                class="btn primary"
+                onclick="proceedToPacket()"
+                id="btnProceed"
+              >
+                🚀 Apply
+              </button>
+              <button class="btn ghost" onclick="restartQuiz()" id="btnRestart">
+                Restart
+              </button>
+            </div>
           </div>
         </div>
       </div>
