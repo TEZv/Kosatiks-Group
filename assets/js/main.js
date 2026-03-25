@@ -2,11 +2,11 @@
 
   ua: {
 
-    navchapters: "Ролі",
+    navchapters: "\u0420\u043e\u043b\u0456",
 
-    navhire: "Клієнтське",
+    navhire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
 
-    navcanon: "Лінки",
+    navcanon: "\u041b\u0456\u043d\u043a\u0438",
 
     kicker: "KOSATIKS GROUP",
 
@@ -29,17 +29,19 @@
 
     rcreator: "Мисткиня",
 
-    fall: "Усе",
+    fall: "\u0423\u0441\u0456 \u0444\u043e\u0440\u043c\u0430\u0442\u0438",
 
-    fhire: "Для замовлення",
+    fhire: "FORM",
 
-    fself: "Маршрути",
+    fself: "\u041b\u0456\u043d\u043a\u0438",
 
-    fproject: "Маршрути",
+    fproject: "\u041b\u0456\u043d\u043a\u0438",
 
     mOverview: "Огляд",
 
-    mLinks: "Переходи",
+    mLinks: "\u041b\u0456\u043d\u043a\u0438",
+
+    mForm: "FORM",
 
     mClose: "Закрити",
 
@@ -47,36 +49,36 @@
 
     hintEco: "Екосистема",
 
-    btnOpen: "Відкрити вікно",
+    btnOpen: "\u0412\u0456\u0434\u043a\u0440\u0438\u0442\u0438 \u0432\u0456\u043a\u043d\u043e",
 
-    socialKicker: "Соцмережі + маршрути",
+    socialKicker: "\u0421\u043e\u0446\u043c\u0435\u0440\u0435\u0436\u0456 + \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
-    socialTitle: "Соцмаршрути",
+    socialTitle: "\u0421\u043e\u0446\u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
     socialSubtitle:
       "Цей нижній шар працює як точка входу до link-агрегаторів, публічних профілів і зовнішніх маршрутів. Я активно будую тематичний контент для стратегині, продюсерки та мисткині, тож цей блок ростиме разом із цими просторами.",
 
-    placeholder: "Під цей фільтр поки немає карток.",
+    placeholder: "\u041f\u0456\u0434 \u0446\u0435\u0439 \u0444\u0456\u043b\u044c\u0442\u0440 \u043f\u043e\u043a\u0438 \u043d\u0435\u043c\u0430\u0454 \u043a\u0430\u0440\u0442\u043e\u043a.",
 
     modeSummary: {
 
-      all: "Усі формати",
+      all: "\u0423\u0441\u0456 \u0444\u043e\u0440\u043c\u0430\u0442\u0438",
 
-      hire: "Клієнтське / для замовлення",
+      hire: "FORM",
 
-      self: "Маршрути й власні напрацювання",
+      self: "\u041b\u0456\u043d\u043a\u0438",
 
-      project: "Маршрути й власні напрацювання",
+      project: "\u041b\u0456\u043d\u043a\u0438",
 
     },
 
     overviewIntro: "Що це",
 
-    overviewBullets: "Що тут відбувається",
+    overviewBullets: "\u0429\u043e \u0442\u0443\u0442 \u0432\u0456\u0434\u0431\u0443\u0432\u0430\u0454\u0442\u044c\u0441\u044f",
 
     overviewFormat: "Як це працює",
 
-    overviewProjects: "Пов’язані проєкти",
+    overviewProjects: "\u041f\u043e\u0432'\u044f\u0437\u0430\u043d\u0456 \u043f\u0440\u043e\u0454\u043a\u0442\u0438",
 
     linksIntro:
 
@@ -84,9 +86,9 @@
 
     draftLabel: "draft",
 
-    openExternal: "Відкрити",
+    openExternal: "\u0412\u0456\u0434\u043a\u0440\u0438\u0442\u0438",
 
-    notReady: "Ще в підготовці",
+    notReady: "\u0429\u0435 \u0432 \u043f\u0456\u0434\u0433\u043e\u0442\u043e\u0432\u0446\u0456",
 
     roleNames: {
 
@@ -131,15 +133,17 @@
 
     fall: "All",
 
-    fhire: "Для замовлення",
+    fhire: "FORM",
 
-    fself: "Routes",
+    fself: "FORM",
 
-    fproject: "Routes",
+    fproject: "Links",
 
     mOverview: "Overview",
 
     mLinks: "Links",
+
+    mForm: "FORM",
 
     mClose: "Close",
 
@@ -149,9 +153,9 @@
 
     btnOpen: "Open window",
 
-    socialKicker: "Соцмережі + маршрути",
+    socialKicker: "Social routing",
 
-    socialTitle: "Соцмаршрути",
+    socialTitle: "Social routing",
 
     socialSubtitle:
 
@@ -163,11 +167,11 @@
 
       all: "All formats",
 
-      hire: "Client-facing / commissionable",
+      hire: "FORM",
 
-      self: "Routes and personal groundwork",
+      self: "Links",
 
-      project: "Routes and personal groundwork",
+      project: "Links",
 
     },
 
@@ -182,6 +186,10 @@
     linksIntro:
 
       "These are direct routes: repo, live site, forms, or research material. If something is still being prepared, that is shown explicitly.",
+
+    formIntro:
+
+      "For client-facing hubs this tab keeps only the correct intake, so requests land in the right route immediately.",
 
     draftLabel: "draft",
 
@@ -1018,7 +1026,7 @@ const HUBS = [
 
 
 
-const state = { lang: "ua", modalLang: "ua", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview" };
+const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview" };
 
 
 
@@ -1148,7 +1156,6 @@ function renderCards() {
 
       </div>
 
-      <div class="cardMeta">${renderModeTags(hub.modes, state.lang)}</div>
 
       <div class="cardLine">${escapeHtml(getText(hub.overview, state.lang))}</div>
 
@@ -1225,7 +1232,7 @@ function renderOverview(entry, lang) {
 
       <div class="overviewText">
 
-        <div class="modalBadgeRow"><span class="modalBadge">${escapeHtml(entry.code || "KG")}</span><span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>${entry.modes ? entry.modes.map((mode) => `<span class="modalBadge">${escapeHtml(modeLabels(mode, lang))}</span>`).join("") : ""}</div>
+        <div class="modalBadgeRow"><span class="modalBadge">${escapeHtml(entry.code || "KG")}</span><span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span></div>
 
         <div class="overviewTitleRow"><div class="overviewLogo"><img src="${escapeHtml(entry.logo)}" alt="${escapeHtml(getText(entry.title, lang))}" /></div><div class="overviewHeading"><h3>${escapeHtml(getText(entry.title, lang))}</h3><p>${escapeHtml(getText(entry.summary, lang))}</p></div></div>
 
@@ -1249,9 +1256,35 @@ function renderOverview(entry, lang) {
 
 
 
+function getEntryLinkMode(entry) {
+
+  const links = entry.links || [];
+
+  return links.some((link) => link.kind === "form") ? "form" : "links";
+
+}
+
+
+
+function getVisibleLinks(entry) {
+
+  const links = entry.links || [];
+
+  const linkMode = getEntryLinkMode(entry);
+
+  if (linkMode === "form") return links.filter((link) => link.kind === "form");
+
+  return links.filter((link) => link.kind !== "form");
+
+}
+
+
+
 function renderLinks(entry, lang) {
 
-  const cards = (entry.links || []).map((link) => {
+  const visibleLinks = getVisibleLinks(entry);
+
+  const cards = visibleLinks.map((link) => {
 
     const classes = ["linkCard"];
 
@@ -1267,7 +1300,9 @@ function renderLinks(entry, lang) {
 
   }).join("");
 
-  return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict("linksIntro", lang))}</p><div class="linkCards">${cards || `<div class="linkCard is-disabled"><strong>${escapeHtml(getDict("notReady", lang))}</strong></div>`}</div></div>`;
+  const introKey = getEntryLinkMode(entry) === "form" ? "formIntro" : "linksIntro";
+
+  return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict(introKey, lang))}</p><div class="linkCards">${cards || `<div class="linkCard is-disabled"><strong>${escapeHtml(getDict("notReady", lang))}</strong></div>`}</div></div>`;
 
 }
 
@@ -1286,6 +1321,8 @@ function renderModal() {
   refs.overviewSlot.innerHTML = renderOverview(entry, lang);
 
   refs.linksSlot.innerHTML = renderLinks(entry, lang);
+
+  refs.tabLinks.textContent = getEntryLinkMode(entry) === "form" ? getDict("mForm", lang) : getDict("mLinks", lang);
 
   refs.tabOverview.classList.toggle("active", state.activeTab === "overview");
 
