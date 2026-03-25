@@ -73,3 +73,18 @@ This repo can work as:
 
 - `DEPLOYMENT.md` - how to publish via Vercel and connect a custom domain
 - `HUB_OPERATING_MODEL.md` - recommended hub structure, data system, and monetization logic
+
+## Hub Pages
+
+The main cards now support a layered routing model:
+
+- `Hub page` - a focused landing page inside the Kosatiks umbrella
+- `Live site` - external Google Site, Vercel app, or public demo
+- `Repository` - technical source of truth
+- `Organization` - umbrella org when relevant
+
+This makes the portal more useful than a repo directory: each hub can have its own public explanation page without forcing everything into one hosting tool.
+
+## Notion Operating System
+
+See [NOTION_BLUEPRINT.md](./NOTION_BLUEPRINT.md) for the database structure that mirrors the operating setup created in Notion.
