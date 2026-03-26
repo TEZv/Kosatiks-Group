@@ -43,7 +43,7 @@
 
     mForm: "\u0424\u043e\u0440\u043c\u0430",
 
-    cardHire: "\u0417\u0430\u043f\u0438\u0442",
+    cardHire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
 
     cardLinks: "\u041b\u0456\u043d\u043a\u0438",
 
@@ -157,7 +157,7 @@
 
     mForm: "Form",
 
-    cardHire: "Intake",
+    cardHire: "For hire",
 
     cardLinks: "Links",
 
@@ -1625,3 +1625,13 @@ bootFromUrl();
 
 
 
+
+function renderSocials() {
+  refs.socialRow.innerHTML = socialLinks.map((item) => {
+    const label = escapeHtml(getText(item.label, state.lang));
+    const hint = escapeHtml(getText(item.hint, state.lang));
+    const note = escapeHtml(getText(item.note, state.lang));
+    const mark = escapeHtml(label.slice(0, 1));
+    return `<a class="socialChip" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer"><span class="socialChipMark">${mark}</span><span class="socialChipBody"><small>${hint}</small><strong>${label}</strong><em>${note}</em></span><span class="socialChipArrow">&#8599;</span></a>`;
+  }).join("");
+}
