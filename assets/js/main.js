@@ -756,7 +756,7 @@ const HUBS = [
 
     logo: "./assets/img/favicon.png",
 
-    media: { type: "video", src: "./assets/img/favicon.png", caption: { ua: "Venture Studio як окремий build-маршрут.", en: "Venture Studio as a standalone build route." } },
+    media: { type: "image", src: "./assets/img/favicon.png", caption: { ua: "Venture Studio як окремий build-маршрут.", en: "Venture Studio as a standalone build route." } },
 
     links: [
 
