@@ -754,9 +754,9 @@ const HUBS = [
 
     format: { ua: "У цьому хабі добре живуть окремі build-напрями. Для зовнішнього перегляду я лишаю Google Site, а GitHub і Kosatiks — як source-of-truth і маршрутизатор.", en: "This hub is a good home for standalone build directions. Google Site can stay as the lightweight presentation layer while GitHub and Kosatiks remain the source of truth and router." },
 
-    logo: "./assets/img/k-me-logo.jpg",
+    logo: "./assets/img/favicon.png",
 
-    media: { type: "video", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Venture Studio як окремий build-маршрут.", en: "Venture Studio as a standalone build route." } },
+    media: { type: "video", src: "./assets/img/favicon.png", caption: { ua: "Venture Studio як окремий build-маршрут.", en: "Venture Studio as a standalone build route." } },
 
     links: [
 
