@@ -6,7 +6,7 @@
 
     navhire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
 
-    navcanon: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+    navcanon: "\u0421\u0430\u043c\u043e\u0432\u0438\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
 
     kicker: "KOSATIKS GROUP",
 
@@ -33,15 +33,19 @@
 
     fhire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
 
-    fself: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+    fself: "\u0421\u0430\u043c\u043e\u0432\u0438\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
 
-    fproject: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+    fproject: "\u0421\u0430\u043c\u043e\u0432\u0438\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
 
     mOverview: "Огляд",
 
-    mLinks: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+    mLinks: "\u041b\u0456\u043d\u043a\u0438",
 
     mForm: "\u0424\u043e\u0440\u043c\u0430",
+
+    cardHire: "\u0417\u0430\u043f\u0438\u0442",
+
+    cardLinks: "\u041b\u0456\u043d\u043a\u0438",
 
     mClose: "Закрити",
 
@@ -64,11 +68,11 @@
 
       all: "\u0423\u0441\u0456",
 
-      hire: "\u0424\u043e\u0440\u043c\u0430",
+      hire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
 
-      self: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+      self: "\u0421\u0430\u043c\u043e\u0432\u0438\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
 
-      project: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+      project: "\u0421\u0430\u043c\u043e\u0432\u0438\u0440\u0430\u0436\u0435\u043d\u043d\u044f",
 
     },
 
@@ -82,7 +86,11 @@
 
     linksIntro:
 
-      "Тут зібрані прямі переходи: на repo, live-site, форми або research-матеріали. Якщо щось ще в розробці, це теж видно одразу.",
+      "Тут зібрані мої власні лінки: GitHub-репозиторії, сайти, нотатки, архіви й робочі напрацювання. Це шар для знайомства з тим, що я вже зібрала й куди можна піти далі.",
+
+    linksIntroHire:
+
+      "Тут зібрані додаткові лінки для клієнтського хаба: кейси, приклади виконаних рішень, портфольні маршрути або супровідні матеріали. Форма лишається основним входом для нового запиту.",
 
     formIntro:
 
@@ -112,7 +120,7 @@
 
     navhire: "For hire",
 
-    navcanon: "Routes",
+    navcanon: "Self",
 
     kicker: "KOSATIKS GROUP",
 
@@ -139,15 +147,19 @@
 
     fhire: "For hire",
 
-    fself: "Routes",
+    fself: "Self",
 
-    fproject: "Routes",
+    fproject: "Self",
 
     mOverview: "Overview",
 
-    mLinks: "Routes",
+    mLinks: "Links",
 
     mForm: "Form",
+
+    cardHire: "Intake",
+
+    cardLinks: "Links",
 
     mClose: "Close",
 
@@ -171,11 +183,11 @@
 
       all: "All",
 
-      hire: "Form",
+      hire: "For hire",
 
-      self: "Routes",
+      self: "Self",
 
-      project: "Routes",
+      project: "Self",
 
     },
 
@@ -189,7 +201,11 @@
 
     linksIntro:
 
-      "These are direct routes: repo, live site, forms, or research material. If something is still being prepared, that is shown explicitly.",
+      "These links point to my own spaces: GitHub repos, sites, notes, archives, and work in progress. Use this layer to explore what already exists across my self-directed projects.",
+
+    linksIntroHire:
+
+      "These links support a client-facing hub: successful case examples, portfolio proof, build references, or extra context. The embedded form stays the main intake for a new request.",
 
     formIntro:
 
@@ -1290,11 +1306,11 @@ function getRouteLinks(entry) {
 
 function getCardIntentLabel(hub, lang) {
 
-  if (state.mode === "hire" && getFormLinks(hub).length) return getDict("mForm", lang);
+  if (state.mode === "hire" && getFormLinks(hub).length) return getDict("cardHire", lang);
 
-  if (state.mode === "project") return getDict("mLinks", lang);
+  if (state.mode === "project") return getDict("cardLinks", lang);
 
-  return getFormLinks(hub).length ? getDict("mForm", lang) : getDict("mLinks", lang);
+  return getFormLinks(hub).length ? getDict("cardHire", lang) : getDict("cardLinks", lang);
 
 }
 
@@ -1318,6 +1334,12 @@ function getLinkIcon(kind) {
 
     self: "SELF",
 
+    project: "CASE",
+
+    profile: "ME",
+
+    intake: "FORM",
+
     google: "G",
 
   };
@@ -1325,6 +1347,40 @@ function getLinkIcon(kind) {
   return icons[kind] || "LINK";
 
 }
+function getLinkKindLabel(kind, lang) {
+
+  const labels = {
+
+    repo: { ua: "GitHub", en: "GitHub" },
+
+    site: { ua: "Сайт", en: "Site" },
+
+    live: { ua: "Наживо", en: "Live" },
+
+    notion: { ua: "Notion", en: "Notion" },
+
+    org: { ua: "Організація", en: "Org" },
+
+    form: { ua: "Форма", en: "Form" },
+
+    self: { ua: "Self", en: "Self" },
+
+    project: { ua: "Кейс", en: "Case" },
+
+    profile: { ua: "Профіль", en: "Profile" },
+
+    intake: { ua: "Intake", en: "Intake" },
+
+    google: { ua: "Google Site", en: "Google Site" },
+
+    draft: { ua: "Чернетка", en: "Draft" },
+
+  };
+
+  return getText(labels[kind], lang) || kind || getDict("draftLabel", lang);
+
+}
+
 
 
 
@@ -1340,7 +1396,7 @@ function renderForm(entry, lang) {
 
   const primary = forms[0];
 
-  const extras = forms.slice(1).map((link) => `<a class="linkCard" href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer"><span class="linkKind"><span class="linkIcon">${escapeHtml(getLinkIcon(link.kind))}</span>${escapeHtml(link.kind || "form")}</span><strong>${escapeHtml(getText(link.label, lang))}</strong><p>${escapeHtml(getText(link.note, lang))}</p><span class="linkFooter">${escapeHtml(getDict("openExternal", lang))}</span></a>`).join("");
+  const extras = forms.slice(1).map((link) => `<a class="linkCard" href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer"><span class="linkKind"><span class="linkIcon">${escapeHtml(getLinkIcon(link.kind))}</span>${escapeHtml(getLinkKindLabel(link.kind, lang))}</span><strong>${escapeHtml(getText(link.label, lang))}</strong><p>${escapeHtml(getText(link.note, lang))}</p><span class="linkFooter">${escapeHtml(getDict("openExternal", lang))}</span></a>`).join("");
 
   return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict("formIntro", lang))}</p><div class="formFrame">${mountIframeHtml(primary.url, getText(primary.label, lang))}</div>${extras ? `<div class="linkCards formExtras">${extras}</div>` : ""}</div>`;
 
@@ -1364,11 +1420,13 @@ function renderRoutes(entry, lang) {
 
     const attrs = link.disabled ? "" : `href="${escapeHtml(href)}" target="_blank" rel="noreferrer"`;
 
-    return `<${tag} class="${classes.join(" ")}" ${attrs}><span class="linkKind"><span class="linkIcon">${escapeHtml(getLinkIcon(link.kind))}</span>${escapeHtml(link.kind || getDict("draftLabel", lang))}</span><strong>${escapeHtml(getText(link.label, lang))}</strong><p>${escapeHtml(getText(link.note, lang))}</p><span class="linkFooter">${escapeHtml(link.disabled ? getDict("notReady", lang) : getDict("openExternal", lang))}</span></${tag}>`;
+    return `<${tag} class="${classes.join(" ")}" ${attrs}><span class="linkKind"><span class="linkIcon">${escapeHtml(getLinkIcon(link.kind))}</span>${escapeHtml(getLinkKindLabel(link.kind, lang))}</span><strong>${escapeHtml(getText(link.label, lang))}</strong><p>${escapeHtml(getText(link.note, lang))}</p><span class="linkFooter">${escapeHtml(link.disabled ? getDict("notReady", lang) : getDict("openExternal", lang))}</span></${tag}>`;
 
   }).join("");
 
-  return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict("linksIntro", lang))}</p><div class="linkCards">${cards || `<div class="linkCard is-disabled"><strong>${escapeHtml(getDict("notReady", lang))}</strong></div>`}</div></div>`;
+  const introKey = getFormLinks(entry).length ? "linksIntroHire" : "linksIntro";
+
+  return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict(introKey, lang))}</p><div class="linkCards">${cards || `<div class="linkCard is-disabled"><strong>${escapeHtml(getDict("notReady", lang))}</strong></div>`}</div></div>`;
 
 }
 
@@ -1559,6 +1617,8 @@ function bootFromUrl() {
 
 
 bootFromUrl();
+
+
 
 
 
