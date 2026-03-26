@@ -6,7 +6,7 @@
 
     navhire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
 
-    navcanon: "\u041b\u0456\u043d\u043a\u0438",
+    navcanon: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
     kicker: "KOSATIKS GROUP",
 
@@ -29,19 +29,19 @@
 
     rcreator: "Мисткиня",
 
-    fall: "\u0423\u0441\u0456 \u0444\u043e\u0440\u043c\u0430\u0442\u0438",
+    fall: "\u0423\u0441\u0456",
 
-    fhire: "FORM",
+    fhire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
 
-    fself: "\u041b\u0456\u043d\u043a\u0438",
+    fself: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
-    fproject: "\u041b\u0456\u043d\u043a\u0438",
+    fproject: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
     mOverview: "Огляд",
 
-    mLinks: "\u041b\u0456\u043d\u043a\u0438",
+    mLinks: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
-    mForm: "FORM",
+    mForm: "\u0424\u043e\u0440\u043c\u0430",
 
     mClose: "Закрити",
 
@@ -62,13 +62,13 @@
 
     modeSummary: {
 
-      all: "\u0423\u0441\u0456 \u0444\u043e\u0440\u043c\u0430\u0442\u0438",
+      all: "\u0423\u0441\u0456",
 
-      hire: "FORM",
+      hire: "\u0424\u043e\u0440\u043c\u0430",
 
-      self: "\u041b\u0456\u043d\u043a\u0438",
+      self: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
-      project: "\u041b\u0456\u043d\u043a\u0438",
+      project: "\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
 
     },
 
@@ -83,6 +83,10 @@
     linksIntro:
 
       "Тут зібрані прямі переходи: на repo, live-site, форми або research-матеріали. Якщо щось ще в розробці, це теж видно одразу.",
+
+    formIntro:
+
+      "Для клієнтських хабів тут залишається вбудований intake, щоб заявка одразу потрапляла в правильний маршрут.",
 
     draftLabel: "draft",
 
@@ -106,9 +110,9 @@
 
     navchapters: "Roles",
 
-    navhire: "Client work",
+    navhire: "For hire",
 
-    navcanon: "Links",
+    navcanon: "Routes",
 
     kicker: "KOSATIKS GROUP",
 
@@ -133,17 +137,17 @@
 
     fall: "All",
 
-    fhire: "FORM",
+    fhire: "For hire",
 
-    fself: "FORM",
+    fself: "Routes",
 
-    fproject: "Links",
+    fproject: "Routes",
 
     mOverview: "Overview",
 
-    mLinks: "Links",
+    mLinks: "Routes",
 
-    mForm: "FORM",
+    mForm: "Form",
 
     mClose: "Close",
 
@@ -165,13 +169,13 @@
 
     modeSummary: {
 
-      all: "All formats",
+      all: "All",
 
-      hire: "FORM",
+      hire: "Form",
 
-      self: "Links",
+      self: "Routes",
 
-      project: "Links",
+      project: "Routes",
 
     },
 
@@ -189,7 +193,7 @@
 
     formIntro:
 
-      "For client-facing hubs this tab keeps only the correct intake, so requests land in the right route immediately.",
+      "For client-facing hubs this tab keeps the embedded intake, so requests land in the right route immediately.",
 
     draftLabel: "draft",
 
@@ -1038,9 +1042,9 @@ const refs = {
 
   cards: document.getElementById("cards"), socialRow: document.getElementById("socialRow"), modal: document.getElementById("modal"), modalTitle: document.getElementById("modalTitle"),
 
-  overviewSlot: document.getElementById("overviewSlot"), linksSlot: document.getElementById("linksSlot"), paneOverview: document.getElementById("paneOverview"), paneLinks: document.getElementById("paneLinks"),
+  overviewSlot: document.getElementById("overviewSlot"), formSlot: document.getElementById("formSlot"), routesSlot: document.getElementById("routesSlot"), paneOverview: document.getElementById("paneOverview"), paneForm: document.getElementById("paneForm"), paneRoutes: document.getElementById("paneRoutes"),
 
-  tabOverview: document.getElementById("tabOverview"), tabLinks: document.getElementById("tabLinks"), btnModalClose: document.getElementById("btnModalClose"),
+  tabOverview: document.getElementById("tabOverview"), tabForm: document.getElementById("tabForm"), tabRoutes: document.getElementById("tabRoutes"), btnModalClose: document.getElementById("btnModalClose"),
 
 };
 
@@ -1077,6 +1081,10 @@ function renderStaticI18n() {
     if (text) node.innerHTML = text;
 
   });
+
+  const mark = document.querySelector(".mark");
+
+  if (mark) mark.style.backgroundColor = state.lang === "ua" ? "#cccccc" : "#0b0b0c";
 
   refs.btnEN.classList.toggle("active", state.lang === "en");
 
@@ -1146,7 +1154,7 @@ function renderCards() {
 
     <article class="card">
 
-      <div class="cardTop"><span class="cardCode">${escapeHtml(hub.code)}</span><span class="cardRole">${escapeHtml(humanRole(hub.role, state.lang))}</span></div>
+      <div class="cardTop"><span class="cardCode">${escapeHtml(hub.code)}</span><div class="cardMeta"><span class="cardRole">${escapeHtml(humanRole(hub.role, state.lang))}</span><span class="cardIntent">${escapeHtml(getCardIntentLabel(hub, state.lang))}</span></div></div>
 
       <div class="cardTitleRow">
 
@@ -1256,33 +1264,93 @@ function renderOverview(entry, lang) {
 
 
 
-function getEntryLinkMode(entry) {
+function mountIframeHtml(url, title = "Embedded form") {
 
-  const links = entry.links || [];
-
-  return links.some((link) => link.kind === "form") ? "form" : "links";
+  return `<iframe src="${escapeHtml(url)}" title="${escapeHtml(title)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
 
 }
 
 
 
-function getVisibleLinks(entry) {
+function getFormLinks(entry) {
 
-  const links = entry.links || [];
-
-  const linkMode = getEntryLinkMode(entry);
-
-  if (linkMode === "form") return links.filter((link) => link.kind === "form");
-
-  return links.filter((link) => link.kind !== "form");
+  return (entry.links || []).filter((link) => link.kind === "form");
 
 }
 
 
 
-function renderLinks(entry, lang) {
+function getRouteLinks(entry) {
 
-  const visibleLinks = getVisibleLinks(entry);
+  return (entry.links || []).filter((link) => link.kind !== "form");
+
+}
+
+
+
+function getCardIntentLabel(hub, lang) {
+
+  if (state.mode === "hire" && getFormLinks(hub).length) return getDict("mForm", lang);
+
+  if (state.mode === "project") return getDict("mLinks", lang);
+
+  return getFormLinks(hub).length ? getDict("mForm", lang) : getDict("mLinks", lang);
+
+}
+
+
+
+function getLinkIcon(kind) {
+
+  const icons = {
+
+    repo: "</>",
+
+    site: "WEB",
+
+    live: "LIVE",
+
+    notion: "N",
+
+    org: "ORG",
+
+    form: "FORM",
+
+    self: "SELF",
+
+    google: "G",
+
+  };
+
+  return icons[kind] || "LINK";
+
+}
+
+
+
+function renderForm(entry, lang) {
+
+  const forms = getFormLinks(entry);
+
+  if (!forms.length) {
+
+    return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict("notReady", lang))}</p></div>`;
+
+  }
+
+  const primary = forms[0];
+
+  const extras = forms.slice(1).map((link) => `<a class="linkCard" href="${escapeHtml(link.url)}" target="_blank" rel="noreferrer"><span class="linkKind"><span class="linkIcon">${escapeHtml(getLinkIcon(link.kind))}</span>${escapeHtml(link.kind || "form")}</span><strong>${escapeHtml(getText(link.label, lang))}</strong><p>${escapeHtml(getText(link.note, lang))}</p><span class="linkFooter">${escapeHtml(getDict("openExternal", lang))}</span></a>`).join("");
+
+  return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict("formIntro", lang))}</p><div class="formFrame">${mountIframeHtml(primary.url, getText(primary.label, lang))}</div>${extras ? `<div class="linkCards formExtras">${extras}</div>` : ""}</div>`;
+
+}
+
+
+
+function renderRoutes(entry, lang) {
+
+  const visibleLinks = getRouteLinks(entry);
 
   const cards = visibleLinks.map((link) => {
 
@@ -1296,13 +1364,23 @@ function renderLinks(entry, lang) {
 
     const attrs = link.disabled ? "" : `href="${escapeHtml(href)}" target="_blank" rel="noreferrer"`;
 
-    return `<${tag} class="${classes.join(" ")}" ${attrs}><span class="linkKind">${escapeHtml(link.kind || getDict("draftLabel", lang))}</span><strong>${escapeHtml(getText(link.label, lang))}</strong><p>${escapeHtml(getText(link.note, lang))}</p><span class="linkFooter">${escapeHtml(link.disabled ? getDict("notReady", lang) : getDict("openExternal", lang))}</span></${tag}>`;
+    return `<${tag} class="${classes.join(" ")}" ${attrs}><span class="linkKind"><span class="linkIcon">${escapeHtml(getLinkIcon(link.kind))}</span>${escapeHtml(link.kind || getDict("draftLabel", lang))}</span><strong>${escapeHtml(getText(link.label, lang))}</strong><p>${escapeHtml(getText(link.note, lang))}</p><span class="linkFooter">${escapeHtml(link.disabled ? getDict("notReady", lang) : getDict("openExternal", lang))}</span></${tag}>`;
 
   }).join("");
 
-  const introKey = getEntryLinkMode(entry) === "form" ? "formIntro" : "linksIntro";
+  return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict("linksIntro", lang))}</p><div class="linkCards">${cards || `<div class="linkCard is-disabled"><strong>${escapeHtml(getDict("notReady", lang))}</strong></div>`}</div></div>`;
 
-  return `<div class="linksGrid"><p class="linkIntro">${escapeHtml(getDict(introKey, lang))}</p><div class="linkCards">${cards || `<div class="linkCard is-disabled"><strong>${escapeHtml(getDict("notReady", lang))}</strong></div>`}</div></div>`;
+}
+
+
+
+function getPreferredTab(entry) {
+
+  if (state.mode === "hire" && getFormLinks(entry).length) return "form";
+
+  if (state.mode === "project" && getRouteLinks(entry).length) return "routes";
+
+  return "overview";
 
 }
 
@@ -1316,31 +1394,53 @@ function renderModal() {
 
   const lang = state.modalLang;
 
+  const hasForm = getFormLinks(entry).length > 0;
+
+  const hasRoutes = getRouteLinks(entry).length > 0;
+
+  if (state.activeTab === "form" && !hasForm) state.activeTab = hasRoutes ? "routes" : "overview";
+
+  if (state.activeTab === "routes" && !hasRoutes) state.activeTab = hasForm ? "form" : "overview";
+
   refs.modalTitle.textContent = getText(entry.title, lang);
 
   refs.overviewSlot.innerHTML = renderOverview(entry, lang);
 
-  refs.linksSlot.innerHTML = renderLinks(entry, lang);
+  refs.formSlot.innerHTML = renderForm(entry, lang);
 
-  refs.tabLinks.textContent = getEntryLinkMode(entry) === "form" ? getDict("mForm", lang) : getDict("mLinks", lang);
+  refs.routesSlot.innerHTML = renderRoutes(entry, lang);
+
+  refs.tabForm.textContent = getDict("mForm", lang);
+
+  refs.tabRoutes.textContent = getDict("mLinks", lang);
+
+  refs.tabForm.style.display = hasForm ? "inline-flex" : "none";
+
+  refs.tabRoutes.style.display = hasRoutes ? "inline-flex" : "none";
 
   refs.tabOverview.classList.toggle("active", state.activeTab === "overview");
 
-  refs.tabLinks.classList.toggle("active", state.activeTab === "links");
+  refs.tabForm.classList.toggle("active", state.activeTab === "form");
+
+  refs.tabRoutes.classList.toggle("active", state.activeTab === "routes");
 
   refs.paneOverview.classList.toggle("is-active", state.activeTab === "overview");
 
-  refs.paneLinks.classList.toggle("is-active", state.activeTab === "links");
+  refs.paneForm.classList.toggle("is-active", state.activeTab === "form");
+
+  refs.paneRoutes.classList.toggle("is-active", state.activeTab === "routes");
 
   refs.paneOverview.style.display = state.activeTab === "overview" ? "block" : "none";
 
-  refs.paneLinks.style.display = state.activeTab === "links" ? "block" : "none";
+  refs.paneForm.style.display = state.activeTab === "form" ? "block" : "none";
+
+  refs.paneRoutes.style.display = state.activeTab === "routes" ? "block" : "none";
 
 }
 
 
 
-function openHub(id) { state.activeHubId = id; state.activeSpecialId = null; state.modalLang = state.lang; state.activeTab = "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
+function openHub(id) { state.activeHubId = id; state.activeSpecialId = null; state.modalLang = state.lang; const entry = getActiveEntry(); state.activeTab = entry ? getPreferredTab(entry) : "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
 
 function openSpecial(id) { state.activeHubId = null; state.activeSpecialId = id; state.modalLang = state.lang; state.activeTab = "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
 
@@ -1459,4 +1559,9 @@ function bootFromUrl() {
 
 
 bootFromUrl();
+
+
+
+
+
 

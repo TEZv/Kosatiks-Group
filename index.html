@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html lang="uk">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,8 +9,8 @@
       content="Kosatiks Group is the umbrella portal for hubs, client work, self systems, research projects, and public artifacts by Oksana Kolisnyk."
     />
     <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
-    <link rel="stylesheet" href="assets/css/styles.css?v=20260325u2" />
-    <script defer src="assets/js/main.js?v=20260325u2"></script>
+    <link rel="stylesheet" href="assets/css/styles.css?v=20260326u2" />
+    <script defer src="assets/js/main.js?v=20260326u2"></script>
   </head>
   <body>
     <div class="grain"></div>
@@ -23,25 +23,25 @@
         </div>
 
         <div class="links">
-          <a href="#chapters" data-i18n="navchapters">Ролі</a>
-          <a href="#chapters" data-i18n="navhire">Клієнтське</a>
-          <a href="#contact" data-i18n="navcanon">Лінки</a>
+          <a href="#chapters" data-i18n="navchapters">Roles</a>
+          <a href="#chapters" data-i18n="navhire">Client work</a>
+          <a href="#contact" data-i18n="navcanon">Links</a>
 
           <div class="lang">
-            <button id="btnEN" type="button">EN</button>
-            <button id="btnUA" class="active" type="button">UA</button>
+            <button id="btnEN" class="active" type="button">EN</button>
+            <button id="btnUA" type="button">UA</button>
           </div>
 
           <div class="avatar-container">
             <div class="nav-hint hint-left">
-              <span data-i18n="hintEco">Екосистема</span>
+              <span data-i18n="hintEco">Ecosystem</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 5v13M5 12l7 7 7-7" />
               </svg>
             </div>
 
             <div class="nav-hint hint-right">
-              <span data-i18n="hintMe">Я</span>
+              <span data-i18n="hintMe">Me</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 5v13M5 12l7 7 7-7" />
               </svg>
@@ -63,36 +63,36 @@
     <main class="wrap" id="chapters">
       <div class="section-header">
         <div class="kicker" data-i18n="kicker">KOSATIKS GROUP</div>
-        <div class="title" data-i18n="title">Три ролі. Один umbrella-простір.</div>
+        <div class="title" data-i18n="title">Three roles. One hub system.</div>
         <div class="subtitle" data-i18n-html="subtitle">
-          Це портал моїх хабів: тут є клієнтські напрями, власні системи, активні проєкти й дослідницькі артефакти.
+          This is the umbrella portal for my hubs: client-facing directions, self systems, active projects, and research artifacts.
         </div>
       </div>
 
       <div class="facetTabs" id="facetTabs">
         <button class="facetTab active" type="button" data-facet="strategist" data-i18n="rstrategist">
-          Стратегиня
+          Strategist
         </button>
         <button class="facetTab" type="button" data-facet="producer" data-i18n="rproducer">
-          Продюсерка
+          Producer
         </button>
         <button class="facetTab" type="button" data-facet="creator" data-i18n="rcreator">
-          Мисткиня
+          Creator
         </button>
       </div>
 
       <div class="pills" id="modePills">
-        <button class="pill active" type="button" data-mode="all" data-i18n="fall">Усе</button>
+        <button class="pill active" type="button" data-mode="all" data-i18n="fall">All</button>
         <button class="pill" type="button" data-mode="hire" data-i18n="fhire">For hire</button>
         <button class="pill" type="button" data-mode="project" data-i18n="fproject">Routes</button>
       </div>
 
       <section class="panel" aria-label="Hub panel">
         <div class="panelHero">
-          <div class="panelTitle" id="panelTitle">Стратегиня</div>
+          <div class="panelTitle" id="panelTitle">Strategist</div>
           <div class="panelDesc" id="panelDesc"></div>
           <div class="panelGuide" data-i18n-html="guide">
-            Відкрий картку, щоб побачити, що саме входить у хаб, як він працює і куди вести клієнта або себе далі.
+            Open a card to see what belongs inside the hub, how it works, and where to route either a client or yourself next.
           </div>
         </div>
 
@@ -101,17 +101,17 @@
 
       <section class="socialZone" id="contact">
         <div class="socialHead">
-          <div class="socialKicker" data-i18n="socialKicker">Соцмережі + маршрути</div>
-          <h2 data-i18n="socialTitle">Зовнішні переходи й публічна присутність.</h2>
-          <p data-i18n-html="socialSubtitle">Цей нижній шар працює як точка входу до link-агрегаторів, публічних профілів і зовнішніх маршрутів. Я активно будую тематичний контент для стратегині, продюсерки та мисткині, тож цей блок ростиме разом із цими просторами.
-            Тут можна тримати агрегатори посилань, профілі й зовнішні маршрути. Поки частина з них у draft-стані, але shell уже готовий.
+          <div class="socialKicker" data-i18n="socialKicker">Social routing</div>
+          <h2 data-i18n="socialTitle">External routing and public presence.</h2>
+          <p data-i18n-html="socialSubtitle">
+            Use this footer layer for link aggregators, public profiles, GitHub routes, and external sites.
           </p>
         </div>
         <div class="socialRow" id="socialRow"></div>
       </section>
 
       <div class="footer-note" data-i18n-html="foot">
-        Кожен хаб має власний контекст: десь це intake-форма, десь repo, десь live-site, а десь дослідницький маршрут.
+        No generic contact form. Each offer has its own intake so requests land correctly.
       </div>
     </main>
 
@@ -123,20 +123,23 @@
           <div class="modalActions">
             <div class="tabs">
               <button class="tab active" id="tabOverview" type="button" data-tab="overview" data-i18n="mOverview">
-                Огляд
+                Overview
               </button>
-              <button class="tab" id="tabLinks" type="button" data-tab="links" data-i18n="mLinks">
-                Переходи
+              <button class="tab" id="tabForm" type="button" data-tab="form" data-i18n="mForm">
+                FORM
+              </button>
+              <button class="tab" id="tabRoutes" type="button" data-tab="routes" data-i18n="mLinks">
+                Routes
               </button>
             </div>
 
             <div class="lang modalLang">
-              <button id="btnModalEN" type="button">EN</button>
-              <button id="btnModalUA" class="active" type="button">UA</button>
+              <button id="btnModalEN" class="active" type="button">EN</button>
+              <button id="btnModalUA" type="button">UA</button>
             </div>
 
             <button class="btn primary" id="btnModalClose" type="button" data-i18n="mClose">
-              Закрити
+              Close
             </button>
           </div>
         </div>
@@ -145,11 +148,15 @@
           <div class="pane is-active" id="paneOverview">
             <div class="embedWrap" id="overviewSlot"></div>
           </div>
-          <div class="pane" id="paneLinks">
-            <div class="embedWrap" id="linksSlot"></div>
+          <div class="pane" id="paneForm">
+            <div class="embedWrap" id="formSlot"></div>
+          </div>
+          <div class="pane" id="paneRoutes">
+            <div class="embedWrap" id="routesSlot"></div>
           </div>
         </div>
       </div>
     </div>
   </body>
 </html>
+
