@@ -910,9 +910,9 @@ const HUBS = [
 
     format: { ua: "Тут доречні форма, відбір, beta-доступ і поступове нарощування. Якщо буде потрібно, далі можна додати private layer, але не зобов’язано вже зараз.", en: "This hub works well with a form, selection, beta access, and gradual scaling. A private layer can be added later if needed, but it should not be forced now." },
 
-    logo: "./assets/img/k-me-logo.jpg",
+    logo: "./assets/img/hubs/mentorship.png",
 
-    media: { type: "image", src: "./assets/img/k-me-logo.jpg", caption: { ua: "Mentorship краще запускати як beta-оболонку, а не як перевантажену платформу.", en: "Mentorship is better launched as a beta shell than as an overloaded platform." } },
+    media: { type: "image", src: "./assets/img/hubs/mentorship.png", caption: { ua: "Mentorship краще запускати як beta-оболонку, а не як перевантажену платформу.", en: "Mentorship is better launched as a beta shell than as an overloaded platform." } },
 
     links: [
 
