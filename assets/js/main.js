@@ -201,7 +201,7 @@
 
     linksIntro:
 
-      "These links point to my own spaces: GitHub repos, sites, notes, archives, and work in progress. Use this layer to explore what already exists across my self-directed projects.",
+      "These links point to my own spaces or social: GitHub repos, sites, notes, archives, and work in progress. Use this layer to explore what already exists across my self-directed projects.",
 
     linksIntroHire:
 
