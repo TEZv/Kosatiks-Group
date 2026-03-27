@@ -159,7 +159,7 @@
 
     cardHire: "For hire",
 
-    cardLinks: "Links",
+    cardLinks: "Self",
 
     mClose: "Close",
 
