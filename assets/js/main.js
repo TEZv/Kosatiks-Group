@@ -778,7 +778,7 @@ const HUBS = [
 
     modes: ["project", "hire"],
 
-    title: { ua: "K-RnD Lab", en: "K-RnD Lab" },
+    title: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" },
 
     summary: { ua: "Дослідницький хаб для гіпотез, аналітики, експериментів і публічних кейсів. Сюди ж лягає Master Trainer.", en: "A research hub for hypotheses, analytics, experiments, and public cases. This is also where Master Trainer fits." },
 
