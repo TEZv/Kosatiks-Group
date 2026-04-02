@@ -430,7 +430,7 @@ const specialEntries = {
 
       { label: { ua: "Kosatiks Group repo", en: "Kosatiks Group repo" }, note: { ua: "вихідний код сайту", en: "site source code" }, url: urls.kosatiksRepo, kind: "repo" },
 
-      { label: { ua: "K-RnD Lab", en: "K-RnD Lab" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
+      { label: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
 
       { label: { ua: "Master trainer repo", en: "Master trainer repo" }, note: { ua: "research-проєкт у межах K-RnD", en: "research project inside K-RnD" }, url: urls.masterRepo, kind: "project" },
 
@@ -744,7 +744,7 @@ const HUBS = [
 
     modes: ["hire", "project"],
 
-    title: { ua: "K Venture Studio Hub", en: "K Venture Studio Hub" },
+    title: { ua: "[K Venture Studio Hub]", en: "[K Venture Studio Hub]" },
 
     summary: { ua: "MVP, venture build, упаковка ідей у робочі продукти й окремі venture-маршрути.", en: "MVPs, venture builds, and turning ideas into working products and venture routes." },
 
@@ -916,7 +916,7 @@ const HUBS = [
 
     modes: ["self", "hire", "project"],
 
-    title: { ua: "K Mentorship Hub", en: "K Mentorship Hub" },
+    title: { ua: "[K Mentorship Hub]", en: "[K Mentorship Hub]" },
 
     summary: { ua: "Легший mentorship-shell: відбір, ресурсні маршрути, application-first beta, без перенавантаженої community-операційки.", en: "A lighter mentorship shell: selection, resource routes, and an application-first beta instead of overloaded community ops." },
 
