@@ -1,0 +1,454 @@
+.modalCard {
+  position: relative;
+  overflow: hidden;
+  width: min(1260px, calc(100vw - 34px));
+  height: min(840px, calc(100vh - 34px));
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.08), transparent 26%),
+    radial-gradient(circle at 85% 22%, rgba(255, 167, 81, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(25, 25, 31, 0.97), rgba(10, 10, 14, 0.98));
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 42px 140px rgba(0, 0, 0, 0.58);
+}
+
+.modalCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.05)),
+    radial-gradient(circle at 52% 36%, rgba(255, 255, 255, 0.04), transparent 42%);
+}
+
+.modalTop {
+  position: relative;
+  align-items: flex-start;
+  gap: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    rgba(19, 19, 24, 0.97);
+}
+
+.modalTitle,
+.overviewHeading h3,
+.overviewHeading p,
+.infoBlock h4,
+.infoBlock p,
+.projectItem strong,
+.projectItem p,
+.faqCard strong,
+.faqCard p,
+.routeCopy strong,
+.routeCopy p,
+.signalList li,
+.linkCard strong,
+.linkCard p,
+.linkIntro {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.modalActions {
+  gap: 14px;
+  row-gap: 10px;
+}
+
+.tabs .tab,
+.modalLang button,
+.modalTop .btn.primary {
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.tabs .tab.active,
+.modalLang button.active {
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f1114;
+}
+
+.modalTop .btn.primary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.modalTop .btn.primary:hover,
+.tabs .tab:hover,
+.modalLang button:hover {
+  transform: translateY(-1px);
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(295px, 0.84fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.overviewText,
+.overviewHeading,
+.routeCopy {
+  min-width: 0;
+}
+
+.overviewText {
+  display: grid;
+  gap: 14px;
+}
+
+.overviewHeading {
+  display: grid;
+  gap: 8px;
+}
+
+.overviewHeading h3 {
+  font-size: clamp(1.7rem, 2vw, 2.3rem);
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.overviewHeading p {
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.overviewVibe {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 2px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.overviewVibe::before {
+  content: "\2726";
+  color: rgba(255, 184, 107, 0.94);
+  font-size: 1.12rem;
+  line-height: 1;
+}
+
+.overviewMediaStack {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-content: stretch;
+  height: 392px;
+  max-height: 392px;
+}
+
+.overviewMediaItem,
+.overviewMedia {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  min-height: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+    rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.overviewMediaItem img,
+.overviewMedia img,
+.overviewMediaItem video,
+.overviewMedia video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mediaOverlay {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 12px 14px;
+  background: linear-gradient(180deg, transparent, rgba(8, 8, 12, 0.9));
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+.infoBlock {
+  display: grid;
+  gap: 10px;
+  padding: 16px 16px 14px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025)),
+    rgba(14, 16, 24, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.infoBlock h4 {
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.infoBlock p,
+.infoBlock li {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.infoBlock ul {
+  display: grid;
+  gap: 10px;
+  padding-left: 18px;
+}
+
+.overviewContrastGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.signalPanel {
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(14, 16, 22, 0.88);
+}
+
+.signalPanel--pain {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 97, 111, 0.16), transparent 46%),
+    linear-gradient(180deg, rgba(55, 18, 22, 0.84), rgba(27, 14, 20, 0.93));
+  border-color: rgba(255, 97, 111, 0.22);
+}
+
+.signalPanel--fix {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(67, 214, 125, 0.16), transparent 42%),
+    linear-gradient(180deg, rgba(11, 39, 26, 0.84), rgba(11, 24, 19, 0.94));
+  border-color: rgba(67, 214, 125, 0.22);
+}
+
+.signalKicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.signalPanel--pain .signalKicker {
+  color: #ff7681;
+}
+
+.signalPanel--fix .signalKicker {
+  color: #5dd980;
+}
+
+.signalList {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+}
+
+.signalList li {
+  display: flex;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.84);
+  line-height: 1.6;
+}
+
+.signalList li::before {
+  flex: none;
+  font-weight: 900;
+}
+
+.signalPanel--pain .signalList li::before {
+  content: "\2715";
+  color: #ff7681;
+}
+
+.signalPanel--fix .signalList li::before {
+  content: "\2192";
+  color: #5dd980;
+}
+
+.routeStrip {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+    rgba(15, 16, 21, 0.92);
+}
+
+.routeLabel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #101114;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.routeCopy strong {
+  display: block;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+
+.routeCopy p {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.62;
+}
+
+.routeAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.routeAction:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.faqSection {
+  display: grid;
+  gap: 14px;
+}
+
+.faqHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.faqHeader h4 {
+  color: rgba(255, 255, 255, 0.94);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  line-height: 1.12;
+}
+
+.faqCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.faqCard {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+    rgba(16, 17, 23, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.faqCard strong {
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+
+.faqCard p {
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+.faqCard--fit {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 184, 107, 0.12), transparent 42%),
+    linear-gradient(180deg, rgba(24, 23, 18, 0.88), rgba(15, 15, 18, 0.94));
+  border-color: rgba(255, 184, 107, 0.18);
+}
+
+.faqLabel {
+  color: rgba(255, 184, 107, 0.94);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 920px) {
+  .modalCard {
+    width: min(100vw - 22px, 1160px);
+    height: min(100vh - 22px, 820px);
+  }
+
+  .overviewGrid,
+  .overviewContrastGrid,
+  .faqCards,
+  .routeStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .overviewMediaStack {
+    height: 340px;
+    max-height: 340px;
+  }
+
+  .routeAction {
+    width: 100%;
+  }
+}
+
+@media (max-width: 680px) {
+  .modalCard {
+    width: min(100vw - 12px, 100vw);
+    height: min(100vh - 12px, 100vh);
+  }
+
+  .modalTop {
+    gap: 12px;
+  }
+
+  .modalActions {
+    width: 100%;
+  }
+
+  .overviewMediaStack {
+    height: 300px;
+    max-height: 300px;
+  }
+
+  .overviewHeading h3 {
+    font-size: clamp(1.48rem, 7vw, 1.9rem);
+  }
+
+  .routeCopy strong {
+    font-size: 0.96rem;
+  }
+}
