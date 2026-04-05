@@ -248,7 +248,7 @@
 
 .overviewMediaStack {
   display: grid;
-  grid-template-rows: repeat(2, minmax(188px, 1fr));
+  grid-template-rows: repeat(2, minmax(156px, 1fr));
   gap: 14px;
   align-content: start;
   height: auto;
@@ -256,7 +256,7 @@
 }
 
 .overviewSide--legacy .overviewMediaStack {
-  grid-template-rows: repeat(2, minmax(220px, 1fr));
+  grid-template-rows: repeat(2, minmax(172px, 1fr));
   height: 100%;
 }
 
@@ -265,7 +265,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  min-height: 188px;
+  min-height: 156px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
     rgba(255, 255, 255, 0.03);
@@ -588,7 +588,7 @@
   }
 
   .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(164px, 1fr));
+    grid-template-rows: repeat(2, minmax(142px, 1fr));
   }
 
   .routeAction {
@@ -611,7 +611,7 @@
   }
 
   .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(150px, 1fr));
+    grid-template-rows: repeat(2, minmax(132px, 1fr));
   }
 
   .overviewHeading h3 {

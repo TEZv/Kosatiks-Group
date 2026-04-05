@@ -1678,6 +1678,648 @@ function applyContentOverrides() {
     };
     mentorship.disableOverviewRoute = true;
   }
+
+  const gifStacksByHub = {
+    "identity-brand": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/jWexOOlYe241y/giphy.gif",
+        caption: {
+          ua: "Спершу шум. Потім ясна рамка.",
+          en: "First the confusion. Then the frame becomes clear.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/lInxVz19e4YggejNuy/giphy.gif",
+        caption: {
+          ua: "Позиціонування має збирати сенс, а не маскувати хаос.",
+          en: "Positioning should gather meaning, not hide chaos.",
+        },
+      },
+    ],
+    "community-partnerships": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/l0IylOPCNkiqOgMyA/giphy.gif",
+        caption: {
+          ua: "Хаотичний нетворк не дорівнює системі контактів.",
+          en: "Chaotic networking is not the same as a relationship system.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExODM1ZjVxZ2c4ejdvNWhuOTdkdjBzeTlibjM2cGJocXp5d2dmeGYxOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qsXsB3WsS5yA8/giphy.gif",
+        caption: {
+          ua: "Партнерство має бути чистою угодою, а не шумом.",
+          en: "A partnership should feel like a clean deal, not noise.",
+        },
+      },
+    ],
+    "investments": [
+      {
+        type: "image",
+        src: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXpzZm10ZnNraTNicGdzNHllNGZnNXZ2cWJhcHRjdG5ya3UyenFqcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wWqEtUmXr0m3u/giphy.gif",
+        caption: {
+          ua: "Рух без тези швидко стає шумом.",
+          en: "Motion without a thesis turns into noise fast.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2o5M3ZudTBrNmdsb3gzbmt0OXo1bXY1MnZtMmhhYm5xaWgxMjF6eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SbWAWZf4QRgyI/giphy.gif",
+        caption: {
+          ua: "Рішення мають проходити через спокійний фільтр.",
+          en: "Decisions should pass through a calm filter.",
+        },
+      },
+    ],
+    "life-os": [
+      {
+        type: "image",
+        src: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2djcXgzZzFkdmowNW8wd2wyaXpuODY4aHdmamtkemRzYjdtd2htaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h1QuBBXMeIj7fTyRSj/giphy.gif",
+        caption: {
+          ua: "Без Life OS життя розпадається на вкладки.",
+          en: "Without a Life OS, life breaks into too many tabs.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3IyN2xlMHk5Y2Fnc2U4amZ5anRsNWx4cWwza3RwcmE4NWNlNWI1biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tqfS3mgQU28ko/giphy.gif",
+        caption: {
+          ua: "Система має заспокоювати, а не тиснути.",
+          en: "A system should calm you down, not add pressure.",
+        },
+      },
+    ],
+    "automation-ai-ops": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/urvsFBDfR6N32/giphy.gif",
+        caption: {
+          ua: "Ручний хаос не масштабується.",
+          en: "Manual chaos does not scale.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGlyNnEzM2czZjAzb3BzcjdwaGNiMnh2Y25qMnpubWpuOTBpZmo2OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sf5T0iac3uALqpzxJ9/giphy.gif",
+        caption: {
+          ua: "Автоматизація має давати керований потік.",
+          en: "Automation should create a controllable flow.",
+        },
+      },
+    ],
+    "client-projects": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3MxMjNjZ2d4MDl2c2tsdXdvZjZ2NjZ4YzJvbGxwaGF3MTZveXphbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/iDxpH2bZalq5eRnOfq/giphy.gif",
+        caption: {
+          ua: "Коли все в голові, delivery виглядає як пожежа.",
+          en: "When everything stays in your head, delivery looks like firefighting.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmR1aHl5Zzc4dG40cnBsNmRrcjh6aXV5YW02MDlzd244NTAwMnNjdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Nin5M8EVAUd5EFOxnZ/giphy.gif",
+        caption: {
+          ua: "Клієнтський проєкт має читатися як система.",
+          en: "A client project should read like a system.",
+        },
+      },
+    ],
+    "ops-systems": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/NTur7XlVDUdqM/giphy.gif",
+        caption: {
+          ua: "Без процесів усе дуже швидко горить.",
+          en: "Without systems, things burn quickly.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/d2Z4rTi11c9LRita/giphy.gif",
+        caption: {
+          ua: "SOP і ритуали мають охолоджувати хаос.",
+          en: "SOPs and rituals should cool down the chaos.",
+        },
+      },
+    ],
+    "leadership-team": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWY3YWVwMjJ3N3VlODd2ZGFqajltbm9mZnViYnM1YnZqYnJhbDFjbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FBYTrYyjsyq7m/giphy.gif",
+        caption: {
+          ua: "Команда без правил швидко тоне в friction.",
+          en: "A team without rules sinks into friction fast.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWY3YWVwMjJ3N3VlODd2ZGFqajltbm9mZnViYnM1YnZqYnJhbDFjbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FbTpEK2QndAGY/giphy.gif",
+        caption: {
+          ua: "Структура має давати команді здоровий рух.",
+          en: "Structure should give the team a healthier rhythm.",
+        },
+      },
+    ],
+    "experiments": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/fqIBaMWI7m7O8/giphy.gif",
+        caption: {
+          ua: "Не кожна ідея заслуговує на повний продукт.",
+          en: "Not every idea deserves a full product.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/TncmRRvEGVoVcHgaAb/giphy.gif",
+        caption: {
+          ua: "Експеримент має дати чесний сигнал.",
+          en: "An experiment should produce an honest signal.",
+        },
+      },
+    ],
+    "publishing": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif",
+        caption: {
+          ua: "Текст не має вмирати в чорновиках.",
+          en: "Writing should not die inside drafts.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzNjZDBzbm1zMjVscDdhamllNW55aWRvM3BibWFrNzNtaTJxemJscCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/BwStBxZnY7wkr8xltb/giphy.gif",
+        caption: {
+          ua: "Publishing має ставати системою, а не випадковістю.",
+          en: "Publishing should become a system, not an accident.",
+        },
+      },
+    ],
+    "quest": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWdzcXBoMnkxaDYzM3kxc3ZlbGhscjdteTIwenY2cDkxbmZvM2ZmOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/13p77tfexyLtx6/giphy.gif",
+        caption: {
+          ua: "Шлях має бути пригодою, а не сухим чеклістом.",
+          en: "A path should feel like a quest, not a dry checklist.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRoODRjZXM3NzM4dWo4a28yZTZneDBqMXBsdnY4Z25weTA1anIweiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zWRJMe6sxeNc6VwGqV/giphy.gif",
+        caption: {
+          ua: "Система має вести до відчутного loot.",
+          en: "The system should lead to real loot, not just motion.",
+        },
+      },
+    ],
+    "creative-practice": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/lvOHmxddMelSPIFBES/giphy.gif",
+        caption: {
+          ua: "Творча практика починається як внутрішній простір.",
+          en: "Creative practice begins as an internal space.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/pDzLuCGrQsLqkXiBhN/giphy.gif",
+        caption: {
+          ua: "Вона має живити інші шари, а не лише продаватися.",
+          en: "It should nourish other layers, not only become sellable.",
+        },
+      },
+    ],
+  };
+
+  const sphereDefaults = {
+    "identity-brand": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Identity & Brand тут працює як E + T: Entrepreneurship тримає позиціонування, офер і вихід назовні, Technology тримає digital shell і систему подачі.",
+        en: "Identity & Brand works here as E + T: Entrepreneurship shapes the positioning, offer, and outward direction, while Technology shapes the digital shell and presentation system.",
+      },
+    },
+    "community-partnerships": {
+      sphereLabel: { ua: "SPHERE: E", en: "SPHERE: E" },
+      setLead: {
+        ua: "Community & Partnerships тут є entrepreneurship-layer: карта партнерств, selective outreach і форматування зв'язків навколо реальної цінності.",
+        en: "Community & Partnerships acts here as an entrepreneurship layer: partner mapping, selective outreach, and relationship design around real value.",
+      },
+    },
+    "investments": {
+      sphereLabel: { ua: "SPHERE: E", en: "SPHERE: E" },
+      setLead: {
+        ua: "Investments тут належить до Entrepreneurship: thesis, filters, capital logic і рішення про те, що заслуговує на увагу й ресурс.",
+        en: "Investments belongs here to Entrepreneurship: thesis, filters, capital logic, and decisions about what deserves attention and resources.",
+      },
+    },
+    "life-os": {
+      sphereLabel: { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" },
+      setLead: {
+        ua: "K Life OS - це інтеграційний шар, де SET сходиться в особистій системі: Science дає спостереження й рефлексію, Entrepreneurship - ресурсну логіку, Technology - digital shell.",
+        en: "K Life OS is an integrative layer where SET meets inside a personal system: Science provides observation and reflection, Entrepreneurship the resource logic, and Technology the digital shell.",
+      },
+    },
+    "automation-ai-ops": {
+      sphereLabel: { ua: "SPHERE: T + E", en: "SPHERE: T + E" },
+      setLead: {
+        ua: "Automation / AI Ops тримається на Technology як основі й Entrepreneurship як applied route: системи мають не просто існувати, а працювати в реальному циклі.",
+        en: "Automation / AI Ops is built on Technology as the base and Entrepreneurship as the applied route: systems should not just exist, they should work inside real operating cycles.",
+      },
+    },
+    "client-projects": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Client Projects тут читається як E + T: Entrepreneurship дає delivery logic і клієнтський маршрут, Technology дає status systems, visibility і execution shell.",
+        en: "Client Projects reads here as E + T: Entrepreneurship provides the delivery logic and client route, while Technology provides status systems, visibility, and the execution shell.",
+      },
+    },
+    "ops-systems": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Ops & Systems тут стоїть на E + T: Entrepreneurship тримає operating logic, Technology тримає SOP, documentation та інструментальну архітектуру.",
+        en: "Ops & Systems stands here on E + T: Entrepreneurship holds the operating logic, while Technology holds SOPs, documentation, and the tooling architecture.",
+      },
+    },
+    "leadership-team": {
+      sphereLabel: { ua: "SPHERE: E + S", en: "SPHERE: E + S" },
+      setLead: {
+        ua: "Leadership / Team тут ближче до E + S: Entrepreneurship тримає рішення й відповідальність, Science тримає спостереження, поведінкову логіку й healthy team design.",
+        en: "Leadership / Team sits closer to E + S: Entrepreneurship holds decisions and ownership, while Science supports observation, behavioral logic, and healthy team design.",
+      },
+    },
+    "experiments": {
+      sphereLabel: { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" },
+      setLead: {
+        ua: "Experiments - це SET у швидкому режимі: Science дає гіпотезу, Entrepreneurship дає критерій цінності, Technology дає оболонку для тесту.",
+        en: "Experiments is SET in a fast mode: Science provides the hypothesis, Entrepreneurship the value test, and Technology the shell for running it.",
+      },
+    },
+    "publishing": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Publishing тут ближче до E + T: Entrepreneurship формує line, audience і value, Technology формує систему розміщення, digital routes і publishing infrastructure.",
+        en: "Publishing sits here closer to E + T: Entrepreneurship shapes the line, audience, and value, while Technology shapes the publishing system, digital routes, and infrastructure.",
+      },
+    },
+    "quest": {
+      sphereLabel: { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" },
+      setLead: {
+        ua: "Quest працює як гібрид SET: Science тримає learning logic, Entrepreneurship - progression design, Technology - gamified shell і system flow.",
+        en: "Quest works as a SET hybrid: Science holds the learning logic, Entrepreneurship the progression design, and Technology the gamified shell plus system flow.",
+      },
+    },
+    "creative-practice": {
+      sphereLabel: { ua: "SPHERE: K LIFE OS / CREATIVITY", en: "SPHERE: K LIFE OS / CREATIVITY" },
+      setLead: {
+        ua: "Creative Practice я не прив'язую жорстко до SET. Це радше K Life OS layer: Creativity or Self-Expression плюс Recreation and Hobbies, з якого інші хаби можуть черпати матеріал і сенс.",
+        en: "I do not force Creative Practice directly into SET. It sits closer to a K Life OS layer: Creativity or Self-Expression plus Recreation and Hobbies, which can still feed the other hubs with material and meaning.",
+      },
+    },
+  };
+
+  const signalDefaults = {
+    "identity-brand": {
+      pressure: {
+        ua: [
+          "позиціонування звучить розмито або як чужий шаблон",
+          "є робота, але немає ясної brand frame",
+          "message не тримає ні тебе, ні офер",
+        ],
+        en: [
+          "the positioning sounds blurry or borrowed",
+          "there is work, but no clear brand frame",
+          "the message does not hold either you or the offer",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати ясний brand core і voice",
+          "перевести сенс у message system",
+          "дати хабам одну впізнавану лінію",
+        ],
+        en: [
+          "assemble a clear brand core and voice",
+          "turn meaning into a message system",
+          "give the hubs one recognizable line",
+        ],
+      },
+    },
+    "community-partnerships": {
+      pressure: {
+        ua: [
+          "контакти є, але немає карти впливу",
+          "багато руху без ясної ROI-логіки",
+          "партнерства формуються хаотично",
+        ],
+        en: [
+          "there are contacts, but no map of influence",
+          "there is movement without a clean ROI logic",
+          "partnerships form chaotically",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати selective partner map",
+          "обрати 2-3 правильні формати присутності",
+          "дати outreach чисту й керовану архітектуру",
+        ],
+        en: [
+          "build a selective partner map",
+          "choose 2-3 right formats of presence",
+          "give outreach a clean controllable architecture",
+        ],
+      },
+    },
+    "investments": {
+      pressure: {
+        ua: [
+          "рішення йдуть за шумом, а не за thesis",
+          "можливості не проходять один фільтр",
+          "важко відрізнити сигнал від FOMO",
+        ],
+        en: [
+          "decisions follow noise instead of a thesis",
+          "opportunities are not passing through one filter",
+          "it is hard to separate signal from FOMO",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати decision filters і red flags",
+          "вирівняти інвестиційне мислення навколо thesis",
+          "бачити можливості через ясну рамку, а не імпульс",
+        ],
+        en: [
+          "assemble decision filters and red flags",
+          "align investment thinking around a thesis",
+          "see opportunities through a clear frame rather than impulse",
+        ],
+      },
+    },
+    "life-os": {
+      pressure: {
+        ua: [
+          "сфери життя розходяться без спільної системи",
+          "нотатки, плани й рефлексія не зшиті",
+          "порядок тримається лише на зусиллі",
+        ],
+        en: [
+          "life spheres drift without one operating system",
+          "notes, plans, and reflection are not stitched together",
+          "order is held only by effort",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати особисту operating system",
+          "дати сферам життя одну опорну логіку",
+          "перетворити хаос на тихий ритм і видимість",
+        ],
+        en: [
+          "assemble a personal operating system",
+          "give life spheres one supporting logic",
+          "turn chaos into a quieter rhythm with visibility",
+        ],
+      },
+    },
+    "automation-ai-ops": {
+      pressure: {
+        ua: [
+          "ручні цикли з'їдають увагу й час",
+          "потоки даних ламаються між людьми й інструментами",
+          "automation є, але вона не зшита в систему",
+        ],
+        en: [
+          "manual cycles consume attention and time",
+          "data flows break between people and tools",
+          "automation exists, but it is not stitched into one system",
+        ],
+      },
+      fix: {
+        ua: [
+          "побачити hate-tasks і перевести їх у flow",
+          "дати процесу logic map і ownership",
+          "зібрати automation як керований operational layer",
+        ],
+        en: [
+          "spot the hate-tasks and turn them into a flow",
+          "give the process a logic map and ownership",
+          "assemble automation as a controllable operational layer",
+        ],
+      },
+    },
+    "client-projects": {
+      pressure: {
+        ua: [
+          "delivery втрачає форму між листуванням і дедлайнами",
+          "статуси живуть у голові, а не в системі",
+          "клієнт бачить хаос замість руху",
+        ],
+        en: [
+          "delivery loses shape between messaging and deadlines",
+          "statuses live in someone's head instead of a system",
+          "the client sees chaos instead of movement",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати проєкту delivery pipeline",
+          "зробити статуси видимими й повторюваними",
+          "перевести execution у керований процес",
+        ],
+        en: [
+          "give the project a delivery pipeline",
+          "make statuses visible and repeatable",
+          "turn execution into a controllable process",
+        ],
+      },
+    },
+    "ops-systems": {
+      pressure: {
+        ua: [
+          "процеси існують лише в голові",
+          "знання губиться при кожному новому циклі",
+          "система не переживає навантаження",
+        ],
+        en: [
+          "processes exist only in someone's head",
+          "knowledge gets lost with every new cycle",
+          "the system does not survive load",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати SOP, docs і rituals",
+          "дати процесу відтворюваність",
+          "зменшити крихкість і залежність від пам'яті",
+        ],
+        en: [
+          "assemble SOPs, docs, and rituals",
+          "give the process repeatability",
+          "reduce fragility and dependence on memory",
+        ],
+      },
+    },
+    "leadership-team": {
+      pressure: {
+        ua: [
+          "ролі пливуть, відповідальність розмивається",
+          "зустрічі не дають рішення",
+          "friction з'їдає командний ресурс",
+        ],
+        en: [
+          "roles drift and responsibility blurs",
+          "meetings do not produce decisions",
+          "friction consumes team energy",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати команді ясні ролі й decision rules",
+          "зменшити тертя між людьми й контекстами",
+          "перевести leadership у здорову структуру",
+        ],
+        en: [
+          "give the team clear roles and decision rules",
+          "reduce friction between people and contexts",
+          "move leadership into a healthier structure",
+        ],
+      },
+    },
+    "experiments": {
+      pressure: {
+        ua: [
+          "ідеї або зависають, або одразу роздуваються",
+          "немає безпечного простору для швидкого test",
+          "validation змішується з бажанням одразу масштабувати",
+        ],
+        en: [
+          "ideas either stall or get overbuilt too early",
+          "there is no safe space for a fast test",
+          "validation gets mixed with the urge to scale immediately",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати гіпотезі швидкий test shell",
+          "відсіяти слабкі ідеї до великих витрат",
+          "отримати чесний сигнал до масштабування",
+        ],
+        en: [
+          "give the hypothesis a fast test shell",
+          "filter weak ideas before large costs",
+          "get an honest signal before scaling",
+        ],
+      },
+    },
+    "publishing": {
+      pressure: {
+        ua: [
+          "тексти накопичуються без publish system",
+          "авторська лінія не складається в маршрут",
+          "release-и не мають ритму",
+        ],
+        en: [
+          "writing accumulates without a publishing system",
+          "the author line does not turn into a route",
+          "releases have no rhythm",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати publishing line і release rhythm",
+          "дати текстам систему виходу назовні",
+          "пов'язати авторський шар із публічними маршрутами",
+        ],
+        en: [
+          "assemble a publishing line and release rhythm",
+          "give texts a system for going public",
+          "connect the author layer to public routes",
+        ],
+      },
+    },
+    "quest": {
+      pressure: {
+        ua: [
+          "шлях відчувається як сухий список задач",
+          "мотивація тримається тільки на дисципліні",
+          "немає narrative shell, що веде далі",
+        ],
+        en: [
+          "the path feels like a dry task list",
+          "motivation depends only on discipline",
+          "there is no narrative shell that keeps moving you forward",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати руху quest logic і checkpoints",
+          "зробити progression відчутним",
+          "перетворити system flow на пригоду з результатом",
+        ],
+        en: [
+          "give the motion quest logic and checkpoints",
+          "make progression tangible",
+          "turn the system flow into an adventure with an outcome",
+        ],
+      },
+    },
+    "creative-practice": {
+      pressure: {
+        ua: [
+          "творчість губиться під тиском utilitarian outputs",
+          "внутрішній шар не має захищеного простору",
+          "креатив починає існувати лише як deliverable",
+        ],
+        en: [
+          "creativity gets crushed by utilitarian outputs",
+          "the inner layer has no protected space",
+          "creative work starts existing only as a deliverable",
+        ],
+      },
+      fix: {
+        ua: [
+          "залишити для творчості окремий внутрішній шар",
+          "дати їй право бути джерелом, а не тільки продуктом",
+          "дозволити цьому простору живити інші хаби природно",
+        ],
+        en: [
+          "preserve a separate internal layer for creative practice",
+          "let it be a source rather than only a product",
+          "allow this space to nourish the other hubs naturally",
+        ],
+      },
+    },
+  };
+
+  HUBS.forEach((hub) => {
+    hub.overviewStyle = "legacySignals";
+    hub.disableOverviewRoute = true;
+
+    const defaults = sphereDefaults[hub.id];
+    if (defaults) {
+      hub.sphereLabel = hub.sphereLabel || defaults.sphereLabel;
+      hub.setLead = hub.setLead || defaults.setLead;
+    }
+
+    if (!hub.mediaStack && gifStacksByHub[hub.id]) {
+      hub.mediaStack = gifStacksByHub[hub.id];
+    }
+
+    const signals = signalDefaults[hub.id];
+    if (signals) {
+      hub.pressure = hub.pressure || signals.pressure;
+      hub.fix = hub.fix || signals.fix;
+    }
+  });
 }
 
 applyContentOverrides();
