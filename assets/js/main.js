@@ -2658,18 +2658,22 @@ function renderLegacyPriceStrip(entry, lang) {
 
   const price = getText(entry.price, lang);
   const note = getText(entry.priceNote, lang);
-  const primary = getPrimaryLink(entry);
+  const hasForm = getFormLinks(entry).length > 0;
+  const hasRoutes = getRouteLinks(entry).length > 0;
 
-  if (!price && !note && !primary) return "";
+  if (!price && !note && !hasForm && !hasRoutes) return "";
 
   const label = lang === "ua" ? "Старт" : "Start";
   const lead = price
     ? (lang === "ua" ? `Давайте почнемо з ${price}` : `Let's start at ${price}`)
     : (lang === "ua" ? "Давайте почнемо" : "Let's start");
   const noteCopy = note || getText(entry.fit, lang) || "";
-  const cta = lang === "ua" ? "Давайте почнемо" : "Let's start";
+  const ctaLabel = hasForm
+    ? (lang === "ua" ? "✨ Давайте почнемо" : "✨ Let's start")
+    : (lang === "ua" ? "🔗 Відкрити маршрути" : "🔗 Open links");
+  const targetTab = hasForm ? "form" : (hasRoutes ? "routes" : "");
 
-  return `<div class="routeStrip routeStrip--price"><div class="routePriceWrap"><div class="routePriceLead"><span class="routeLabel routeLabel--price">${escapeHtml(label)}</span><strong>${escapeHtml(lead)}</strong></div><p>${escapeHtml(noteCopy)}</p></div>${primary ? `<a class="routeAction" href="${escapeHtml(primary.url)}" target="_blank" rel="noreferrer">${escapeHtml(cta)}</a>` : ""}</div>`;
+  return `<div class="routeStrip routeStrip--price"><div class="routePriceWrap"><div class="routePriceLead"><span class="routeLabel routeLabel--price">${escapeHtml(label)}</span><strong>${escapeHtml(lead)}</strong></div><p>${escapeHtml(noteCopy)}</p></div>${targetTab ? `<button class="routeAction routeAction--cta" type="button" data-modal-tab-target="${escapeHtml(targetTab)}">${escapeHtml(ctaLabel)}</button>` : ""}</div>`;
 
 }
 
@@ -3051,6 +3055,10 @@ document.addEventListener("click", (event) => {
   const specialButton = event.target.closest("[data-special]");
 
   if (specialButton) { openSpecial(specialButton.dataset.special); return; }
+
+  const modalTabTarget = event.target.closest("[data-modal-tab-target]");
+
+  if (modalTabTarget) { switchModalTab(modalTabTarget.dataset.modalTabTarget); return; }
 
   const tabButton = event.target.closest("[data-tab]");
 
