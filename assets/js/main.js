@@ -1344,6 +1344,12 @@ function applyContentOverrides() {
         },
       },
     ];
+    venture.overviewStyle = "legacySignals";
+    venture.price = { ua: "Starts at $5", en: "Starts at $5" };
+    venture.priceNote = {
+      ua: "Per sprint або per build loop.",
+      en: "Per sprint or per build loop.",
+    };
     venture.disableOverviewRoute = true;
   }
 
@@ -1514,6 +1520,12 @@ function applyContentOverrides() {
         },
       },
     ];
+    krnd.overviewStyle = "legacySignals";
+    krnd.price = { ua: "Starts at $5", en: "Starts at $5" };
+    krnd.priceNote = {
+      ua: "Per case, dashboard, or research layer.",
+      en: "Per case, dashboard, or research layer.",
+    };
     krnd.disableOverviewRoute = true;
   }
 
@@ -1658,6 +1670,12 @@ function applyContentOverrides() {
         },
       },
     ];
+    mentorship.overviewStyle = "legacySignals";
+    mentorship.price = { ua: "Starts at $5", en: "Starts at $5" };
+    mentorship.priceNote = {
+      ua: "Per guidance loop, map, or activation layer.",
+      en: "Per guidance loop, map, or activation layer.",
+    };
     mentorship.disableOverviewRoute = true;
   }
 }
@@ -1983,7 +2001,81 @@ function renderFaq(entry, lang) {
 
 
 
+function renderLegacyPrice(entry, lang) {
+
+  const price = getText(entry.price, lang);
+  const note = getText(entry.priceNote, lang);
+  if (!price && !note) return "";
+  const label = lang === "ua" ? "Вартість" : "Cost";
+
+  return `<div class="routeStrip routeStrip--price"><div class="routePriceWrap"><span class="routeLabel routeLabel--price">${escapeHtml(label)}</span><strong>${escapeHtml(price || "")}</strong></div><p>${escapeHtml(note || "")}</p></div>`;
+
+}
+
+function renderLegacySignalOverview(entry, lang) {
+
+  return `
+
+    <div class="overviewGrid overviewGrid--legacy">
+
+      <div class="overviewMain">
+
+        <div class="modalBadgeRow">
+          <span class="modalBadge">${escapeHtml(entry.code || "KG")}</span>
+          <span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>
+          ${entry.sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}
+        </div>
+
+        <div class="overviewHeading">
+          <h3>${escapeHtml(getText(entry.title, lang))}</h3>
+          <p>${escapeHtml(getText(entry.summary, lang))}</p>
+        </div>
+
+        ${renderSetMethod(entry, lang)}
+
+        ${entry.vibe ? `<div class="overviewVibe">${escapeHtml(getText(entry.vibe, lang))}</div>` : ""}
+
+        <div class="overviewStoryGrid overviewStoryGrid--legacy">
+          <div class="infoBlock infoBlock--story infoBlock--primary">
+            <h4>${escapeHtml(getDict("overviewIntro", lang))}</h4>
+            <p>${escapeHtml(getText(entry.overview, lang))}</p>
+          </div>
+
+          <div class="infoBlock infoBlock--story infoBlock--primary">
+            <h4>${escapeHtml(getDict("overviewBullets", lang))}</h4>
+            <ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+          </div>
+        </div>
+
+        ${(entry.pressure?.[lang] || []).length || (entry.fix?.[lang] || []).length ? `<div class="overviewContrastGrid overviewContrastGrid--legacy">${renderSignalPanel(entry, lang, "pressure")}${renderSignalPanel(entry, lang, "fix")}</div>` : ""}
+
+        <div class="infoBlock infoBlock--story">
+          <h4>${escapeHtml(getDict("overviewFormat", lang))}</h4>
+          <p>${escapeHtml(getText(entry.format, lang))}</p>
+        </div>
+
+        ${renderProjectList(entry, lang)}
+
+        ${renderLegacyPrice(entry, lang)}
+
+        ${renderFaq(entry, lang)}
+
+      </div>
+
+      <aside class="overviewSide overviewSide--legacy">
+        ${renderMedia(entry, lang)}
+      </aside>
+
+    </div>
+  `;
+
+}
+
 function renderOverview(entry, lang) {
+
+  if (entry.overviewStyle === "legacySignals") {
+    return renderLegacySignalOverview(entry, lang);
+  }
 
   return `
 
