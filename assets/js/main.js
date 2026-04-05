@@ -1344,6 +1344,7 @@ function applyContentOverrides() {
         },
       },
     ];
+    venture.disableOverviewRoute = true;
   }
 
   const krnd = HUBS.find((hub) => hub.id === "krnd-lab");
@@ -1513,6 +1514,7 @@ function applyContentOverrides() {
         },
       },
     ];
+    krnd.disableOverviewRoute = true;
   }
 
   const mentorship = HUBS.find((hub) => hub.id === "mentorship");
@@ -1656,6 +1658,7 @@ function applyContentOverrides() {
         },
       },
     ];
+    mentorship.disableOverviewRoute = true;
   }
 }
 
@@ -1945,6 +1948,12 @@ function renderRouteStrip(entry, lang) {
 
   const primary = getPrimaryLink(entry);
 
+  if (entry.disableOverviewRoute) return "";
+
+  if (primary && (primary.kind === "form" || primary.kind === "intake")) {
+    return "";
+  }
+
   if (!primary) {
     return `<div class="routeStrip"><span class="routeLabel">${escapeHtml(getDict("overviewEntry", lang))}</span><div class="routeCopy"><strong>${escapeHtml(getDict("overviewRouteFallback", lang))}</strong><p>${escapeHtml(getText(entry.fit, lang) || "")}</p></div></div>`;
   }
@@ -1998,12 +2007,12 @@ function renderOverview(entry, lang) {
         ${entry.vibe ? `<div class="overviewVibe">${escapeHtml(getText(entry.vibe, lang))}</div>` : ""}
 
         <div class="overviewStoryGrid">
-          <div class="infoBlock infoBlock--story">
+          <div class="infoBlock infoBlock--story infoBlock--primary">
             <h4>${escapeHtml(getDict("overviewIntro", lang))}</h4>
             <p>${escapeHtml(getText(entry.overview, lang))}</p>
           </div>
 
-          <div class="infoBlock infoBlock--story">
+          <div class="infoBlock infoBlock--story infoBlock--primary">
             <h4>${escapeHtml(getDict("overviewBullets", lang))}</h4>
             <ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
           </div>

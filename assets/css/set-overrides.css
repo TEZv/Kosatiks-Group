@@ -84,8 +84,8 @@
 
 .overviewGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
-  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 344px);
+  gap: 20px;
   align-items: start;
 }
 
@@ -100,12 +100,12 @@
 .overviewText,
 .overviewMain {
   display: grid;
-  gap: 16px;
+  gap: 14px;
 }
 
 .overviewSide {
   display: grid;
-  gap: 14px;
+  gap: 16px;
   align-self: start;
 }
 
@@ -145,7 +145,7 @@
 .setMethodBlock {
   display: grid;
   gap: 12px;
-  padding: 16px 16px 14px;
+  padding: 15px 16px 14px;
   border-radius: 18px;
   border: 1px solid rgba(110, 225, 255, 0.16);
   background:
@@ -220,6 +220,13 @@
   gap: 16px;
 }
 
+.infoBlock--primary {
+  padding: 18px 18px 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    rgba(19, 20, 27, 0.9);
+}
+
 .modalBadge--sphere {
   color: rgba(110, 225, 255, 0.95);
   border-color: rgba(110, 225, 255, 0.24);
@@ -228,8 +235,8 @@
 
 .overviewMediaStack {
   display: grid;
-  grid-template-rows: repeat(2, minmax(160px, 1fr));
-  gap: 16px;
+  grid-template-rows: repeat(2, minmax(188px, 1fr));
+  gap: 14px;
   align-content: start;
   height: auto;
   max-height: none;
@@ -240,11 +247,11 @@
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  min-height: 160px;
+  min-height: 188px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
     rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .overviewMediaItem img,
@@ -300,9 +307,10 @@
 
 .signalPanel {
   border-radius: 18px;
-  padding: 18px 18px 16px;
+  padding: 18px 18px 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(14, 16, 22, 0.88);
+  min-height: 182px;
 }
 
 .signalPanel--pain {
@@ -453,7 +461,7 @@
 
 .faqCards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -510,7 +518,7 @@
   }
 
   .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(150px, 1fr));
+    grid-template-rows: repeat(2, minmax(164px, 1fr));
   }
 
   .routeAction {
@@ -533,7 +541,7 @@
   }
 
   .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(140px, 1fr));
+    grid-template-rows: repeat(2, minmax(150px, 1fr));
   }
 
   .overviewHeading h3 {
