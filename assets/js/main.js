@@ -1081,6 +1081,26 @@ Object.assign(dict.ua, {
   overviewRouteFallback: "Перейди у вкладку Links, щоб побачити повну карту маршруту.",
 });
 
+Object.assign(dict.ua, {
+  overviewPressure: "Як зараз",
+  overviewFix: "Що отримає клієнт",
+  overviewSetMethod: "SET-лінія",
+});
+
+Object.assign(dict.en, {
+  overviewPressure: "As is",
+  overviewFix: "What the client gets",
+  overviewEntry: "Best entry",
+  overviewFaqTitle: "What people usually want to know",
+  overviewBestFit: "Best fit",
+  overviewActionForm: "Open form",
+  overviewActionRepo: "Open GitHub",
+  overviewActionSite: "Open site",
+  overviewActionLinks: "Open links",
+  overviewRouteFallback: "Open the Links tab to see the full routing layer.",
+  overviewSetMethod: "SET line",
+});
+
 function applyContentOverrides() {
   Object.assign(socialLinks[0].note, {
     ua: "Одна routing-сторінка для публічних профілів, офер-лінків і входів у хаби.",
@@ -1112,6 +1132,41 @@ function applyContentOverrides() {
     ua: "Найкращий спосіб читати сайт: спершу обираєш роль, далі - режим, а потім відкриваєш картку. У модалці вже видно правильний наступний крок: форма, репозиторій, live site, Notion або GitHub-організація.",
     en: "Best use pattern: choose a role first, then narrow by mode, and only then open a card. The modal makes the next step explicit: form, repo, live site, Notion, or GitHub organization.",
   });
+  specialEntries.ecosystem.sphereLabel = { ua: "SPHERES: S + E + T", en: "SPHERES: S + E + T" };
+  specialEntries.ecosystem.setLead = {
+    ua: "Окрім ролей, я веду ще й три SET-сфери: Science, Entrepreneurship і Technology. Вони можуть з’являтися в одному хабі разом або окремо — залежно від того, яка логіка справді працює для конкретного напрямку.",
+    en: "Alongside the role system, I also develop three SET spheres: Science, Entrepreneurship, and Technology. They can appear together inside one hub or stand separately, depending on what genuinely fits that direction.",
+  };
+  specialEntries.ecosystem.setMap = {
+    ua: [
+      {
+        label: "S — Science",
+        body: "Дослідження, метод, evidence layer, системне мислення, K-RnD Lab і все, що потребує глибини та доказовості.",
+      },
+      {
+        label: "E — Entrepreneurship",
+        body: "Побудова напрямів, venture-логіка, офери, монетизація, маршрути співпраці та продуктивний рух назовні.",
+      },
+      {
+        label: "T — Technology",
+        body: "Цифрові інструменти, automation, live systems, dashboards, digital writing і технологічна інфраструктура.",
+      },
+    ],
+    en: [
+      {
+        label: "S — Science",
+        body: "Research, method, the evidence layer, systems thinking, K-RnD Lab, and everything that needs depth and proof.",
+      },
+      {
+        label: "E — Entrepreneurship",
+        body: "Building directions, venture logic, offers, monetization, collaboration routes, and productive movement outward.",
+      },
+      {
+        label: "T — Technology",
+        body: "Digital tools, automation, live systems, dashboards, digital writing, and technical infrastructure.",
+      },
+    ],
+  };
 
   specialEntries.ecosystem.mediaStack = [
     {
@@ -1159,6 +1214,32 @@ function applyContentOverrides() {
   const venture = HUBS.find((hub) => hub.id === "venture-studio");
   if (venture) {
     venture.sphereLabel = { ua: "SPHERE: E + T", en: "SPHERE: E + T" };
+    venture.setLead = {
+      ua: "У цьому хабі роль продюсерки читається через дві SET-сфери: Entrepreneurship як головний build-напрям і Technology як інструментальний шар для запуску, тесту та видимого продуктового руху.",
+      en: "In this hub the producer role is expressed through two SET spheres: Entrepreneurship as the main build direction and Technology as the tool layer for launching, testing, and making product movement visible.",
+    };
+    venture.setMap = {
+      ua: [
+        {
+          label: "E — Entrepreneurship",
+          body: "MVP, офер, перевірка попиту, venture-рамка і рішення про рух далі.",
+        },
+        {
+          label: "T — Technology",
+          body: "Інструменти, automation, lightweight stack, live shell і збірка того, що можна реально протестувати.",
+        },
+      ],
+      en: [
+        {
+          label: "E — Entrepreneurship",
+          body: "MVP logic, offer design, demand validation, venture framing, and the decision about what moves next.",
+        },
+        {
+          label: "T — Technology",
+          body: "Tools, automation, lightweight stack, live shell, and the assembly of something that can actually be tested.",
+        },
+      ],
+    };
     venture.pressure = {
       ua: [
         "ідея зависає між ентузіазмом і реальною збіркою",
@@ -1268,6 +1349,40 @@ function applyContentOverrides() {
   const krnd = HUBS.find((hub) => hub.id === "krnd-lab");
   if (krnd) {
     krnd.sphereLabel = { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" };
+    krnd.setLead = {
+      ua: "K-RnD Lab — це той хаб, де всі три SET-сфери реально сходяться в одній рамці: наука дає метод, підприємництво — напрям застосування, технології — інструменти й інфраструктуру.",
+      en: "K-RnD Lab is the hub where all three SET spheres actually meet in one frame: science provides the method, entrepreneurship the application direction, and technology the tools plus infrastructure.",
+    };
+    krnd.setMap = {
+      ua: [
+        {
+          label: "S — Science",
+          body: "Гіпотези, дослідницькі питання, evidence layer, метрики, proof і системне мислення.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Публічні кейси, applied value, рішення про застосування і те, як дослідження стає корисним назовні.",
+        },
+        {
+          label: "T — Technology",
+          body: "Dashboard, trainer, digital tools, data flow і research-infrastructure, що робить кейс живим і вимірюваним.",
+        },
+      ],
+      en: [
+        {
+          label: "S — Science",
+          body: "Hypotheses, research questions, the evidence layer, metrics, proof, and systems thinking.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Public cases, applied value, application logic, and the translation of research into something useful outside the lab.",
+        },
+        {
+          label: "T — Technology",
+          body: "Dashboards, trainer tools, data flow, and research infrastructure that make the case measurable and alive.",
+        },
+      ],
+    };
     krnd.pressure = {
       ua: [
         "ідеї виглядають сильними, але без доказового шару звучать як заяви",
@@ -1403,6 +1518,40 @@ function applyContentOverrides() {
   const mentorship = HUBS.find((hub) => hub.id === "mentorship");
   if (mentorship) {
     mentorship.sphereLabel = { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" };
+    mentorship.setLead = {
+      ua: "Mentorship тут не окрема академія, а guided SET-layer: людина бачить, як Science, Entrepreneurship і Technology можуть зійтися в одному реальному next step.",
+      en: "Mentorship here is not a separate academy but a guided SET layer: it shows how Science, Entrepreneurship, and Technology can converge into one real next step.",
+    };
+    mentorship.setMap = {
+      ua: [
+        {
+          label: "S — Science",
+          body: "Логіка навчання, рефлексія, дослідницьке мислення й робота з тим, як людина вчиться та орієнтується.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Напрям, позиціонування себе, practical next step, venture-orientation і рух у дієвий формат.",
+        },
+        {
+          label: "T — Technology",
+          body: "Repo-маршрути, інструменти, digital systems і технологічні шари, через які навчання переходить у build.",
+        },
+      ],
+      en: [
+        {
+          label: "S — Science",
+          body: "Learning logic, reflection, research-minded orientation, and how a person actually learns.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Direction, self-positioning, practical next steps, venture orientation, and movement toward a usable format.",
+        },
+        {
+          label: "T — Technology",
+          body: "Repo routes, tools, digital systems, and the technical layers that move learning into a build path.",
+        },
+      ],
+    };
     mentorship.pressure = {
       ua: [
         "\u043b\u044e\u0434\u0438\u043d\u0430 \u0445\u043e\u0447\u0435 \u0440\u0443\u0445\u0430\u0442\u0438\u0441\u044f, \u0430\u043b\u0435 \u043d\u0435 \u0431\u0430\u0447\u0438\u0442\u044c \u0447\u0456\u0442\u043a\u043e\u0433\u043e next step",
@@ -1775,6 +1924,23 @@ function renderSignalPanel(entry, lang, kind) {
 
 }
 
+function renderSetMethod(entry, lang) {
+
+  const lead = getText(entry.setLead, lang);
+  const rows = entry.setMap?.[lang] || [];
+  if (!entry.sphereLabel && !lead && !rows.length) return "";
+
+  return `<section class="setMethodBlock">
+    <div class="setMethodHead">
+      <span class="setMethodKicker">${escapeHtml(getDict("overviewSetMethod", lang))}</span>
+      ${entry.sphereLabel ? `<span class="setMethodSphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}
+    </div>
+    ${lead ? `<p class="setMethodLead">${escapeHtml(lead)}</p>` : ""}
+    ${rows.length ? `<div class="setMethodRows">${rows.map((row) => `<div class="setMethodRow"><strong>${escapeHtml(row.label || "")}</strong><p>${escapeHtml(row.body || "")}</p></div>`).join("")}</div>` : ""}
+  </section>`;
+
+}
+
 function renderRouteStrip(entry, lang) {
 
   const primary = getPrimaryLink(entry);
@@ -1812,23 +1978,43 @@ function renderOverview(entry, lang) {
 
   return `
 
-    <div class="overviewGrid">
+    <div class="overviewGrid overviewGrid--editorial">
 
-      <div class="overviewText">
+      <div class="overviewMain">
 
-        <div class="modalBadgeRow"><span class="modalBadge">${escapeHtml(entry.code || "KG")}</span><span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>${entry.sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}</div>
+        <div class="modalBadgeRow">
+          <span class="modalBadge">${escapeHtml(entry.code || "KG")}</span>
+          <span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>
+          ${entry.sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}
+        </div>
 
-        <div class="overviewHeading"><h3>${escapeHtml(getText(entry.title, lang))}</h3><p>${escapeHtml(getText(entry.summary, lang))}</p></div>
+        <div class="overviewHeading">
+          <h3>${escapeHtml(getText(entry.title, lang))}</h3>
+          <p>${escapeHtml(getText(entry.summary, lang))}</p>
+        </div>
+
+        ${renderSetMethod(entry, lang)}
 
         ${entry.vibe ? `<div class="overviewVibe">${escapeHtml(getText(entry.vibe, lang))}</div>` : ""}
 
-        <div class="infoBlock"><h4>${escapeHtml(getDict("overviewIntro", lang))}</h4><p>${escapeHtml(getText(entry.overview, lang))}</p></div>
+        <div class="overviewStoryGrid">
+          <div class="infoBlock infoBlock--story">
+            <h4>${escapeHtml(getDict("overviewIntro", lang))}</h4>
+            <p>${escapeHtml(getText(entry.overview, lang))}</p>
+          </div>
 
-        <div class="infoBlock"><h4>${escapeHtml(getDict("overviewBullets", lang))}</h4><ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul></div>
+          <div class="infoBlock infoBlock--story">
+            <h4>${escapeHtml(getDict("overviewBullets", lang))}</h4>
+            <ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+          </div>
+        </div>
 
         ${(entry.pressure?.[lang] || []).length || (entry.fix?.[lang] || []).length ? `<div class="overviewContrastGrid">${renderSignalPanel(entry, lang, "pressure")}${renderSignalPanel(entry, lang, "fix")}</div>` : ""}
 
-        <div class="infoBlock"><h4>${escapeHtml(getDict("overviewFormat", lang))}</h4><p>${escapeHtml(getText(entry.format, lang))}</p></div>
+        <div class="infoBlock infoBlock--story">
+          <h4>${escapeHtml(getDict("overviewFormat", lang))}</h4>
+          <p>${escapeHtml(getText(entry.format, lang))}</p>
+        </div>
 
         ${renderProjectList(entry, lang)}
 
@@ -1838,7 +2024,9 @@ function renderOverview(entry, lang) {
 
       </div>
 
-      ${renderMedia(entry, lang)}
+      <aside class="overviewSide">
+        ${renderMedia(entry, lang)}
+      </aside>
 
     </div>
 
