@@ -2,15 +2,15 @@
 
   ua: {
 
-    navchapters: "\u0420\u043e\u043b\u0456",
+    navchapters: "Ролі",
 
-    navhire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
+    navhire: "Для замовлення",
 
-    navcanon: "\u041f\u0440\u043e\u0441\u0442\u043e\u0020\u042f",
+    navcanon: "Самовираження",
 
     kicker: "KOSATIKS GROUP",
 
-    title: "Три ролі. Один простір хабів.",
+    title: "Три ролі. Одна система хабів.",
 
     subtitle:
 
@@ -18,10 +18,10 @@
 
     guide:
 
-      "Це не просто список назв. У кожній картці є логіка: що це за хаб, кому він потрібен, який у нього формат і куди вести людину далі — на repo, site, форму або research-маршрут.",
+      "Це не просто список назв. У кожній картці є логіка: що це за хаб, кому він потрібен, який у нього формат і куди вести людину далі - на repo, site, форму або research-маршрут.",
 
     foot:
-      `\u041d\u0435\u043c\u0430\u0454 \u0437\u0430\u0433\u0430\u043b\u044c\u043d\u043e\u0457 \u043a\u043e\u043d\u0442\u0430\u043a\u0442\u043d\u043e\u0457 \u0444\u043e\u0440\u043c\u0438. \u041a\u043e\u0436\u0435\u043d \u043e\u0444\u0435\u0440 \u043c\u0430\u0454 \u0441\u0432\u0456\u0439 intake, \u0449\u043e\u0431 \u0437\u0430\u044f\u0432\u043a\u0438 \u043f\u043e\u0442\u0440\u0430\u043f\u043b\u044f\u043b\u0438 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e.<br><span class="footer-note__minor">*\u0417\u0430\u0443\u0432\u0430\u0436\u0442\u0435: \u043f\u0440\u0438\u0439\u043c\u0430\u044e \u043b\u0438\u0448\u0435 2-3 \u043f\u0440\u043e\u0454\u043a\u0442\u0438 \u043d\u0430 \u043c\u0456\u0441\u044f\u0446\u044c; \u043a\u0456\u043b\u044c\u043a\u0456\u0441\u0442\u044c \u0441\u043b\u043e\u0442\u0456\u0432 \u043e\u0431\u043c\u0435\u0436\u0435\u043d\u0430.</span>`,
+      `Немає загальної контактної форми. Кожен offer має свій intake, щоб заявки потрапляли правильно.<br><span class="footer-note__minor">*Зауважте: приймаю лише 2-3 проєкти на місяць; кількість слотів обмежена.</span>`,
 
     rstrategist: "Стратегиня",
 
@@ -29,23 +29,23 @@
 
     rcreator: "Мисткиня",
 
-    fall: "\u0423\u0441\u0456",
+    fall: "Усі",
 
-    fhire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
+    fhire: "Для замовлення",
 
-    fself: "\u041f\u0440\u043e\u0441\u0442\u043e\u0020\u042f",
+    fself: "Самовираження",
 
-    fproject: "\u041f\u0440\u043e\u0441\u0442\u043e\u0020\u042f",
+    fproject: "Самовираження",
 
     mOverview: "Огляд",
 
-    mLinks: "\u041b\u0456\u043d\u043a\u0438",
+    mLinks: "Лінки",
 
-    mForm: "\u0424\u043e\u0440\u043c\u0430",
+    mForm: "Форма",
 
-    cardHire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
+    cardHire: "Для замовлення",
 
-    cardLinks: "\u041f\u0440\u043e\u0441\u0442\u043e\u0020\u042f",
+    cardLinks: "Лінки",
 
     mClose: "Закрити",
 
@@ -53,36 +53,36 @@
 
     hintEco: "Екосистема",
 
-    btnOpen: "\u0412\u0456\u0434\u043a\u0440\u0438\u0442\u0438 \u0432\u0456\u043a\u043d\u043e",
+    btnOpen: "Відкрити вікно",
 
-    socialKicker: "\u0421\u043e\u0446\u043c\u0435\u0440\u0435\u0436\u0456 + \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+    socialKicker: "Соцмережі + маршрути",
 
-    socialTitle: "\u0421\u043e\u0446\u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438",
+    socialTitle: "Соцмаршрути",
 
     socialSubtitle:
       "Цей нижній шар працює як точка входу до link-агрегаторів, публічних профілів і зовнішніх маршрутів. Я активно будую тематичний контент для стратегині, продюсерки та мисткині, тож цей блок ростиме разом із цими просторами.",
 
-    placeholder: "\u041f\u0456\u0434 \u0446\u0435\u0439 \u0444\u0456\u043b\u044c\u0442\u0440 \u043f\u043e\u043a\u0438 \u043d\u0435\u043c\u0430\u0454 \u043a\u0430\u0440\u0442\u043e\u043a.",
+    placeholder: "Під цей фільтр поки немає карток.",
 
     modeSummary: {
 
-      all: "\u0423\u0441\u0456",
+      all: "Усі",
 
-      hire: "\u0414\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043b\u0435\u043d\u043d\u044f",
+      hire: "Для замовлення",
 
-      self: "\u041f\u0440\u043e\u0441\u0442\u043e\u0020\u042f",
+      self: "Самовираження",
 
-      project: "\u041f\u0440\u043e\u0441\u0442\u043e\u0020\u042f",
+      project: "Самовираження",
 
     },
 
     overviewIntro: "Що це",
 
-    overviewBullets: "\u0429\u043e \u0442\u0443\u0442 \u0432\u0456\u0434\u0431\u0443\u0432\u0430\u0454\u0442\u044c\u0441\u044f",
+    overviewBullets: "Що тут відбувається",
 
     overviewFormat: "Як це працює",
 
-    overviewProjects: "\u041f\u043e\u0432'\u044f\u0437\u0430\u043d\u0456 \u043f\u0440\u043e\u0454\u043a\u0442\u0438",
+    overviewProjects: "Пов'язані проєкти",
 
     linksIntro:
 
@@ -90,17 +90,17 @@
 
     linksIntroHire:
 
-      "Тут зібрані додаткові лінки для клієнтського хаба: кейси, приклади виконаних рішень, портфольні маршрути або супровідні матеріали. Форма лишається основним входом для нового запиту.",
+      "Тут зібрані додаткові лінки для клієнтського хаба: кейси, приклади виконаних рішень, портфоліо-маршрути або супровідні матеріали. Форма лишається основним входом для нового запиту.",
 
     formIntro:
 
-      "Для клієнтських хабів тут залишається вбудований intake, щоб заявка одразу потрапляла в правильний маршрут.",
+      "Для клієнтських хабів тут лишається вбудований intake, щоб заявка одразу потрапляла в правильний маршрут.",
 
     draftLabel: "draft",
 
-    openExternal: "\u0412\u0456\u0434\u043a\u0440\u0438\u0442\u0438",
+    openExternal: "Відкрити",
 
-    notReady: "\u0429\u0435 \u0432 \u043f\u0456\u0434\u0433\u043e\u0442\u043e\u0432\u0446\u0456",
+    notReady: "Ще в підготовці",
 
     roleNames: {
 
@@ -113,7 +113,6 @@
     },
 
   },
-
   en: {
 
     navchapters: "Roles",
@@ -159,7 +158,7 @@
 
     cardHire: "For hire",
 
-    cardLinks: "Self",
+    cardLinks: "Links",
 
     mClose: "Close",
 
@@ -430,7 +429,7 @@ const specialEntries = {
 
       { label: { ua: "Kosatiks Group repo", en: "Kosatiks Group repo" }, note: { ua: "вихідний код сайту", en: "site source code" }, url: urls.kosatiksRepo, kind: "repo" },
 
-      { label: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
+      { label: { ua: "K-RnD Lab", en: "K-RnD Lab" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
 
       { label: { ua: "Master trainer repo", en: "Master trainer repo" }, note: { ua: "research-проєкт у межах K-RnD", en: "research project inside K-RnD" }, url: urls.masterRepo, kind: "project" },
 
@@ -744,7 +743,7 @@ const HUBS = [
 
     modes: ["hire", "project"],
 
-    title: { ua: "[K Venture Studio Hub]", en: "[K Venture Studio Hub]" },
+    title: { ua: "K Venture Studio Hub", en: "K Venture Studio Hub" },
 
     summary: { ua: "MVP, venture build, упаковка ідей у робочі продукти й окремі venture-маршрути.", en: "MVPs, venture builds, and turning ideas into working products and venture routes." },
 
@@ -778,7 +777,7 @@ const HUBS = [
 
     modes: ["project", "hire"],
 
-    title: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" },
+    title: { ua: "K-RnD Lab", en: "K-RnD Lab" },
 
     summary: { ua: "Дослідницький хаб для гіпотез, аналітики, експериментів і публічних кейсів. Сюди ж лягає Master Trainer.", en: "A research hub for hypotheses, analytics, experiments, and public cases. This is also where Master Trainer fits." },
 
@@ -916,7 +915,7 @@ const HUBS = [
 
     modes: ["self", "hire", "project"],
 
-    title: { ua: "[K Mentorship Hub]", en: "[K Mentorship Hub]" },
+    title: { ua: "K Mentorship Hub", en: "K Mentorship Hub" },
 
     summary: { ua: "Легший mentorship-shell: відбір, ресурсні маршрути, application-first beta, без перенавантаженої community-операційки.", en: "A lighter mentorship shell: selection, resource routes, and an application-first beta instead of overloaded community ops." },
 
@@ -1045,6 +1044,473 @@ const HUBS = [
 ];
 
 
+
+Object.assign(urls, {
+  ventureHub: "https://github.com/K-Venture-Studio-Hub",
+  mentorshipHub: "https://github.com/K-Mentorship-Hub",
+  masterRepo: "https://github.com/K-RnD-Lab/SPHERE-I-SCIENCE",
+  masterDocs:
+    "https://github.com/K-RnD-Lab/SPHERE-I-SCIENCE/tree/main/S7%20%E2%80%94%20%F0%9F%93%9A%20K%20Life%20OS/S7-I%20%C2%B7%20%F0%9F%94%8E%20Career%20or%20Education/R1%20-%20Master%20Prep%20Analytics",
+  masterDashboard: "https://sphere-i-science.vercel.app/index.html",
+  masterTrainer: "https://sphere-i-science.vercel.app/trainer/trainer.html",
+});
+
+Object.assign(dict.ua, {
+  overviewPressure: "???????",
+  overviewFix: "???????",
+  overviewEntry: "????????? ????",
+  overviewFaqTitle: "?? ???????? ?????? ?????",
+  overviewBestFit: "???? ?? ?????",
+  overviewActionForm: "???????? ?????",
+  overviewActionRepo: "???????? GitHub",
+  overviewActionSite: "???????? ????",
+  overviewActionLinks: "???????? ?????",
+  overviewRouteFallback: "??????? ? ??????? Links, ??? ???????? ????? ????? ????????.",
+});
+
+Object.assign(dict.ua, {
+  overviewPressure: "Напруга",
+  overviewFix: "Рішення",
+  overviewEntry: "Найкращий вхід",
+  overviewFaqTitle: "Що зазвичай хочуть знати",
+  overviewBestFit: "Кому це пасує",
+  overviewActionForm: "Відкрити форму",
+  overviewActionRepo: "Відкрити GitHub",
+  overviewActionSite: "Відкрити сайт",
+  overviewActionLinks: "Відкрити лінки",
+  overviewRouteFallback: "Перейди у вкладку Links, щоб побачити повну карту маршруту.",
+});
+
+function applyContentOverrides() {
+  Object.assign(socialLinks[0].note, {
+    ua: "Одна routing-сторінка для публічних профілів, офер-лінків і входів у хаби.",
+  });
+
+  Object.assign(socialLinks[1].note, {
+    ua: "Другий link-hub для експериментів, альтернативних профілів або кампанійних маршрутів.",
+  });
+
+  Object.assign(socialLinks[2].note, {
+    ua: "Найкращий простір для подачі стратегині й продюсерки, кейсової логіки та ecosystem-thinking.",
+  });
+
+  Object.assign(socialLinks[3].note, {
+    ua: "М'якший простір для авторського контенту, візуальних фрагментів і наративних входів.",
+  });
+
+  Object.assign(specialEntries.ecosystem.summary, {
+    ua: "SET-shaped мапа екосистеми: що тут клієнтське, що власне, що дослідницьке і як між цими шарами рухатися без хаосу.",
+    en: "A SET-shaped ecosystem map: what is client-facing, what is personal, what is research-facing, and how to move through these layers without chaos.",
+  });
+
+  Object.assign(specialEntries.ecosystem.overview, {
+    ua: "Kosatiks Group - це не одна послуга і не одна persona. Це рамка, де стратегія, підприємництво, технології, творчість і дослідження збираються в одну систему маршрутів. Тому важливо не просто читати назви, а бачити формат: де замовлення, де власна операційна система, де публічний кейс, а де глибший research-layer.",
+    en: "Kosatiks Group is not a single service and not a single persona. It is a frame where strategy, entrepreneurship, technology, creative work, and research become one routed system. The point is not only to read names, but to understand format: where the offer is, where the personal operating system lives, where a public case begins, and where a deeper research layer starts.",
+  });
+
+  Object.assign(specialEntries.ecosystem.format, {
+    ua: "Найкращий спосіб читати сайт: спершу обираєш роль, далі - режим, а потім відкриваєш картку. У модалці вже видно правильний наступний крок: форма, репозиторій, live site, Notion або GitHub-організація.",
+    en: "Best use pattern: choose a role first, then narrow by mode, and only then open a card. The modal makes the next step explicit: form, repo, live site, Notion, or GitHub organization.",
+  });
+
+  specialEntries.ecosystem.mediaStack = [
+    {
+      type: "video",
+      src: "./assets/video/k-logo.mp4",
+      caption: {
+        ua: "Тут сходяться ролі, хаби, продукти й зовнішні маршрути.",
+        en: "This is where roles, hubs, products, and external routes meet.",
+      },
+    },
+    {
+      type: "video",
+      src: "./assets/video/k3.mp4",
+      caption: {
+        ua: "SET-логіка тут читається як одна система, а не як розрізнені проєкти.",
+        en: "The SET logic reads here as one system rather than scattered projects.",
+      },
+    },
+  ];
+
+  Object.assign(specialEntries.me.summary, {
+    ua: "Я зібрала Kosatiks Group як систему, де стратегія, продюсування, дослідження і творчість працюють разом, а не розходяться по різних persona.",
+    en: "I built Kosatiks Group as a system where strategy, production, research, and creativity work together instead of splitting into disconnected personas.",
+  });
+
+  specialEntries.me.mediaStack = [
+    {
+      type: "video",
+      src: "./assets/video/k4.mp4",
+      caption: {
+        ua: "Ядро Kosatiks Group: ролі, філософія, подача.",
+        en: "The core of Kosatiks Group: roles, philosophy, and presence.",
+      },
+    },
+    {
+      type: "video",
+      src: "./assets/video/k2.mp4",
+      caption: {
+        ua: "Один голос, який тримає різні продукти в одній лінії.",
+        en: "One voice that keeps different products on the same line.",
+      },
+    },
+  ];
+
+  const venture = HUBS.find((hub) => hub.id === "venture-studio");
+  if (venture) {
+    venture.sphereLabel = { ua: "SPHERE: E + T", en: "SPHERE: E + T" };
+    venture.pressure = {
+      ua: [
+        "ідея зависає між ентузіазмом і реальною збіркою",
+        "хочеться будувати все одразу, але без чіткої рамки",
+        "продуктова логіка ще не зібрана у видимий venture-case",
+      ],
+      en: [
+        "the idea hangs between excitement and a real build path",
+        "there is energy to build, but no clean venture frame yet",
+        "the product logic still is not assembled into a visible case",
+      ],
+    };
+    venture.fix = {
+      ua: [
+        "перевести ідею у перевірну гіпотезу",
+        "стиснути її до MVP або тестового офера",
+        "чесно побачити: масштабувати, переформулювати чи зупинити",
+      ],
+      en: [
+        "turn the idea into a testable hypothesis",
+        "compress it into an MVP or a trial offer",
+        "see honestly whether to scale, reframe, or stop",
+      ],
+    };
+    venture.fit = {
+      ua: "Найкраще пасує засновникам, сольним білдерам і тим, кому треба швидко перевести задум у перевірний venture-формат.",
+      en: "Best for founders, solo builders, and people who need to convert a concept into a venture-ready format quickly.",
+    };
+    venture.vibe = {
+      ua: "Ідея не має лишатися туманом. Вона має пройти перевірку.",
+      en: "An idea should not stay fog. It should survive contact with reality.",
+    };
+    venture.faq = {
+      ua: [
+        { q: "Це про стартапи чи просто про MVP?", a: "Про обидва шари. Якщо є шанс на venture-напрям, ми це побачимо. Якщо ні, лишимо чесний тестовий продукт або рішення." },
+        { q: "Чим це відрізняється від mentorship?", a: "Тут фокус не на орієнтації людини, а на збірці гіпотези, офера, продукту або venture-case." },
+      ],
+      en: [
+        { q: "Is this about startups or just MVPs?", a: "Both layers can fit here. If the idea has real venture energy, we keep that path visible. If not, we still shape a strong testable product case." },
+        { q: "How is this different from mentorship?", a: "This hub is about building the venture object itself, not mainly orienting the person behind it." },
+      ],
+    };
+    Object.assign(venture.summary, {
+      ua: "Підприємницький build-layer для перетворення структурованих ідей на MVP, тести, офери й venture-кейси.",
+      en: "An entrepreneurship-facing build layer for turning structured ideas into MVPs, tests, offers, and venture cases.",
+    });
+    Object.assign(venture.overview, {
+      ua: "K Venture Studio Hub - це підприємницький шар SET-методології. Тут сигнали зі стратегії, дослідження й product-thinking переходять у buildable hypotheses, MVP, offer structure і видимі експерименти. Цінність цього хаба не в тому, щоб довше думати про ідею, а в тому, щоб швидше перевести її в перевірний формат і чесно зрозуміти, чи вона тримається.",
+      en: "K Venture Studio Hub is the entrepreneurship layer of the SET methodology. This is where signals from strategy, research, and product thinking become buildable hypotheses, MVPs, offer structures, and visible experiments. The value here is not dreaming about the idea for longer, but translating it into a testable format fast enough to learn honestly.",
+    });
+    venture.bullets = {
+      ua: [
+        "підприємницька рамка між ідеєю і реальним build-процесом",
+        "MVP, validation loops, offer packaging і next-step architecture",
+        "місце, де гіпотеза стає прототипом, продукт-тестом або чесним stop-decision",
+      ],
+      en: [
+        "an entrepreneurship frame between an idea and a real build process",
+        "MVPs, validation loops, offer packaging, and next-step architecture",
+        "a place where a hypothesis becomes a prototype, a product test, or an honest stop decision",
+      ],
+    };
+    Object.assign(venture.format, {
+      ua: "Google Site може лишатися легким публічним shell, а GitHub і Kosatiks - тримати структуру, operating logic і майбутні repo-шари. Саме так venture не виглядає відірвано від решти системи.",
+      en: "Google Site can stay as the lightweight public shell while GitHub and Kosatiks hold structure, operating logic, and future repo surfaces. That keeps the venture layer connected to the rest of the system instead of floating alone.",
+    });
+    venture.links = [
+      {
+        label: { ua: "GitHub hub", en: "GitHub hub" },
+        note: { ua: "структура venture-шару", en: "venture layer structure" },
+        url: urls.ventureHub,
+        kind: "repo",
+      },
+      {
+        label: { ua: "Google Site", en: "Google Site" },
+        note: { ua: "легкий live-layer", en: "light live layer" },
+        url: urls.ventureSite,
+        kind: "site",
+      },
+      {
+        label: { ua: "Форма запиту", en: "Intake form" },
+        note: { ua: "співпраця або build-запит", en: "collaboration or build request" },
+        url: urls.hireForm,
+        kind: "form",
+      },
+    ];
+    venture.mediaStack = [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/lInxVz19e4YggejNuy/giphy.gif",
+        caption: {
+          ua: "Ідея повинна запалювати, але й швидко переходити в збірку.",
+          en: "A strong idea should ignite, but also move into a build fast.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/xT0xePyGsKplOK5dHG/giphy.gif",
+        caption: {
+          ua: "Будуємо, тестуємо, виводимо у видимий кейс.",
+          en: "Build it, test it, and turn it into a visible case.",
+        },
+      },
+    ];
+  }
+
+  const krnd = HUBS.find((hub) => hub.id === "krnd-lab");
+  if (krnd) {
+    krnd.sphereLabel = { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" };
+    krnd.pressure = {
+      ua: [
+        "ідеї виглядають сильними, але без доказового шару звучать як заяви",
+        "дослідження, дашборди і case-study можуть розпастися по різних місцях",
+        "без структури важко показати, як Science, Entrepreneurship і Technology реально сходяться",
+      ],
+      en: [
+        "ideas may sound strong, but without evidence they remain only claims",
+        "research, dashboards, and case studies can scatter into separate surfaces",
+        "without structure it is hard to show how Science, Entrepreneurship, and Technology actually meet",
+      ],
+    };
+    krnd.fix = {
+      ua: [
+        "дати гіпотезі дані, документацію і видимий proof layer",
+        "перетворити особисту систему на публічний research-case",
+        "показати метод, метрики і розвиток в одній рамці",
+      ],
+      en: [
+        "give the hypothesis data, documentation, and a visible proof layer",
+        "turn a personal system into a public research case",
+        "show method, metrics, and progress within one coherent frame",
+      ],
+    };
+    krnd.fit = {
+      ua: "Найкраще пасує для дослідницьких кейсів, evidence-first продуктів і публічних артефактів, де важлива глибина, а не лише подача.",
+      en: "Best for research-led cases, evidence-first products, and public artifacts where depth matters as much as presentation.",
+    };
+    krnd.vibe = {
+      ua: "Не просто думка, а метод, слід, дані й доказ.",
+      en: "Not only a thought, but a method, a trace, data, and proof.",
+    };
+    krnd.faq = {
+      ua: [
+        { q: "Це тільки про біологію чи медицину?", a: "Ні. Лаба ширша: вона тримає наукові, технологічні та підприємницькі кейси там, де потрібна доказовість і системність." },
+        { q: "Чому сюди входить Master Prep Analytics?", a: "Бо це вже не просто підготовка. Це вимірюваний research-case із метриками, тренером, симуляціями й публічним прогресом." },
+      ],
+      en: [
+        { q: "Is this only about biology or medicine?", a: "No. The lab is broader: it holds scientific, technological, and entrepreneurial cases whenever evidence and system design matter." },
+        { q: "Why does Master Prep Analytics belong here?", a: "Because it is no longer just preparation. It is a measurable research case with metrics, a trainer, simulations, and public progress." },
+      ],
+    };
+    Object.assign(krnd.summary, {
+      ua: "Науково-доказовий шар SET: гіпотези, аналітика, експерименти, вимірювані системи й публічні research-кейси.",
+      en: "The science-facing evidence layer of SET: hypotheses, analytics, experiments, measurable systems, and public research cases.",
+    });
+    Object.assign(krnd.overview, {
+      ua: "K-RnD Lab - це науковий і доказовий backbone ширшої SET-методології. Саме тут research questions, аналітичні артефакти, експериментальна логіка й вимірювані публічні кейси збираються в систему, яка дає proof, а не лише заяви. Сюди ж природно лягає Master Prep Analytics: не як окремий сайт про вступ, а як публічний дослідницький кейс з метриками, графіками, тренувальним середовищем і evidence-based progress.",
+      en: "K-RnD Lab is the scientific and evidence backbone of the wider SET methodology. This is where research questions, analytical artifacts, experimental logic, and measurable public cases become a system that provides proof rather than only claims. That is also why Master Prep Analytics belongs here: not as a separate admission site, but as a public research case with metrics, charts, a trainer environment, and evidence-based progress.",
+    });
+    krnd.bullets = {
+      ua: [
+        "наукова рамка, public proof і evidence-driven iteration",
+        "аналітичні дашборди, експерименти, вимірюваний прогрес і відкрита документація",
+        "місце для кейсів, де особиста система виростає в дослідницький артефакт",
+      ],
+      en: [
+        "science-facing framing, public proof, and evidence-driven iteration",
+        "analytics dashboards, experiments, measurable progress, and open documentation",
+        "a home for cases where a personal system grows into a research artifact",
+      ],
+    };
+    Object.assign(krnd.format, {
+      ua: "Зовні цей хаб працює як proof-of-thinking, proof-of-method і proof-of-depth. Усередині - це простір, де методи, дані, гіпотези, SET-сфери й research-infrastructure не розсипаються по різних місцях.",
+      en: "Externally, this hub works as proof-of-thinking, proof-of-method, and proof-of-depth. Internally, it is the place where methods, data, hypotheses, SET lanes, and research infrastructure stay coherent.",
+    });
+    krnd.projects = {
+      ua: [
+        {
+          title: "Master Prep Analytics",
+          body: "Публічний research-case про підготовку: dashboard, trainer, метрики, симуляції та evidence-based readiness.",
+        },
+      ],
+      en: [
+        {
+          title: "Master Prep Analytics",
+          body: "A public preparation research case: dashboard, trainer, metrics, simulations, and evidence-based readiness.",
+        },
+      ],
+    };
+    krnd.links = [
+      {
+        label: { ua: "K-RnD Lab org", en: "K-RnD Lab org" },
+        note: { ua: "головна GitHub-організація", en: "main GitHub organization" },
+        url: urls.krndOrg,
+        kind: "org",
+      },
+      {
+        label: { ua: "Master Prep Analytics", en: "Master Prep Analytics" },
+        note: { ua: "live dashboard", en: "live dashboard" },
+        url: urls.masterDashboard,
+        kind: "site",
+      },
+      {
+        label: { ua: "AI Master Trainer", en: "AI Master Trainer" },
+        note: { ua: "тренувальне середовище", en: "trainer environment" },
+        url: urls.masterTrainer,
+        kind: "project",
+      },
+      {
+        label: { ua: "SPHERE-I-SCIENCE", en: "SPHERE-I-SCIENCE" },
+        note: { ua: "репозиторій наукового шару", en: "science layer repository" },
+        url: urls.masterRepo,
+        kind: "repo",
+      },
+      {
+        label: { ua: "Hugging Face org", en: "Hugging Face org" },
+        note: { ua: "ML-напрям, якщо доречно", en: "ML-facing route if relevant" },
+        url: urls.hfOrg,
+        kind: "lab",
+      },
+    ];
+    krnd.mediaStack = [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/fqIBaMWI7m7O8/giphy.gif",
+        caption: {
+          ua: "Дослідницький режим: питання, гіпотези, аналітика.",
+          en: "Research mode: questions, hypotheses, and analytics.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/TncmRRvEGVoVcHgaAb/giphy.gif",
+        caption: {
+          ua: "Доказовий шар і публічний кейс мають працювати разом.",
+          en: "The evidence layer and the public case should work together.",
+        },
+      },
+    ];
+  }
+
+  const mentorship = HUBS.find((hub) => hub.id === "mentorship");
+  if (mentorship) {
+    mentorship.sphereLabel = { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" };
+    mentorship.pressure = {
+      ua: [
+        "\u043b\u044e\u0434\u0438\u043d\u0430 \u0445\u043e\u0447\u0435 \u0440\u0443\u0445\u0430\u0442\u0438\u0441\u044f, \u0430\u043b\u0435 \u043d\u0435 \u0431\u0430\u0447\u0438\u0442\u044c \u0447\u0456\u0442\u043a\u043e\u0433\u043e next step",
+        "\u043d\u0430\u0441\u0442\u0430\u0432\u043d\u0438\u0446\u0442\u0432\u043e \u0447\u0430\u0441\u0442\u043e \u0430\u0431\u043e \u043d\u0430\u0434\u0442\u043e \u0437\u0430\u0433\u0430\u043b\u044c\u043d\u0435, \u0430\u0431\u043e \u043f\u0435\u0440\u0435\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u0435",
+        "\u0433\u0456\u0431\u0440\u0438\u0434\u043d\u0438\u043c \u043f\u0440\u043e\u0444\u0456\u043b\u044f\u043c \u0441\u043a\u043b\u0430\u0434\u043d\u043e \u0437\u0440\u043e\u0437\u0443\u043c\u0456\u0442\u0438, \u043a\u0443\u0434\u0438 \u0432\u0445\u043e\u0434\u0438\u0442\u0438: \u0443 \u043d\u0430\u0443\u043a\u0443, \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0456\u0457 \u0447\u0438 \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u043d\u0438\u0446\u0442\u0432\u043e",
+      ],
+      en: [
+        "the person wants to move, but the next step is still unclear",
+        "mentorship often feels either too vague or too heavy",
+        "hybrid profiles struggle to place themselves across science, technology, and entrepreneurship",
+      ],
+    };
+    mentorship.fix = {
+      ua: [
+        "\u0434\u0430\u0442\u0438 \u043b\u044e\u0434\u0438\u043d\u0456 \u044f\u0441\u043d\u0443 \u0440\u0430\u043c\u043a\u0443 \u0437\u0430\u043c\u0456\u0441\u0442\u044c \u0456\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0456\u0439\u043d\u043e\u0433\u043e \u0448\u0443\u043c\u0443",
+        "\u043f\u043e\u0454\u0434\u043d\u0430\u0442\u0438 \u043d\u0430\u0432\u0447\u0430\u043d\u043d\u044f \u0437 \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u0438\u043c build path",
+        "\u043f\u043e\u043a\u0430\u0437\u0430\u0442\u0438, \u043a\u0443\u0434\u0438 \u0432\u0435\u0441\u0442\u0438 \u0434\u0430\u043b\u0456: \u0443 repo, tool, research-layer \u0430\u0431\u043e venture-track",
+      ],
+      en: [
+        "give the person a clear frame instead of noise",
+        "connect learning to a concrete build path",
+        "show where to route next: into a repo, a tool, a research layer, or a venture track",
+      ],
+    };
+    mentorship.fit = {
+      ua: "\u041d\u0430\u0439\u043a\u0440\u0430\u0449\u0435 \u043f\u0430\u0441\u0443\u0454 \u0434\u043b\u044f \u043b\u044e\u0434\u0435\u0439 \u043d\u0430 \u043f\u0435\u0440\u0435\u0442\u0438\u043d\u0456 \u043a\u0456\u043b\u044c\u043a\u043e\u0445 \u0456\u043d\u0442\u0435\u0440\u0435\u0441\u0456\u0432, \u044f\u043a\u0438\u043c \u043f\u043e\u0442\u0440\u0456\u0431\u0435\u043d \u043d\u0435 hype, \u0430 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u0438\u0439 \u043d\u0430\u043f\u0440\u044f\u043c \u0456 \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043e\u0432\u0430\u043d\u0438\u0439 \u0432\u0445\u0456\u0434.",
+      en: "Best for people crossing multiple interests who need practical direction and a structured entry rather than hype.",
+    };
+    mentorship.vibe = {
+      ua: "\u0421\u043f\u0435\u0440\u0448\u0443 \u043e\u0440\u0456\u0454\u043d\u0442\u0443\u0454\u043c\u043e. \u041f\u043e\u0442\u0456\u043c \u0432\u0447\u0438\u043c\u043e, \u0437\u0431\u0438\u0440\u0430\u0454\u043c\u043e \u0439 \u0432\u0435\u0434\u0435\u043c\u043e \u0434\u0430\u043b\u0456.",
+      en: "Orient first. Then learn, build, and move.",
+    };
+    mentorship.faq = {
+      ua: [
+        { q: "\u0426\u0435 \u0430\u043a\u0430\u0434\u0435\u043c\u0456\u044f?", a: "\u041d\u0456. \u0426\u0435 \u043b\u0435\u0433\u0448\u0438\u0439 guidance-system, \u044f\u043a\u0438\u0439 \u0434\u0430\u0454 \u0448\u043b\u044f\u0445 \u0456 next step \u0431\u0435\u0437 \u0456\u043d\u0441\u0442\u0438\u0442\u0443\u0446\u0456\u0439\u043d\u043e\u0457 \u0432\u0430\u0436\u043a\u043e\u0441\u0442\u0456." },
+        { q: "\u0429\u043e \u0442\u0443\u0442 SET?", a: "\u0421\u0430\u043c\u0435 \u0442\u0443\u0442 \u043b\u044e\u0434\u0438\u043d\u0430 \u043c\u043e\u0436\u0435 \u043f\u043e\u0431\u0430\u0447\u0438\u0442\u0438, \u044f\u043a Science, Entrepreneurship \u0456 Technology \u043d\u0435 \u0440\u043e\u0437\u0440\u0438\u0432\u0430\u044e\u0442\u044c\u0441\u044f, \u0430 \u0441\u043a\u043b\u0430\u0434\u0430\u044e\u0442\u044c\u0441\u044f \u0432 \u043e\u0434\u043d\u0443 \u0442\u0440\u0430\u0454\u043a\u0442\u043e\u0440\u0456\u044e." },
+      ],
+      en: [
+        { q: "Is this an academy?", a: "No. It is a lighter guidance system that gives a route and a next step without institutional heaviness." },
+        { q: "What makes it SET?", a: "This is one of the places where a person can see Science, Entrepreneurship, and Technology as one trajectory instead of fragmented identities." },
+      ],
+    };
+    Object.assign(mentorship.summary, {
+      ua: "SET-guided \u0448\u0430\u0440 \u043e\u0440\u0456\u0454\u043d\u0442\u0430\u0446\u0456\u0457, \u043d\u0430\u0432\u0447\u0430\u043b\u044c\u043d\u0438\u0445 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0456\u0432, \u0432\u0438\u0431\u0456\u0440\u043a\u043e\u0432\u043e\u0457 \u043f\u0456\u0434\u0442\u0440\u0438\u043c\u043a\u0438 \u0439 buildable next steps.",
+      en: "A SET-guided layer for orientation, learning routes, selective support, and buildable next steps.",
+    });
+    Object.assign(mentorship.overview, {
+      ua: "K Mentorship Hub \u043d\u0435 \u043c\u0430\u0454 \u0431\u0443\u0442\u0438 \u043f\u0435\u0440\u0435\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043e\u044e \u0430\u043a\u0430\u0434\u0435\u043c\u0456\u0454\u044e. \u0426\u0435 guided activation layer \u0443\u0441\u0435\u0440\u0435\u0434\u0438\u043d\u0456 SET-\u0441\u0438\u0441\u0442\u0435\u043c\u0438: \u043b\u044e\u0434\u0438\u043d\u0430 \u043e\u0440\u0456\u0454\u043d\u0442\u0443\u0454\u0442\u044c\u0441\u044f, \u0440\u043e\u0437\u0443\u043c\u0456\u0454, \u0434\u0435 \u0432\u043e\u043d\u0430 \u043c\u0456\u0436 science, entrepreneurship \u0456 technology, \u0456 \u043e\u0442\u0440\u0438\u043c\u0443\u0454 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a, \u044f\u043a\u0438\u0439 \u0440\u0435\u0430\u043b\u044c\u043d\u043e \u043c\u043e\u0436\u043d\u0430 \u0432\u0438\u043a\u043e\u043d\u0430\u0442\u0438. \u0422\u043e\u043c\u0443 \u0442\u0443\u0442 \u0432\u0430\u0436\u043b\u0438\u0432\u0456 \u043d\u0435 \u043e\u0431\u0456\u0446\u044f\u043d\u043a\u0438 \u0432\u0441\u044c\u043e\u0433\u043e \u043e\u0434\u0440\u0430\u0437\u0443, \u0430 \u044f\u0441\u043d\u0430 \u0440\u0430\u043c\u043a\u0430, \u0432\u0456\u0434\u0431\u0456\u0440, \u0440\u0435\u0441\u0443\u0440\u0441\u043d\u0456 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438 \u0439 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u0438\u0439 \u0440\u0443\u0445 \u0434\u0430\u043b\u0456.",
+      en: "K Mentorship Hub is not meant to become a bloated academy. It is the guided activation layer inside the SET system: a person orients themselves, understands where they are between science, entrepreneurship, and technology, and gets a next step that can actually be carried out. The goal here is not promising everything at once, but creating a clear frame, selective entry, resource routes, and practical movement forward.",
+    });
+    mentorship.bullets = {
+      ua: [
+        "application-first beta \u0437\u0430\u043c\u0456\u0441\u0442\u044c \u0448\u0443\u043c\u043d\u043e\u0457 community-\u043e\u043f\u0435\u0440\u0430\u0446\u0456\u0439\u043a\u0438",
+        "resource routing, learning paths, feedback loops \u0456 practical direction",
+        "\u043c\u043e\u0436\u0435 \u0432\u0435\u0441\u0442\u0438 \u0434\u0430\u043b\u0456 \u0443 Venture Studio, K-RnD Lab \u0430\u0431\u043e \u043e\u043a\u0440\u0435\u043c\u0438\u0439 execution-track",
+      ],
+      en: [
+        "an application-first beta instead of noisy community overhead",
+        "resource routing, learning paths, feedback loops, and practical direction",
+        "can route further into Venture Studio, K-RnD Lab, or an independent execution track",
+      ],
+    };
+    Object.assign(mentorship.format, {
+      ua: "\u041d\u0430\u0439\u043a\u0440\u0430\u0449\u0438\u0439 \u0444\u043e\u0440\u043c\u0430\u0442 \u0437\u0430\u0440\u0430\u0437 - \u0432\u0438\u0431\u0456\u0440\u043a\u043e\u0432\u0438\u0439 \u0432\u0445\u0456\u0434: \u0437\u0440\u043e\u0437\u0443\u043c\u0456\u043b\u0430 \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0430 \u043e\u0431\u043e\u043b\u043e\u043d\u043a\u0430, \u0444\u043e\u0440\u043c\u0430, \u0440\u0435\u0441\u0443\u0440\u0441\u043d\u0438\u0439 \u043c\u0430\u0440\u0448\u0440\u0443\u0442 \u0456 \u043f\u043e\u0442\u0456\u043c \u0443\u0436\u0435 \u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u0438\u0439 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a. \u0422\u0430\u043a mentorship \u043f\u0440\u043e\u0434\u0430\u0454 \u044f\u0441\u043d\u0456\u0441\u0442\u044c \u0456 \u0440\u0443\u0445, \u0430 \u043d\u0435 \u0456\u043b\u044e\u0437\u0456\u044e \u0432\u0435\u043b\u0438\u043a\u043e\u0457 \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0438.",
+      en: "The best current format is selective entry: a readable public shell, a form, a resource route, and then the right next step. That lets mentorship sell clarity and movement rather than the illusion of a giant platform.",
+    });
+    mentorship.links = [
+      {
+        label: { ua: "GitHub hub", en: "GitHub hub" },
+        note: { ua: "SET learning and build system", en: "SET learning and build system" },
+        url: urls.mentorshipHub,
+        kind: "org",
+      },
+      {
+        label: { ua: "Apply form", en: "Apply form" },
+        note: { ua: "\u043e\u0441\u043d\u043e\u0432\u043d\u0438\u0439 \u0432\u0445\u0456\u0434 \u0443 beta", en: "main beta entry point" },
+        url: urls.mentorshipForm,
+        kind: "form",
+      },
+      {
+        label: { ua: "Generic route", en: "Generic route" },
+        note: { ua: "\u044f\u043a\u0449\u043e \u0434\u043e\u0441\u0442\u0430\u0442\u043d\u044c\u043e \u0437\u0432\u0438\u0447\u0430\u0439\u043d\u043e\u0433\u043e \u0437\u0430\u043f\u0438\u0442\u0443", en: "if a standard request is enough" },
+        url: urls.hireForm,
+        kind: "intake",
+      },
+    ];
+    mentorship.mediaStack = [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/13p77tfexyLtx6/giphy.gif",
+        caption: {
+          ua: "\u0428\u043b\u044f\u0445 \u043c\u0430\u0454 \u0432\u0456\u0434\u043a\u0440\u0438\u0432\u0430\u0442\u0438\u0441\u044f \u044f\u0441\u043d\u043e, \u0430 \u043d\u0435 \u0442\u043e\u043d\u0443\u0442\u0438 \u0432 \u043f\u0435\u0440\u0435\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043d\u0456.",
+          en: "A path should open clearly instead of drowning in overload.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/zWRJMe6sxNc6VwGqV/giphy.gif",
+        caption: {
+          ua: "\u041a\u043e\u0436\u0435\u043d checkpoint \u043c\u0430\u0454 \u0432\u0435\u0441\u0442\u0438 \u0443 \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u0438\u0439 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a.",
+          en: "Each checkpoint should lead into a concrete next move.",
+        },
+      },
+    ];
+  }
+}
+
+applyContentOverrides();
 
 const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview" };
 
@@ -1218,6 +1684,24 @@ function getActiveEntry() {
 
 function renderMedia(entry, lang) {
 
+  if (Array.isArray(entry.mediaStack) && entry.mediaStack.length) {
+
+    return `<div class="overviewMediaStack">${entry.mediaStack.map((media) => {
+
+      const caption = escapeHtml(getText(media.caption, lang));
+
+      if (media.type === "video") {
+
+        return `<div class="overviewMediaItem"><video autoplay loop muted playsinline><source src="${escapeHtml(media.src)}" type="video/mp4" /></video><div class="mediaOverlay">${caption}</div></div>`;
+
+      }
+
+      return `<div class="overviewMediaItem"><img src="${escapeHtml(media.src)}" alt="${escapeHtml(getText(entry.title, lang))}" /><div class="mediaOverlay">${caption}</div></div>`;
+
+    }).join("")}</div>`;
+
+  }
+
   const media = entry.media;
 
   if (!media) return "";
@@ -1246,6 +1730,82 @@ function renderProjectList(entry, lang) {
 
 }
 
+function getPrimaryLink(entry) {
+
+  const links = Array.isArray(entry.links) ? entry.links : [];
+  const priority = ["form", "intake", "site", "live", "repo", "org", "project", "self", "profile"];
+
+  for (const kind of priority) {
+    const found = links.find((link) => link.kind === kind && !link.disabled && link.url);
+    if (found) return found;
+  }
+
+  return links.find((link) => !link.disabled && link.url) || null;
+
+}
+
+function getActionLabel(link, lang) {
+
+  if (!link) return getDict("overviewActionLinks", lang);
+
+  const map = {
+    form: "overviewActionForm",
+    intake: "overviewActionForm",
+    site: "overviewActionSite",
+    live: "overviewActionSite",
+    repo: "overviewActionRepo",
+    org: "overviewActionRepo",
+    project: "overviewActionLinks",
+    self: "overviewActionLinks",
+    profile: "overviewActionLinks",
+  };
+
+  return getDict(map[link.kind] || "overviewActionLinks", lang);
+
+}
+
+function renderSignalPanel(entry, lang, kind) {
+
+  const items = entry[kind]?.[lang] || [];
+  if (!items.length) return "";
+  const kicker = kind === "pressure" ? getDict("overviewPressure", lang) : getDict("overviewFix", lang);
+  const panelClass = kind === "pressure" ? "pain" : "fix";
+
+  return `<div class="signalPanel signalPanel--${panelClass}"><div class="signalKicker">${escapeHtml(kicker)}</div><ul class="signalList">${items.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul></div>`;
+
+}
+
+function renderRouteStrip(entry, lang) {
+
+  const primary = getPrimaryLink(entry);
+
+  if (!primary) {
+    return `<div class="routeStrip"><span class="routeLabel">${escapeHtml(getDict("overviewEntry", lang))}</span><div class="routeCopy"><strong>${escapeHtml(getDict("overviewRouteFallback", lang))}</strong><p>${escapeHtml(getText(entry.fit, lang) || "")}</p></div></div>`;
+  }
+
+  return `<div class="routeStrip"><span class="routeLabel">${escapeHtml(getDict("overviewEntry", lang))}</span><div class="routeCopy"><strong>${escapeHtml(getText(primary.label, lang) || getText(entry.title, lang))}</strong><p>${escapeHtml(getText(primary.note, lang) || getText(entry.fit, lang) || "")}</p></div><a class="routeAction" href="${escapeHtml(primary.url)}" target="_blank" rel="noreferrer">${escapeHtml(getActionLabel(primary, lang))}</a></div>`;
+
+}
+
+function renderFaq(entry, lang) {
+
+  const faq = entry.faq?.[lang] || [];
+  const cards = [];
+
+  if (getText(entry.fit, lang)) {
+    cards.push(`<div class="faqCard faqCard--fit"><span class="faqLabel">${escapeHtml(getDict("overviewBestFit", lang))}</span><strong>${escapeHtml(getText(entry.title, lang))}</strong><p>${escapeHtml(getText(entry.fit, lang))}</p></div>`);
+  }
+
+  faq.slice(0, 2).forEach((item) => {
+    cards.push(`<div class="faqCard"><strong>${escapeHtml(item.q || "")}</strong><p>${escapeHtml(item.a || "")}</p></div>`);
+  });
+
+  if (!cards.length) return "";
+
+  return `<div class="faqSection"><div class="faqHeader"><h4>${escapeHtml(getDict("overviewFaqTitle", lang))}</h4></div><div class="faqCards">${cards.join("")}</div></div>`;
+
+}
+
 
 
 function renderOverview(entry, lang) {
@@ -1256,17 +1816,25 @@ function renderOverview(entry, lang) {
 
       <div class="overviewText">
 
-        <div class="modalBadgeRow"><span class="modalBadge">${escapeHtml(entry.code || "KG")}</span><span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span></div>
+        <div class="modalBadgeRow"><span class="modalBadge">${escapeHtml(entry.code || "KG")}</span><span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>${entry.sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}</div>
 
-        <div class="overviewTitleRow"><div class="overviewLogo"><img src="${escapeHtml(entry.logo)}" alt="${escapeHtml(getText(entry.title, lang))}" /></div><div class="overviewHeading"><h3>${escapeHtml(getText(entry.title, lang))}</h3><p>${escapeHtml(getText(entry.summary, lang))}</p></div></div>
+        <div class="overviewHeading"><h3>${escapeHtml(getText(entry.title, lang))}</h3><p>${escapeHtml(getText(entry.summary, lang))}</p></div>
+
+        ${entry.vibe ? `<div class="overviewVibe">${escapeHtml(getText(entry.vibe, lang))}</div>` : ""}
 
         <div class="infoBlock"><h4>${escapeHtml(getDict("overviewIntro", lang))}</h4><p>${escapeHtml(getText(entry.overview, lang))}</p></div>
 
         <div class="infoBlock"><h4>${escapeHtml(getDict("overviewBullets", lang))}</h4><ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul></div>
 
+        ${(entry.pressure?.[lang] || []).length || (entry.fix?.[lang] || []).length ? `<div class="overviewContrastGrid">${renderSignalPanel(entry, lang, "pressure")}${renderSignalPanel(entry, lang, "fix")}</div>` : ""}
+
         <div class="infoBlock"><h4>${escapeHtml(getDict("overviewFormat", lang))}</h4><p>${escapeHtml(getText(entry.format, lang))}</p></div>
 
         ${renderProjectList(entry, lang)}
+
+        ${renderRouteStrip(entry, lang)}
+
+        ${renderFaq(entry, lang)}
 
       </div>
 
@@ -1635,3 +2203,6 @@ function renderSocials() {
     return `<a class="socialChip" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer"><span class="socialChipMark">${mark}</span><span class="socialChipBody"><small>${hint}</small><strong>${label}</strong><em>${note}</em></span><span class="socialChipArrow">&#8599;</span></a>`;
   }).join("");
 }
+
+
+
