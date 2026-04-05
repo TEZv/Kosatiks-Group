@@ -249,15 +249,16 @@
 .overviewMediaStack {
   display: grid;
   grid-template-rows: repeat(2, minmax(156px, 1fr));
-  gap: 14px;
+  gap: 12px;
   align-content: start;
   height: auto;
   max-height: none;
 }
 
 .overviewSide--legacy .overviewMediaStack {
-  grid-template-rows: repeat(2, minmax(172px, 1fr));
-  height: 100%;
+  grid-template-rows: repeat(2, minmax(98px, 118px));
+  gap: 10px;
+  height: auto;
 }
 
 .overviewMediaItem,
@@ -270,6 +271,11 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
     rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.overviewSide--legacy .overviewMediaItem,
+.overviewSide--legacy .overviewMedia {
+  min-height: 98px;
 }
 
 .overviewMediaItem img,
@@ -591,6 +597,15 @@
     grid-template-rows: repeat(2, minmax(142px, 1fr));
   }
 
+  .overviewSide--legacy .overviewMediaStack {
+    grid-template-rows: repeat(2, minmax(92px, 108px));
+  }
+
+  .overviewSide--legacy .overviewMediaItem,
+  .overviewSide--legacy .overviewMedia {
+    min-height: 92px;
+  }
+
   .routeAction {
     width: 100%;
   }
@@ -612,6 +627,15 @@
 
   .overviewMediaStack {
     grid-template-rows: repeat(2, minmax(132px, 1fr));
+  }
+
+  .overviewSide--legacy .overviewMediaStack {
+    grid-template-rows: repeat(2, minmax(84px, 98px));
+  }
+
+  .overviewSide--legacy .overviewMediaItem,
+  .overviewSide--legacy .overviewMedia {
+    min-height: 84px;
   }
 
   .overviewHeading h3 {
