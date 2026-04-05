@@ -130,8 +130,9 @@
 }
 
 .overviewHeading p {
-  font-size: 1rem;
-  line-height: 1.72;
+  font-size: 0.96rem;
+  line-height: 1.54;
+  max-width: 56ch;
 }
 
 .overviewVibe {
@@ -153,8 +154,8 @@
 
 .setMethodBlock {
   display: grid;
-  gap: 12px;
-  padding: 15px 16px 14px;
+  gap: 10px;
+  padding: 13px 14px 12px;
   border-radius: 18px;
   border: 1px solid rgba(110, 225, 255, 0.16);
   background:
@@ -195,18 +196,19 @@
 
 .setMethodLead {
   color: rgba(255, 255, 255, 0.86);
-  line-height: 1.66;
+  line-height: 1.5;
+  font-size: 0.97rem;
 }
 
 .setMethodRows {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .setMethodRow {
   display: grid;
   gap: 6px;
-  padding: 12px 14px;
+  padding: 10px 12px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.07);
@@ -220,7 +222,8 @@
 
 .setMethodRow p {
   color: rgba(255, 255, 255, 0.72);
-  line-height: 1.6;
+  line-height: 1.48;
+  font-size: 0.94rem;
 }
 
 .overviewStoryGrid {
@@ -231,6 +234,7 @@
 
 .overviewStoryGrid--legacy {
   align-items: stretch;
+  grid-auto-rows: 1fr;
 }
 
 .infoBlock--primary {
@@ -256,7 +260,7 @@
 }
 
 .overviewSide--legacy .overviewMediaStack {
-  grid-template-rows: repeat(2, minmax(98px, 118px));
+  grid-template-rows: repeat(2, minmax(168px, 188px));
   gap: 10px;
   height: auto;
 }
@@ -275,7 +279,7 @@
 
 .overviewSide--legacy .overviewMediaItem,
 .overviewSide--legacy .overviewMedia {
-  min-height: 98px;
+  min-height: 168px;
 }
 
 .overviewMediaItem img,
@@ -299,8 +303,8 @@
 
 .infoBlock {
   display: grid;
-  gap: 10px;
-  padding: 16px 16px 14px;
+  gap: 8px;
+  padding: 14px 14px 12px;
   border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025)),
@@ -315,12 +319,20 @@
 .infoBlock p,
 .infoBlock li {
   color: rgba(255, 255, 255, 0.8);
+  font-size: 0.97rem;
+  line-height: 1.5;
 }
 
 .infoBlock ul {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   padding-left: 18px;
+}
+
+.overviewStoryGrid--legacy .infoBlock--primary {
+  display: grid;
+  align-content: start;
+  height: 100%;
 }
 
 .overviewContrastGrid {
@@ -336,7 +348,7 @@
 
 .signalPanel {
   border-radius: 18px;
-  padding: 18px 18px 18px;
+  padding: 16px 16px 15px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(14, 16, 22, 0.88);
   min-height: 182px;
@@ -385,7 +397,7 @@
   display: flex;
   gap: 10px;
   color: rgba(255, 255, 255, 0.88);
-  line-height: 1.58;
+  line-height: 1.46;
 }
 
 .signalList li::before {
@@ -417,8 +429,8 @@
 }
 
 .routeStrip--price {
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 16px;
   border-top: 1px dashed rgba(255, 255, 255, 0.12);
   border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
   border-left: 0;
@@ -429,10 +441,17 @@
 }
 
 .routePriceWrap {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.routePriceLead {
   display: inline-flex;
   align-items: center;
   gap: 12px;
   min-width: 0;
+  flex-wrap: wrap;
 }
 
 .routeLabel--price {
@@ -446,10 +465,16 @@
   color: #f3f5fb;
 }
 
+.routeStrip--price strong {
+  font-size: 1.08rem;
+  line-height: 1.28;
+}
+
 .routeStrip--price p {
-  text-align: right;
+  text-align: left;
   opacity: 0.68;
-  font-size: 0.94rem;
+  font-size: 0.92rem;
+  max-width: 34ch;
 }
 
 .routeLabel {
@@ -598,12 +623,12 @@
   }
 
   .overviewSide--legacy .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(92px, 108px));
+    grid-template-rows: repeat(2, minmax(132px, 148px));
   }
 
   .overviewSide--legacy .overviewMediaItem,
   .overviewSide--legacy .overviewMedia {
-    min-height: 92px;
+    min-height: 132px;
   }
 
   .routeAction {
@@ -630,12 +655,12 @@
   }
 
   .overviewSide--legacy .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(84px, 98px));
+    grid-template-rows: repeat(2, minmax(116px, 132px));
   }
 
   .overviewSide--legacy .overviewMediaItem,
   .overviewSide--legacy .overviewMedia {
-    min-height: 84px;
+    min-height: 116px;
   }
 
   .overviewHeading h3 {

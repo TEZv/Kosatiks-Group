@@ -2654,6 +2654,25 @@ function renderLegacyPrice(entry, lang) {
 
 }
 
+function renderLegacyPriceStrip(entry, lang) {
+
+  const price = getText(entry.price, lang);
+  const note = getText(entry.priceNote, lang);
+  const primary = getPrimaryLink(entry);
+
+  if (!price && !note && !primary) return "";
+
+  const label = lang === "ua" ? "Старт" : "Start";
+  const lead = price
+    ? (lang === "ua" ? `Давайте почнемо з ${price}` : `Let's start at ${price}`)
+    : (lang === "ua" ? "Давайте почнемо" : "Let's start");
+  const noteCopy = note || getText(entry.fit, lang) || "";
+  const cta = lang === "ua" ? "Давайте почнемо" : "Let's start";
+
+  return `<div class="routeStrip routeStrip--price"><div class="routePriceWrap"><div class="routePriceLead"><span class="routeLabel routeLabel--price">${escapeHtml(label)}</span><strong>${escapeHtml(lead)}</strong></div><p>${escapeHtml(noteCopy)}</p></div>${primary ? `<a class="routeAction" href="${escapeHtml(primary.url)}" target="_blank" rel="noreferrer">${escapeHtml(cta)}</a>` : ""}</div>`;
+
+}
+
 function renderLegacySignalOverview(entry, lang) {
 
   return `
@@ -2698,7 +2717,7 @@ function renderLegacySignalOverview(entry, lang) {
 
         ${renderProjectList(entry, lang)}
 
-        ${renderLegacyPrice(entry, lang)}
+        ${renderLegacyPriceStrip(entry, lang)}
 
         ${renderFaq(entry, lang)}
 
