@@ -2663,17 +2663,15 @@ function renderLegacyPriceStrip(entry, lang) {
 
   if (!price && !note && !hasForm && !hasRoutes) return "";
 
-  const label = lang === "ua" ? "Старт" : "Start";
-  const lead = price
-    ? (lang === "ua" ? `Давайте почнемо з ${price}` : `Let's start at ${price}`)
-    : (lang === "ua" ? "Давайте почнемо" : "Let's start");
   const noteCopy = note || getText(entry.fit, lang) || "";
   const ctaLabel = hasForm
-    ? (lang === "ua" ? "✨ Давайте почнемо" : "✨ Let's start")
-    : (lang === "ua" ? "🔗 Відкрити маршрути" : "🔗 Open links");
+    ? (price
+        ? (lang === "ua" ? `👉 Давайте почнемо з ${price} 👈` : `👉 Let's start at ${price} 👈`)
+        : (lang === "ua" ? "👉 Давайте почнемо 👈" : "👉 Let's start 👈"))
+    : (lang === "ua" ? "👉 Тицьни сюди 👈" : "👉 Tap here 👈");
   const targetTab = hasForm ? "form" : (hasRoutes ? "routes" : "");
 
-  return `<div class="routeStrip routeStrip--price"><div class="routePriceWrap"><div class="routePriceLead"><span class="routeLabel routeLabel--price">${escapeHtml(label)}</span><strong>${escapeHtml(lead)}</strong></div><p>${escapeHtml(noteCopy)}</p></div>${targetTab ? `<button class="routeAction routeAction--cta" type="button" data-modal-tab-target="${escapeHtml(targetTab)}">${escapeHtml(ctaLabel)}</button>` : ""}</div>`;
+  return `<div class="routeStrip routeStrip--price">${noteCopy ? `<p class="routePriceNote">${escapeHtml(noteCopy)}</p>` : ""}${targetTab ? `<button class="routeAction routeAction--cta" type="button" data-modal-tab-target="${escapeHtml(targetTab)}">${escapeHtml(ctaLabel)}</button>` : ""}</div>`;
 
 }
 
