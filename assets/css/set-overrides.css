@@ -56,7 +56,9 @@
 
 .tabs .tab,
 .modalLang button,
-.modalTop .btn.primary {
+.modalTop .btn.primary,
+.routeAction {
+  cursor: pointer;
   transition:
     transform 0.18s ease,
     background 0.18s ease,
@@ -105,7 +107,7 @@
 .overviewText,
 .overviewMain {
   display: grid;
-  gap: 18px;
+  gap: 20px;
 }
 
 .overviewSide {
@@ -260,8 +262,8 @@
 }
 
 .overviewSide--legacy .overviewMediaStack {
-  grid-template-rows: repeat(2, minmax(168px, 188px));
-  gap: 10px;
+  grid-template-rows: repeat(2, minmax(204px, 224px));
+  gap: 12px;
   height: auto;
 }
 
@@ -279,7 +281,7 @@
 
 .overviewSide--legacy .overviewMediaItem,
 .overviewSide--legacy .overviewMedia {
-  min-height: 168px;
+  min-height: 204px;
 }
 
 .overviewMediaItem img,
@@ -303,8 +305,8 @@
 
 .infoBlock {
   display: grid;
-  gap: 8px;
-  padding: 14px 14px 12px;
+  gap: 10px;
+  padding: 17px 17px 16px;
   border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025)),
@@ -336,7 +338,7 @@
   display: grid;
   align-content: start;
   height: 100%;
-  min-height: 248px;
+  min-height: 286px;
 }
 
 .overviewContrastGrid {
@@ -346,17 +348,17 @@
 }
 
 .overviewContrastGrid--legacy .signalPanel {
-  min-height: 204px;
+  min-height: 236px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   height: 100%;
 }
 
 .signalPanel {
   border-radius: 18px;
-  padding: 16px 16px 15px;
+  padding: 18px 18px 17px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(14, 16, 22, 0.88);
-  min-height: 182px;
+  min-height: 206px;
 }
 
 .signalPanel--pain {
@@ -610,12 +612,12 @@
   }
 
   .overviewSide--legacy .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(132px, 148px));
+    grid-template-rows: repeat(2, minmax(156px, 172px));
   }
 
   .overviewSide--legacy .overviewMediaItem,
   .overviewSide--legacy .overviewMedia {
-    min-height: 132px;
+    min-height: 156px;
   }
 
   .routeAction {
@@ -642,12 +644,12 @@
   }
 
   .overviewSide--legacy .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(116px, 132px));
+    grid-template-rows: repeat(2, minmax(140px, 156px));
   }
 
   .overviewSide--legacy .overviewMediaItem,
   .overviewSide--legacy .overviewMedia {
-    min-height: 116px;
+    min-height: 140px;
   }
 
   .overviewHeading h3 {
