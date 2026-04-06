@@ -2348,6 +2348,16 @@ function getText(source, lang) { if (typeof source === "string") return source; 
 
 function getDict(path, lang = state.lang) { return path.split(".").reduce((acc, key) => (acc ? acc[key] : undefined), dict[lang]) ?? ""; }
 
+function getLocalizedSphereLabel(source, lang) {
+  const raw = getText(source, lang);
+  if (!raw) return "";
+  if (lang !== "ua") return raw;
+
+  return raw
+    .replace(/^SPHERE:/i, "СФЕРА:")
+    .replace("K LIFE OS / CREATIVITY", "K LIFE OS / ТВОРЧІСТЬ");
+}
+
 function escapeHtml(value) { return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;"); }
 
 function modeLabels(mode, lang) { return getDict(`modeSummary.${mode}`, lang); }
@@ -2591,12 +2601,13 @@ function renderSetMethod(entry, lang) {
 
   const lead = getText(entry.setLead, lang);
   const rows = entry.setMap?.[lang] || [];
-  if (!entry.sphereLabel && !lead && !rows.length) return "";
+  const sphereLabel = getLocalizedSphereLabel(entry.sphereLabel, lang);
+  if (!sphereLabel && !lead && !rows.length) return "";
 
   return `<section class="setMethodBlock">
     <div class="setMethodHead">
       <span class="setMethodKicker">${escapeHtml(getDict("overviewSetMethod", lang))}</span>
-      ${entry.sphereLabel ? `<span class="setMethodSphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}
+      ${sphereLabel ? `<span class="setMethodSphere">${escapeHtml(sphereLabel)}</span>` : ""}
     </div>
     ${lead ? `<p class="setMethodLead">${escapeHtml(lead)}</p>` : ""}
     ${rows.length ? `<div class="setMethodRows">${rows.map((row) => `<div class="setMethodRow"><strong>${escapeHtml(row.label || "")}</strong><p>${escapeHtml(row.body || "")}</p></div>`).join("")}</div>` : ""}
@@ -2676,6 +2687,7 @@ function renderLegacyPriceStrip(entry, lang) {
 }
 
 function renderLegacySignalOverview(entry, lang) {
+  const sphereLabel = getLocalizedSphereLabel(entry.sphereLabel, lang);
 
   return `
 
@@ -2686,7 +2698,7 @@ function renderLegacySignalOverview(entry, lang) {
         <div class="modalBadgeRow">
           <span class="modalBadge">${escapeHtml(entry.code || "KG")}</span>
           <span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>
-          ${entry.sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}
+          ${sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(sphereLabel)}</span>` : ""}
         </div>
 
         <div class="overviewHeading">
@@ -2740,6 +2752,8 @@ function renderOverview(entry, lang) {
     return renderLegacySignalOverview(entry, lang);
   }
 
+  const sphereLabel = getLocalizedSphereLabel(entry.sphereLabel, lang);
+
   return `
 
     <div class="overviewGrid overviewGrid--editorial">
@@ -2749,7 +2763,7 @@ function renderOverview(entry, lang) {
         <div class="modalBadgeRow">
           <span class="modalBadge">${escapeHtml(entry.code || "KG")}</span>
           <span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>
-          ${entry.sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}
+          ${sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(sphereLabel)}</span>` : ""}
         </div>
 
         <div class="overviewHeading">
@@ -2988,9 +3002,12 @@ function renderModal() {
 
   refs.routesSlot.innerHTML = renderRoutes(entry, lang);
 
+  refs.tabOverview.textContent = getDict("mOverview", lang);
   refs.tabForm.textContent = getDict("mForm", lang);
 
   refs.tabRoutes.textContent = getDict("mLinks", lang);
+
+  refs.btnModalClose.textContent = getDict("mClose", lang);
 
   refs.tabForm.style.display = hasForm ? "inline-flex" : "none";
 
