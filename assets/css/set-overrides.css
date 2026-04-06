@@ -237,7 +237,7 @@
 .overviewStoryGrid--legacy {
   align-items: stretch;
   grid-auto-rows: 1fr;
-  margin: 2px 0 14px;
+  margin: 2px 0 18px;
 }
 
 .infoBlock--primary {
@@ -263,7 +263,7 @@
 }
 
 .overviewSide--legacy .overviewMediaStack {
-  grid-template-rows: repeat(2, minmax(228px, 248px));
+  grid-template-rows: repeat(2, minmax(220px, 236px));
   gap: 14px;
   height: auto;
 }
@@ -282,7 +282,7 @@
 
 .overviewSide--legacy .overviewMediaItem,
 .overviewSide--legacy .overviewMedia {
-  min-height: 228px;
+  min-height: 220px;
 }
 
 .overviewMediaItem img,
@@ -292,6 +292,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.overviewSide--legacy .overviewMediaItem img,
+.overviewSide--legacy .overviewMedia img,
+.overviewSide--legacy .overviewMediaItem video,
+.overviewSide--legacy .overviewMedia video {
+  object-fit: contain;
+  object-position: center;
+  background: rgba(12, 12, 16, 0.92);
 }
 
 .mediaOverlay {
@@ -340,6 +349,16 @@
   align-content: start;
   height: 100%;
   min-height: 320px;
+}
+
+.overviewStoryGrid--legacy > .infoBlock--primary,
+.overviewContrastGrid--legacy > .signalPanel {
+  margin-top: 0 !important;
+}
+
+.overviewStoryGrid--legacy .infoBlock + .infoBlock,
+.overviewContrastGrid--legacy .signalPanel + .signalPanel {
+  margin-top: 0 !important;
 }
 
 .overviewContrastGrid {
@@ -613,12 +632,12 @@
   }
 
   .overviewSide--legacy .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(176px, 192px));
+    grid-template-rows: repeat(2, minmax(182px, 198px));
   }
 
   .overviewSide--legacy .overviewMediaItem,
   .overviewSide--legacy .overviewMedia {
-    min-height: 176px;
+    min-height: 182px;
   }
 
   .routeAction {
@@ -645,12 +664,12 @@
   }
 
   .overviewSide--legacy .overviewMediaStack {
-    grid-template-rows: repeat(2, minmax(156px, 170px));
+    grid-template-rows: repeat(2, minmax(164px, 180px));
   }
 
   .overviewSide--legacy .overviewMediaItem,
   .overviewSide--legacy .overviewMedia {
-    min-height: 156px;
+    min-height: 164px;
   }
 
   .overviewHeading h3 {
