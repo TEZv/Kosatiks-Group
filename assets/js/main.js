@@ -1663,7 +1663,7 @@ function applyContentOverrides() {
       },
       {
         type: "image",
-        src: "https://media.giphy.com/media/zWRJMe6sxNc6VwGqV/giphy.gif",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRoODRjZXM3NzM4dWo4a28yZTZneDBqMXBsdnY4Z25weTA1anIweiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zWRJMe6sxeNc6VwGqV/giphy.gif",
         caption: {
           ua: "\u041a\u043e\u0436\u0435\u043d checkpoint \u043c\u0430\u0454 \u0432\u0435\u0441\u0442\u0438 \u0443 \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u0438\u0439 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a.",
           en: "Each checkpoint should lead into a concrete next move.",
