@@ -2675,9 +2675,15 @@ function renderLegacyPriceStrip(entry, lang) {
   if (!price && !note && !hasForm && !hasRoutes) return "";
 
   const noteCopy = note || getText(entry.fit, lang) || "";
+  const normalizedPrice = price
+    ? price
+        .replace(/^starts?\s+at\s*/i, "")
+        .replace(/^від\s*/i, "")
+        .trim()
+    : "";
   const ctaLabel = hasForm
-    ? (price
-        ? (lang === "ua" ? `👉 Давайте почнемо з ${price} 👈` : `👉 Let's start at ${price} 👈`)
+    ? (normalizedPrice
+        ? (lang === "ua" ? `👉 Давайте почнемо з ${normalizedPrice} 👈` : `👉 Let's start at ${normalizedPrice} 👈`)
         : (lang === "ua" ? "👉 Давайте почнемо 👈" : "👉 Let's start 👈"))
     : (lang === "ua" ? "👉 Тицьни сюди 👈" : "👉 Tap here 👈");
   const targetTab = hasForm ? "form" : (hasRoutes ? "routes" : "");
