@@ -6,7 +6,7 @@
 
     navhire: "Для замовлення",
 
-    navcanon: "Самовираження",
+    navcanon: "Просто я",
 
     kicker: "KOSATIKS GROUP",
 
@@ -33,19 +33,19 @@
 
     fhire: "Для замовлення",
 
-    fself: "Самовираження",
+    fself: "Просто я",
 
-    fproject: "Самовираження",
+    fproject: "Просто я",
 
     mOverview: "Огляд",
 
-    mLinks: "Лінки",
+    mLinks: "Просто я",
 
     mForm: "Форма",
 
     cardHire: "Для замовлення",
 
-    cardLinks: "Лінки",
+    cardLinks: "Просто я",
 
     mClose: "Закрити",
 
@@ -70,9 +70,9 @@
 
       hire: "Для замовлення",
 
-      self: "Самовираження",
+      self: "Просто я",
 
-      project: "Самовираження",
+      project: "Просто я",
 
     },
 
@@ -152,13 +152,13 @@
 
     mOverview: "Overview",
 
-    mLinks: "Links",
+    mLinks: "Self",
 
     mForm: "Form",
 
     cardHire: "For hire",
 
-    cardLinks: "Links",
+    cardLinks: "Self",
 
     mClose: "Close",
 
@@ -1064,8 +1064,8 @@ Object.assign(dict.ua, {
   overviewActionForm: "???????? ?????",
   overviewActionRepo: "???????? GitHub",
   overviewActionSite: "???????? ????",
-  overviewActionLinks: "???????? ?????",
-  overviewRouteFallback: "??????? ? ??????? Links, ??? ???????? ????? ????? ????????.",
+  overviewActionLinks: "Відкрити Просто я",
+  overviewRouteFallback: "Перейди у вкладку Просто я, щоб побачити повну карту маршруту.",
 });
 
 Object.assign(dict.ua, {
@@ -1077,8 +1077,8 @@ Object.assign(dict.ua, {
   overviewActionForm: "Відкрити форму",
   overviewActionRepo: "Відкрити GitHub",
   overviewActionSite: "Відкрити сайт",
-  overviewActionLinks: "Відкрити лінки",
-  overviewRouteFallback: "Перейди у вкладку Links, щоб побачити повну карту маршруту.",
+  overviewActionLinks: "Відкрити Просто я",
+  overviewRouteFallback: "Перейди у вкладку Просто я, щоб побачити повну карту маршруту.",
 });
 
 Object.assign(dict.ua, {
@@ -1096,8 +1096,8 @@ Object.assign(dict.en, {
   overviewActionForm: "Open form",
   overviewActionRepo: "Open GitHub",
   overviewActionSite: "Open site",
-  overviewActionLinks: "Open links",
-  overviewRouteFallback: "Open the Links tab to see the full routing layer.",
+  overviewActionLinks: "Open self",
+  overviewRouteFallback: "Open the Self tab to see the full routing layer.",
   overviewSetMethod: "SET line",
 });
 
@@ -2890,7 +2890,7 @@ function getLinkKindLabel(kind, lang) {
 
     form: { ua: "Форма", en: "Form" },
 
-    self: { ua: "Self", en: "Self" },
+    self: { ua: "Просто я", en: "Self" },
 
     project: { ua: "Кейс", en: "Case" },
 
