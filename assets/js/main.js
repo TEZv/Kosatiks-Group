@@ -2678,13 +2678,13 @@ function renderLegacyPriceStrip(entry, lang) {
   const normalizedPrice = price
     ? price
         .replace(/^starts?\s+at\s*/i, "")
-        .replace(/^???\s*/i, "")
+        .replace(/^від\s*/i, "")
         .trim()
     : "";
   const ctaPrice = normalizedPrice || "$5";
   const ctaLabel = hasForm
-    ? (lang === "ua" ? `?? ??????? ??????? ? ${ctaPrice} ??` : `?? Let's start at ${ctaPrice} ??`)
-    : (lang === "ua" ? "?? ?????? ???? ??" : "?? Tap here ??");
+    ? (lang === "ua" ? `👉 Давайте почнемо з ${ctaPrice} 👈` : `👉 Let's start at ${ctaPrice} 👈`)
+    : (lang === "ua" ? "👉 Тицьни сюди 👈" : "👉 Tap here 👈");
   const targetTab = hasForm ? "form" : (hasRoutes ? "routes" : "");
 
   return `<div class="routeStrip routeStrip--price">${noteCopy ? `<p class="routePriceNote">${escapeHtml(noteCopy)}</p>` : ""}${targetTab ? `<button class="routeAction routeAction--cta" type="button" data-modal-tab-target="${escapeHtml(targetTab)}">${escapeHtml(ctaLabel)}</button>` : ""}</div>`;
