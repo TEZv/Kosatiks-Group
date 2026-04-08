@@ -39,7 +39,7 @@
 
     mOverview: "Огляд",
 
-    mLinks: "Просто я",
+    mLinks: "Лінки",
 
     mForm: "Форма",
 
@@ -152,7 +152,7 @@
 
     mOverview: "Overview",
 
-    mLinks: "Self",
+    mLinks: "Links",
 
     mForm: "Form",
 
@@ -1064,8 +1064,8 @@ Object.assign(dict.ua, {
   overviewActionForm: "???????? ?????",
   overviewActionRepo: "???????? GitHub",
   overviewActionSite: "???????? ????",
-  overviewActionLinks: "Відкрити Просто я",
-  overviewRouteFallback: "Перейди у вкладку Просто я, щоб побачити повну карту маршруту.",
+  overviewActionLinks: "Відкрити лінки",
+  overviewRouteFallback: "Перейди у вкладку Лінки, щоб побачити повну карту маршруту.",
 });
 
 Object.assign(dict.ua, {
@@ -1077,8 +1077,8 @@ Object.assign(dict.ua, {
   overviewActionForm: "Відкрити форму",
   overviewActionRepo: "Відкрити GitHub",
   overviewActionSite: "Відкрити сайт",
-  overviewActionLinks: "Відкрити Просто я",
-  overviewRouteFallback: "Перейди у вкладку Просто я, щоб побачити повну карту маршруту.",
+  overviewActionLinks: "Відкрити лінки",
+  overviewRouteFallback: "Перейди у вкладку Лінки, щоб побачити повну карту маршруту.",
 });
 
 Object.assign(dict.ua, {
@@ -1096,8 +1096,8 @@ Object.assign(dict.en, {
   overviewActionForm: "Open form",
   overviewActionRepo: "Open GitHub",
   overviewActionSite: "Open site",
-  overviewActionLinks: "Open self",
-  overviewRouteFallback: "Open the Self tab to see the full routing layer.",
+  overviewActionLinks: "Open links",
+  overviewRouteFallback: "Open the Links tab to see the full routing layer.",
   overviewSetMethod: "SET line",
 });
 
@@ -2890,7 +2890,7 @@ function getLinkKindLabel(kind, lang) {
 
     form: { ua: "Форма", en: "Form" },
 
-    self: { ua: "Просто я", en: "Self" },
+    self: { ua: "Лінки", en: "Links" },
 
     project: { ua: "Кейс", en: "Case" },
 
