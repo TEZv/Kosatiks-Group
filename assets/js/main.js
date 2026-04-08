@@ -2492,7 +2492,11 @@ function renderMedia(entry, lang) {
 
   if (Array.isArray(entry.mediaStack) && entry.mediaStack.length) {
 
-    return `<div class="overviewMediaStack">${entry.mediaStack.map((media) => {
+    const stackClass = entry.mediaStack.length === 1
+      ? "overviewMediaStack overviewMediaStack--single"
+      : "overviewMediaStack";
+
+    return `<div class="${stackClass}">${entry.mediaStack.map((media) => {
 
       const caption = escapeHtml(getText(media.caption, lang));
 

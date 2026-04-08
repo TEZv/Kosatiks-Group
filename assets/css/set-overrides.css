@@ -261,6 +261,10 @@
   max-height: none;
 }
 
+.overviewMediaStack--single {
+  grid-template-rows: minmax(360px, 360px);
+}
+
 .overviewSide--legacy .overviewMediaStack {
   grid-template-rows: repeat(2, minmax(220px, 236px));
   gap: 14px;
@@ -277,6 +281,10 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
     rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.overviewMediaStack--single .overviewMediaItem {
+  min-height: 360px;
 }
 
 .overviewSide--legacy .overviewMediaItem,
