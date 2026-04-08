@@ -1177,14 +1177,6 @@ function applyContentOverrides() {
         en: "This is where roles, hubs, products, and external routes meet.",
       },
     },
-    {
-      type: "video",
-      src: "./assets/video/k3.mp4",
-      caption: {
-        ua: "SET-логіка тут читається як одна система, а не як розрізнені проєкти.",
-        en: "The SET logic reads here as one system rather than scattered projects.",
-      },
-    },
   ];
 
   Object.assign(specialEntries.me.summary, {
@@ -1199,14 +1191,6 @@ function applyContentOverrides() {
       caption: {
         ua: "Ядро Kosatiks Group: ролі, філософія, подача.",
         en: "The core of Kosatiks Group: roles, philosophy, and presence.",
-      },
-    },
-    {
-      type: "video",
-      src: "./assets/video/k2.mp4",
-      caption: {
-        ua: "Один голос, який тримає різні продукти в одній лінії.",
-        en: "One voice that keeps different products on the same line.",
       },
     },
   ];
