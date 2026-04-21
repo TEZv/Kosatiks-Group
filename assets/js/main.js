@@ -429,7 +429,7 @@ const specialEntries = {
 
       { label: { ua: "Kosatiks Group repo", en: "Kosatiks Group repo" }, note: { ua: "вихідний код сайту", en: "site source code" }, url: urls.kosatiksRepo, kind: "repo" },
 
-      { label: { ua: "K-RnD Lab", en: "K-RnD Lab" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
+      { label: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
 
       { label: { ua: "Master trainer repo", en: "Master trainer repo" }, note: { ua: "research-проєкт у межах K-RnD", en: "research project inside K-RnD" }, url: urls.masterRepo, kind: "project" },
 
@@ -743,7 +743,7 @@ const HUBS = [
 
     modes: ["hire", "project"],
 
-    title: { ua: "K Venture Studio Hub", en: "K Venture Studio Hub" },
+    title: { ua: "[K Venture Studio Hub]", en: "[K Venture Studio Hub]" },
 
     summary: { ua: "MVP, venture build, упаковка ідей у робочі продукти й окремі venture-маршрути.", en: "MVPs, venture builds, and turning ideas into working products and venture routes." },
 
@@ -777,11 +777,11 @@ const HUBS = [
 
     modes: ["project", "hire"],
 
-    title: { ua: "K-RnD Lab", en: "K-RnD Lab" },
+    title: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" },
 
     summary: { ua: "Дослідницький хаб для гіпотез, аналітики, експериментів і публічних кейсів. Сюди ж лягає Master Trainer.", en: "A research hub for hypotheses, analytics, experiments, and public cases. This is also where Master Trainer fits." },
 
-    overview: { ua: "K-RnD Lab — це мій research-layer. Тут зручно тримати те, що є на стику науки, технологій, аналітики та системного мислення. Саме сюди логічно відносити Master Trainer / підготовку до магістратури: це не окремий «сайт про магістратуру», а дослідницький проєкт з метриками, діаграмами, прогресом і публічним кейсом.", en: "K-RnD Lab is my research layer. It holds work at the intersection of science, technology, analytics, and systems thinking. This is exactly where Master Trainer / master's preparation belongs: not as a separate site about admission, but as a research project with metrics, charts, progress, and a public case-study angle." },
+    overview: { ua: "[K-RnD Lab] — це мій research-layer. Тут зручно тримати те, що є на стику науки, технологій, аналітики та системного мислення. Саме сюди логічно відносити Master Trainer / підготовку до магістратури: це не окремий «сайт про магістратуру», а дослідницький проєкт з метриками, діаграмами, прогресом і публічним кейсом.", en: "[K-RnD Lab] is my research layer. It holds work at the intersection of science, technology, analytics, and systems thinking. This is exactly where Master Trainer / master's preparation belongs: not as a separate site about admission, but as a research project with metrics, charts, progress, and a public case-study angle." },
 
     bullets: { ua: ["гіпотези, експерименти, дослідницька рамка і public proof", "analytics-first подача, діаграми, evidence layer", "сюди інтегруються проєкти на кшталт Master Trainer як дослідження"], en: ["hypotheses, experiments, research framing, and public proof", "analytics-first presentation with charts and evidence", "projects like Master Trainer slot here as research work"] },
 
@@ -791,11 +791,11 @@ const HUBS = [
 
     logo: "./assets/img/hubs/krnd-lab.png",
 
-    media: { type: "image", src: "./assets/img/hubs/krnd-lab.png", caption: { ua: "K-RnD Lab — ядро research-напрямів у Kosatiks.", en: "K-RnD Lab is the research core inside Kosatiks." } },
+    media: { type: "image", src: "./assets/img/hubs/krnd-lab.png", caption: { ua: "[K-RnD Lab] — ядро research-напрямів у Kosatiks.", en: "[K-RnD Lab] is the research core inside Kosatiks." } },
 
     links: [
 
-      { label: { ua: "K-RnD Lab org", en: "K-RnD Lab org" }, note: { ua: "GitHub-організація", en: "GitHub organization" }, url: urls.krndOrg, kind: "org" },
+      { label: { ua: "[K-RnD Lab] org", en: "[K-RnD Lab] org" }, note: { ua: "GitHub-організація", en: "GitHub organization" }, url: urls.krndOrg, kind: "org" },
 
       { label: { ua: "Master trainer repo", en: "Master trainer repo" }, note: { ua: "research-проєкт у GitHub", en: "research project on GitHub" }, url: urls.masterRepo, kind: "repo" },
 
@@ -915,7 +915,7 @@ const HUBS = [
 
     modes: ["self", "hire", "project"],
 
-    title: { ua: "K Mentorship Hub", en: "K Mentorship Hub" },
+    title: { ua: "[K Mentorship Hub]", en: "[K Mentorship Hub]" },
 
     summary: { ua: "Легший mentorship-shell: відбір, ресурсні маршрути, application-first beta, без перенавантаженої community-операційки.", en: "A lighter mentorship shell: selection, resource routes, and an application-first beta instead of overloaded community ops." },
 
@@ -1141,7 +1141,7 @@ function applyContentOverrides() {
     ua: [
       {
         label: "S — Science",
-        body: "Дослідження, метод, evidence layer, системне мислення, K-RnD Lab і все, що потребує глибини та доказовості.",
+        body: "Дослідження, метод, evidence layer, системне мислення, [K-RnD Lab] і все, що потребує глибини та доказовості.",
       },
       {
         label: "E — Entrepreneurship",
@@ -1155,7 +1155,7 @@ function applyContentOverrides() {
     en: [
       {
         label: "S — Science",
-        body: "Research, method, the evidence layer, systems thinking, K-RnD Lab, and everything that needs depth and proof.",
+        body: "Research, method, the evidence layer, systems thinking, [K-RnD Lab], and everything that needs depth and proof.",
       },
       {
         label: "E — Entrepreneurship",
@@ -1271,8 +1271,8 @@ function applyContentOverrides() {
       en: "An entrepreneurship-facing build layer for turning structured ideas into MVPs, tests, offers, and venture cases.",
     });
     Object.assign(venture.overview, {
-      ua: "K Venture Studio Hub - це підприємницький шар SET-методології. Тут сигнали зі стратегії, дослідження й product-thinking переходять у buildable hypotheses, MVP, offer structure і видимі експерименти. Цінність цього хаба не в тому, щоб довше думати про ідею, а в тому, щоб швидше перевести її в перевірний формат і чесно зрозуміти, чи вона тримається.",
-      en: "K Venture Studio Hub is the entrepreneurship layer of the SET methodology. This is where signals from strategy, research, and product thinking become buildable hypotheses, MVPs, offer structures, and visible experiments. The value here is not dreaming about the idea for longer, but translating it into a testable format fast enough to learn honestly.",
+      ua: "[K Venture Studio Hub] - це підприємницький шар SET-методології. Тут сигнали зі стратегії, дослідження й product-thinking переходять у buildable hypotheses, MVP, offer structure і видимі експерименти. Цінність цього хаба не в тому, щоб довше думати про ідею, а в тому, щоб швидше перевести її в перевірний формат і чесно зрозуміти, чи вона тримається.",
+      en: "[K Venture Studio Hub] is the entrepreneurship layer of the SET methodology. This is where signals from strategy, research, and product thinking become buildable hypotheses, MVPs, offer structures, and visible experiments. The value here is not dreaming about the idea for longer, but translating it into a testable format fast enough to learn honestly.",
     });
     venture.bullets = {
       ua: [
@@ -1341,8 +1341,8 @@ function applyContentOverrides() {
   if (krnd) {
     krnd.sphereLabel = { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" };
     krnd.setLead = {
-      ua: "K-RnD Lab — це той хаб, де всі три SET-сфери реально сходяться в одній рамці: наука дає метод, підприємництво — напрям застосування, технології — інструменти й інфраструктуру.",
-      en: "K-RnD Lab is the hub where all three SET spheres actually meet in one frame: science provides the method, entrepreneurship the application direction, and technology the tools plus infrastructure.",
+      ua: "[K-RnD Lab] — це той хаб, де всі три SET-сфери реально сходяться в одній рамці: наука дає метод, підприємництво — напрям застосування, технології — інструменти й інфраструктуру.",
+      en: "[K-RnD Lab] is the hub where all three SET spheres actually meet in one frame: science provides the method, entrepreneurship the application direction, and technology the tools plus infrastructure.",
     };
     krnd.setMap = {
       ua: [
@@ -1421,8 +1421,8 @@ function applyContentOverrides() {
       en: "The science-facing evidence layer of SET: hypotheses, analytics, experiments, measurable systems, and public research cases.",
     });
     Object.assign(krnd.overview, {
-      ua: "K-RnD Lab - це науковий і доказовий backbone ширшої SET-методології. Саме тут research questions, аналітичні артефакти, експериментальна логіка й вимірювані публічні кейси збираються в систему, яка дає proof, а не лише заяви. Сюди ж природно лягає Master Prep Analytics: не як окремий сайт про вступ, а як публічний дослідницький кейс з метриками, графіками, тренувальним середовищем і evidence-based progress.",
-      en: "K-RnD Lab is the scientific and evidence backbone of the wider SET methodology. This is where research questions, analytical artifacts, experimental logic, and measurable public cases become a system that provides proof rather than only claims. That is also why Master Prep Analytics belongs here: not as a separate admission site, but as a public research case with metrics, charts, a trainer environment, and evidence-based progress.",
+      ua: "[K-RnD Lab] - це науковий і доказовий backbone ширшої SET-методології. Саме тут research questions, аналітичні артефакти, експериментальна логіка й вимірювані публічні кейси збираються в систему, яка дає proof, а не лише заяви. Сюди ж природно лягає Master Prep Analytics: не як окремий сайт про вступ, а як публічний дослідницький кейс з метриками, графіками, тренувальним середовищем і evidence-based progress.",
+      en: "[K-RnD Lab] is the scientific and evidence backbone of the wider SET methodology. This is where research questions, analytical artifacts, experimental logic, and measurable public cases become a system that provides proof rather than only claims. That is also why Master Prep Analytics belongs here: not as a separate admission site, but as a public research case with metrics, charts, a trainer environment, and evidence-based progress.",
     });
     krnd.bullets = {
       ua: [
@@ -1456,7 +1456,7 @@ function applyContentOverrides() {
     };
     krnd.links = [
       {
-        label: { ua: "K-RnD Lab org", en: "K-RnD Lab org" },
+        label: { ua: "[K-RnD Lab] org", en: "[K-RnD Lab] org" },
         note: { ua: "головна GitHub-організація", en: "main GitHub organization" },
         url: urls.krndOrg,
         kind: "org",
@@ -1597,19 +1597,19 @@ function applyContentOverrides() {
       en: "A SET-guided layer for orientation, learning routes, selective support, and buildable next steps.",
     });
     Object.assign(mentorship.overview, {
-      ua: "K Mentorship Hub \u043d\u0435 \u043c\u0430\u0454 \u0431\u0443\u0442\u0438 \u043f\u0435\u0440\u0435\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043e\u044e \u0430\u043a\u0430\u0434\u0435\u043c\u0456\u0454\u044e. \u0426\u0435 guided activation layer \u0443\u0441\u0435\u0440\u0435\u0434\u0438\u043d\u0456 SET-\u0441\u0438\u0441\u0442\u0435\u043c\u0438: \u043b\u044e\u0434\u0438\u043d\u0430 \u043e\u0440\u0456\u0454\u043d\u0442\u0443\u0454\u0442\u044c\u0441\u044f, \u0440\u043e\u0437\u0443\u043c\u0456\u0454, \u0434\u0435 \u0432\u043e\u043d\u0430 \u043c\u0456\u0436 science, entrepreneurship \u0456 technology, \u0456 \u043e\u0442\u0440\u0438\u043c\u0443\u0454 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a, \u044f\u043a\u0438\u0439 \u0440\u0435\u0430\u043b\u044c\u043d\u043e \u043c\u043e\u0436\u043d\u0430 \u0432\u0438\u043a\u043e\u043d\u0430\u0442\u0438. \u0422\u043e\u043c\u0443 \u0442\u0443\u0442 \u0432\u0430\u0436\u043b\u0438\u0432\u0456 \u043d\u0435 \u043e\u0431\u0456\u0446\u044f\u043d\u043a\u0438 \u0432\u0441\u044c\u043e\u0433\u043e \u043e\u0434\u0440\u0430\u0437\u0443, \u0430 \u044f\u0441\u043d\u0430 \u0440\u0430\u043c\u043a\u0430, \u0432\u0456\u0434\u0431\u0456\u0440, \u0440\u0435\u0441\u0443\u0440\u0441\u043d\u0456 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438 \u0439 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u0438\u0439 \u0440\u0443\u0445 \u0434\u0430\u043b\u0456.",
-      en: "K Mentorship Hub is not meant to become a bloated academy. It is the guided activation layer inside the SET system: a person orients themselves, understands where they are between science, entrepreneurship, and technology, and gets a next step that can actually be carried out. The goal here is not promising everything at once, but creating a clear frame, selective entry, resource routes, and practical movement forward.",
+      ua: "[K Mentorship Hub] \u043d\u0435 \u043c\u0430\u0454 \u0431\u0443\u0442\u0438 \u043f\u0435\u0440\u0435\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043e\u044e \u0430\u043a\u0430\u0434\u0435\u043c\u0456\u0454\u044e. \u0426\u0435 guided activation layer \u0443\u0441\u0435\u0440\u0435\u0434\u0438\u043d\u0456 SET-\u0441\u0438\u0441\u0442\u0435\u043c\u0438: \u043b\u044e\u0434\u0438\u043d\u0430 \u043e\u0440\u0456\u0454\u043d\u0442\u0443\u0454\u0442\u044c\u0441\u044f, \u0440\u043e\u0437\u0443\u043c\u0456\u0454, \u0434\u0435 \u0432\u043e\u043d\u0430 \u043c\u0456\u0436 science, entrepreneurship \u0456 technology, \u0456 \u043e\u0442\u0440\u0438\u043c\u0443\u0454 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a, \u044f\u043a\u0438\u0439 \u0440\u0435\u0430\u043b\u044c\u043d\u043e \u043c\u043e\u0436\u043d\u0430 \u0432\u0438\u043a\u043e\u043d\u0430\u0442\u0438. \u0422\u043e\u043c\u0443 \u0442\u0443\u0442 \u0432\u0430\u0436\u043b\u0438\u0432\u0456 \u043d\u0435 \u043e\u0431\u0456\u0446\u044f\u043d\u043a\u0438 \u0432\u0441\u044c\u043e\u0433\u043e \u043e\u0434\u0440\u0430\u0437\u0443, \u0430 \u044f\u0441\u043d\u0430 \u0440\u0430\u043c\u043a\u0430, \u0432\u0456\u0434\u0431\u0456\u0440, \u0440\u0435\u0441\u0443\u0440\u0441\u043d\u0456 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438 \u0439 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u0438\u0439 \u0440\u0443\u0445 \u0434\u0430\u043b\u0456.",
+      en: "[K Mentorship Hub] is not meant to become a bloated academy. It is the guided activation layer inside the SET system: a person orients themselves, understands where they are between science, entrepreneurship, and technology, and gets a next step that can actually be carried out. The goal here is not promising everything at once, but creating a clear frame, selective entry, resource routes, and practical movement forward.",
     });
     mentorship.bullets = {
       ua: [
         "application-first beta \u0437\u0430\u043c\u0456\u0441\u0442\u044c \u0448\u0443\u043c\u043d\u043e\u0457 community-\u043e\u043f\u0435\u0440\u0430\u0446\u0456\u0439\u043a\u0438",
         "resource routing, learning paths, feedback loops \u0456 practical direction",
-        "\u043c\u043e\u0436\u0435 \u0432\u0435\u0441\u0442\u0438 \u0434\u0430\u043b\u0456 \u0443 Venture Studio, K-RnD Lab \u0430\u0431\u043e \u043e\u043a\u0440\u0435\u043c\u0438\u0439 execution-track",
+        "\u043c\u043e\u0436\u0435 \u0432\u0435\u0441\u0442\u0438 \u0434\u0430\u043b\u0456 \u0443 [K Venture Studio Hub], [K-RnD Lab] \u0430\u0431\u043e \u043e\u043a\u0440\u0435\u043c\u0438\u0439 execution-track",
       ],
       en: [
         "an application-first beta instead of noisy community overhead",
         "resource routing, learning paths, feedback loops, and practical direction",
-        "can route further into Venture Studio, K-RnD Lab, or an independent execution track",
+        "can route further into [K Venture Studio Hub], [K-RnD Lab], or an independent execution track",
       ],
     };
     Object.assign(mentorship.format, {
