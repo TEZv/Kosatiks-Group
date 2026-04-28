@@ -2317,14 +2317,14 @@ function applyContentOverrides() {
       code: "K CL",
       role: "producer",
       modes: ["hire"],
-      title: { ua: "Clients Hub", en: "Clients Hub" },
+      title: { ua: "K Clients Hub", en: "K Clients Hub" },
       summary: {
         ua: "One clear client entry point for strategy, systems, research, venture framing, and narrative architecture.",
         en: "One clear client entry point for strategy, systems, research, venture framing, and narrative architecture.",
       },
       overview: {
-        ua: "Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
-        en: "Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
+        ua: "K Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
+        en: "K Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
       },
       bullets: {
         ua: [
@@ -3172,7 +3172,7 @@ function renderRoutes(entry, lang) {
       </article>`;
     }).join("");
     const intro = lang === "ua"
-      ? "These are the original Kosatiks hubs gathered inside Clients Hub. Use the filters to choose the role and request type, then open a hub for the full context."
+      ? "These are the original Kosatiks hubs gathered inside K Clients Hub. Use the filters to choose the role and request type, then open a hub for the full context."
       : "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt.";
     return `<div class="clientHubPanel"><p class="linkIntro">${escapeHtml(intro)}</p><div class="clientHubFilters"><div class="clientHubFilterRow"><span class="clientHubFilterLabel">Role</span>${renderFilter("role", roleOptions, state.clientHubRole)}</div><div class="clientHubFilterRow"><span class="clientHubFilterLabel">Type</span>${renderFilter("lane", laneOptions, state.clientHubLane)}</div></div><div class="clientHubGrid">${cards || `<div class="placeholder"><div class="placeholderText">${escapeHtml(getDict("placeholder"))}</div></div>`}</div></div>`;
   }
