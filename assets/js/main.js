@@ -284,6 +284,8 @@ const urls = {
 
   hireForm: "https://tally.so/r/5B9e6P",
 
+  freelancehuntProfile: "https://freelancehunt.com/freelancer/zazera.html",
+
   selfForm: "https://tally.so/r/BzdGlR",
 
   mentorshipForm: "https://forms.gle/7LAMVQRjHwhQrbQC6",
@@ -2304,9 +2306,139 @@ function applyContentOverrides() {
       hub.fix = hub.fix || signals.fix;
     }
   });
+
+  const clientHub = HUBS.find((hub) => hub.id === "client-projects");
+  if (clientHub) {
+    Object.assign(clientHub, {
+      code: "K CL",
+      role: "strategist",
+      modes: ["hire"],
+      title: { ua: "Clients Hub", en: "Clients Hub" },
+      summary: {
+        ua: "One clear client entry point for strategy, systems, research, venture framing, and narrative architecture.",
+        en: "One clear client entry point for strategy, systems, research, venture framing, and narrative architecture.",
+      },
+      overview: {
+        ua: "Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
+        en: "Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
+      },
+      bullets: {
+        ua: [
+          "one client-facing route instead of many separate hire buttons",
+          "service directions grouped by request type",
+          "Freelancehunt stays the main first-contact surface for paid work",
+        ],
+        en: [
+          "one client-facing route instead of many separate hire buttons",
+          "service directions grouped by request type",
+          "Freelancehunt stays the main first-contact surface for paid work",
+        ],
+      },
+      format: {
+        ua: "Open this hub, choose the closest request type, review the related hub cards, and use Freelancehunt as the working contact point. Each card can later hold its own PDF, case note, or portfolio attachment.",
+        en: "Open this hub, choose the closest request type, review the related hub cards, and use Freelancehunt as the working contact point. Each card can later hold its own PDF, case note, or portfolio attachment.",
+      },
+      links: [
+        {
+          label: { ua: "Freelancehunt profile", en: "Freelancehunt profile" },
+          note: { ua: "main working route for paid requests", en: "main working route for paid requests" },
+          url: urls.freelancehuntProfile,
+          kind: "profile",
+        },
+      ],
+      clientHubs: [
+        {
+          lane: "nontech",
+          title: { ua: "Identity & Positioning", en: "Identity & Positioning" },
+          hub: { ua: "K Identity & Brand Hub", en: "K Identity & Brand Hub" },
+          summary: { ua: "Positioning, message architecture, bio/about pages, pitch structure, and clear self-presentation.", en: "Positioning, message architecture, bio/about pages, pitch structure, and clear self-presentation." },
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          lane: "hybrid",
+          title: { ua: "Client Systems & Service Architecture", en: "Client Systems & Service Architecture" },
+          hub: { ua: "K Client Projects + K Ops & Systems", en: "K Client Projects + K Ops & Systems" },
+          summary: { ua: "Intake logic, service maps, delivery flow, light CRM/Notion structure, and calm process clarity.", en: "Intake logic, service maps, delivery flow, light CRM/Notion structure, and calm process clarity." },
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          lane: "tech",
+          title: { ua: "Automation & AI Ops", en: "Automation & AI Ops" },
+          hub: { ua: "K Automation / AI Ops Hub", en: "K Automation / AI Ops Hub" },
+          summary: { ua: "AI workflows, automation mapping, tool setup, and lightweight operating systems for marketing or client work.", en: "AI workflows, automation mapping, tool setup, and lightweight operating systems for marketing or client work." },
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          lane: "tech",
+          title: { ua: "Venture & MVP Framing", en: "Venture & MVP Framing" },
+          hub: { ua: "K Venture Studio", en: "K Venture Studio" },
+          summary: { ua: "Idea-to-MVP maps, offer framing, startup concept packaging, and first operating structure.", en: "Idea-to-MVP maps, offer framing, startup concept packaging, and first operating structure." },
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          lane: "hybrid",
+          title: { ua: "Research & Synthesis", en: "Research & Synthesis" },
+          hub: { ua: "K-RnD Lab", en: "K-RnD Lab" },
+          summary: { ua: "Market maps, competitor/comparative maps, structured synthesis, insight memos, and decision support.", en: "Market maps, competitor/comparative maps, structured synthesis, insight memos, and decision support." },
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          lane: "nontech",
+          title: { ua: "Narrative & Publishing Systems", en: "Narrative & Publishing Systems" },
+          hub: { ua: "K Publishing + K Quest", en: "K Publishing + K Quest" },
+          summary: { ua: "Authorial systems, narrative routes, publishing/release structure, and story logic for complex projects.", en: "Authorial systems, narrative routes, publishing/release structure, and story logic for complex projects." },
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+      ],
+    });
+  }
+
+  const nonHireModes = {
+    "identity-brand": ["project", "self"],
+    "community-partnerships": ["project", "self"],
+    investments: ["project", "self"],
+    "life-os": ["project", "self"],
+    "automation-ai-ops": ["project", "self"],
+    "venture-studio": ["project", "self"],
+    "krnd-lab": ["project", "self"],
+    "ops-systems": ["project", "self"],
+    "leadership-team": ["project", "self"],
+    experiments: ["project", "self"],
+    mentorship: ["project", "self"],
+    publishing: ["project", "self"],
+    quest: ["project", "self"],
+  };
+
+  Object.entries(nonHireModes).forEach(([id, modes]) => {
+    const hub = HUBS.find((item) => item.id === id);
+    if (hub) hub.modes = modes;
+  });
+
+  HUBS.forEach((hub) => {
+    if (hub.id === "client-projects" || !Array.isArray(hub.links)) return;
+    hub.links = hub.links.filter((link) => link.kind !== "form" && link.kind !== "intake");
+  });
 }
 
 applyContentOverrides();
+
+function injectClientHubStyles() {
+  const style = document.createElement("style");
+  style.textContent = `
+    .clientHubPanel { display: grid; gap: 18px; }
+    .clientHubGrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .clientHubCard { border: 1px solid rgba(255,255,255,.12); border-radius: 22px; padding: 18px; background: rgba(255,255,255,.045); box-shadow: inset 0 1px 0 rgba(255,255,255,.05); }
+    .clientHubLane { display: inline-flex; align-items: center; border-radius: 999px; padding: 5px 10px; margin-bottom: 12px; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.68); background: rgba(255,255,255,.075); }
+    .clientHubCard h4 { margin: 0 0 8px; font-size: 18px; }
+    .clientHubName { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
+    .clientHubText { margin: 0 0 12px; color: rgba(255,255,255,.82); }
+    .clientHubPdf { margin: 0; color: rgba(255,255,255,.55); font-size: 12px; }
+    .clientHubAction { justify-self: start; margin-top: 4px; }
+  `;
+  document.head.appendChild(style);
+}
+
+injectClientHubStyles();
 
 const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview" };
 
@@ -2403,6 +2535,8 @@ function renderPanel() {
 function getFilteredHubs() {
 
   return HUBS.filter((hub) => {
+
+    if (state.mode === "hire") return hub.modes.includes("hire");
 
     if (hub.role !== state.facet) return false;
 
@@ -2833,11 +2967,11 @@ function getRouteLinks(entry) {
 
 function getCardIntentLabel(hub, lang) {
 
-  if (state.mode === "hire" && getFormLinks(hub).length) return getDict("cardHire", lang);
+  if (state.mode === "hire" && hub.modes.includes("hire")) return getDict("cardHire", lang);
 
   if (state.mode === "project") return getDict("cardLinks", lang);
 
-  return getFormLinks(hub).length ? getDict("cardHire", lang) : getDict("cardLinks", lang);
+  return hub.modes.includes("hire") ? getDict("cardHire", lang) : getDict("cardLinks", lang);
 
 }
 
@@ -2933,6 +3067,24 @@ function renderForm(entry, lang) {
 
 function renderRoutes(entry, lang) {
 
+  if (Array.isArray(entry.clientHubs) && entry.clientHubs.length) {
+    const laneLabels = {
+      tech: { ua: "Tech", en: "Tech" },
+      nontech: { ua: "Non-tech", en: "Non-tech" },
+      hybrid: { ua: "Hybrid", en: "Hybrid" },
+    };
+    const cards = entry.clientHubs.map((hub) => {
+      const lane = getText(laneLabels[hub.lane] || { ua: hub.lane, en: hub.lane }, lang);
+      return `<article class="clientHubCard"><span class="clientHubLane">${escapeHtml(lane)}</span><h4>${escapeHtml(getText(hub.title, lang))}</h4><p class="clientHubName">${escapeHtml(getText(hub.hub, lang))}</p><p class="clientHubText">${escapeHtml(getText(hub.summary, lang))}</p><p class="clientHubPdf">${escapeHtml(getText(hub.pdf, lang))}</p></article>`;
+    }).join("");
+    const profile = (entry.links || []).find((link) => link.kind === "profile" && link.url);
+    const action = profile ? `<a class="routeAction clientHubAction" href="${escapeHtml(profile.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(profile.label, lang))}</a>` : "";
+    const intro = lang === "ua"
+      ? "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt."
+      : "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt.";
+    return `<div class="clientHubPanel"><p class="linkIntro">${escapeHtml(intro)}</p><div class="clientHubGrid">${cards}</div>${action}</div>`;
+  }
+
   const visibleLinks = getRouteLinks(entry);
 
   const cards = visibleLinks.map((link) => {
@@ -2960,6 +3112,8 @@ function renderRoutes(entry, lang) {
 
 
 function getPreferredTab(entry) {
+
+  if (state.mode === "hire" && Array.isArray(entry.clientHubs) && entry.clientHubs.length) return "routes";
 
   if (state.mode === "hire" && getFormLinks(entry).length) return "form";
 
@@ -2998,7 +3152,7 @@ function renderModal() {
   refs.tabOverview.textContent = getDict("mOverview", lang);
   refs.tabForm.textContent = getDict("mForm", lang);
 
-  refs.tabRoutes.textContent = getDict("mLinks", lang);
+  refs.tabRoutes.textContent = Array.isArray(entry.clientHubs) && entry.clientHubs.length ? "Hubs" : getDict("mLinks", lang);
 
   refs.btnModalClose.textContent = getDict("mClose", lang);
 
