@@ -2357,6 +2357,21 @@ function applyContentOverrides() {
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
         {
+          sourceId: "community-partnerships",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "investments",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "life-os",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
           sourceId: "ops-systems",
           lane: "hybrid",
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
@@ -2377,7 +2392,27 @@ function applyContentOverrides() {
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
         {
+          sourceId: "leadership-team",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "experiments",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "mentorship",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
           sourceId: "publishing",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "quest",
           lane: "nontech",
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
