@@ -2444,10 +2444,9 @@ function injectClientHubStyles() {
     .clientHubPdf { margin: 12px 0 0; color: rgba(11,11,12,.45); font-size: 12px; }
     .applyPanel { display: grid; gap: 16px; }
     .applyCard { border: 1px solid rgba(255,255,255,.14); border-left: 4px solid rgba(247,244,238,.72); border-radius: 14px; padding: 20px; background: linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.028)); }
-    .applyUrl { display: inline-flex; margin-top: 14px; color: rgba(255,255,255,.72); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.28); font-size: 13px; word-break: break-all; }
-    .applyUrl:hover { color: #fff; border-bottom-color: rgba(255,255,255,.72); }
     .applyFrame { min-height: 520px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.035); }
     .applyFrame iframe { width: 100%; height: 520px; border: 0; }
+    .applyEmbedTitle { margin: 4px 0 10px; color: rgba(255,255,255,.88); font-size: 14px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
   `;
   document.head.appendChild(style);
 }
@@ -3077,9 +3076,10 @@ function renderForm(entry, lang) {
   if (!forms.length && applyLinks.length) {
     const apply = applyLinks[0];
     const intro = lang === "ua"
-      ? "Apply through Freelancehunt so the working request, payment route, and first contact stay in one place."
-      : "Apply through Freelancehunt so the working request, payment route, and first contact stay in one place.";
-    return `<div class="applyPanel"><div class="applyCard"><p class="linkIntro">${escapeHtml(intro)}</p><a class="routeAction" href="${escapeHtml(apply.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(apply.label, lang))}</a><a class="applyUrl" href="${escapeHtml(apply.url)}" target="_blank" rel="noreferrer">${escapeHtml(apply.url)}</a></div></div>`;
+      ? "Apply through Freelancehunt for the formal work route, or leave a short intake below if you want to start with context first."
+      : "Apply through Freelancehunt for the formal work route, or leave a short intake below if you want to start with context first.";
+    const embedTitle = lang === "ua" ? "Quick intake" : "Quick intake";
+    return `<div class="applyPanel"><div class="applyCard"><p class="linkIntro">${escapeHtml(intro)}</p><a class="routeAction" href="${escapeHtml(apply.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(apply.label, lang))}</a></div><div><h4 class="applyEmbedTitle">${escapeHtml(embedTitle)}</h4><div class="applyFrame">${mountIframeHtml(urls.hireForm, embedTitle)}</div></div></div>`;
   }
 
   if (!forms.length) {
