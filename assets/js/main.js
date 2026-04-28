@@ -134,7 +134,7 @@
       "Each card is operational, not decorative: it explains what the hub does, who it is for, how it works, and where the next route should go — repo, site, form, or research layer.",
 
     foot:
-      `No generic contact form. Each offer has its own intake so requests land correctly.<br><span class="footer-note__minor">*Note: I take only 2-3 projects per month; availability is limited.</span>`,
+      `One client entry point. Paid requests route through my Freelancehunt profile for clearer scope, payment, and reviews.<br><span class="footer-note__minor">*Note: I take only 2-3 projects per month; availability is limited.</span>`,
 
     rstrategist: "Strategist",
 
@@ -284,6 +284,8 @@ const urls = {
 
   hireForm: "https://tally.so/r/5B9e6P",
 
+  freelancehuntProfile: "https://freelancehunt.com/freelancer/zazera.html",
+
   selfForm: "https://tally.so/r/BzdGlR",
 
   mentorshipForm: "https://forms.gle/7LAMVQRjHwhQrbQC6",
@@ -357,7 +359,7 @@ const specialEntries = {
 
     role: "producer",
 
-    modes: ["hire", "self", "project"],
+    modes: ["self", "project"],
 
     code: "KG",
 
@@ -539,7 +541,7 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["hire", "self"],
+    modes: ["self", "project"],
 
     title: { ua: "K Identity & Brand Hub", en: "K Identity & Brand Hub" },
 
@@ -573,7 +575,7 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["hire", "self"],
+    modes: ["self", "project"],
 
     title: { ua: "K Community & Partnerships Hub", en: "K Community & Partnerships Hub" },
 
@@ -607,7 +609,7 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["hire", "self"],
+    modes: ["self", "project"],
 
     title: { ua: "K Investments Hub", en: "K Investments Hub" },
 
@@ -641,7 +643,7 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["hire", "self"],
+    modes: ["self", "project"],
 
     title: { ua: "K Life OS", en: "K Life OS" },
 
@@ -675,7 +677,7 @@ const HUBS = [
 
     role: "producer",
 
-    modes: ["hire", "project"],
+    modes: ["project"],
 
     title: { ua: "K Automation / AI Ops Hub", en: "K Automation / AI Ops Hub" },
 
@@ -1156,6 +1158,157 @@ function applyContentOverrides() {
     },
   ];
 
+  const clientHub = HUBS.find((hub) => hub.id === "client-projects");
+  if (clientHub) {
+    Object.assign(clientHub, {
+      code: "K CL",
+      role: "strategist",
+      modes: ["hire"],
+      title: { ua: "Clients Hub", en: "Clients Hub" },
+      summary: {
+        ua: "Один вхід для замовлень: стратегія, системи, research, venture framing і narrative architecture.",
+        en: "One client entry point for strategy, systems, research, venture framing, and narrative architecture.",
+      },
+      overview: {
+        ua: "Clients Hub - це не окремий бренд і не ще одна persona. Це коротка вітрина того, що можна замовити в межах Kosatiks Group. Вона маршрутизує запит у правильний хаб: identity, systems, venture, research або narrative work.",
+        en: "Clients Hub is not a separate brand and not another persona. It is the clean service catalog for what can be commissioned through Kosatiks Group. It routes a request into the right hub: identity, systems, venture, research, or narrative work.",
+      },
+      bullets: {
+        ua: [
+          "один client-facing маршрут замість багатьох окремих кнопок замовлення",
+          "послуги зібрані за типом запиту, а не за випадковими назвами хабів",
+          "Freelancehunt лишається основним місцем для першого робочого контакту",
+        ],
+        en: [
+          "one client-facing route instead of many separate hire buttons",
+          "services are grouped by request type rather than scattered hub names",
+          "Freelancehunt stays the main first-contact surface for paid work",
+        ],
+      },
+      format: {
+        ua: "Відкрий цей хаб, обери близький тип запиту, переглянь пов'язані хаби нижче, а для роботи переходь у Freelancehunt-профіль. Це тримає замовлення в одному місці, але не ховає всю екосистему.",
+        en: "Open this hub, choose the closest request type, review the related hubs below, and use the Freelancehunt profile as the working contact point. This keeps paid work in one place without hiding the larger ecosystem.",
+      },
+      media: {
+        type: "image",
+        src: "./assets/img/k-me-logo.jpg",
+        caption: {
+          ua: "Клієнтський вхід має бути простим: один хаб, кілька зрозумілих напрямів.",
+          en: "The client entry should stay simple: one hub, several clear directions.",
+        },
+      },
+      projects: {
+        ua: [
+          { title: "Identity & Positioning", body: "K Identity & Brand Hub: позиціонування, message architecture, bio/about, pitch/profile structure." },
+          { title: "Client Systems & Service Architecture", body: "K Client Projects + K Ops & Systems: intake, service map, delivery logic, Notion/CRM structure." },
+          { title: "Venture & MVP Framing", body: "K Venture Studio: idea-to-MVP map, offer framing, startup concept packaging, first operating structure." },
+          { title: "Research & Synthesis", body: "K-RnD Lab: market map, competitor/comparative map, structured synthesis, insight memo." },
+          { title: "Narrative & Publishing Systems", body: "K Publishing + K Quest: authorial system, narrative route, publishing/release structure." },
+          { title: "Decision & Opportunity Research", body: "Careful opportunity logic and decision-thesis work, framed as research rather than regulated financial advice." },
+        ],
+        en: [
+          { title: "Identity & Positioning", body: "K Identity & Brand Hub: positioning, message architecture, bio/about, pitch/profile structure." },
+          { title: "Client Systems & Service Architecture", body: "K Client Projects + K Ops & Systems: intake, service map, delivery logic, Notion/CRM structure." },
+          { title: "Venture & MVP Framing", body: "K Venture Studio: idea-to-MVP map, offer framing, startup concept packaging, first operating structure." },
+          { title: "Research & Synthesis", body: "K-RnD Lab: market map, competitor/comparative map, structured synthesis, insight memo." },
+          { title: "Narrative & Publishing Systems", body: "K Publishing + K Quest: authorial system, narrative route, publishing/release structure." },
+          { title: "Decision & Opportunity Research", body: "Careful opportunity logic and decision-thesis work, framed as research rather than regulated financial advice." },
+        ],
+      },
+      clientHubs: [
+        {
+          lane: "nontech",
+          title: { ua: "Identity & Positioning", en: "Identity & Positioning" },
+          hub: { ua: "K Identity & Brand Hub", en: "K Identity & Brand Hub" },
+          summary: {
+            ua: "Позиціонування, message architecture, bio/about, pitch/profile structure, ясна самопрезентація.",
+            en: "Positioning, message architecture, bio/about, pitch/profile structure, and clear self-presentation.",
+          },
+          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
+        },
+        {
+          lane: "hybrid",
+          title: { ua: "Client Systems & Service Architecture", en: "Client Systems & Service Architecture" },
+          hub: { ua: "K Client Projects + K Ops & Systems", en: "K Client Projects + K Ops & Systems" },
+          summary: {
+            ua: "Intake, service map, delivery logic, легка CRM/Notion-структура, процес без зайвого PM-образу.",
+            en: "Intake, service map, delivery logic, light CRM/Notion structure, and process clarity without heavy PM framing.",
+          },
+          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
+        },
+        {
+          lane: "tech",
+          title: { ua: "Automation & AI Ops", en: "Automation & AI Ops" },
+          hub: { ua: "K Automation / AI Ops Hub", en: "K Automation / AI Ops Hub" },
+          summary: {
+            ua: "AI workflows, automation mapping, tool setup, lightweight operating systems for marketing or client work.",
+            en: "AI workflows, automation mapping, tool setup, and lightweight operating systems for marketing or client work.",
+          },
+          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
+        },
+        {
+          lane: "tech",
+          title: { ua: "Venture & MVP Framing", en: "Venture & MVP Framing" },
+          hub: { ua: "K Venture Studio", en: "K Venture Studio" },
+          summary: {
+            ua: "Idea-to-MVP map, offer framing, startup concept packaging, first operating structure.",
+            en: "Idea-to-MVP map, offer framing, startup concept packaging, and first operating structure.",
+          },
+          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
+        },
+        {
+          lane: "hybrid",
+          title: { ua: "Research & Synthesis", en: "Research & Synthesis" },
+          hub: { ua: "K-RnD Lab", en: "K-RnD Lab" },
+          summary: {
+            ua: "Market map, competitor/comparative map, structured synthesis, insight memo, decision support.",
+            en: "Market map, competitor/comparative map, structured synthesis, insight memo, and decision support.",
+          },
+          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
+        },
+        {
+          lane: "nontech",
+          title: { ua: "Narrative & Publishing Systems", en: "Narrative & Publishing Systems" },
+          hub: { ua: "K Publishing + K Quest", en: "K Publishing + K Quest" },
+          summary: {
+            ua: "Authorial system, narrative route, publishing/release structure, story logic for complex projects.",
+            en: "Authorial system, narrative route, publishing/release structure, and story logic for complex projects.",
+          },
+          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
+        },
+      ],
+      links: [
+        {
+          label: { ua: "Freelancehunt profile", en: "Freelancehunt profile" },
+          note: { ua: "основний робочий маршрут для замовлень", en: "main working route for paid requests" },
+          url: urls.freelancehuntProfile,
+          kind: "profile",
+        },
+      ],
+    });
+  }
+
+  const nonHireModes = {
+    "identity-brand": ["self", "project"],
+    "community-partnerships": ["self", "project"],
+    investments: ["self", "project"],
+    "life-os": ["self", "project"],
+    "automation-ai-ops": ["project"],
+    "venture-studio": ["project"],
+    "krnd-lab": ["project"],
+    "ops-systems": ["project"],
+    "leadership-team": ["project"],
+    experiments: ["project"],
+    mentorship: ["self", "project"],
+    publishing: ["self", "project"],
+    quest: ["self", "project"],
+  };
+
+  Object.entries(nonHireModes).forEach(([id, modes]) => {
+    const hub = HUBS.find((item) => item.id === id);
+    if (hub) hub.modes = modes;
+  });
+
   const venture = HUBS.find((hub) => hub.id === "venture-studio");
   if (venture) {
     venture.sphereLabel = { ua: "SPHERE: E + T", en: "SPHERE: E + T" };
@@ -1508,9 +1661,40 @@ function applyContentOverrides() {
       },
     ];
   }
+
+  HUBS.forEach((hub) => {
+    if (hub.id !== "client-projects" && Array.isArray(hub.links)) {
+      hub.links = hub.links.filter((link) => link.kind !== "form" && link.kind !== "intake");
+    }
+  });
 }
 
 applyContentOverrides();
+
+function injectClientHubStyles() {
+  if (document.getElementById("clientHubStyles")) return;
+  const style = document.createElement("style");
+  style.id = "clientHubStyles";
+  style.textContent = `
+    .clientHubPanel { padding: 20px; }
+    .clientHubGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+    .clientHubCard { display: flex; flex-direction: column; gap: 10px; min-height: 210px; padding: 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.055); border: 1px solid rgba(255, 255, 255, 0.11); }
+    .clientHubCard--tech { border-color: rgba(116, 186, 255, 0.34); }
+    .clientHubCard--nontech { border-color: rgba(255, 214, 120, 0.3); }
+    .clientHubCard--hybrid { border-color: rgba(180, 255, 202, 0.28); }
+    .clientHubCardTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .clientHubLane, .clientHubSource, .clientHubPdf { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.58); }
+    .clientHubLane { padding: 5px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.09); color: rgba(255, 255, 255, 0.78); }
+    .clientHubSource { max-width: 52%; text-align: right; }
+    .clientHubCard strong { color: rgba(255, 255, 255, 0.92); font-size: 1rem; }
+    .clientHubCard p { color: rgba(255, 255, 255, 0.72); line-height: 1.55; }
+    .clientHubPdf { margin-top: auto; padding-top: 8px; color: rgba(255, 255, 255, 0.5); }
+    .clientHubAction { margin-top: 16px; }
+  `;
+  document.head.appendChild(style);
+}
+
+injectClientHubStyles();
 
 const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview" };
 
@@ -1597,6 +1781,8 @@ function renderPanel() {
 function getFilteredHubs() {
 
   return HUBS.filter((hub) => {
+
+    if (state.mode === "hire") return hub.modes.includes("hire");
 
     if (hub.role !== state.facet) return false;
 
@@ -1874,11 +2060,11 @@ function getRouteLinks(entry) {
 
 function getCardIntentLabel(hub, lang) {
 
-  if (state.mode === "hire" && getFormLinks(hub).length) return getDict("cardHire", lang);
+  if (state.mode === "hire" && hub.modes.includes("hire")) return getDict("cardHire", lang);
 
   if (state.mode === "project") return getDict("cardLinks", lang);
 
-  return getFormLinks(hub).length ? getDict("cardHire", lang) : getDict("cardLinks", lang);
+  return hub.modes.includes("hire") ? getDict("cardHire", lang) : getDict("cardLinks", lang);
 
 }
 
@@ -1974,6 +2160,34 @@ function renderForm(entry, lang) {
 
 function renderRoutes(entry, lang) {
 
+  if (Array.isArray(entry.clientHubs) && entry.clientHubs.length) {
+    const laneLabels = {
+      tech: { ua: "Tech", en: "Tech" },
+      nontech: { ua: "Non-tech", en: "Non-tech" },
+      hybrid: { ua: "Hybrid", en: "Hybrid" },
+    };
+
+    const cards = entry.clientHubs.map((hub) => {
+      const lane = getText(laneLabels[hub.lane] || { ua: "Hub", en: "Hub" }, lang);
+      return `
+        <article class="clientHubCard clientHubCard--${escapeHtml(hub.lane || "hybrid")}">
+          <div class="clientHubCardTop">
+            <span class="clientHubLane">${escapeHtml(lane)}</span>
+            <span class="clientHubSource">${escapeHtml(getText(hub.hub, lang))}</span>
+          </div>
+          <strong>${escapeHtml(getText(hub.title, lang))}</strong>
+          <p>${escapeHtml(getText(hub.summary, lang))}</p>
+          <span class="clientHubPdf">${escapeHtml(getText(hub.pdf, lang))}</span>
+        </article>
+      `;
+    }).join("");
+
+    const profile = (entry.links || []).find((link) => link.kind === "profile" && link.url);
+    const action = profile ? `<a class="routeAction clientHubAction" href="${escapeHtml(profile.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(profile.label, lang))}</a>` : "";
+
+    return `<div class="clientHubPanel"><p class="linkIntro">${escapeHtml(lang === "ua" ? "Усі напрями для замовлень зібрані тут. Кожна картка може мати окремий PDF, кейс або опис, а робочий контакт іде через Freelancehunt." : "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt.")}</p><div class="clientHubGrid">${cards}</div>${action}</div>`;
+  }
+
   const visibleLinks = getRouteLinks(entry);
 
   const cards = visibleLinks.map((link) => {
@@ -2003,6 +2217,8 @@ function renderRoutes(entry, lang) {
 function getPreferredTab(entry) {
 
   if (state.mode === "hire" && getFormLinks(entry).length) return "form";
+
+  if (state.mode === "hire" && Array.isArray(entry.clientHubs) && entry.clientHubs.length) return "routes";
 
   if (state.mode === "project" && getRouteLinks(entry).length) return "routes";
 
@@ -2038,7 +2254,7 @@ function renderModal() {
 
   refs.tabForm.textContent = getDict("mForm", lang);
 
-  refs.tabRoutes.textContent = getDict("mLinks", lang);
+  refs.tabRoutes.textContent = Array.isArray(entry.clientHubs) && entry.clientHubs.length ? "Hubs" : getDict("mLinks", lang);
 
   refs.tabForm.style.display = hasForm ? "inline-flex" : "none";
 
