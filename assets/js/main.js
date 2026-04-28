@@ -43,11 +43,13 @@
 
     mForm: "Форма",
 
+    mBack: "Назад",
+
     cardHire: "Для замовлення",
 
     cardLinks: "Просто я",
 
-    mClose: "Закрити",
+    mClose: "Головна",
 
     hintMe: "Я",
 
@@ -156,11 +158,13 @@
 
     mForm: "Form",
 
+    mBack: "Back",
+
     cardHire: "For hire",
 
     cardLinks: "Self",
 
-    mClose: "Close",
+    mClose: "Main",
 
     hintMe: "Me",
 
@@ -2448,7 +2452,7 @@ function injectClientHubStyles() {
 
 injectClientHubStyles();
 
-const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview", clientHubRole: "all", clientHubLane: "all" };
+const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview", clientHubRole: "all", clientHubLane: "all", modalBackStack: [] };
 
 
 
@@ -2462,7 +2466,7 @@ const refs = {
 
   overviewSlot: document.getElementById("overviewSlot"), formSlot: document.getElementById("formSlot"), routesSlot: document.getElementById("routesSlot"), paneOverview: document.getElementById("paneOverview"), paneForm: document.getElementById("paneForm"), paneRoutes: document.getElementById("paneRoutes"),
 
-  tabOverview: document.getElementById("tabOverview"), tabForm: document.getElementById("tabForm"), tabRoutes: document.getElementById("tabRoutes"), btnModalClose: document.getElementById("btnModalClose"),
+  tabOverview: document.getElementById("tabOverview"), tabForm: document.getElementById("tabForm"), tabRoutes: document.getElementById("tabRoutes"), btnModalBack: document.getElementById("btnModalBack"), btnModalClose: document.getElementById("btnModalClose"),
 
 };
 
@@ -3205,7 +3209,11 @@ function renderModal() {
 
   refs.tabRoutes.textContent = Array.isArray(entry.clientHubs) && entry.clientHubs.length ? "Hubs" : getDict("mLinks", lang);
 
+  refs.btnModalBack.textContent = `← ${getDict("mBack", lang)}`;
+
   refs.btnModalClose.textContent = getDict("mClose", lang);
+
+  refs.btnModalBack.style.display = state.modalBackStack.length ? "inline-flex" : "none";
 
   refs.tabForm.style.display = hasForm ? "inline-flex" : "none";
 
@@ -3233,11 +3241,51 @@ function renderModal() {
 
 
 
-function openHub(id) { state.activeHubId = id; state.activeSpecialId = null; state.modalLang = state.lang; const entry = getActiveEntry(); state.activeTab = entry ? getPreferredTab(entry) : "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
+function snapshotModalRoute() {
+  return {
+    activeHubId: state.activeHubId,
+    activeSpecialId: state.activeSpecialId,
+    activeTab: state.activeTab,
+    modalLang: state.modalLang,
+    clientHubRole: state.clientHubRole,
+    clientHubLane: state.clientHubLane,
+  };
+}
 
-function openSpecial(id) { state.activeHubId = null; state.activeSpecialId = id; state.modalLang = state.lang; state.activeTab = "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
+function restoreModalRoute(route) {
+  state.activeHubId = route.activeHubId;
+  state.activeSpecialId = route.activeSpecialId;
+  state.activeTab = route.activeTab || "overview";
+  state.modalLang = route.modalLang || state.lang;
+  state.clientHubRole = route.clientHubRole || "all";
+  state.clientHubLane = route.clientHubLane || "all";
+}
 
-function closeModal() { refs.modal.classList.remove("open"); refs.modal.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open"); state.activeHubId = null; state.activeSpecialId = null; state.activeTab = "overview"; }
+function openHub(id, options = {}) {
+  if (options.pushHistory && state.activeHubId !== id) state.modalBackStack.push(snapshotModalRoute());
+  state.activeHubId = id;
+  state.activeSpecialId = null;
+  state.modalLang = state.lang;
+  const entry = getActiveEntry();
+  state.activeTab = entry ? getPreferredTab(entry) : "overview";
+  refs.modal.classList.add("open");
+  refs.modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  renderStaticI18n();
+  renderModal();
+}
+
+function openSpecial(id) { state.modalBackStack = []; state.activeHubId = null; state.activeSpecialId = id; state.modalLang = state.lang; state.activeTab = "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
+
+function closeModal() { refs.modal.classList.remove("open"); refs.modal.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open"); state.activeHubId = null; state.activeSpecialId = null; state.activeTab = "overview"; state.modalBackStack = []; }
+
+function backModal() {
+  const previous = state.modalBackStack.pop();
+  if (!previous) return;
+  restoreModalRoute(previous);
+  renderStaticI18n();
+  renderModal();
+}
 
 function switchModalTab(tab) { state.activeTab = tab; renderModal(); }
 
@@ -3263,7 +3311,11 @@ document.addEventListener("click", (event) => {
 
   const hubButton = event.target.closest("[data-open-hub]");
 
-  if (hubButton) { openHub(hubButton.dataset.openHub); return; }
+  if (hubButton) {
+    const shouldPushHistory = refs.modal.classList.contains("open") && state.activeHubId && state.activeHubId !== hubButton.dataset.openHub;
+    openHub(hubButton.dataset.openHub, { pushHistory: shouldPushHistory });
+    return;
+  }
 
   const clientRoleButton = event.target.closest("[data-client-role]");
 
@@ -3292,6 +3344,8 @@ document.addEventListener("click", (event) => {
 
 
 refs.btnModalClose.addEventListener("click", closeModal);
+
+refs.btnModalBack.addEventListener("click", backModal);
 
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && refs.modal.classList.contains("open")) closeModal(); });
 

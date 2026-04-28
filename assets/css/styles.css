@@ -1084,6 +1084,22 @@ a {
 
 }
 
+.modalBackBtn {
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-color: rgba(255, 255, 255, 0.22);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: rgba(255, 255, 255, 0.86);
+
+}
+
 
 
 .tabs {
