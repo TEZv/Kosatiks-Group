@@ -2414,17 +2414,32 @@ function injectClientHubStyles() {
   const style = document.createElement("style");
   style.textContent = `
     .clientHubPanel { display: grid; gap: 18px; }
-    .clientHubFilters { display: grid; gap: 10px; padding: 14px; border: 1px solid rgba(255,255,255,.1); border-radius: 24px; background: rgba(255,255,255,.035); }
-    .clientHubFilterRow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .clientHubFilterLabel { min-width: 64px; color: rgba(255,255,255,.55); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
-    .clientHubFilterBtn { border: 1px solid rgba(255,255,255,.12); border-radius: 999px; padding: 8px 13px; background: rgba(255,255,255,.055); color: rgba(255,255,255,.74); font: inherit; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+    .clientHubFilters { display: grid; gap: 12px; padding: 16px 18px; border: 1px solid rgba(255,255,255,.14); border-left: 4px solid rgba(247,244,238,.72); border-radius: 14px; background: linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.025) 55%, rgba(174,130,96,.08)); box-shadow: inset 0 1px 0 rgba(255,255,255,.07); }
+    .clientHubFilterRow { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+    .clientHubFilterLabel { min-width: 58px; color: rgba(255,255,255,.56); font-size: 11px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+    .clientHubFilterBtn { border: 1px solid rgba(255,255,255,.16); border-radius: 8px; padding: 9px 14px; background: rgba(255,255,255,.055); color: rgba(255,255,255,.78); font: inherit; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 24px rgba(0,0,0,.12); transition: transform .16s ease, background .16s ease, border-color .16s ease; }
+    .clientHubFilterBtn:hover { transform: translateY(-1px); background: rgba(255,255,255,.11); border-color: rgba(255,255,255,.28); }
     .clientHubFilterBtn.active { background: #f7f4ee; color: #111; border-color: #f7f4ee; }
     .clientHubGrid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
     .clientHubGrid .card { min-height: 100%; }
-    .clientHubLane { display: inline-flex; align-items: center; border-radius: 999px; padding: 5px 10px; margin-left: 6px; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.68); background: rgba(255,255,255,.075); }
-    .clientHubPdf { margin: 12px 0 0; color: rgba(255,255,255,.55); font-size: 12px; }
+    .clientHubSourceCard { position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,245,240,.98)); border-color: rgba(255,255,255,.22); box-shadow: 0 28px 80px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.82); }
+    .clientHubSourceCard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; opacity: .95; }
+    .clientHubSourceCard.is-strategist::before { background: linear-gradient(180deg, #8fb4bd, #d7ebe7); }
+    .clientHubSourceCard.is-producer::before { background: linear-gradient(180deg, #d6aa71, #f1dfbd); }
+    .clientHubSourceCard.is-creator::before { background: linear-gradient(180deg, #c98b9b, #ead3dc); }
+    .clientHubSourceCard .cardTitle,
+    .clientHubSourceCard .cardLine,
+    .clientHubSourceCard .cardModeSummary { color: rgba(11,11,12,.86); }
+    .clientHubSourceCard .cardModeSummary { color: rgba(11,11,12,.56); }
+    .clientHubSourceCard .cardCode { background: rgba(11,11,12,.08); color: rgba(11,11,12,.82); }
+    .clientHubSourceCard .cardRole { background: rgba(70,93,91,.13); color: rgba(46,61,60,.92); }
+    .clientHubLane { display: inline-flex; align-items: center; border-radius: 999px; padding: 6px 10px; margin-left: 6px; font-size: 11px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; color: rgba(42,58,57,.9); background: rgba(70,93,91,.12); }
+    .clientHubSourceCard.is-strategist .clientHubLane { background: rgba(143,180,189,.2); }
+    .clientHubSourceCard.is-producer .clientHubLane { background: rgba(214,170,113,.22); }
+    .clientHubSourceCard.is-creator .clientHubLane { background: rgba(201,139,155,.22); }
+    .clientHubPdf { margin: 12px 0 0; color: rgba(11,11,12,.45); font-size: 12px; }
     .applyPanel { display: grid; gap: 16px; }
-    .applyCard { border: 1px solid rgba(255,255,255,.12); border-radius: 24px; padding: 20px; background: rgba(255,255,255,.045); }
+    .applyCard { border: 1px solid rgba(255,255,255,.14); border-left: 4px solid rgba(247,244,238,.72); border-radius: 14px; padding: 20px; background: linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.028)); }
     .applyFrame { min-height: 520px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.035); }
     .applyFrame iframe { width: 100%; height: 520px; border: 0; }
   `;
@@ -3107,7 +3122,7 @@ function renderRoutes(entry, lang) {
     const cards = filtered.map((item) => {
       const hub = item.source;
       const lane = getText(laneLabels[item.lane] || { ua: item.lane, en: item.lane }, lang);
-      return `<article class="card clientHubSourceCard">
+      return `<article class="card clientHubSourceCard is-${escapeHtml(hub.role)}">
         <div class="cardTop"><span class="cardCode">${escapeHtml(hub.code)}</span><div class="cardMeta"><span class="cardRole">${escapeHtml(humanRole(hub.role, lang))}</span><span class="clientHubLane">${escapeHtml(lane)}</span></div></div>
         <div class="cardTitleRow"><div class="cardLogo"><img src="${escapeHtml(hub.logo)}" alt="${escapeHtml(getText(hub.title, lang))}" /></div><div class="cardTitleWrap"><h3 class="cardTitle">${escapeHtml(getText(hub.title, lang))}</h3><div class="cardModeSummary">${escapeHtml(getText(hub.summary, lang))}</div></div></div>
         <div class="cardLine">${escapeHtml(getText(hub.overview, lang))}</div>
