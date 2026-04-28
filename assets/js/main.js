@@ -2311,7 +2311,7 @@ function applyContentOverrides() {
   if (clientHub) {
     Object.assign(clientHub, {
       code: "K CL",
-      role: "strategist",
+      role: "producer",
       modes: ["hire"],
       title: { ua: "Clients Hub", en: "Clients Hub" },
       summary: {
@@ -2340,53 +2340,41 @@ function applyContentOverrides() {
       },
       links: [
         {
-          label: { ua: "Freelancehunt profile", en: "Freelancehunt profile" },
+          label: { ua: "Apply on Freelancehunt", en: "Apply on Freelancehunt" },
           note: { ua: "main working route for paid requests", en: "main working route for paid requests" },
           url: urls.freelancehuntProfile,
-          kind: "profile",
+          kind: "apply",
         },
       ],
       clientHubs: [
         {
+          sourceId: "identity-brand",
           lane: "nontech",
-          title: { ua: "Identity & Positioning", en: "Identity & Positioning" },
-          hub: { ua: "K Identity & Brand Hub", en: "K Identity & Brand Hub" },
-          summary: { ua: "Positioning, message architecture, bio/about pages, pitch structure, and clear self-presentation.", en: "Positioning, message architecture, bio/about pages, pitch structure, and clear self-presentation." },
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
         {
+          sourceId: "ops-systems",
           lane: "hybrid",
-          title: { ua: "Client Systems & Service Architecture", en: "Client Systems & Service Architecture" },
-          hub: { ua: "K Client Projects + K Ops & Systems", en: "K Client Projects + K Ops & Systems" },
-          summary: { ua: "Intake logic, service maps, delivery flow, light CRM/Notion structure, and calm process clarity.", en: "Intake logic, service maps, delivery flow, light CRM/Notion structure, and calm process clarity." },
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
         {
+          sourceId: "automation-ai-ops",
           lane: "tech",
-          title: { ua: "Automation & AI Ops", en: "Automation & AI Ops" },
-          hub: { ua: "K Automation / AI Ops Hub", en: "K Automation / AI Ops Hub" },
-          summary: { ua: "AI workflows, automation mapping, tool setup, and lightweight operating systems for marketing or client work.", en: "AI workflows, automation mapping, tool setup, and lightweight operating systems for marketing or client work." },
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
         {
+          sourceId: "venture-studio",
           lane: "tech",
-          title: { ua: "Venture & MVP Framing", en: "Venture & MVP Framing" },
-          hub: { ua: "K Venture Studio", en: "K Venture Studio" },
-          summary: { ua: "Idea-to-MVP maps, offer framing, startup concept packaging, and first operating structure.", en: "Idea-to-MVP maps, offer framing, startup concept packaging, and first operating structure." },
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
         {
+          sourceId: "krnd-lab",
           lane: "hybrid",
-          title: { ua: "Research & Synthesis", en: "Research & Synthesis" },
-          hub: { ua: "K-RnD Lab", en: "K-RnD Lab" },
-          summary: { ua: "Market maps, competitor/comparative maps, structured synthesis, insight memos, and decision support.", en: "Market maps, competitor/comparative maps, structured synthesis, insight memos, and decision support." },
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
         {
+          sourceId: "publishing",
           lane: "nontech",
-          title: { ua: "Narrative & Publishing Systems", en: "Narrative & Publishing Systems" },
-          hub: { ua: "K Publishing + K Quest", en: "K Publishing + K Quest" },
-          summary: { ua: "Authorial systems, narrative routes, publishing/release structure, and story logic for complex projects.", en: "Authorial systems, narrative routes, publishing/release structure, and story logic for complex projects." },
           pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
         },
       ],
@@ -2426,21 +2414,26 @@ function injectClientHubStyles() {
   const style = document.createElement("style");
   style.textContent = `
     .clientHubPanel { display: grid; gap: 18px; }
-    .clientHubGrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-    .clientHubCard { border: 1px solid rgba(255,255,255,.12); border-radius: 22px; padding: 18px; background: rgba(255,255,255,.045); box-shadow: inset 0 1px 0 rgba(255,255,255,.05); }
-    .clientHubLane { display: inline-flex; align-items: center; border-radius: 999px; padding: 5px 10px; margin-bottom: 12px; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.68); background: rgba(255,255,255,.075); }
-    .clientHubCard h4 { margin: 0 0 8px; font-size: 18px; }
-    .clientHubName { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
-    .clientHubText { margin: 0 0 12px; color: rgba(255,255,255,.82); }
-    .clientHubPdf { margin: 0; color: rgba(255,255,255,.55); font-size: 12px; }
-    .clientHubAction { justify-self: start; margin-top: 4px; }
+    .clientHubFilters { display: grid; gap: 10px; padding: 14px; border: 1px solid rgba(255,255,255,.1); border-radius: 24px; background: rgba(255,255,255,.035); }
+    .clientHubFilterRow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .clientHubFilterLabel { min-width: 64px; color: rgba(255,255,255,.55); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .clientHubFilterBtn { border: 1px solid rgba(255,255,255,.12); border-radius: 999px; padding: 8px 13px; background: rgba(255,255,255,.055); color: rgba(255,255,255,.74); font: inherit; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; }
+    .clientHubFilterBtn.active { background: #f7f4ee; color: #111; border-color: #f7f4ee; }
+    .clientHubGrid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .clientHubGrid .card { min-height: 100%; }
+    .clientHubLane { display: inline-flex; align-items: center; border-radius: 999px; padding: 5px 10px; margin-left: 6px; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.68); background: rgba(255,255,255,.075); }
+    .clientHubPdf { margin: 12px 0 0; color: rgba(255,255,255,.55); font-size: 12px; }
+    .applyPanel { display: grid; gap: 16px; }
+    .applyCard { border: 1px solid rgba(255,255,255,.12); border-radius: 24px; padding: 20px; background: rgba(255,255,255,.045); }
+    .applyFrame { min-height: 520px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.035); }
+    .applyFrame iframe { width: 100%; height: 520px; border: 0; }
   `;
   document.head.appendChild(style);
 }
 
 injectClientHubStyles();
 
-const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview" };
+const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview", clientHubRole: "all", clientHubLane: "all" };
 
 
 
@@ -2535,8 +2528,6 @@ function renderPanel() {
 function getFilteredHubs() {
 
   return HUBS.filter((hub) => {
-
-    if (state.mode === "hire") return hub.modes.includes("hire");
 
     if (hub.role !== state.facet) return false;
 
@@ -2957,9 +2948,17 @@ function getFormLinks(entry) {
 
 
 
+function getApplyLinks(entry) {
+
+  return (entry.links || []).filter((link) => link.kind === "apply");
+
+}
+
+
+
 function getRouteLinks(entry) {
 
-  return (entry.links || []).filter((link) => link.kind !== "form");
+  return (entry.links || []).filter((link) => link.kind !== "form" && link.kind !== "apply");
 
 }
 
@@ -3001,6 +3000,8 @@ function getLinkIcon(kind) {
 
     intake: "FORM",
 
+    apply: "APPLY",
+
     google: "G",
 
   };
@@ -3032,6 +3033,8 @@ function getLinkKindLabel(kind, lang) {
 
     intake: { ua: "Intake", en: "Intake" },
 
+    apply: { ua: "Apply", en: "Apply" },
+
     google: { ua: "Google Site", en: "Google Site" },
 
     draft: { ua: "Чернетка", en: "Draft" },
@@ -3048,6 +3051,15 @@ function getLinkKindLabel(kind, lang) {
 function renderForm(entry, lang) {
 
   const forms = getFormLinks(entry);
+  const applyLinks = getApplyLinks(entry);
+
+  if (!forms.length && applyLinks.length) {
+    const apply = applyLinks[0];
+    const intro = lang === "ua"
+      ? "Apply through Freelancehunt so the working request, payment route, and first contact stay in one place."
+      : "Apply through Freelancehunt so the working request, payment route, and first contact stay in one place.";
+    return `<div class="applyPanel"><div class="applyCard"><p class="linkIntro">${escapeHtml(intro)}</p><a class="routeAction" href="${escapeHtml(apply.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(apply.label, lang))}</a><p class="clientHubPdf">${escapeHtml(apply.url)}</p></div></div>`;
+  }
 
   if (!forms.length) {
 
@@ -3069,20 +3081,44 @@ function renderRoutes(entry, lang) {
 
   if (Array.isArray(entry.clientHubs) && entry.clientHubs.length) {
     const laneLabels = {
+      all: { ua: "All", en: "All" },
       tech: { ua: "Tech", en: "Tech" },
       nontech: { ua: "Non-tech", en: "Non-tech" },
       hybrid: { ua: "Hybrid", en: "Hybrid" },
     };
-    const cards = entry.clientHubs.map((hub) => {
-      const lane = getText(laneLabels[hub.lane] || { ua: hub.lane, en: hub.lane }, lang);
-      return `<article class="clientHubCard"><span class="clientHubLane">${escapeHtml(lane)}</span><h4>${escapeHtml(getText(hub.title, lang))}</h4><p class="clientHubName">${escapeHtml(getText(hub.hub, lang))}</p><p class="clientHubText">${escapeHtml(getText(hub.summary, lang))}</p><p class="clientHubPdf">${escapeHtml(getText(hub.pdf, lang))}</p></article>`;
+    const roleOptions = ["all", "strategist", "producer", "creator"];
+    const laneOptions = ["all", "nontech", "hybrid", "tech"];
+    const items = entry.clientHubs.map((item) => ({
+      ...item,
+      source: HUBS.find((hub) => hub.id === item.sourceId),
+    })).filter((item) => item.source);
+    const filtered = items.filter((item) => {
+      if (state.clientHubRole !== "all" && item.source.role !== state.clientHubRole) return false;
+      if (state.clientHubLane !== "all" && item.lane !== state.clientHubLane) return false;
+      return true;
+    });
+    const renderFilter = (type, options, current) => options.map((option) => {
+      const label = type === "role"
+        ? (option === "all" ? getText(laneLabels.all, lang) : humanRole(option, lang))
+        : getText(laneLabels[option] || { ua: option, en: option }, lang);
+      const attr = type === "role" ? "data-client-role" : "data-client-lane";
+      return `<button class="clientHubFilterBtn ${current === option ? "active" : ""}" type="button" ${attr}="${escapeHtml(option)}">${escapeHtml(label)}</button>`;
     }).join("");
-    const profile = (entry.links || []).find((link) => link.kind === "profile" && link.url);
-    const action = profile ? `<a class="routeAction clientHubAction" href="${escapeHtml(profile.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(profile.label, lang))}</a>` : "";
+    const cards = filtered.map((item) => {
+      const hub = item.source;
+      const lane = getText(laneLabels[item.lane] || { ua: item.lane, en: item.lane }, lang);
+      return `<article class="card clientHubSourceCard">
+        <div class="cardTop"><span class="cardCode">${escapeHtml(hub.code)}</span><div class="cardMeta"><span class="cardRole">${escapeHtml(humanRole(hub.role, lang))}</span><span class="clientHubLane">${escapeHtml(lane)}</span></div></div>
+        <div class="cardTitleRow"><div class="cardLogo"><img src="${escapeHtml(hub.logo)}" alt="${escapeHtml(getText(hub.title, lang))}" /></div><div class="cardTitleWrap"><h3 class="cardTitle">${escapeHtml(getText(hub.title, lang))}</h3><div class="cardModeSummary">${escapeHtml(getText(hub.summary, lang))}</div></div></div>
+        <div class="cardLine">${escapeHtml(getText(hub.overview, lang))}</div>
+        <p class="clientHubPdf">${escapeHtml(getText(item.pdf, lang))}</p>
+        <div class="cardActions"><button class="btn primary cardCta" type="button" data-open-hub="${escapeHtml(hub.id)}">${escapeHtml(getDict("btnOpen"))}</button></div>
+      </article>`;
+    }).join("");
     const intro = lang === "ua"
-      ? "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt."
+      ? "These are the original Kosatiks hubs gathered inside Clients Hub. Use the filters to choose the role and request type, then open a hub for the full context."
       : "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt.";
-    return `<div class="clientHubPanel"><p class="linkIntro">${escapeHtml(intro)}</p><div class="clientHubGrid">${cards}</div>${action}</div>`;
+    return `<div class="clientHubPanel"><p class="linkIntro">${escapeHtml(intro)}</p><div class="clientHubFilters"><div class="clientHubFilterRow"><span class="clientHubFilterLabel">Role</span>${renderFilter("role", roleOptions, state.clientHubRole)}</div><div class="clientHubFilterRow"><span class="clientHubFilterLabel">Type</span>${renderFilter("lane", laneOptions, state.clientHubLane)}</div></div><div class="clientHubGrid">${cards || `<div class="placeholder"><div class="placeholderText">${escapeHtml(getDict("placeholder"))}</div></div>`}</div></div>`;
   }
 
   const visibleLinks = getRouteLinks(entry);
@@ -3133,9 +3169,9 @@ function renderModal() {
 
   const lang = state.modalLang;
 
-  const hasForm = getFormLinks(entry).length > 0;
+  const hasForm = getFormLinks(entry).length > 0 || getApplyLinks(entry).length > 0;
 
-  const hasRoutes = getRouteLinks(entry).length > 0;
+  const hasRoutes = getRouteLinks(entry).length > 0 || (Array.isArray(entry.clientHubs) && entry.clientHubs.length > 0);
 
   if (state.activeTab === "form" && !hasForm) state.activeTab = hasRoutes ? "routes" : "overview";
 
@@ -3150,7 +3186,7 @@ function renderModal() {
   refs.routesSlot.innerHTML = renderRoutes(entry, lang);
 
   refs.tabOverview.textContent = getDict("mOverview", lang);
-  refs.tabForm.textContent = getDict("mForm", lang);
+  refs.tabForm.textContent = Array.isArray(entry.clientHubs) && entry.clientHubs.length ? "Apply" : getDict("mForm", lang);
 
   refs.tabRoutes.textContent = Array.isArray(entry.clientHubs) && entry.clientHubs.length ? "Hubs" : getDict("mLinks", lang);
 
@@ -3204,7 +3240,7 @@ refs.btnModalEN.addEventListener("click", () => { state.modalLang = "en"; render
 
 refs.facetTabs.addEventListener("click", (event) => { const button = event.target.closest("[data-facet]"); if (!button) return; state.facet = button.dataset.facet; refresh(); });
 
-refs.modePills.addEventListener("click", (event) => { const button = event.target.closest("[data-mode]"); if (!button) return; state.mode = button.dataset.mode; refresh(); });
+refs.modePills.addEventListener("click", (event) => { const button = event.target.closest("[data-mode]"); if (!button) return; state.mode = button.dataset.mode; if (state.mode === "hire") state.facet = "producer"; refresh(); });
 
 
 
@@ -3213,6 +3249,14 @@ document.addEventListener("click", (event) => {
   const hubButton = event.target.closest("[data-open-hub]");
 
   if (hubButton) { openHub(hubButton.dataset.openHub); return; }
+
+  const clientRoleButton = event.target.closest("[data-client-role]");
+
+  if (clientRoleButton) { state.clientHubRole = clientRoleButton.dataset.clientRole; renderModal(); return; }
+
+  const clientLaneButton = event.target.closest("[data-client-lane]");
+
+  if (clientLaneButton) { state.clientHubLane = clientLaneButton.dataset.clientLane; renderModal(); return; }
 
   const specialButton = event.target.closest("[data-special]");
 
