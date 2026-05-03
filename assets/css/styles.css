@@ -4054,7 +4054,7 @@ div#quizModal.modal-overlay.open {
 
   flex-wrap: nowrap;
 
-  gap: 8px;
+  gap: 4px;
 
   margin-top: 2px;
 
@@ -4078,21 +4078,29 @@ div#quizModal.modal-overlay.open {
 
   align-items: center;
 
-  min-height: 28px;
+  min-height: 24px;
 
-  padding: 6px 10px;
+  padding: 4px 8px;
 
   border-radius: 999px;
 
-  font-size: 0.7rem;
+  font-size: 0.62rem;
 
   font-weight: 900;
 
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 
   text-transform: uppercase;
 
   white-space: nowrap;
+
+  flex-shrink: 1;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 
 }
 
