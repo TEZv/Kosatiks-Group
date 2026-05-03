@@ -4052,7 +4052,7 @@ div#quizModal.modal-overlay.open {
 
   display: flex;
 
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
   gap: 8px;
 
@@ -4061,6 +4061,8 @@ div#quizModal.modal-overlay.open {
   justify-content: flex-end;
 
   min-width: 0;
+
+  overflow: hidden;
 
 }
 
