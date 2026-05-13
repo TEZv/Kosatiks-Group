@@ -649,7 +649,7 @@ const HUBS = [
 
     modes: ["hire", "self"],
 
-    title: { ua: "K Life OS", en: "K Life OS" },
+    title: { ua: "[K Life OS]", en: "[K Life OS]" },
 
     summary: { ua: "Life OS як система сфер життя, планування, рефлексії, нотаток і маршруту до власного порядку.", en: "Life OS as a system for life spheres, planning, reflection, notes, and personal order." },
 
@@ -1913,8 +1913,8 @@ function applyContentOverrides() {
     "life-os": {
       sphereLabel: { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" },
       setLead: {
-        ua: "K Life OS - це інтеграційний шар, де SET сходиться в особистій системі: Science дає спостереження й рефлексію, Entrepreneurship - ресурсну логіку, Technology - digital shell.",
-        en: "K Life OS is an integrative layer where SET meets inside a personal system: Science provides observation and reflection, Entrepreneurship the resource logic, and Technology the digital shell.",
+        ua: "[K Life OS] - це інтеграційний шар, де SET сходиться в особистій системі: Science дає спостереження й рефлексію, Entrepreneurship - ресурсну логіку, Technology - digital shell.",
+        en: "[K Life OS] is an integrative layer where SET meets inside a personal system: Science provides observation and reflection, Entrepreneurship the resource logic, and Technology the digital shell.",
       },
     },
     "automation-ai-ops": {
@@ -1967,10 +1967,10 @@ function applyContentOverrides() {
       },
     },
     "creative-practice": {
-      sphereLabel: { ua: "SPHERE: K LIFE OS / CREATIVITY", en: "SPHERE: K LIFE OS / CREATIVITY" },
+      sphereLabel: { ua: "SPHERE: [K Life OS] / CREATIVITY", en: "SPHERE: [K Life OS] / CREATIVITY" },
       setLead: {
-        ua: "Creative Practice я не прив'язую жорстко до SET. Це радше K Life OS layer: Creativity or Self-Expression плюс Recreation and Hobbies, з якого інші хаби можуть черпати матеріал і сенс.",
-        en: "I do not force Creative Practice directly into SET. It sits closer to a K Life OS layer: Creativity or Self-Expression plus Recreation and Hobbies, which can still feed the other hubs with material and meaning.",
+        ua: "Creative Practice я не прив'язую жорстко до SET. Це радше [K Life OS] layer: Creativity or Self-Expression плюс Recreation and Hobbies, з якого інші хаби можуть черпати матеріал і сенс.",
+        en: "I do not force Creative Practice directly into SET. It sits closer to a [K Life OS] layer: Creativity or Self-Expression plus Recreation and Hobbies, which can still feed the other hubs with material and meaning.",
       },
     },
   };
@@ -2519,7 +2519,7 @@ function getLocalizedSphereLabel(source, lang) {
 
   return raw
     .replace(/^SPHERE:/i, "СФЕРА:")
-    .replace("K LIFE OS / CREATIVITY", "K LIFE OS / ТВОРЧІСТЬ");
+    .replace("[K Life OS] / CREATIVITY", "[K Life OS] / ТВОРЧІСТЬ");
 }
 
 function escapeHtml(value) { return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;"); }
