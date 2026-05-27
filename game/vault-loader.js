@@ -6,8 +6,10 @@ function runVaultSource(code) {
   if (!code || !code.includes("KLifeVault")) {
     throw new Error("invalid_vault_source");
   }
-  const fn = new Function(code);
-  fn();
+  const el = document.createElement("script");
+  el.textContent = code;
+  document.head.append(el);
+  el.remove();
 }
 
 export async function loadVault() {

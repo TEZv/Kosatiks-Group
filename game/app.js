@@ -94,7 +94,14 @@ function updateShareLinks(primary, secondary, topic) {
   shareX.href = `https://twitter.com/intent/tweet?text=${encoded}&url=${page}`;
 }
 
+function requireVault() {
+  if (!window.KLifeVault || typeof window.pako === "undefined") {
+    throw new Error(diagnoseBootFailure());
+  }
+}
+
 function renderWeeklyBanner() {
+  requireVault();
   weeklyPack = window.KLifeVault.getWeeklyPack();
   weeklyTitle.textContent = formatWeekLabel(weeklyPack.seed);
   weeklySpheres.textContent = `${formatSphere(weeklyPack.primary)} × ${formatSphere(weeklyPack.secondary)}`;
@@ -102,19 +109,29 @@ function renderWeeklyBanner() {
 }
 
 function spinRandom() {
-  weekSpinActive = false;
-  const rng = Math.random;
-  const [primary, secondary] = pickTwoSpheres(rng);
-  updateResult(primary, secondary, rng);
-  if (kosatikMode) showKosatikQuip();
+  try {
+    requireVault();
+    weekSpinActive = false;
+    const rng = Math.random;
+    const [primary, secondary] = pickTwoSpheres(rng);
+    updateResult(primary, secondary, rng);
+    if (kosatikMode) showKosatikQuip();
+  } catch (err) {
+    passportEl.textContent = `${t("errPrefix")}: ${err.message}`;
+  }
 }
 
 function spinWeek() {
-  weekSpinActive = true;
-  const pack = window.KLifeVault.getWeeklyPack();
-  const rng = mulberry32(pack.seed);
-  updateResult(pack.primary, pack.secondary, rng, pack.weekTopic);
-  if (kosatikMode) showKosatikQuip();
+  try {
+    requireVault();
+    weekSpinActive = true;
+    const pack = window.KLifeVault.getWeeklyPack();
+    const rng = mulberry32(pack.seed);
+    updateResult(pack.primary, pack.secondary, rng, pack.weekTopic);
+    if (kosatikMode) showKosatikQuip();
+  } catch (err) {
+    passportEl.textContent = `${t("errPrefix")}: ${err.message}`;
+  }
 }
 
 function showKosatikQuip() {
@@ -160,21 +177,22 @@ function refreshAfterLangChange() {
   applyUiLang();
   const canvas3d = document.getElementById("compass-3d");
   if (canvas3d) canvas3d.setAttribute("aria-label", t("compassAria"));
-  if (window.KLifeVault) {
+  if (!window.KLifeVault) {
+    passportEl.textContent = `${t("errPrefix")}: ${t("passportIdle")}`;
+    return;
+  }
+  try {
     renderWeeklyBanner();
     if (lastOutcome) {
       const pack = weeklyPack || window.KLifeVault.getWeeklyPack();
       const rng = weekSpinActive ? mulberry32(pack.seed) : Math.random;
       const topic = weekSpinActive ? pack.weekTopic : undefined;
-      updateResult(
-        lastOutcome.primary,
-        lastOutcome.secondary,
-        rng,
-        topic,
-      );
+      updateResult(lastOutcome.primary, lastOutcome.secondary, rng, topic);
     } else {
       spinWeek();
     }
+  } catch (err) {
+    passportEl.textContent = `${t("errPrefix")}: ${err.message}`;
   }
 }
 
@@ -230,18 +248,24 @@ function diagnoseBootFailure() {
   return t("errUnknown");
 }
 
+function setPassportIdle() {
+  passportEl.textContent = t("passportIdle");
+}
+
 function startApp() {
   let spheres;
   try {
+    requireVault();
     spheres = window.KLifeVault.getSpheres();
+    if (!spheres?.length) throw new Error("empty vault spheres");
+    renderWeeklyBanner();
+    spinWeek();
   } catch (err) {
-    passportEl.textContent = `${t("errPrefix")}: ${diagnoseBootFailure()} (${err.message})`;
+    setPassportIdle();
+    passportEl.textContent = `${t("errPrefix")}: ${err.message}`;
     loader.classList.add("hidden");
     return;
   }
-
-  renderWeeklyBanner();
-  spinWeek();
 
   import("./scene3d.js")
     .then((mod) => {
@@ -259,20 +283,31 @@ function startApp() {
     });
 }
 
-async function boot() {
-  applyUiLang();
-  if (typeof window.pako === "undefined") {
-    for (let i = 0; i < 30 && typeof window.pako === "undefined"; i += 1) {
-      await new Promise((r) => setTimeout(r, 100));
-    }
+async function waitForPako(maxMs = 8000) {
+  const step = 80;
+  for (let t0 = 0; t0 < maxMs; t0 += step) {
+    if (typeof window.pako !== "undefined") return;
+    await new Promise((r) => setTimeout(r, step));
   }
+}
+
+async function boot() {
+  setPassportIdle();
+  await waitForPako();
   try {
     await loadVault();
   } catch {
-    /* loadVault tries all filenames */
+    /* vault-loader tries script + fetch */
   }
   if (!window.KLifeVault || typeof window.pako === "undefined") {
     passportEl.textContent = `${t("errPrefix")}: ${diagnoseBootFailure()}`;
+    loader.classList.add("hidden");
+    return;
+  }
+  try {
+    window.KLifeVault.getSpheres();
+  } catch (err) {
+    passportEl.textContent = `${t("errPrefix")}: ${t("errVaultBroken")}: ${err.message}`;
     loader.classList.add("hidden");
     return;
   }

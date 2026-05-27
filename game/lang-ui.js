@@ -17,6 +17,7 @@ export function applyUiLang() {
   if (meta) meta.setAttribute("content", t("metaDescription"));
 
   document.querySelectorAll("[data-i18n]").forEach((el) => {
+    if (el.id === "passport") return;
     const key = el.getAttribute("data-i18n");
     if (key && UI[lang][key] !== undefined && typeof UI[lang][key] !== "function") {
       el.textContent = t(key);
