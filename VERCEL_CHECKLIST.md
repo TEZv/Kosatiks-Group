@@ -61,6 +61,15 @@ This site is static HTML/CSS/JS. It should be served directly.
 
 Після зміни DNS зачекай 15–60 хв, потім Ctrl+F5 на `https://game.kosatiks-group.pp.ua/` — має бути «Куди мене занесе?», не «Three roles».
 
+### Nameservers на Vercel (`ns1.vercel-dns.com`)
+
+Якщо в nic.ua вказані NS Vercel — правити A/CNAME у старій панелі хостингу **не потрібно**; зона керується у **Vercel → Domains → DNS Records**.
+
+- **`*` (зірочка)** — wildcard: усі піддомени без окремого запису йдуть на `cname.vercel-dns-017.com`.
+- **`game`** окремим записом не обов’язковий, якщо працює `*`.
+
+Якщо `game.` все одно показує головний портал, але DNS уже на Vercel — перевір **middleware.js** у репо (host → `/game/`), зроби **Redeploy** і Ctrl+F5.
+
 ## Verification
 
 After deploy, verify:
