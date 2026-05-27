@@ -47,6 +47,20 @@ This site is static HTML/CSS/JS. It should be served directly.
 
 **Не потрібен** окремий FTP-хостинг для `game`, якщо весь домен уже на Vercel.
 
+### Якщо `game.` відкриває головний портал (не гру)
+
+У панелі DNS (nic.ua / хостинг) **не** став CNAME `game` → `kosatiks-group.pp.ua` (подвійне ім’я типу `kosatiks-group.pp.ua.kosatiks-group.pp.ua` теж неправильно).
+
+Правильно (значення дивись у Vercel → Domains → `game.kosatiks-group.pp.ua`):
+
+| Тип | Ім’я | Значення |
+|-----|------|----------|
+| **CNAME** | `game` | `cname.vercel-dns.com` |
+
+Або **A** → `76.76.21.21`, якщо Vercel показує A для піддомену.
+
+Після зміни DNS зачекай 15–60 хв, потім Ctrl+F5 на `https://game.kosatiks-group.pp.ua/` — має бути «Куди мене занесе?», не «Three roles».
+
 ## Verification
 
 After deploy, verify:
