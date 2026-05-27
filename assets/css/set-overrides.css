@@ -56,7 +56,9 @@
 
 .tabs .tab,
 .modalLang button,
-.modalTop .btn.primary {
+.modalTop .btn.primary,
+.routeAction {
+  cursor: pointer;
   transition:
     transform 0.18s ease,
     background 0.18s ease,
@@ -84,20 +86,38 @@
 
 .overviewGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.16fr) minmax(295px, 0.84fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 344px);
+  gap: 20px;
   align-items: start;
 }
 
+.overviewGrid--legacy {
+  grid-template-columns: minmax(0, 1fr) minmax(292px, 344px);
+  gap: 24px;
+}
+
 .overviewText,
+.overviewMain,
+.overviewSide,
 .overviewHeading,
 .routeCopy {
   min-width: 0;
 }
 
-.overviewText {
+.overviewText,
+.overviewMain {
   display: grid;
-  gap: 14px;
+  gap: 22px;
+}
+
+.overviewSide {
+  display: grid;
+  gap: 18px;
+  align-self: start;
+}
+
+.overviewSide--legacy {
+  align-self: stretch;
 }
 
 .overviewHeading {
@@ -112,8 +132,9 @@
 }
 
 .overviewHeading p {
-  font-size: 1rem;
-  line-height: 1.72;
+  font-size: 0.96rem;
+  line-height: 1.54;
+  max-width: 56ch;
 }
 
 .overviewVibe {
@@ -133,6 +154,98 @@
   line-height: 1;
 }
 
+.setMethodBlock {
+  display: grid;
+  gap: 10px;
+  padding: 13px 14px 12px;
+  border-radius: 18px;
+  border: 1px solid rgba(110, 225, 255, 0.16);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(110, 225, 255, 0.1), transparent 42%),
+    linear-gradient(180deg, rgba(11, 23, 37, 0.88), rgba(12, 15, 22, 0.94));
+}
+
+.setMethodHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.setMethodKicker,
+.setMethodSphere {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.setMethodKicker {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.setMethodSphere {
+  background: rgba(49, 84, 112, 0.34);
+  border: 1px solid rgba(110, 225, 255, 0.24);
+  color: rgba(110, 225, 255, 0.95);
+}
+
+.setMethodLead {
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.5;
+  font-size: 0.97rem;
+}
+
+.setMethodRows {
+  display: grid;
+  gap: 10px;
+}
+
+.setMethodRow {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.setMethodRow strong {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+}
+
+.setMethodRow p {
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.48;
+  font-size: 0.94rem;
+}
+
+.overviewStoryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.overviewStoryGrid--legacy {
+  align-items: start;
+  margin: 2px 0 18px;
+}
+
+.infoBlock--primary {
+  padding: 18px 18px 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
+    rgba(19, 20, 27, 0.9);
+}
+
 .modalBadge--sphere {
   color: rgba(110, 225, 255, 0.95);
   border-color: rgba(110, 225, 255, 0.24);
@@ -141,11 +254,21 @@
 
 .overviewMediaStack {
   display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(156px, 1fr));
+  gap: 12px;
+  align-content: start;
+  height: auto;
+  max-height: none;
+}
+
+.overviewMediaStack--single {
+  grid-template-rows: minmax(360px, 360px);
+}
+
+.overviewSide--legacy .overviewMediaStack {
+  grid-template-rows: repeat(2, minmax(220px, 236px));
   gap: 14px;
-  align-content: stretch;
-  height: 392px;
-  max-height: 392px;
+  height: auto;
 }
 
 .overviewMediaItem,
@@ -153,11 +276,20 @@
   position: relative;
   overflow: hidden;
   border-radius: 18px;
-  min-height: 0;
+  min-height: 156px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
     rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.overviewMediaStack--single .overviewMediaItem {
+  min-height: 360px;
+}
+
+.overviewSide--legacy .overviewMediaItem,
+.overviewSide--legacy .overviewMedia {
+  min-height: 220px;
 }
 
 .overviewMediaItem img,
@@ -167,6 +299,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.overviewSide--legacy .overviewMediaItem img,
+.overviewSide--legacy .overviewMedia img,
+.overviewSide--legacy .overviewMediaItem video,
+.overviewSide--legacy .overviewMedia video {
+  object-fit: contain;
+  object-position: center;
+  background: rgba(12, 12, 16, 0.92);
 }
 
 .mediaOverlay {
@@ -182,7 +323,7 @@
 .infoBlock {
   display: grid;
   gap: 10px;
-  padding: 16px 16px 14px;
+  padding: 18px 18px 17px;
   border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025)),
@@ -192,30 +333,59 @@
 
 .infoBlock h4 {
   color: rgba(255, 255, 255, 0.94);
+  margin: 0;
 }
 
 .infoBlock p,
 .infoBlock li {
   color: rgba(255, 255, 255, 0.8);
+  font-size: 0.97rem;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .infoBlock ul {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   padding-left: 18px;
+  margin: 0;
+}
+
+.overviewStoryGrid--legacy .infoBlock--primary {
+  display: grid;
+  align-content: start;
+  height: auto;
+  min-height: 0;
+}
+
+.overviewStoryGrid--legacy > .infoBlock--primary,
+.overviewContrastGrid--legacy > .signalPanel {
+  margin-top: 0 !important;
+}
+
+.overviewStoryGrid--legacy .infoBlock + .infoBlock,
+.overviewContrastGrid--legacy .signalPanel + .signalPanel {
+  margin-top: 0 !important;
 }
 
 .overviewContrastGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 22px;
+}
+
+.overviewContrastGrid--legacy .signalPanel {
+  min-height: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  height: auto;
 }
 
 .signalPanel {
   border-radius: 18px;
-  padding: 16px 16px 14px;
+  padding: 18px 18px 17px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(14, 16, 22, 0.88);
+  min-height: 0;
 }
 
 .signalPanel--pain {
@@ -236,10 +406,10 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
-  font-size: 0.78rem;
+  margin-bottom: 14px;
+  font-size: 0.8rem;
   font-weight: 900;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -253,15 +423,15 @@
 
 .signalList {
   display: grid;
-  gap: 10px;
+  gap: 12px;
   list-style: none;
 }
 
 .signalList li {
   display: flex;
   gap: 10px;
-  color: rgba(255, 255, 255, 0.84);
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.46;
 }
 
 .signalList li::before {
@@ -289,7 +459,38 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
-    rgba(15, 16, 21, 0.92);
+      rgba(15, 16, 21, 0.92);
+}
+
+.routeStrip--price {
+  grid-template-columns: 1fr;
+  gap: 12px;
+  justify-items: center;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  padding-inline: 0;
+  padding-block: 16px 8px;
+  background: transparent;
+}
+
+.routePriceNote {
+  color: #f3f5fb;
+  text-align: center;
+  opacity: 0.7;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  max-width: 42ch;
+  margin: 0;
+}
+
+.routeAction--cta {
+  min-width: 260px;
+  justify-content: center;
+  text-align: center;
+  margin-inline: auto;
 }
 
 .routeLabel {
@@ -366,7 +567,7 @@
 
 .faqCards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -415,15 +616,35 @@
   }
 
   .overviewGrid,
+  .overviewGrid--legacy,
+  .overviewStoryGrid,
+  .overviewStoryGrid--legacy,
   .overviewContrastGrid,
+  .overviewContrastGrid--legacy,
   .faqCards,
   .routeStrip {
     grid-template-columns: 1fr;
   }
 
+  .routeStrip--price {
+    grid-template-columns: 1fr;
+  }
+
+  .routePriceNote {
+    text-align: center;
+  }
+
   .overviewMediaStack {
-    height: 340px;
-    max-height: 340px;
+    grid-template-rows: repeat(2, minmax(142px, 1fr));
+  }
+
+  .overviewSide--legacy .overviewMediaStack {
+    grid-template-rows: repeat(2, minmax(182px, 198px));
+  }
+
+  .overviewSide--legacy .overviewMediaItem,
+  .overviewSide--legacy .overviewMedia {
+    min-height: 182px;
   }
 
   .routeAction {
@@ -446,8 +667,16 @@
   }
 
   .overviewMediaStack {
-    height: 300px;
-    max-height: 300px;
+    grid-template-rows: repeat(2, minmax(132px, 1fr));
+  }
+
+  .overviewSide--legacy .overviewMediaStack {
+    grid-template-rows: repeat(2, minmax(164px, 180px));
+  }
+
+  .overviewSide--legacy .overviewMediaItem,
+  .overviewSide--legacy .overviewMedia {
+    min-height: 164px;
   }
 
   .overviewHeading h3 {

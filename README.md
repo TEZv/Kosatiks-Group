@@ -30,7 +30,7 @@ If a link is not ready yet, keep it in draft mode instead of linking to a broken
 
 ## Local preview
 ```powershell
-cd "C:\Users\kolisnyk.o\Documents\PYTHON\Personal SMM\Kosatiks-Group-repo"
+cd "C:\Users\...\Kosatiks-Group-repo"
 python -m http.server 8031
 ```
 

@@ -6,7 +6,7 @@
 
     navhire: "Для замовлення",
 
-    navcanon: "Самовираження",
+    navcanon: "Просто я",
 
     kicker: "KOSATIKS GROUP",
 
@@ -27,15 +27,15 @@
 
     rproducer: "Продюсерка",
 
-    rcreator: "Мисткиня",
+    rcreator: "Митчиня",
 
     fall: "Усі",
 
     fhire: "Для замовлення",
 
-    fself: "Самовираження",
+    fself: "Просто я",
 
-    fproject: "Самовираження",
+    fproject: "Просто я",
 
     mOverview: "Огляд",
 
@@ -43,11 +43,13 @@
 
     mForm: "Форма",
 
+    mBack: "Назад",
+
     cardHire: "Для замовлення",
 
-    cardLinks: "Лінки",
+    cardLinks: "Просто я",
 
-    mClose: "Закрити",
+    mClose: "Головна",
 
     hintMe: "Я",
 
@@ -60,7 +62,7 @@
     socialTitle: "Соцмаршрути",
 
     socialSubtitle:
-      "Цей нижній шар працює як точка входу до link-агрегаторів, публічних профілів і зовнішніх маршрутів. Я активно будую тематичний контент для стратегині, продюсерки та мисткині, тож цей блок ростиме разом із цими просторами.",
+      "Цей нижній шар працює як точка входу до link-агрегаторів, публічних профілів і зовнішніх маршрутів. Я активно будую тематичний контент для стратегині, продюсерки та митчині, тож цей блок ростиме разом із цими просторами.",
 
     placeholder: "Під цей фільтр поки немає карток.",
 
@@ -70,9 +72,9 @@
 
       hire: "Для замовлення",
 
-      self: "Самовираження",
+      self: "Просто я",
 
-      project: "Самовираження",
+      project: "Просто я",
 
     },
 
@@ -108,7 +110,7 @@
 
       producer: "Продюсерка",
 
-      creator: "Мисткиня",
+      creator: "Митчиня",
 
     },
 
@@ -134,7 +136,7 @@
       "Each card is operational, not decorative: it explains what the hub does, who it is for, how it works, and where the next route should go — repo, site, form, or research layer.",
 
     foot:
-      `One client entry point. Paid requests route through my Freelancehunt profile for clearer scope, payment, and reviews.<br><span class="footer-note__minor">*Note: I take only 2-3 projects per month; availability is limited.</span>`,
+      `No generic contact form. Each offer has its own intake so requests land correctly.<br><span class="footer-note__minor">*Note: I take only 2-3 projects per month; availability is limited.</span>`,
 
     rstrategist: "Strategist",
 
@@ -156,11 +158,13 @@
 
     mForm: "Form",
 
+    mBack: "Back",
+
     cardHire: "For hire",
 
-    cardLinks: "Links",
+    cardLinks: "Self",
 
-    mClose: "Close",
+    mClose: "Main",
 
     hintMe: "Me",
 
@@ -264,7 +268,7 @@ const roleMeta = {
 
   creator: {
 
-    title: { ua: "Мисткиня", en: "Creator" },
+    title: { ua: "Митчиня", en: "Creator" },
 
     desc: {
 
@@ -359,7 +363,7 @@ const specialEntries = {
 
     role: "producer",
 
-    modes: ["self", "project"],
+    modes: ["hire", "self", "project"],
 
     code: "KG",
 
@@ -431,7 +435,7 @@ const specialEntries = {
 
       { label: { ua: "Kosatiks Group repo", en: "Kosatiks Group repo" }, note: { ua: "вихідний код сайту", en: "site source code" }, url: urls.kosatiksRepo, kind: "repo" },
 
-      { label: { ua: "K-RnD Lab", en: "K-RnD Lab" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
+      { label: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" }, note: { ua: "дослідницька організація", en: "research organization" }, url: urls.krndOrg, kind: "org" },
 
       { label: { ua: "Master trainer repo", en: "Master trainer repo" }, note: { ua: "research-проєкт у межах K-RnD", en: "research project inside K-RnD" }, url: urls.masterRepo, kind: "project" },
 
@@ -475,7 +479,7 @@ const specialEntries = {
 
         "Продюсерка: execution, структура, MVP, операційність.",
 
-        "Мисткиня: тексти, наратив, естетика, publishing і Life OS.",
+        "Митчиня: тексти, наратив, естетика, publishing і Life OS.",
 
       ],
 
@@ -541,7 +545,7 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["self", "project"],
+    modes: ["hire", "self"],
 
     title: { ua: "K Identity & Brand Hub", en: "K Identity & Brand Hub" },
 
@@ -575,7 +579,7 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["self", "project"],
+    modes: ["hire", "self"],
 
     title: { ua: "K Community & Partnerships Hub", en: "K Community & Partnerships Hub" },
 
@@ -609,7 +613,7 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["self", "project"],
+    modes: ["hire", "self"],
 
     title: { ua: "K Investments Hub", en: "K Investments Hub" },
 
@@ -643,9 +647,9 @@ const HUBS = [
 
     role: "strategist",
 
-    modes: ["self", "project"],
+    modes: ["hire", "self"],
 
-    title: { ua: "K Life OS", en: "K Life OS" },
+    title: { ua: "[K Life OS]", en: "[K Life OS]" },
 
     summary: { ua: "Life OS як система сфер життя, планування, рефлексії, нотаток і маршруту до власного порядку.", en: "Life OS as a system for life spheres, planning, reflection, notes, and personal order." },
 
@@ -677,7 +681,7 @@ const HUBS = [
 
     role: "producer",
 
-    modes: ["project"],
+    modes: ["hire", "project"],
 
     title: { ua: "K Automation / AI Ops Hub", en: "K Automation / AI Ops Hub" },
 
@@ -745,7 +749,7 @@ const HUBS = [
 
     modes: ["hire", "project"],
 
-    title: { ua: "K Venture Studio Hub", en: "K Venture Studio Hub" },
+    title: { ua: "[K Venture Studio Hub]", en: "[K Venture Studio Hub]" },
 
     summary: { ua: "MVP, venture build, упаковка ідей у робочі продукти й окремі venture-маршрути.", en: "MVPs, venture builds, and turning ideas into working products and venture routes." },
 
@@ -779,11 +783,11 @@ const HUBS = [
 
     modes: ["project", "hire"],
 
-    title: { ua: "K-RnD Lab", en: "K-RnD Lab" },
+    title: { ua: "[K-RnD Lab]", en: "[K-RnD Lab]" },
 
     summary: { ua: "Дослідницький хаб для гіпотез, аналітики, експериментів і публічних кейсів. Сюди ж лягає Master Trainer.", en: "A research hub for hypotheses, analytics, experiments, and public cases. This is also where Master Trainer fits." },
 
-    overview: { ua: "K-RnD Lab — це мій research-layer. Тут зручно тримати те, що є на стику науки, технологій, аналітики та системного мислення. Саме сюди логічно відносити Master Trainer / підготовку до магістратури: це не окремий «сайт про магістратуру», а дослідницький проєкт з метриками, діаграмами, прогресом і публічним кейсом.", en: "K-RnD Lab is my research layer. It holds work at the intersection of science, technology, analytics, and systems thinking. This is exactly where Master Trainer / master's preparation belongs: not as a separate site about admission, but as a research project with metrics, charts, progress, and a public case-study angle." },
+    overview: { ua: "[K-RnD Lab] — це мій research-layer. Тут зручно тримати те, що є на стику науки, технологій, аналітики та системного мислення. Саме сюди логічно відносити Master Trainer / підготовку до магістратури: це не окремий «сайт про магістратуру», а дослідницький проєкт з метриками, діаграмами, прогресом і публічним кейсом.", en: "[K-RnD Lab] is my research layer. It holds work at the intersection of science, technology, analytics, and systems thinking. This is exactly where Master Trainer / master's preparation belongs: not as a separate site about admission, but as a research project with metrics, charts, progress, and a public case-study angle." },
 
     bullets: { ua: ["гіпотези, експерименти, дослідницька рамка і public proof", "analytics-first подача, діаграми, evidence layer", "сюди інтегруються проєкти на кшталт Master Trainer як дослідження"], en: ["hypotheses, experiments, research framing, and public proof", "analytics-first presentation with charts and evidence", "projects like Master Trainer slot here as research work"] },
 
@@ -793,11 +797,11 @@ const HUBS = [
 
     logo: "./assets/img/hubs/krnd-lab.png",
 
-    media: { type: "image", src: "./assets/img/hubs/krnd-lab.png", caption: { ua: "K-RnD Lab — ядро research-напрямів у Kosatiks.", en: "K-RnD Lab is the research core inside Kosatiks." } },
+    media: { type: "image", src: "./assets/img/hubs/krnd-lab.png", caption: { ua: "[K-RnD Lab] — ядро research-напрямів у Kosatiks.", en: "[K-RnD Lab] is the research core inside Kosatiks." } },
 
     links: [
 
-      { label: { ua: "K-RnD Lab org", en: "K-RnD Lab org" }, note: { ua: "GitHub-організація", en: "GitHub organization" }, url: urls.krndOrg, kind: "org" },
+      { label: { ua: "[K-RnD Lab] org", en: "[K-RnD Lab] org" }, note: { ua: "GitHub-організація", en: "GitHub organization" }, url: urls.krndOrg, kind: "org" },
 
       { label: { ua: "Master trainer repo", en: "Master trainer repo" }, note: { ua: "research-проєкт у GitHub", en: "research project on GitHub" }, url: urls.masterRepo, kind: "repo" },
 
@@ -917,7 +921,7 @@ const HUBS = [
 
     modes: ["self", "hire", "project"],
 
-    title: { ua: "K Mentorship Hub", en: "K Mentorship Hub" },
+    title: { ua: "[K Mentorship Hub]", en: "[K Mentorship Hub]" },
 
     summary: { ua: "Легший mentorship-shell: відбір, ресурсні маршрути, application-first beta, без перенавантаженої community-операційки.", en: "A lighter mentorship shell: selection, resource routes, and an application-first beta instead of overloaded community ops." },
 
@@ -1066,8 +1070,8 @@ Object.assign(dict.ua, {
   overviewActionForm: "???????? ?????",
   overviewActionRepo: "???????? GitHub",
   overviewActionSite: "???????? ????",
-  overviewActionLinks: "???????? ?????",
-  overviewRouteFallback: "??????? ? ??????? Links, ??? ???????? ????? ????? ????????.",
+  overviewActionLinks: "Відкрити лінки",
+  overviewRouteFallback: "Перейди у вкладку Лінки, щоб побачити повну карту маршруту.",
 });
 
 Object.assign(dict.ua, {
@@ -1080,7 +1084,27 @@ Object.assign(dict.ua, {
   overviewActionRepo: "Відкрити GitHub",
   overviewActionSite: "Відкрити сайт",
   overviewActionLinks: "Відкрити лінки",
-  overviewRouteFallback: "Перейди у вкладку Links, щоб побачити повну карту маршруту.",
+  overviewRouteFallback: "Перейди у вкладку Лінки, щоб побачити повну карту маршруту.",
+});
+
+Object.assign(dict.ua, {
+  overviewPressure: "Як зараз",
+  overviewFix: "Що отримає клієнт",
+  overviewSetMethod: "SET-лінія",
+});
+
+Object.assign(dict.en, {
+  overviewPressure: "As is",
+  overviewFix: "What the client gets",
+  overviewEntry: "Best entry",
+  overviewFaqTitle: "What people usually want to know",
+  overviewBestFit: "Best fit",
+  overviewActionForm: "Open form",
+  overviewActionRepo: "Open GitHub",
+  overviewActionSite: "Open site",
+  overviewActionLinks: "Open links",
+  overviewRouteFallback: "Open the Links tab to see the full routing layer.",
+  overviewSetMethod: "SET line",
 });
 
 function applyContentOverrides() {
@@ -1114,6 +1138,41 @@ function applyContentOverrides() {
     ua: "Найкращий спосіб читати сайт: спершу обираєш роль, далі - режим, а потім відкриваєш картку. У модалці вже видно правильний наступний крок: форма, репозиторій, live site, Notion або GitHub-організація.",
     en: "Best use pattern: choose a role first, then narrow by mode, and only then open a card. The modal makes the next step explicit: form, repo, live site, Notion, or GitHub organization.",
   });
+  specialEntries.ecosystem.sphereLabel = { ua: "SPHERES: S + E + T", en: "SPHERES: S + E + T" };
+  specialEntries.ecosystem.setLead = {
+    ua: "Окрім ролей, я веду ще й три SET-сфери: Science, Entrepreneurship і Technology. Вони можуть з’являтися в одному хабі разом або окремо — залежно від того, яка логіка справді працює для конкретного напрямку.",
+    en: "Alongside the role system, I also develop three SET spheres: Science, Entrepreneurship, and Technology. They can appear together inside one hub or stand separately, depending on what genuinely fits that direction.",
+  };
+  specialEntries.ecosystem.setMap = {
+    ua: [
+      {
+        label: "S — Science",
+        body: "Дослідження, метод, evidence layer, системне мислення, [K-RnD Lab] і все, що потребує глибини та доказовості.",
+      },
+      {
+        label: "E — Entrepreneurship",
+        body: "Побудова напрямів, venture-логіка, офери, монетизація, маршрути співпраці та продуктивний рух назовні.",
+      },
+      {
+        label: "T — Technology",
+        body: "Цифрові інструменти, automation, live systems, dashboards, digital writing і технологічна інфраструктура.",
+      },
+    ],
+    en: [
+      {
+        label: "S — Science",
+        body: "Research, method, the evidence layer, systems thinking, [K-RnD Lab], and everything that needs depth and proof.",
+      },
+      {
+        label: "E — Entrepreneurship",
+        body: "Building directions, venture logic, offers, monetization, collaboration routes, and productive movement outward.",
+      },
+      {
+        label: "T — Technology",
+        body: "Digital tools, automation, live systems, dashboards, digital writing, and technical infrastructure.",
+      },
+    ],
+  };
 
   specialEntries.ecosystem.mediaStack = [
     {
@@ -1122,14 +1181,6 @@ function applyContentOverrides() {
       caption: {
         ua: "Тут сходяться ролі, хаби, продукти й зовнішні маршрути.",
         en: "This is where roles, hubs, products, and external routes meet.",
-      },
-    },
-    {
-      type: "video",
-      src: "./assets/video/k3.mp4",
-      caption: {
-        ua: "SET-логіка тут читається як одна система, а не як розрізнені проєкти.",
-        en: "The SET logic reads here as one system rather than scattered projects.",
       },
     },
   ];
@@ -1148,170 +1199,37 @@ function applyContentOverrides() {
         en: "The core of Kosatiks Group: roles, philosophy, and presence.",
       },
     },
-    {
-      type: "video",
-      src: "./assets/video/k2.mp4",
-      caption: {
-        ua: "Один голос, який тримає різні продукти в одній лінії.",
-        en: "One voice that keeps different products on the same line.",
-      },
-    },
   ];
-
-  const clientHub = HUBS.find((hub) => hub.id === "client-projects");
-  if (clientHub) {
-    Object.assign(clientHub, {
-      code: "K CL",
-      role: "strategist",
-      modes: ["hire"],
-      title: { ua: "Clients Hub", en: "Clients Hub" },
-      summary: {
-        ua: "Один вхід для замовлень: стратегія, системи, research, venture framing і narrative architecture.",
-        en: "One client entry point for strategy, systems, research, venture framing, and narrative architecture.",
-      },
-      overview: {
-        ua: "Clients Hub - це не окремий бренд і не ще одна persona. Це коротка вітрина того, що можна замовити в межах Kosatiks Group. Вона маршрутизує запит у правильний хаб: identity, systems, venture, research або narrative work.",
-        en: "Clients Hub is not a separate brand and not another persona. It is the clean service catalog for what can be commissioned through Kosatiks Group. It routes a request into the right hub: identity, systems, venture, research, or narrative work.",
-      },
-      bullets: {
-        ua: [
-          "один client-facing маршрут замість багатьох окремих кнопок замовлення",
-          "послуги зібрані за типом запиту, а не за випадковими назвами хабів",
-          "Freelancehunt лишається основним місцем для першого робочого контакту",
-        ],
-        en: [
-          "one client-facing route instead of many separate hire buttons",
-          "services are grouped by request type rather than scattered hub names",
-          "Freelancehunt stays the main first-contact surface for paid work",
-        ],
-      },
-      format: {
-        ua: "Відкрий цей хаб, обери близький тип запиту, переглянь пов'язані хаби нижче, а для роботи переходь у Freelancehunt-профіль. Це тримає замовлення в одному місці, але не ховає всю екосистему.",
-        en: "Open this hub, choose the closest request type, review the related hubs below, and use the Freelancehunt profile as the working contact point. This keeps paid work in one place without hiding the larger ecosystem.",
-      },
-      media: {
-        type: "image",
-        src: "./assets/img/k-me-logo.jpg",
-        caption: {
-          ua: "Клієнтський вхід має бути простим: один хаб, кілька зрозумілих напрямів.",
-          en: "The client entry should stay simple: one hub, several clear directions.",
-        },
-      },
-      projects: {
-        ua: [
-          { title: "Identity & Positioning", body: "K Identity & Brand Hub: позиціонування, message architecture, bio/about, pitch/profile structure." },
-          { title: "Client Systems & Service Architecture", body: "K Client Projects + K Ops & Systems: intake, service map, delivery logic, Notion/CRM structure." },
-          { title: "Venture & MVP Framing", body: "K Venture Studio: idea-to-MVP map, offer framing, startup concept packaging, first operating structure." },
-          { title: "Research & Synthesis", body: "K-RnD Lab: market map, competitor/comparative map, structured synthesis, insight memo." },
-          { title: "Narrative & Publishing Systems", body: "K Publishing + K Quest: authorial system, narrative route, publishing/release structure." },
-          { title: "Decision & Opportunity Research", body: "Careful opportunity logic and decision-thesis work, framed as research rather than regulated financial advice." },
-        ],
-        en: [
-          { title: "Identity & Positioning", body: "K Identity & Brand Hub: positioning, message architecture, bio/about, pitch/profile structure." },
-          { title: "Client Systems & Service Architecture", body: "K Client Projects + K Ops & Systems: intake, service map, delivery logic, Notion/CRM structure." },
-          { title: "Venture & MVP Framing", body: "K Venture Studio: idea-to-MVP map, offer framing, startup concept packaging, first operating structure." },
-          { title: "Research & Synthesis", body: "K-RnD Lab: market map, competitor/comparative map, structured synthesis, insight memo." },
-          { title: "Narrative & Publishing Systems", body: "K Publishing + K Quest: authorial system, narrative route, publishing/release structure." },
-          { title: "Decision & Opportunity Research", body: "Careful opportunity logic and decision-thesis work, framed as research rather than regulated financial advice." },
-        ],
-      },
-      clientHubs: [
-        {
-          lane: "nontech",
-          title: { ua: "Identity & Positioning", en: "Identity & Positioning" },
-          hub: { ua: "K Identity & Brand Hub", en: "K Identity & Brand Hub" },
-          summary: {
-            ua: "Позиціонування, message architecture, bio/about, pitch/profile structure, ясна самопрезентація.",
-            en: "Positioning, message architecture, bio/about, pitch/profile structure, and clear self-presentation.",
-          },
-          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
-        },
-        {
-          lane: "hybrid",
-          title: { ua: "Client Systems & Service Architecture", en: "Client Systems & Service Architecture" },
-          hub: { ua: "K Client Projects + K Ops & Systems", en: "K Client Projects + K Ops & Systems" },
-          summary: {
-            ua: "Intake, service map, delivery logic, легка CRM/Notion-структура, процес без зайвого PM-образу.",
-            en: "Intake, service map, delivery logic, light CRM/Notion structure, and process clarity without heavy PM framing.",
-          },
-          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
-        },
-        {
-          lane: "tech",
-          title: { ua: "Automation & AI Ops", en: "Automation & AI Ops" },
-          hub: { ua: "K Automation / AI Ops Hub", en: "K Automation / AI Ops Hub" },
-          summary: {
-            ua: "AI workflows, automation mapping, tool setup, lightweight operating systems for marketing or client work.",
-            en: "AI workflows, automation mapping, tool setup, and lightweight operating systems for marketing or client work.",
-          },
-          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
-        },
-        {
-          lane: "tech",
-          title: { ua: "Venture & MVP Framing", en: "Venture & MVP Framing" },
-          hub: { ua: "K Venture Studio", en: "K Venture Studio" },
-          summary: {
-            ua: "Idea-to-MVP map, offer framing, startup concept packaging, first operating structure.",
-            en: "Idea-to-MVP map, offer framing, startup concept packaging, and first operating structure.",
-          },
-          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
-        },
-        {
-          lane: "hybrid",
-          title: { ua: "Research & Synthesis", en: "Research & Synthesis" },
-          hub: { ua: "K-RnD Lab", en: "K-RnD Lab" },
-          summary: {
-            ua: "Market map, competitor/comparative map, structured synthesis, insight memo, decision support.",
-            en: "Market map, competitor/comparative map, structured synthesis, insight memo, and decision support.",
-          },
-          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
-        },
-        {
-          lane: "nontech",
-          title: { ua: "Narrative & Publishing Systems", en: "Narrative & Publishing Systems" },
-          hub: { ua: "K Publishing + K Quest", en: "K Publishing + K Quest" },
-          summary: {
-            ua: "Authorial system, narrative route, publishing/release structure, story logic for complex projects.",
-            en: "Authorial system, narrative route, publishing/release structure, and story logic for complex projects.",
-          },
-          pdf: { ua: "PDF можна додати пізніше", en: "PDF can be attached later" },
-        },
-      ],
-      links: [
-        {
-          label: { ua: "Freelancehunt profile", en: "Freelancehunt profile" },
-          note: { ua: "основний робочий маршрут для замовлень", en: "main working route for paid requests" },
-          url: urls.freelancehuntProfile,
-          kind: "profile",
-        },
-      ],
-    });
-  }
-
-  const nonHireModes = {
-    "identity-brand": ["self", "project"],
-    "community-partnerships": ["self", "project"],
-    investments: ["self", "project"],
-    "life-os": ["self", "project"],
-    "automation-ai-ops": ["project"],
-    "venture-studio": ["project"],
-    "krnd-lab": ["project"],
-    "ops-systems": ["project"],
-    "leadership-team": ["project"],
-    experiments: ["project"],
-    mentorship: ["self", "project"],
-    publishing: ["self", "project"],
-    quest: ["self", "project"],
-  };
-
-  Object.entries(nonHireModes).forEach(([id, modes]) => {
-    const hub = HUBS.find((item) => item.id === id);
-    if (hub) hub.modes = modes;
-  });
 
   const venture = HUBS.find((hub) => hub.id === "venture-studio");
   if (venture) {
     venture.sphereLabel = { ua: "SPHERE: E + T", en: "SPHERE: E + T" };
+    venture.setLead = {
+      ua: "У цьому хабі роль продюсерки читається через дві SET-сфери: Entrepreneurship як головний build-напрям і Technology як інструментальний шар для запуску, тесту та видимого продуктового руху.",
+      en: "In this hub the producer role is expressed through two SET spheres: Entrepreneurship as the main build direction and Technology as the tool layer for launching, testing, and making product movement visible.",
+    };
+    venture.setMap = {
+      ua: [
+        {
+          label: "E — Entrepreneurship",
+          body: "MVP, офер, перевірка попиту, venture-рамка і рішення про рух далі.",
+        },
+        {
+          label: "T — Technology",
+          body: "Інструменти, automation, lightweight stack, live shell і збірка того, що можна реально протестувати.",
+        },
+      ],
+      en: [
+        {
+          label: "E — Entrepreneurship",
+          body: "MVP logic, offer design, demand validation, venture framing, and the decision about what moves next.",
+        },
+        {
+          label: "T — Technology",
+          body: "Tools, automation, lightweight stack, live shell, and the assembly of something that can actually be tested.",
+        },
+      ],
+    };
     venture.pressure = {
       ua: [
         "ідея зависає між ентузіазмом і реальною збіркою",
@@ -1359,8 +1277,8 @@ function applyContentOverrides() {
       en: "An entrepreneurship-facing build layer for turning structured ideas into MVPs, tests, offers, and venture cases.",
     });
     Object.assign(venture.overview, {
-      ua: "K Venture Studio Hub - це підприємницький шар SET-методології. Тут сигнали зі стратегії, дослідження й product-thinking переходять у buildable hypotheses, MVP, offer structure і видимі експерименти. Цінність цього хаба не в тому, щоб довше думати про ідею, а в тому, щоб швидше перевести її в перевірний формат і чесно зрозуміти, чи вона тримається.",
-      en: "K Venture Studio Hub is the entrepreneurship layer of the SET methodology. This is where signals from strategy, research, and product thinking become buildable hypotheses, MVPs, offer structures, and visible experiments. The value here is not dreaming about the idea for longer, but translating it into a testable format fast enough to learn honestly.",
+      ua: "[K Venture Studio Hub] - це підприємницький шар SET-методології. Тут сигнали зі стратегії, дослідження й product-thinking переходять у buildable hypotheses, MVP, offer structure і видимі експерименти. Цінність цього хаба не в тому, щоб довше думати про ідею, а в тому, щоб швидше перевести її в перевірний формат і чесно зрозуміти, чи вона тримається.",
+      en: "[K Venture Studio Hub] is the entrepreneurship layer of the SET methodology. This is where signals from strategy, research, and product thinking become buildable hypotheses, MVPs, offer structures, and visible experiments. The value here is not dreaming about the idea for longer, but translating it into a testable format fast enough to learn honestly.",
     });
     venture.bullets = {
       ua: [
@@ -1416,11 +1334,52 @@ function applyContentOverrides() {
         },
       },
     ];
+    venture.overviewStyle = "legacySignals";
+    venture.price = { ua: "Starts at $5", en: "Starts at $5" };
+    venture.priceNote = {
+      ua: "Per sprint або per build loop.",
+      en: "Per sprint or per build loop.",
+    };
+    venture.disableOverviewRoute = true;
   }
 
   const krnd = HUBS.find((hub) => hub.id === "krnd-lab");
   if (krnd) {
     krnd.sphereLabel = { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" };
+    krnd.setLead = {
+      ua: "[K-RnD Lab] — це той хаб, де всі три SET-сфери реально сходяться в одній рамці: наука дає метод, підприємництво — напрям застосування, технології — інструменти й інфраструктуру.",
+      en: "[K-RnD Lab] is the hub where all three SET spheres actually meet in one frame: science provides the method, entrepreneurship the application direction, and technology the tools plus infrastructure.",
+    };
+    krnd.setMap = {
+      ua: [
+        {
+          label: "S — Science",
+          body: "Гіпотези, дослідницькі питання, evidence layer, метрики, proof і системне мислення.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Публічні кейси, applied value, рішення про застосування і те, як дослідження стає корисним назовні.",
+        },
+        {
+          label: "T — Technology",
+          body: "Dashboard, trainer, digital tools, data flow і research-infrastructure, що робить кейс живим і вимірюваним.",
+        },
+      ],
+      en: [
+        {
+          label: "S — Science",
+          body: "Hypotheses, research questions, the evidence layer, metrics, proof, and systems thinking.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Public cases, applied value, application logic, and the translation of research into something useful outside the lab.",
+        },
+        {
+          label: "T — Technology",
+          body: "Dashboards, trainer tools, data flow, and research infrastructure that make the case measurable and alive.",
+        },
+      ],
+    };
     krnd.pressure = {
       ua: [
         "ідеї виглядають сильними, але без доказового шару звучать як заяви",
@@ -1468,8 +1427,8 @@ function applyContentOverrides() {
       en: "The science-facing evidence layer of SET: hypotheses, analytics, experiments, measurable systems, and public research cases.",
     });
     Object.assign(krnd.overview, {
-      ua: "K-RnD Lab - це науковий і доказовий backbone ширшої SET-методології. Саме тут research questions, аналітичні артефакти, експериментальна логіка й вимірювані публічні кейси збираються в систему, яка дає proof, а не лише заяви. Сюди ж природно лягає Master Prep Analytics: не як окремий сайт про вступ, а як публічний дослідницький кейс з метриками, графіками, тренувальним середовищем і evidence-based progress.",
-      en: "K-RnD Lab is the scientific and evidence backbone of the wider SET methodology. This is where research questions, analytical artifacts, experimental logic, and measurable public cases become a system that provides proof rather than only claims. That is also why Master Prep Analytics belongs here: not as a separate admission site, but as a public research case with metrics, charts, a trainer environment, and evidence-based progress.",
+      ua: "[K-RnD Lab] - це науковий і доказовий backbone ширшої SET-методології. Саме тут research questions, аналітичні артефакти, експериментальна логіка й вимірювані публічні кейси збираються в систему, яка дає proof, а не лише заяви. Сюди ж природно лягає Master Prep Analytics: не як окремий сайт про вступ, а як публічний дослідницький кейс з метриками, графіками, тренувальним середовищем і evidence-based progress.",
+      en: "[K-RnD Lab] is the scientific and evidence backbone of the wider SET methodology. This is where research questions, analytical artifacts, experimental logic, and measurable public cases become a system that provides proof rather than only claims. That is also why Master Prep Analytics belongs here: not as a separate admission site, but as a public research case with metrics, charts, a trainer environment, and evidence-based progress.",
     });
     krnd.bullets = {
       ua: [
@@ -1503,7 +1462,7 @@ function applyContentOverrides() {
     };
     krnd.links = [
       {
-        label: { ua: "K-RnD Lab org", en: "K-RnD Lab org" },
+        label: { ua: "[K-RnD Lab] org", en: "[K-RnD Lab] org" },
         note: { ua: "головна GitHub-організація", en: "main GitHub organization" },
         url: urls.krndOrg,
         kind: "org",
@@ -1551,11 +1510,52 @@ function applyContentOverrides() {
         },
       },
     ];
+    krnd.overviewStyle = "legacySignals";
+    krnd.price = { ua: "Starts at $5", en: "Starts at $5" };
+    krnd.priceNote = {
+      ua: "Per case, dashboard, or research layer.",
+      en: "Per case, dashboard, or research layer.",
+    };
+    krnd.disableOverviewRoute = true;
   }
 
   const mentorship = HUBS.find((hub) => hub.id === "mentorship");
   if (mentorship) {
     mentorship.sphereLabel = { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" };
+    mentorship.setLead = {
+      ua: "Mentorship тут не окрема академія, а guided SET-layer: людина бачить, як Science, Entrepreneurship і Technology можуть зійтися в одному реальному next step.",
+      en: "Mentorship here is not a separate academy but a guided SET layer: it shows how Science, Entrepreneurship, and Technology can converge into one real next step.",
+    };
+    mentorship.setMap = {
+      ua: [
+        {
+          label: "S — Science",
+          body: "Логіка навчання, рефлексія, дослідницьке мислення й робота з тим, як людина вчиться та орієнтується.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Напрям, позиціонування себе, practical next step, venture-orientation і рух у дієвий формат.",
+        },
+        {
+          label: "T — Technology",
+          body: "Repo-маршрути, інструменти, digital systems і технологічні шари, через які навчання переходить у build.",
+        },
+      ],
+      en: [
+        {
+          label: "S — Science",
+          body: "Learning logic, reflection, research-minded orientation, and how a person actually learns.",
+        },
+        {
+          label: "E — Entrepreneurship",
+          body: "Direction, self-positioning, practical next steps, venture orientation, and movement toward a usable format.",
+        },
+        {
+          label: "T — Technology",
+          body: "Repo routes, tools, digital systems, and the technical layers that move learning into a build path.",
+        },
+      ],
+    };
     mentorship.pressure = {
       ua: [
         "\u043b\u044e\u0434\u0438\u043d\u0430 \u0445\u043e\u0447\u0435 \u0440\u0443\u0445\u0430\u0442\u0438\u0441\u044f, \u0430\u043b\u0435 \u043d\u0435 \u0431\u0430\u0447\u0438\u0442\u044c \u0447\u0456\u0442\u043a\u043e\u0433\u043e next step",
@@ -1603,19 +1603,19 @@ function applyContentOverrides() {
       en: "A SET-guided layer for orientation, learning routes, selective support, and buildable next steps.",
     });
     Object.assign(mentorship.overview, {
-      ua: "K Mentorship Hub \u043d\u0435 \u043c\u0430\u0454 \u0431\u0443\u0442\u0438 \u043f\u0435\u0440\u0435\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043e\u044e \u0430\u043a\u0430\u0434\u0435\u043c\u0456\u0454\u044e. \u0426\u0435 guided activation layer \u0443\u0441\u0435\u0440\u0435\u0434\u0438\u043d\u0456 SET-\u0441\u0438\u0441\u0442\u0435\u043c\u0438: \u043b\u044e\u0434\u0438\u043d\u0430 \u043e\u0440\u0456\u0454\u043d\u0442\u0443\u0454\u0442\u044c\u0441\u044f, \u0440\u043e\u0437\u0443\u043c\u0456\u0454, \u0434\u0435 \u0432\u043e\u043d\u0430 \u043c\u0456\u0436 science, entrepreneurship \u0456 technology, \u0456 \u043e\u0442\u0440\u0438\u043c\u0443\u0454 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a, \u044f\u043a\u0438\u0439 \u0440\u0435\u0430\u043b\u044c\u043d\u043e \u043c\u043e\u0436\u043d\u0430 \u0432\u0438\u043a\u043e\u043d\u0430\u0442\u0438. \u0422\u043e\u043c\u0443 \u0442\u0443\u0442 \u0432\u0430\u0436\u043b\u0438\u0432\u0456 \u043d\u0435 \u043e\u0431\u0456\u0446\u044f\u043d\u043a\u0438 \u0432\u0441\u044c\u043e\u0433\u043e \u043e\u0434\u0440\u0430\u0437\u0443, \u0430 \u044f\u0441\u043d\u0430 \u0440\u0430\u043c\u043a\u0430, \u0432\u0456\u0434\u0431\u0456\u0440, \u0440\u0435\u0441\u0443\u0440\u0441\u043d\u0456 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438 \u0439 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u0438\u0439 \u0440\u0443\u0445 \u0434\u0430\u043b\u0456.",
-      en: "K Mentorship Hub is not meant to become a bloated academy. It is the guided activation layer inside the SET system: a person orients themselves, understands where they are between science, entrepreneurship, and technology, and gets a next step that can actually be carried out. The goal here is not promising everything at once, but creating a clear frame, selective entry, resource routes, and practical movement forward.",
+      ua: "[K Mentorship Hub] \u043d\u0435 \u043c\u0430\u0454 \u0431\u0443\u0442\u0438 \u043f\u0435\u0440\u0435\u0432\u0430\u043d\u0442\u0430\u0436\u0435\u043d\u043e\u044e \u0430\u043a\u0430\u0434\u0435\u043c\u0456\u0454\u044e. \u0426\u0435 guided activation layer \u0443\u0441\u0435\u0440\u0435\u0434\u0438\u043d\u0456 SET-\u0441\u0438\u0441\u0442\u0435\u043c\u0438: \u043b\u044e\u0434\u0438\u043d\u0430 \u043e\u0440\u0456\u0454\u043d\u0442\u0443\u0454\u0442\u044c\u0441\u044f, \u0440\u043e\u0437\u0443\u043c\u0456\u0454, \u0434\u0435 \u0432\u043e\u043d\u0430 \u043c\u0456\u0436 science, entrepreneurship \u0456 technology, \u0456 \u043e\u0442\u0440\u0438\u043c\u0443\u0454 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a, \u044f\u043a\u0438\u0439 \u0440\u0435\u0430\u043b\u044c\u043d\u043e \u043c\u043e\u0436\u043d\u0430 \u0432\u0438\u043a\u043e\u043d\u0430\u0442\u0438. \u0422\u043e\u043c\u0443 \u0442\u0443\u0442 \u0432\u0430\u0436\u043b\u0438\u0432\u0456 \u043d\u0435 \u043e\u0431\u0456\u0446\u044f\u043d\u043a\u0438 \u0432\u0441\u044c\u043e\u0433\u043e \u043e\u0434\u0440\u0430\u0437\u0443, \u0430 \u044f\u0441\u043d\u0430 \u0440\u0430\u043c\u043a\u0430, \u0432\u0456\u0434\u0431\u0456\u0440, \u0440\u0435\u0441\u0443\u0440\u0441\u043d\u0456 \u043c\u0430\u0440\u0448\u0440\u0443\u0442\u0438 \u0439 \u043f\u0440\u0430\u043a\u0442\u0438\u0447\u043d\u0438\u0439 \u0440\u0443\u0445 \u0434\u0430\u043b\u0456.",
+      en: "[K Mentorship Hub] is not meant to become a bloated academy. It is the guided activation layer inside the SET system: a person orients themselves, understands where they are between science, entrepreneurship, and technology, and gets a next step that can actually be carried out. The goal here is not promising everything at once, but creating a clear frame, selective entry, resource routes, and practical movement forward.",
     });
     mentorship.bullets = {
       ua: [
         "application-first beta \u0437\u0430\u043c\u0456\u0441\u0442\u044c \u0448\u0443\u043c\u043d\u043e\u0457 community-\u043e\u043f\u0435\u0440\u0430\u0446\u0456\u0439\u043a\u0438",
         "resource routing, learning paths, feedback loops \u0456 practical direction",
-        "\u043c\u043e\u0436\u0435 \u0432\u0435\u0441\u0442\u0438 \u0434\u0430\u043b\u0456 \u0443 Venture Studio, K-RnD Lab \u0430\u0431\u043e \u043e\u043a\u0440\u0435\u043c\u0438\u0439 execution-track",
+        "\u043c\u043e\u0436\u0435 \u0432\u0435\u0441\u0442\u0438 \u0434\u0430\u043b\u0456 \u0443 [K Venture Studio Hub], [K-RnD Lab] \u0430\u0431\u043e \u043e\u043a\u0440\u0435\u043c\u0438\u0439 execution-track",
       ],
       en: [
         "an application-first beta instead of noisy community overhead",
         "resource routing, learning paths, feedback loops, and practical direction",
-        "can route further into Venture Studio, K-RnD Lab, or an independent execution track",
+        "can route further into [K Venture Studio Hub], [K-RnD Lab], or an independent execution track",
       ],
     };
     Object.assign(mentorship.format, {
@@ -1653,50 +1653,842 @@ function applyContentOverrides() {
       },
       {
         type: "image",
-        src: "https://media.giphy.com/media/zWRJMe6sxNc6VwGqV/giphy.gif",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRoODRjZXM3NzM4dWo4a28yZTZneDBqMXBsdnY4Z25weTA1anIweiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zWRJMe6sxeNc6VwGqV/giphy.gif",
         caption: {
           ua: "\u041a\u043e\u0436\u0435\u043d checkpoint \u043c\u0430\u0454 \u0432\u0435\u0441\u0442\u0438 \u0443 \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u0438\u0439 \u043d\u0430\u0441\u0442\u0443\u043f\u043d\u0438\u0439 \u043a\u0440\u043e\u043a.",
           en: "Each checkpoint should lead into a concrete next move.",
         },
       },
     ];
+    mentorship.overviewStyle = "legacySignals";
+    mentorship.price = { ua: "Starts at $5", en: "Starts at $5" };
+    mentorship.priceNote = {
+      ua: "Per guidance loop, map, or activation layer.",
+      en: "Per guidance loop, map, or activation layer.",
+    };
+    mentorship.disableOverviewRoute = true;
   }
 
+  const gifStacksByHub = {
+    "identity-brand": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/jWexOOlYe241y/giphy.gif",
+        caption: {
+          ua: "Спершу шум. Потім ясна рамка.",
+          en: "First the confusion. Then the frame becomes clear.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/lInxVz19e4YggejNuy/giphy.gif",
+        caption: {
+          ua: "Позиціонування має збирати сенс, а не маскувати хаос.",
+          en: "Positioning should gather meaning, not hide chaos.",
+        },
+      },
+    ],
+    "community-partnerships": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/l0IylOPCNkiqOgMyA/giphy.gif",
+        caption: {
+          ua: "Хаотичний нетворк не дорівнює системі контактів.",
+          en: "Chaotic networking is not the same as a relationship system.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExODM1ZjVxZ2c4ejdvNWhuOTdkdjBzeTlibjM2cGJocXp5d2dmeGYxOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qsXsB3WsS5yA8/giphy.gif",
+        caption: {
+          ua: "Партнерство має бути чистою угодою, а не шумом.",
+          en: "A partnership should feel like a clean deal, not noise.",
+        },
+      },
+    ],
+    "investments": [
+      {
+        type: "image",
+        src: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaXpzZm10ZnNraTNicGdzNHllNGZnNXZ2cWJhcHRjdG5ya3UyenFqcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wWqEtUmXr0m3u/giphy.gif",
+        caption: {
+          ua: "Рух без тези швидко стає шумом.",
+          en: "Motion without a thesis turns into noise fast.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2o5M3ZudTBrNmdsb3gzbmt0OXo1bXY1MnZtMmhhYm5xaWgxMjF6eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/SbWAWZf4QRgyI/giphy.gif",
+        caption: {
+          ua: "Рішення мають проходити через спокійний фільтр.",
+          en: "Decisions should pass through a calm filter.",
+        },
+      },
+    ],
+    "life-os": [
+      {
+        type: "image",
+        src: "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2djcXgzZzFkdmowNW8wd2wyaXpuODY4aHdmamtkemRzYjdtd2htaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/h1QuBBXMeIj7fTyRSj/giphy.gif",
+        caption: {
+          ua: "Без Life OS життя розпадається на вкладки.",
+          en: "Without a Life OS, life breaks into too many tabs.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3IyN2xlMHk5Y2Fnc2U4amZ5anRsNWx4cWwza3RwcmE4NWNlNWI1biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tqfS3mgQU28ko/giphy.gif",
+        caption: {
+          ua: "Система має заспокоювати, а не тиснути.",
+          en: "A system should calm you down, not add pressure.",
+        },
+      },
+    ],
+    "automation-ai-ops": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/urvsFBDfR6N32/giphy.gif",
+        caption: {
+          ua: "Ручний хаос не масштабується.",
+          en: "Manual chaos does not scale.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGlyNnEzM2czZjAzb3BzcjdwaGNiMnh2Y25qMnpubWpuOTBpZmo2OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Sf5T0iac3uALqpzxJ9/giphy.gif",
+        caption: {
+          ua: "Автоматизація має давати керований потік.",
+          en: "Automation should create a controllable flow.",
+        },
+      },
+    ],
+    "client-projects": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExY3MxMjNjZ2d4MDl2c2tsdXdvZjZ2NjZ4YzJvbGxwaGF3MTZveXphbCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/iDxpH2bZalq5eRnOfq/giphy.gif",
+        caption: {
+          ua: "Коли все в голові, delivery виглядає як пожежа.",
+          en: "When everything stays in your head, delivery looks like firefighting.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmR1aHl5Zzc4dG40cnBsNmRrcjh6aXV5YW02MDlzd244NTAwMnNjdSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Nin5M8EVAUd5EFOxnZ/giphy.gif",
+        caption: {
+          ua: "Клієнтський проєкт має читатися як система.",
+          en: "A client project should read like a system.",
+        },
+      },
+    ],
+    "ops-systems": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/NTur7XlVDUdqM/giphy.gif",
+        caption: {
+          ua: "Без процесів усе дуже швидко горить.",
+          en: "Without systems, things burn quickly.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/d2Z4rTi11c9LRita/giphy.gif",
+        caption: {
+          ua: "SOP і ритуали мають охолоджувати хаос.",
+          en: "SOPs and rituals should cool down the chaos.",
+        },
+      },
+    ],
+    "leadership-team": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWY3YWVwMjJ3N3VlODd2ZGFqajltbm9mZnViYnM1YnZqYnJhbDFjbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FBYTrYyjsyq7m/giphy.gif",
+        caption: {
+          ua: "Команда без правил швидко тоне в friction.",
+          en: "A team without rules sinks into friction fast.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWY3YWVwMjJ3N3VlODd2ZGFqajltbm9mZnViYnM1YnZqYnJhbDFjbSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FbTpEK2QndAGY/giphy.gif",
+        caption: {
+          ua: "Структура має давати команді здоровий рух.",
+          en: "Structure should give the team a healthier rhythm.",
+        },
+      },
+    ],
+    "experiments": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/fqIBaMWI7m7O8/giphy.gif",
+        caption: {
+          ua: "Не кожна ідея заслуговує на повний продукт.",
+          en: "Not every idea deserves a full product.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/TncmRRvEGVoVcHgaAb/giphy.gif",
+        caption: {
+          ua: "Експеримент має дати чесний сигнал.",
+          en: "An experiment should produce an honest signal.",
+        },
+      },
+    ],
+    "publishing": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/13HgwGsXF0aiGY/giphy.gif",
+        caption: {
+          ua: "Текст не має вмирати в чорновиках.",
+          en: "Writing should not die inside drafts.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzNjZDBzbm1zMjVscDdhamllNW55aWRvM3BibWFrNzNtaTJxemJscCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/BwStBxZnY7wkr8xltb/giphy.gif",
+        caption: {
+          ua: "Publishing має ставати системою, а не випадковістю.",
+          en: "Publishing should become a system, not an accident.",
+        },
+      },
+    ],
+    "quest": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWdzcXBoMnkxaDYzM3kxc3ZlbGhscjdteTIwenY2cDkxbmZvM2ZmOCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/13p77tfexyLtx6/giphy.gif",
+        caption: {
+          ua: "Шлях має бути пригодою, а не сухим чеклістом.",
+          en: "A path should feel like a quest, not a dry checklist.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRoODRjZXM3NzM4dWo4a28yZTZneDBqMXBsdnY4Z25weTA1anIweiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/zWRJMe6sxeNc6VwGqV/giphy.gif",
+        caption: {
+          ua: "Система має вести до відчутного loot.",
+          en: "The system should lead to real loot, not just motion.",
+        },
+      },
+    ],
+    "creative-practice": [
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/lvOHmxddMelSPIFBES/giphy.gif",
+        caption: {
+          ua: "Творча практика починається як внутрішній простір.",
+          en: "Creative practice begins as an internal space.",
+        },
+      },
+      {
+        type: "image",
+        src: "https://media.giphy.com/media/pDzLuCGrQsLqkXiBhN/giphy.gif",
+        caption: {
+          ua: "Вона має живити інші шари, а не лише продаватися.",
+          en: "It should nourish other layers, not only become sellable.",
+        },
+      },
+    ],
+  };
+
+  const sphereDefaults = {
+    "identity-brand": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Identity & Brand тут працює як E + T: Entrepreneurship тримає позиціонування, офер і вихід назовні, Technology тримає digital shell і систему подачі.",
+        en: "Identity & Brand works here as E + T: Entrepreneurship shapes the positioning, offer, and outward direction, while Technology shapes the digital shell and presentation system.",
+      },
+    },
+    "community-partnerships": {
+      sphereLabel: { ua: "SPHERE: E", en: "SPHERE: E" },
+      setLead: {
+        ua: "Community & Partnerships тут є entrepreneurship-layer: карта партнерств, selective outreach і форматування зв'язків навколо реальної цінності.",
+        en: "Community & Partnerships acts here as an entrepreneurship layer: partner mapping, selective outreach, and relationship design around real value.",
+      },
+    },
+    "investments": {
+      sphereLabel: { ua: "SPHERE: E", en: "SPHERE: E" },
+      setLead: {
+        ua: "Investments тут належить до Entrepreneurship: thesis, filters, capital logic і рішення про те, що заслуговує на увагу й ресурс.",
+        en: "Investments belongs here to Entrepreneurship: thesis, filters, capital logic, and decisions about what deserves attention and resources.",
+      },
+    },
+    "life-os": {
+      sphereLabel: { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" },
+      setLead: {
+        ua: "[K Life OS] - це інтеграційний шар, де SET сходиться в особистій системі: Science дає спостереження й рефлексію, Entrepreneurship - ресурсну логіку, Technology - digital shell.",
+        en: "[K Life OS] is an integrative layer where SET meets inside a personal system: Science provides observation and reflection, Entrepreneurship the resource logic, and Technology the digital shell.",
+      },
+    },
+    "automation-ai-ops": {
+      sphereLabel: { ua: "SPHERE: T + E", en: "SPHERE: T + E" },
+      setLead: {
+        ua: "Automation / AI Ops тримається на Technology як основі й Entrepreneurship як applied route: системи мають не просто існувати, а працювати в реальному циклі.",
+        en: "Automation / AI Ops is built on Technology as the base and Entrepreneurship as the applied route: systems should not just exist, they should work inside real operating cycles.",
+      },
+    },
+    "client-projects": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Client Projects тут читається як E + T: Entrepreneurship дає delivery logic і клієнтський маршрут, Technology дає status systems, visibility і execution shell.",
+        en: "Client Projects reads here as E + T: Entrepreneurship provides the delivery logic and client route, while Technology provides status systems, visibility, and the execution shell.",
+      },
+    },
+    "ops-systems": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Ops & Systems тут стоїть на E + T: Entrepreneurship тримає operating logic, Technology тримає SOP, documentation та інструментальну архітектуру.",
+        en: "Ops & Systems stands here on E + T: Entrepreneurship holds the operating logic, while Technology holds SOPs, documentation, and the tooling architecture.",
+      },
+    },
+    "leadership-team": {
+      sphereLabel: { ua: "SPHERE: E + S", en: "SPHERE: E + S" },
+      setLead: {
+        ua: "Leadership / Team тут ближче до E + S: Entrepreneurship тримає рішення й відповідальність, Science тримає спостереження, поведінкову логіку й healthy team design.",
+        en: "Leadership / Team sits closer to E + S: Entrepreneurship holds decisions and ownership, while Science supports observation, behavioral logic, and healthy team design.",
+      },
+    },
+    "experiments": {
+      sphereLabel: { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" },
+      setLead: {
+        ua: "Experiments - це SET у швидкому режимі: Science дає гіпотезу, Entrepreneurship дає критерій цінності, Technology дає оболонку для тесту.",
+        en: "Experiments is SET in a fast mode: Science provides the hypothesis, Entrepreneurship the value test, and Technology the shell for running it.",
+      },
+    },
+    "publishing": {
+      sphereLabel: { ua: "SPHERE: E + T", en: "SPHERE: E + T" },
+      setLead: {
+        ua: "Publishing тут ближче до E + T: Entrepreneurship формує line, audience і value, Technology формує систему розміщення, digital routes і publishing infrastructure.",
+        en: "Publishing sits here closer to E + T: Entrepreneurship shapes the line, audience, and value, while Technology shapes the publishing system, digital routes, and infrastructure.",
+      },
+    },
+    "quest": {
+      sphereLabel: { ua: "SPHERE: S + E + T", en: "SPHERE: S + E + T" },
+      setLead: {
+        ua: "Quest працює як гібрид SET: Science тримає learning logic, Entrepreneurship - progression design, Technology - gamified shell і system flow.",
+        en: "Quest works as a SET hybrid: Science holds the learning logic, Entrepreneurship the progression design, and Technology the gamified shell plus system flow.",
+      },
+    },
+    "creative-practice": {
+      sphereLabel: { ua: "SPHERE: [K Life OS] / CREATIVITY", en: "SPHERE: [K Life OS] / CREATIVITY" },
+      setLead: {
+        ua: "Creative Practice я не прив'язую жорстко до SET. Це радше [K Life OS] layer: Creativity or Self-Expression плюс Recreation and Hobbies, з якого інші хаби можуть черпати матеріал і сенс.",
+        en: "I do not force Creative Practice directly into SET. It sits closer to a [K Life OS] layer: Creativity or Self-Expression plus Recreation and Hobbies, which can still feed the other hubs with material and meaning.",
+      },
+    },
+  };
+
+  const signalDefaults = {
+    "identity-brand": {
+      pressure: {
+        ua: [
+          "позиціонування звучить розмито або як чужий шаблон",
+          "є робота, але немає ясної brand frame",
+          "message не тримає ні тебе, ні офер",
+        ],
+        en: [
+          "the positioning sounds blurry or borrowed",
+          "there is work, but no clear brand frame",
+          "the message does not hold either you or the offer",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати ясний brand core і voice",
+          "перевести сенс у message system",
+          "дати хабам одну впізнавану лінію",
+        ],
+        en: [
+          "assemble a clear brand core and voice",
+          "turn meaning into a message system",
+          "give the hubs one recognizable line",
+        ],
+      },
+    },
+    "community-partnerships": {
+      pressure: {
+        ua: [
+          "контакти є, але немає карти впливу",
+          "багато руху без ясної ROI-логіки",
+          "партнерства формуються хаотично",
+        ],
+        en: [
+          "there are contacts, but no map of influence",
+          "there is movement without a clean ROI logic",
+          "partnerships form chaotically",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати selective partner map",
+          "обрати 2-3 правильні формати присутності",
+          "дати outreach чисту й керовану архітектуру",
+        ],
+        en: [
+          "build a selective partner map",
+          "choose 2-3 right formats of presence",
+          "give outreach a clean controllable architecture",
+        ],
+      },
+    },
+    "investments": {
+      pressure: {
+        ua: [
+          "рішення йдуть за шумом, а не за thesis",
+          "можливості не проходять один фільтр",
+          "важко відрізнити сигнал від FOMO",
+        ],
+        en: [
+          "decisions follow noise instead of a thesis",
+          "opportunities are not passing through one filter",
+          "it is hard to separate signal from FOMO",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати decision filters і red flags",
+          "вирівняти інвестиційне мислення навколо thesis",
+          "бачити можливості через ясну рамку, а не імпульс",
+        ],
+        en: [
+          "assemble decision filters and red flags",
+          "align investment thinking around a thesis",
+          "see opportunities through a clear frame rather than impulse",
+        ],
+      },
+    },
+    "life-os": {
+      pressure: {
+        ua: [
+          "сфери життя розходяться без спільної системи",
+          "нотатки, плани й рефлексія не зшиті",
+          "порядок тримається лише на зусиллі",
+        ],
+        en: [
+          "life spheres drift without one operating system",
+          "notes, plans, and reflection are not stitched together",
+          "order is held only by effort",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати особисту operating system",
+          "дати сферам життя одну опорну логіку",
+          "перетворити хаос на тихий ритм і видимість",
+        ],
+        en: [
+          "assemble a personal operating system",
+          "give life spheres one supporting logic",
+          "turn chaos into a quieter rhythm with visibility",
+        ],
+      },
+    },
+    "automation-ai-ops": {
+      pressure: {
+        ua: [
+          "ручні цикли з'їдають увагу й час",
+          "потоки даних ламаються між людьми й інструментами",
+          "automation є, але вона не зшита в систему",
+        ],
+        en: [
+          "manual cycles consume attention and time",
+          "data flows break between people and tools",
+          "automation exists, but it is not stitched into one system",
+        ],
+      },
+      fix: {
+        ua: [
+          "побачити hate-tasks і перевести їх у flow",
+          "дати процесу logic map і ownership",
+          "зібрати automation як керований operational layer",
+        ],
+        en: [
+          "spot the hate-tasks and turn them into a flow",
+          "give the process a logic map and ownership",
+          "assemble automation as a controllable operational layer",
+        ],
+      },
+    },
+    "client-projects": {
+      pressure: {
+        ua: [
+          "delivery втрачає форму між листуванням і дедлайнами",
+          "статуси живуть у голові, а не в системі",
+          "клієнт бачить хаос замість руху",
+        ],
+        en: [
+          "delivery loses shape between messaging and deadlines",
+          "statuses live in someone's head instead of a system",
+          "the client sees chaos instead of movement",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати проєкту delivery pipeline",
+          "зробити статуси видимими й повторюваними",
+          "перевести execution у керований процес",
+        ],
+        en: [
+          "give the project a delivery pipeline",
+          "make statuses visible and repeatable",
+          "turn execution into a controllable process",
+        ],
+      },
+    },
+    "ops-systems": {
+      pressure: {
+        ua: [
+          "процеси існують лише в голові",
+          "знання губиться при кожному новому циклі",
+          "система не переживає навантаження",
+        ],
+        en: [
+          "processes exist only in someone's head",
+          "knowledge gets lost with every new cycle",
+          "the system does not survive load",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати SOP, docs і rituals",
+          "дати процесу відтворюваність",
+          "зменшити крихкість і залежність від пам'яті",
+        ],
+        en: [
+          "assemble SOPs, docs, and rituals",
+          "give the process repeatability",
+          "reduce fragility and dependence on memory",
+        ],
+      },
+    },
+    "leadership-team": {
+      pressure: {
+        ua: [
+          "ролі пливуть, відповідальність розмивається",
+          "зустрічі не дають рішення",
+          "friction з'їдає командний ресурс",
+        ],
+        en: [
+          "roles drift and responsibility blurs",
+          "meetings do not produce decisions",
+          "friction consumes team energy",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати команді ясні ролі й decision rules",
+          "зменшити тертя між людьми й контекстами",
+          "перевести leadership у здорову структуру",
+        ],
+        en: [
+          "give the team clear roles and decision rules",
+          "reduce friction between people and contexts",
+          "move leadership into a healthier structure",
+        ],
+      },
+    },
+    "experiments": {
+      pressure: {
+        ua: [
+          "ідеї або зависають, або одразу роздуваються",
+          "немає безпечного простору для швидкого test",
+          "validation змішується з бажанням одразу масштабувати",
+        ],
+        en: [
+          "ideas either stall or get overbuilt too early",
+          "there is no safe space for a fast test",
+          "validation gets mixed with the urge to scale immediately",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати гіпотезі швидкий test shell",
+          "відсіяти слабкі ідеї до великих витрат",
+          "отримати чесний сигнал до масштабування",
+        ],
+        en: [
+          "give the hypothesis a fast test shell",
+          "filter weak ideas before large costs",
+          "get an honest signal before scaling",
+        ],
+      },
+    },
+    "publishing": {
+      pressure: {
+        ua: [
+          "тексти накопичуються без publish system",
+          "авторська лінія не складається в маршрут",
+          "release-и не мають ритму",
+        ],
+        en: [
+          "writing accumulates without a publishing system",
+          "the author line does not turn into a route",
+          "releases have no rhythm",
+        ],
+      },
+      fix: {
+        ua: [
+          "зібрати publishing line і release rhythm",
+          "дати текстам систему виходу назовні",
+          "пов'язати авторський шар із публічними маршрутами",
+        ],
+        en: [
+          "assemble a publishing line and release rhythm",
+          "give texts a system for going public",
+          "connect the author layer to public routes",
+        ],
+      },
+    },
+    "quest": {
+      pressure: {
+        ua: [
+          "шлях відчувається як сухий список задач",
+          "мотивація тримається тільки на дисципліні",
+          "немає narrative shell, що веде далі",
+        ],
+        en: [
+          "the path feels like a dry task list",
+          "motivation depends only on discipline",
+          "there is no narrative shell that keeps moving you forward",
+        ],
+      },
+      fix: {
+        ua: [
+          "дати руху quest logic і checkpoints",
+          "зробити progression відчутним",
+          "перетворити system flow на пригоду з результатом",
+        ],
+        en: [
+          "give the motion quest logic and checkpoints",
+          "make progression tangible",
+          "turn the system flow into an adventure with an outcome",
+        ],
+      },
+    },
+    "creative-practice": {
+      pressure: {
+        ua: [
+          "творчість губиться під тиском utilitarian outputs",
+          "внутрішній шар не має захищеного простору",
+          "креатив починає існувати лише як deliverable",
+        ],
+        en: [
+          "creativity gets crushed by utilitarian outputs",
+          "the inner layer has no protected space",
+          "creative work starts existing only as a deliverable",
+        ],
+      },
+      fix: {
+        ua: [
+          "залишити для творчості окремий внутрішній шар",
+          "дати їй право бути джерелом, а не тільки продуктом",
+          "дозволити цьому простору живити інші хаби природно",
+        ],
+        en: [
+          "preserve a separate internal layer for creative practice",
+          "let it be a source rather than only a product",
+          "allow this space to nourish the other hubs naturally",
+        ],
+      },
+    },
+  };
+
   HUBS.forEach((hub) => {
-    if (hub.id !== "client-projects" && Array.isArray(hub.links)) {
-      hub.links = hub.links.filter((link) => link.kind !== "form" && link.kind !== "intake");
+    hub.overviewStyle = "legacySignals";
+    hub.disableOverviewRoute = true;
+
+    const defaults = sphereDefaults[hub.id];
+    if (defaults) {
+      hub.sphereLabel = hub.sphereLabel || defaults.sphereLabel;
+      hub.setLead = hub.setLead || defaults.setLead;
     }
+
+    if (!hub.mediaStack && gifStacksByHub[hub.id]) {
+      hub.mediaStack = gifStacksByHub[hub.id];
+    }
+
+    const signals = signalDefaults[hub.id];
+    if (signals) {
+      hub.pressure = hub.pressure || signals.pressure;
+      hub.fix = hub.fix || signals.fix;
+    }
+  });
+
+  const clientHub = HUBS.find((hub) => hub.id === "client-projects");
+  if (clientHub) {
+    Object.assign(clientHub, {
+      code: "K CL",
+      role: "producer",
+      modes: ["hire"],
+      title: { ua: "K Clients Hub", en: "K Clients Hub" },
+      summary: {
+        ua: "One clear client entry point for strategy, systems, research, venture framing, and narrative architecture.",
+        en: "One clear client entry point for strategy, systems, research, venture framing, and narrative architecture.",
+      },
+      overview: {
+        ua: "K Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
+        en: "K Clients Hub is the public service shelf for Kosatiks Group. It keeps paid work in one place and routes each request into the right direction: identity, systems, venture, research, automation, or narrative work.",
+      },
+      bullets: {
+        ua: [
+          "one client-facing route instead of many separate hire buttons",
+          "service directions grouped by request type",
+          "Freelancehunt stays the main first-contact surface for paid work",
+        ],
+        en: [
+          "one client-facing route instead of many separate hire buttons",
+          "service directions grouped by request type",
+          "Freelancehunt stays the main first-contact surface for paid work",
+        ],
+      },
+      format: {
+        ua: "Open this hub, choose the closest request type, review the related hub cards, and use Freelancehunt as the working contact point. Each card can later hold its own PDF, case note, or portfolio attachment.",
+        en: "Open this hub, choose the closest request type, review the related hub cards, and use Freelancehunt as the working contact point. Each card can later hold its own PDF, case note, or portfolio attachment.",
+      },
+      links: [
+        {
+          label: { ua: "Apply on Freelancehunt", en: "Apply on Freelancehunt" },
+          note: { ua: "main working route for paid requests", en: "main working route for paid requests" },
+          url: urls.freelancehuntProfile,
+          kind: "apply",
+        },
+      ],
+      clientHubs: [
+        {
+          sourceId: "identity-brand",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "community-partnerships",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "investments",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "life-os",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "ops-systems",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "automation-ai-ops",
+          lane: "tech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "venture-studio",
+          lane: "tech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "krnd-lab",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "leadership-team",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "experiments",
+          lane: "hybrid",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "mentorship",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "publishing",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+        {
+          sourceId: "quest",
+          lane: "nontech",
+          pdf: { ua: "PDF can be attached later", en: "PDF can be attached later" },
+        },
+      ],
+    });
+  }
+
+  const nonHireModes = {
+    "identity-brand": ["project", "self"],
+    "community-partnerships": ["project", "self"],
+    investments: ["project", "self"],
+    "life-os": ["project", "self"],
+    "automation-ai-ops": ["project", "self"],
+    "venture-studio": ["project", "self"],
+    "krnd-lab": ["project", "self"],
+    "ops-systems": ["project", "self"],
+    "leadership-team": ["project", "self"],
+    experiments: ["project", "self"],
+    mentorship: ["project", "self"],
+    publishing: ["project", "self"],
+    quest: ["project", "self"],
+  };
+
+  Object.entries(nonHireModes).forEach(([id, modes]) => {
+    const hub = HUBS.find((item) => item.id === id);
+    if (hub) hub.modes = modes;
+  });
+
+  HUBS.forEach((hub) => {
+    if (hub.id === "client-projects" || !Array.isArray(hub.links)) return;
+    hub.links = hub.links.filter((link) => link.kind !== "form" && link.kind !== "intake");
   });
 }
 
 applyContentOverrides();
 
 function injectClientHubStyles() {
-  if (document.getElementById("clientHubStyles")) return;
   const style = document.createElement("style");
-  style.id = "clientHubStyles";
   style.textContent = `
-    .clientHubPanel { padding: 20px; }
-    .clientHubGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
-    .clientHubCard { display: flex; flex-direction: column; gap: 10px; min-height: 210px; padding: 16px; border-radius: 16px; background: rgba(255, 255, 255, 0.055); border: 1px solid rgba(255, 255, 255, 0.11); }
-    .clientHubCard--tech { border-color: rgba(116, 186, 255, 0.34); }
-    .clientHubCard--nontech { border-color: rgba(255, 214, 120, 0.3); }
-    .clientHubCard--hybrid { border-color: rgba(180, 255, 202, 0.28); }
-    .clientHubCardTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-    .clientHubLane, .clientHubSource, .clientHubPdf { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.58); }
-    .clientHubLane { padding: 5px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.09); color: rgba(255, 255, 255, 0.78); }
-    .clientHubSource { max-width: 52%; text-align: right; }
-    .clientHubCard strong { color: rgba(255, 255, 255, 0.92); font-size: 1rem; }
-    .clientHubCard p { color: rgba(255, 255, 255, 0.72); line-height: 1.55; }
-    .clientHubPdf { margin-top: auto; padding-top: 8px; color: rgba(255, 255, 255, 0.5); }
-    .clientHubAction { margin-top: 16px; }
+    .clientHubPanel { display: grid; gap: 18px; }
+    .clientHubFilters { display: grid; gap: 12px; padding: 16px 18px; border: 1px solid rgba(255,255,255,.14); border-left: 4px solid rgba(247,244,238,.72); border-radius: 14px; background: linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.025) 55%, rgba(174,130,96,.08)); box-shadow: inset 0 1px 0 rgba(255,255,255,.07); }
+    .clientHubFilterRow { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+    .clientHubFilterLabel { min-width: 58px; color: rgba(255,255,255,.56); font-size: 11px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+    .clientHubFilterBtn { border: 1px solid rgba(255,255,255,.16); border-radius: 8px; padding: 9px 14px; background: rgba(255,255,255,.055); color: rgba(255,255,255,.78); font: inherit; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; box-shadow: 0 12px 24px rgba(0,0,0,.12); transition: transform .16s ease, background .16s ease, border-color .16s ease; }
+    .clientHubFilterBtn:hover { transform: translateY(-1px); background: rgba(255,255,255,.11); border-color: rgba(255,255,255,.28); }
+    .clientHubFilterBtn.active { background: #f7f4ee; color: #111; border-color: #f7f4ee; }
+    .clientHubGrid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .clientHubGrid .card { min-height: 100%; }
+    .clientHubSourceCard { position: relative; overflow: hidden; background: linear-gradient(135deg, rgba(255,255,255,.96), rgba(246,245,240,.98)); border-color: rgba(255,255,255,.22); box-shadow: 0 28px 80px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.82); }
+    .clientHubSourceCard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; opacity: .95; }
+    .clientHubSourceCard.is-strategist::before { background: linear-gradient(180deg, #8fb4bd, #d7ebe7); }
+    .clientHubSourceCard.is-producer::before { background: linear-gradient(180deg, #d6aa71, #f1dfbd); }
+    .clientHubSourceCard.is-creator::before { background: linear-gradient(180deg, #c98b9b, #ead3dc); }
+    .clientHubSourceCard .cardTitle,
+    .clientHubSourceCard .cardLine,
+    .clientHubSourceCard .cardModeSummary { color: rgba(11,11,12,.86); }
+    .clientHubSourceCard .cardModeSummary { color: rgba(11,11,12,.56); }
+    .clientHubSourceCard .cardCode { background: rgba(11,11,12,.08); color: rgba(11,11,12,.82); }
+    .clientHubSourceCard .cardRole { background: rgba(70,93,91,.13); color: rgba(46,61,60,.92); }
+    .clientHubLane { display: inline-flex; align-items: center; border-radius: 999px; padding: 6px 10px; margin-left: 6px; font-size: 11px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; color: rgba(42,58,57,.9); background: rgba(70,93,91,.12); }
+    .clientHubSourceCard.is-strategist .clientHubLane { background: rgba(143,180,189,.2); }
+    .clientHubSourceCard.is-producer .clientHubLane { background: rgba(214,170,113,.22); }
+    .clientHubSourceCard.is-creator .clientHubLane { background: rgba(201,139,155,.22); }
+    .clientHubPdf { margin: 12px 0 0; color: rgba(11,11,12,.45); font-size: 12px; }
+    .applyPanel { display: grid; gap: 16px; }
+    .applyCard { border: 1px solid rgba(255,255,255,.14); border-left: 4px solid rgba(247,244,238,.72); border-radius: 14px; padding: 20px; background: linear-gradient(135deg, rgba(255,255,255,.075), rgba(255,255,255,.028)); }
+    .applyFrame { min-height: 520px; border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.035); }
+    .applyFrame iframe { width: 100%; height: 520px; border: 0; }
+    .applyEmbedTitle { margin: 4px 0 10px; color: rgba(255,255,255,.88); font-size: 14px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
   `;
   document.head.appendChild(style);
 }
 
 injectClientHubStyles();
 
-const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview" };
+const state = { lang: "en", modalLang: "en", facet: "strategist", mode: "all", activeHubId: null, activeSpecialId: null, activeTab: "overview", clientHubRole: "all", clientHubLane: "all", modalBackStack: [] };
 
 
 
@@ -1710,7 +2502,7 @@ const refs = {
 
   overviewSlot: document.getElementById("overviewSlot"), formSlot: document.getElementById("formSlot"), routesSlot: document.getElementById("routesSlot"), paneOverview: document.getElementById("paneOverview"), paneForm: document.getElementById("paneForm"), paneRoutes: document.getElementById("paneRoutes"),
 
-  tabOverview: document.getElementById("tabOverview"), tabForm: document.getElementById("tabForm"), tabRoutes: document.getElementById("tabRoutes"), btnModalClose: document.getElementById("btnModalClose"),
+  tabOverview: document.getElementById("tabOverview"), tabForm: document.getElementById("tabForm"), tabRoutes: document.getElementById("tabRoutes"), btnModalBack: document.getElementById("btnModalBack"), btnModalClose: document.getElementById("btnModalClose"),
 
 };
 
@@ -1719,6 +2511,16 @@ const refs = {
 function getText(source, lang) { if (typeof source === "string") return source; if (!source) return ""; return source[lang] ?? source.ua ?? source.en ?? ""; }
 
 function getDict(path, lang = state.lang) { return path.split(".").reduce((acc, key) => (acc ? acc[key] : undefined), dict[lang]) ?? ""; }
+
+function getLocalizedSphereLabel(source, lang) {
+  const raw = getText(source, lang);
+  if (!raw) return "";
+  if (lang !== "ua") return raw;
+
+  return raw
+    .replace(/^SPHERE:/i, "СФЕРА:")
+    .replace("[K Life OS] / CREATIVITY", "[K Life OS] / ТВОРЧІСТЬ");
+}
 
 function escapeHtml(value) { return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#39;"); }
 
@@ -1781,8 +2583,6 @@ function renderPanel() {
 function getFilteredHubs() {
 
   return HUBS.filter((hub) => {
-
-    if (state.mode === "hire") return hub.modes.includes("hire");
 
     if (hub.role !== state.facet) return false;
 
@@ -1872,7 +2672,11 @@ function renderMedia(entry, lang) {
 
   if (Array.isArray(entry.mediaStack) && entry.mediaStack.length) {
 
-    return `<div class="overviewMediaStack">${entry.mediaStack.map((media) => {
+    const stackClass = entry.mediaStack.length === 1
+      ? "overviewMediaStack overviewMediaStack--single"
+      : "overviewMediaStack";
+
+    return `<div class="${stackClass}">${entry.mediaStack.map((media) => {
 
       const caption = escapeHtml(getText(media.caption, lang));
 
@@ -1961,9 +2765,33 @@ function renderSignalPanel(entry, lang, kind) {
 
 }
 
+function renderSetMethod(entry, lang) {
+
+  const lead = getText(entry.setLead, lang);
+  const rows = entry.setMap?.[lang] || [];
+  const sphereLabel = getLocalizedSphereLabel(entry.sphereLabel, lang);
+  if (!sphereLabel && !lead && !rows.length) return "";
+
+  return `<section class="setMethodBlock">
+    <div class="setMethodHead">
+      <span class="setMethodKicker">${escapeHtml(getDict("overviewSetMethod", lang))}</span>
+      ${sphereLabel ? `<span class="setMethodSphere">${escapeHtml(sphereLabel)}</span>` : ""}
+    </div>
+    ${lead ? `<p class="setMethodLead">${escapeHtml(lead)}</p>` : ""}
+    ${rows.length ? `<div class="setMethodRows">${rows.map((row) => `<div class="setMethodRow"><strong>${escapeHtml(row.label || "")}</strong><p>${escapeHtml(row.body || "")}</p></div>`).join("")}</div>` : ""}
+  </section>`;
+
+}
+
 function renderRouteStrip(entry, lang) {
 
   const primary = getPrimaryLink(entry);
+
+  if (entry.disableOverviewRoute) return "";
+
+  if (primary && (primary.kind === "form" || primary.kind === "intake")) {
+    return "";
+  }
 
   if (!primary) {
     return `<div class="routeStrip"><span class="routeLabel">${escapeHtml(getDict("overviewEntry", lang))}</span><div class="routeCopy"><strong>${escapeHtml(getDict("overviewRouteFallback", lang))}</strong><p>${escapeHtml(getText(entry.fit, lang) || "")}</p></div></div>`;
@@ -1994,27 +2822,150 @@ function renderFaq(entry, lang) {
 
 
 
-function renderOverview(entry, lang) {
+function renderLegacyPrice(entry, lang) {
+
+  const price = getText(entry.price, lang);
+  const note = getText(entry.priceNote, lang);
+  if (!price && !note) return "";
+  const label = lang === "ua" ? "Вартість" : "Cost";
+
+  return `<div class="routeStrip routeStrip--price"><div class="routePriceWrap"><span class="routeLabel routeLabel--price">${escapeHtml(label)}</span><strong>${escapeHtml(price || "")}</strong></div><p>${escapeHtml(note || "")}</p></div>`;
+
+}
+
+function renderLegacyPriceStrip(entry, lang) {
+
+  const price = getText(entry.price, lang);
+  const note = getText(entry.priceNote, lang);
+  const hasForm = getFormLinks(entry).length > 0;
+  const hasRoutes = getRouteLinks(entry).length > 0;
+
+  if (!price && !note && !hasForm && !hasRoutes) return "";
+
+  const noteCopy = note || getText(entry.fit, lang) || "";
+  const normalizedPrice = price
+    ? price
+        .replace(/^starts?\s+at\s*/i, "")
+        .replace(/^від\s*/i, "")
+        .trim()
+    : "";
+  const ctaPrice = normalizedPrice || "$5";
+  const ctaLabel = hasForm
+    ? (lang === "ua" ? `👉 Давайте почнемо з ${ctaPrice} 👈` : `👉 Let's start at ${ctaPrice} 👈`)
+    : (lang === "ua" ? "👉 Тицьни сюди 👈" : "👉 Tap here 👈");
+  const targetTab = hasForm ? "form" : (hasRoutes ? "routes" : "");
+
+  return `<div class="routeStrip routeStrip--price">${noteCopy ? `<p class="routePriceNote">${escapeHtml(noteCopy)}</p>` : ""}${targetTab ? `<button class="routeAction routeAction--cta" type="button" data-modal-tab-target="${escapeHtml(targetTab)}">${escapeHtml(ctaLabel)}</button>` : ""}</div>`;
+
+}
+
+function renderLegacySignalOverview(entry, lang) {
+  const sphereLabel = getLocalizedSphereLabel(entry.sphereLabel, lang);
 
   return `
 
-    <div class="overviewGrid">
+    <div class="overviewGrid overviewGrid--legacy">
 
-      <div class="overviewText">
+      <div class="overviewMain">
 
-        <div class="modalBadgeRow"><span class="modalBadge">${escapeHtml(entry.code || "KG")}</span><span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>${entry.sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(getText(entry.sphereLabel, lang))}</span>` : ""}</div>
+        <div class="modalBadgeRow">
+          <span class="modalBadge">${escapeHtml(entry.code || "KG")}</span>
+          <span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>
+          ${sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(sphereLabel)}</span>` : ""}
+        </div>
 
-        <div class="overviewHeading"><h3>${escapeHtml(getText(entry.title, lang))}</h3><p>${escapeHtml(getText(entry.summary, lang))}</p></div>
+        <div class="overviewHeading">
+          <h3>${escapeHtml(getText(entry.title, lang))}</h3>
+          <p>${escapeHtml(getText(entry.summary, lang))}</p>
+        </div>
+
+        ${renderSetMethod(entry, lang)}
 
         ${entry.vibe ? `<div class="overviewVibe">${escapeHtml(getText(entry.vibe, lang))}</div>` : ""}
 
-        <div class="infoBlock"><h4>${escapeHtml(getDict("overviewIntro", lang))}</h4><p>${escapeHtml(getText(entry.overview, lang))}</p></div>
+        <div class="overviewStoryGrid overviewStoryGrid--legacy">
+          <div class="infoBlock infoBlock--story infoBlock--primary">
+            <h4>${escapeHtml(getDict("overviewIntro", lang))}</h4>
+            <p>${escapeHtml(getText(entry.overview, lang))}</p>
+          </div>
 
-        <div class="infoBlock"><h4>${escapeHtml(getDict("overviewBullets", lang))}</h4><ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul></div>
+          <div class="infoBlock infoBlock--story infoBlock--primary">
+            <h4>${escapeHtml(getDict("overviewBullets", lang))}</h4>
+            <ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+          </div>
+        </div>
+
+        ${(entry.pressure?.[lang] || []).length || (entry.fix?.[lang] || []).length ? `<div class="overviewContrastGrid overviewContrastGrid--legacy">${renderSignalPanel(entry, lang, "pressure")}${renderSignalPanel(entry, lang, "fix")}</div>` : ""}
+
+        <div class="infoBlock infoBlock--story">
+          <h4>${escapeHtml(getDict("overviewFormat", lang))}</h4>
+          <p>${escapeHtml(getText(entry.format, lang))}</p>
+        </div>
+
+        ${renderProjectList(entry, lang)}
+
+        ${renderLegacyPriceStrip(entry, lang)}
+
+        ${renderFaq(entry, lang)}
+
+      </div>
+
+      <aside class="overviewSide overviewSide--legacy">
+        ${renderMedia(entry, lang)}
+      </aside>
+
+    </div>
+  `;
+
+}
+
+function renderOverview(entry, lang) {
+
+  if (entry.overviewStyle === "legacySignals") {
+    return renderLegacySignalOverview(entry, lang);
+  }
+
+  const sphereLabel = getLocalizedSphereLabel(entry.sphereLabel, lang);
+
+  return `
+
+    <div class="overviewGrid overviewGrid--editorial">
+
+      <div class="overviewMain">
+
+        <div class="modalBadgeRow">
+          <span class="modalBadge">${escapeHtml(entry.code || "KG")}</span>
+          <span class="modalBadge">${escapeHtml(humanRole(entry.role || state.facet, lang))}</span>
+          ${sphereLabel ? `<span class="modalBadge modalBadge--sphere">${escapeHtml(sphereLabel)}</span>` : ""}
+        </div>
+
+        <div class="overviewHeading">
+          <h3>${escapeHtml(getText(entry.title, lang))}</h3>
+          <p>${escapeHtml(getText(entry.summary, lang))}</p>
+        </div>
+
+        ${renderSetMethod(entry, lang)}
+
+        ${entry.vibe ? `<div class="overviewVibe">${escapeHtml(getText(entry.vibe, lang))}</div>` : ""}
+
+        <div class="overviewStoryGrid">
+          <div class="infoBlock infoBlock--story infoBlock--primary">
+            <h4>${escapeHtml(getDict("overviewIntro", lang))}</h4>
+            <p>${escapeHtml(getText(entry.overview, lang))}</p>
+          </div>
+
+          <div class="infoBlock infoBlock--story infoBlock--primary">
+            <h4>${escapeHtml(getDict("overviewBullets", lang))}</h4>
+            <ul>${(entry.bullets?.[lang] || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+          </div>
+        </div>
 
         ${(entry.pressure?.[lang] || []).length || (entry.fix?.[lang] || []).length ? `<div class="overviewContrastGrid">${renderSignalPanel(entry, lang, "pressure")}${renderSignalPanel(entry, lang, "fix")}</div>` : ""}
 
-        <div class="infoBlock"><h4>${escapeHtml(getDict("overviewFormat", lang))}</h4><p>${escapeHtml(getText(entry.format, lang))}</p></div>
+        <div class="infoBlock infoBlock--story">
+          <h4>${escapeHtml(getDict("overviewFormat", lang))}</h4>
+          <p>${escapeHtml(getText(entry.format, lang))}</p>
+        </div>
 
         ${renderProjectList(entry, lang)}
 
@@ -2024,7 +2975,9 @@ function renderOverview(entry, lang) {
 
       </div>
 
-      ${renderMedia(entry, lang)}
+      <aside class="overviewSide">
+        ${renderMedia(entry, lang)}
+      </aside>
 
     </div>
 
@@ -2050,9 +3003,17 @@ function getFormLinks(entry) {
 
 
 
+function getApplyLinks(entry) {
+
+  return (entry.links || []).filter((link) => link.kind === "apply");
+
+}
+
+
+
 function getRouteLinks(entry) {
 
-  return (entry.links || []).filter((link) => link.kind !== "form");
+  return (entry.links || []).filter((link) => link.kind !== "form" && link.kind !== "apply");
 
 }
 
@@ -2094,6 +3055,8 @@ function getLinkIcon(kind) {
 
     intake: "FORM",
 
+    apply: "APPLY",
+
     google: "G",
 
   };
@@ -2117,13 +3080,15 @@ function getLinkKindLabel(kind, lang) {
 
     form: { ua: "Форма", en: "Form" },
 
-    self: { ua: "Self", en: "Self" },
+    self: { ua: "Лінки", en: "Links" },
 
     project: { ua: "Кейс", en: "Case" },
 
     profile: { ua: "Профіль", en: "Profile" },
 
     intake: { ua: "Intake", en: "Intake" },
+
+    apply: { ua: "Apply", en: "Apply" },
 
     google: { ua: "Google Site", en: "Google Site" },
 
@@ -2141,6 +3106,16 @@ function getLinkKindLabel(kind, lang) {
 function renderForm(entry, lang) {
 
   const forms = getFormLinks(entry);
+  const applyLinks = getApplyLinks(entry);
+
+  if (!forms.length && applyLinks.length) {
+    const apply = applyLinks[0];
+    const intro = lang === "ua"
+      ? "Apply through Freelancehunt for the formal work route, or leave a short intake below if you want to start with context first."
+      : "Apply through Freelancehunt for the formal work route, or leave a short intake below if you want to start with context first.";
+    const embedTitle = lang === "ua" ? "Quick intake" : "Quick intake";
+    return `<div class="applyPanel"><div class="applyCard"><p class="linkIntro">${escapeHtml(intro)}</p><a class="routeAction" href="${escapeHtml(apply.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(apply.label, lang))}</a></div><div><h4 class="applyEmbedTitle">${escapeHtml(embedTitle)}</h4><div class="applyFrame">${mountIframeHtml(urls.hireForm, embedTitle)}</div></div></div>`;
+  }
 
   if (!forms.length) {
 
@@ -2162,30 +3137,44 @@ function renderRoutes(entry, lang) {
 
   if (Array.isArray(entry.clientHubs) && entry.clientHubs.length) {
     const laneLabels = {
+      all: { ua: "All", en: "All" },
       tech: { ua: "Tech", en: "Tech" },
       nontech: { ua: "Non-tech", en: "Non-tech" },
       hybrid: { ua: "Hybrid", en: "Hybrid" },
     };
-
-    const cards = entry.clientHubs.map((hub) => {
-      const lane = getText(laneLabels[hub.lane] || { ua: "Hub", en: "Hub" }, lang);
-      return `
-        <article class="clientHubCard clientHubCard--${escapeHtml(hub.lane || "hybrid")}">
-          <div class="clientHubCardTop">
-            <span class="clientHubLane">${escapeHtml(lane)}</span>
-            <span class="clientHubSource">${escapeHtml(getText(hub.hub, lang))}</span>
-          </div>
-          <strong>${escapeHtml(getText(hub.title, lang))}</strong>
-          <p>${escapeHtml(getText(hub.summary, lang))}</p>
-          <span class="clientHubPdf">${escapeHtml(getText(hub.pdf, lang))}</span>
-        </article>
-      `;
+    const roleOptions = ["all", "strategist", "producer", "creator"];
+    const laneOptions = ["all", "nontech", "hybrid", "tech"];
+    const items = entry.clientHubs.map((item) => ({
+      ...item,
+      source: HUBS.find((hub) => hub.id === item.sourceId),
+    })).filter((item) => item.source);
+    const filtered = items.filter((item) => {
+      if (state.clientHubRole !== "all" && item.source.role !== state.clientHubRole) return false;
+      if (state.clientHubLane !== "all" && item.lane !== state.clientHubLane) return false;
+      return true;
+    });
+    const renderFilter = (type, options, current) => options.map((option) => {
+      const label = type === "role"
+        ? (option === "all" ? getText(laneLabels.all, lang) : humanRole(option, lang))
+        : getText(laneLabels[option] || { ua: option, en: option }, lang);
+      const attr = type === "role" ? "data-client-role" : "data-client-lane";
+      return `<button class="clientHubFilterBtn ${current === option ? "active" : ""}" type="button" ${attr}="${escapeHtml(option)}">${escapeHtml(label)}</button>`;
     }).join("");
-
-    const profile = (entry.links || []).find((link) => link.kind === "profile" && link.url);
-    const action = profile ? `<a class="routeAction clientHubAction" href="${escapeHtml(profile.url)}" target="_blank" rel="noreferrer">${escapeHtml(getText(profile.label, lang))}</a>` : "";
-
-    return `<div class="clientHubPanel"><p class="linkIntro">${escapeHtml(lang === "ua" ? "Усі напрями для замовлень зібрані тут. Кожна картка може мати окремий PDF, кейс або опис, а робочий контакт іде через Freelancehunt." : "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt.")}</p><div class="clientHubGrid">${cards}</div>${action}</div>`;
+    const cards = filtered.map((item) => {
+      const hub = item.source;
+      const lane = getText(laneLabels[item.lane] || { ua: item.lane, en: item.lane }, lang);
+      return `<article class="card clientHubSourceCard is-${escapeHtml(hub.role)}">
+        <div class="cardTop"><span class="cardCode">${escapeHtml(hub.code)}</span><div class="cardMeta"><span class="cardRole">${escapeHtml(humanRole(hub.role, lang))}</span><span class="clientHubLane">${escapeHtml(lane)}</span></div></div>
+        <div class="cardTitleRow"><div class="cardLogo"><img src="${escapeHtml(hub.logo)}" alt="${escapeHtml(getText(hub.title, lang))}" /></div><div class="cardTitleWrap"><h3 class="cardTitle">${escapeHtml(getText(hub.title, lang))}</h3><div class="cardModeSummary">${escapeHtml(getText(hub.summary, lang))}</div></div></div>
+        <div class="cardLine">${escapeHtml(getText(hub.overview, lang))}</div>
+        <p class="clientHubPdf">${escapeHtml(getText(item.pdf, lang))}</p>
+        <div class="cardActions"><button class="btn primary cardCta" type="button" data-open-hub="${escapeHtml(hub.id)}">${escapeHtml(getDict("btnOpen"))}</button></div>
+      </article>`;
+    }).join("");
+    const intro = lang === "ua"
+      ? "These are the original Kosatiks hubs gathered inside K Clients Hub. Use the filters to choose the role and request type, then open a hub for the full context."
+      : "All client-facing directions live here. Each card can later hold its own PDF, case, or offer note, while paid contact goes through Freelancehunt.";
+    return `<div class="clientHubPanel"><p class="linkIntro">${escapeHtml(intro)}</p><div class="clientHubFilters"><div class="clientHubFilterRow"><span class="clientHubFilterLabel">Role</span>${renderFilter("role", roleOptions, state.clientHubRole)}</div><div class="clientHubFilterRow"><span class="clientHubFilterLabel">Type</span>${renderFilter("lane", laneOptions, state.clientHubLane)}</div></div><div class="clientHubGrid">${cards || `<div class="placeholder"><div class="placeholderText">${escapeHtml(getDict("placeholder"))}</div></div>`}</div></div>`;
   }
 
   const visibleLinks = getRouteLinks(entry);
@@ -2216,9 +3205,9 @@ function renderRoutes(entry, lang) {
 
 function getPreferredTab(entry) {
 
-  if (state.mode === "hire" && getFormLinks(entry).length) return "form";
-
   if (state.mode === "hire" && Array.isArray(entry.clientHubs) && entry.clientHubs.length) return "routes";
+
+  if (state.mode === "hire" && getFormLinks(entry).length) return "form";
 
   if (state.mode === "project" && getRouteLinks(entry).length) return "routes";
 
@@ -2236,9 +3225,9 @@ function renderModal() {
 
   const lang = state.modalLang;
 
-  const hasForm = getFormLinks(entry).length > 0;
+  const hasForm = getFormLinks(entry).length > 0 || getApplyLinks(entry).length > 0;
 
-  const hasRoutes = getRouteLinks(entry).length > 0;
+  const hasRoutes = getRouteLinks(entry).length > 0 || (Array.isArray(entry.clientHubs) && entry.clientHubs.length > 0);
 
   if (state.activeTab === "form" && !hasForm) state.activeTab = hasRoutes ? "routes" : "overview";
 
@@ -2252,9 +3241,16 @@ function renderModal() {
 
   refs.routesSlot.innerHTML = renderRoutes(entry, lang);
 
-  refs.tabForm.textContent = getDict("mForm", lang);
+  refs.tabOverview.textContent = getDict("mOverview", lang);
+  refs.tabForm.textContent = Array.isArray(entry.clientHubs) && entry.clientHubs.length ? "Apply" : getDict("mForm", lang);
 
   refs.tabRoutes.textContent = Array.isArray(entry.clientHubs) && entry.clientHubs.length ? "Hubs" : getDict("mLinks", lang);
+
+  refs.btnModalBack.textContent = `← ${getDict("mBack", lang)}`;
+
+  refs.btnModalClose.textContent = getDict("mClose", lang);
+
+  refs.btnModalBack.style.display = state.modalBackStack.length ? "inline-flex" : "none";
 
   refs.tabForm.style.display = hasForm ? "inline-flex" : "none";
 
@@ -2282,11 +3278,51 @@ function renderModal() {
 
 
 
-function openHub(id) { state.activeHubId = id; state.activeSpecialId = null; state.modalLang = state.lang; const entry = getActiveEntry(); state.activeTab = entry ? getPreferredTab(entry) : "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
+function snapshotModalRoute() {
+  return {
+    activeHubId: state.activeHubId,
+    activeSpecialId: state.activeSpecialId,
+    activeTab: state.activeTab,
+    modalLang: state.modalLang,
+    clientHubRole: state.clientHubRole,
+    clientHubLane: state.clientHubLane,
+  };
+}
 
-function openSpecial(id) { state.activeHubId = null; state.activeSpecialId = id; state.modalLang = state.lang; state.activeTab = "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
+function restoreModalRoute(route) {
+  state.activeHubId = route.activeHubId;
+  state.activeSpecialId = route.activeSpecialId;
+  state.activeTab = route.activeTab || "overview";
+  state.modalLang = route.modalLang || state.lang;
+  state.clientHubRole = route.clientHubRole || "all";
+  state.clientHubLane = route.clientHubLane || "all";
+}
 
-function closeModal() { refs.modal.classList.remove("open"); refs.modal.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open"); state.activeHubId = null; state.activeSpecialId = null; state.activeTab = "overview"; }
+function openHub(id, options = {}) {
+  if (options.pushHistory && state.activeHubId !== id) state.modalBackStack.push(snapshotModalRoute());
+  state.activeHubId = id;
+  state.activeSpecialId = null;
+  state.modalLang = state.lang;
+  const entry = getActiveEntry();
+  state.activeTab = entry ? getPreferredTab(entry) : "overview";
+  refs.modal.classList.add("open");
+  refs.modal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  renderStaticI18n();
+  renderModal();
+}
+
+function openSpecial(id) { state.modalBackStack = []; state.activeHubId = null; state.activeSpecialId = id; state.modalLang = state.lang; state.activeTab = "overview"; refs.modal.classList.add("open"); refs.modal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); renderStaticI18n(); renderModal(); }
+
+function closeModal() { refs.modal.classList.remove("open"); refs.modal.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open"); state.activeHubId = null; state.activeSpecialId = null; state.activeTab = "overview"; state.modalBackStack = []; }
+
+function backModal() {
+  const previous = state.modalBackStack.pop();
+  if (!previous) return;
+  restoreModalRoute(previous);
+  renderStaticI18n();
+  renderModal();
+}
 
 function switchModalTab(tab) { state.activeTab = tab; renderModal(); }
 
@@ -2304,7 +3340,7 @@ refs.btnModalEN.addEventListener("click", () => { state.modalLang = "en"; render
 
 refs.facetTabs.addEventListener("click", (event) => { const button = event.target.closest("[data-facet]"); if (!button) return; state.facet = button.dataset.facet; refresh(); });
 
-refs.modePills.addEventListener("click", (event) => { const button = event.target.closest("[data-mode]"); if (!button) return; state.mode = button.dataset.mode; refresh(); });
+refs.modePills.addEventListener("click", (event) => { const button = event.target.closest("[data-mode]"); if (!button) return; state.mode = button.dataset.mode; if (state.mode === "hire") state.facet = "producer"; refresh(); });
 
 
 
@@ -2312,11 +3348,27 @@ document.addEventListener("click", (event) => {
 
   const hubButton = event.target.closest("[data-open-hub]");
 
-  if (hubButton) { openHub(hubButton.dataset.openHub); return; }
+  if (hubButton) {
+    const shouldPushHistory = refs.modal.classList.contains("open") && state.activeHubId && state.activeHubId !== hubButton.dataset.openHub;
+    openHub(hubButton.dataset.openHub, { pushHistory: shouldPushHistory });
+    return;
+  }
+
+  const clientRoleButton = event.target.closest("[data-client-role]");
+
+  if (clientRoleButton) { state.clientHubRole = clientRoleButton.dataset.clientRole; renderModal(); return; }
+
+  const clientLaneButton = event.target.closest("[data-client-lane]");
+
+  if (clientLaneButton) { state.clientHubLane = clientLaneButton.dataset.clientLane; renderModal(); return; }
 
   const specialButton = event.target.closest("[data-special]");
 
   if (specialButton) { openSpecial(specialButton.dataset.special); return; }
+
+  const modalTabTarget = event.target.closest("[data-modal-tab-target]");
+
+  if (modalTabTarget) { switchModalTab(modalTabTarget.dataset.modalTabTarget); return; }
 
   const tabButton = event.target.closest("[data-tab]");
 
@@ -2329,6 +3381,8 @@ document.addEventListener("click", (event) => {
 
 
 refs.btnModalClose.addEventListener("click", closeModal);
+
+refs.btnModalBack.addEventListener("click", backModal);
 
 document.addEventListener("keydown", (event) => { if (event.key === "Escape" && refs.modal.classList.contains("open")) closeModal(); });
 

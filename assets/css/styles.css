@@ -666,6 +666,16 @@ a {
 
 }
 
+@media (min-width: 981px) {
+
+  .cards > .card:nth-last-child(1):nth-child(3n + 1) {
+
+    grid-column: 2;
+
+  }
+
+}
+
 
 
 @media (max-width: 980px) {
@@ -673,6 +683,16 @@ a {
   .cards {
 
     grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  }
+
+  .cards > .card:nth-last-child(1):nth-child(2n + 1) {
+
+    grid-column: 1 / -1;
+
+    justify-self: center;
+
+    width: min(100%, calc((100% - 12px) / 2));
 
   }
 
@@ -685,6 +705,16 @@ a {
   .cards {
 
     grid-template-columns: 1fr;
+
+  }
+
+  .cards > .card:nth-last-child(1):nth-child(2n + 1) {
+
+    grid-column: auto;
+
+    justify-self: stretch;
+
+    width: auto;
 
   }
 
@@ -1051,6 +1081,22 @@ a {
   justify-content: flex-end;
 
   align-items: center;
+
+}
+
+.modalBackBtn {
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-color: rgba(255, 255, 255, 0.22);
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: rgba(255, 255, 255, 0.86);
 
 }
 
@@ -3996,6 +4042,8 @@ div#quizModal.modal-overlay.open {
 
   align-items: flex-start;
 
+  min-width: 0;
+
 }
 
 
@@ -4004,11 +4052,17 @@ div#quizModal.modal-overlay.open {
 
   display: flex;
 
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
-  gap: 8px;
+  gap: 4px;
 
   margin-top: 2px;
+
+  justify-content: flex-end;
+
+  min-width: 0;
+
+  overflow: hidden;
 
 }
 
@@ -4024,19 +4078,29 @@ div#quizModal.modal-overlay.open {
 
   align-items: center;
 
-  min-height: 28px;
+  min-height: 24px;
 
-  padding: 6px 10px;
+  padding: 4px 8px;
 
   border-radius: 999px;
 
-  font-size: 0.7rem;
+  font-size: 0.62rem;
 
   font-weight: 900;
 
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 
   text-transform: uppercase;
+
+  white-space: nowrap;
+
+  flex-shrink: 1;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
 
 }
 
