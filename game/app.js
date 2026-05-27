@@ -1,5 +1,6 @@
 import { t, sphereDisplayName, formatWeekLabel } from "./i18n.js";
 import { applyUiLang, initLangToggle } from "./lang-ui.js";
+import { loadVault } from "./vault-loader.js";
 
 const spinBtn = document.getElementById("spin-btn");
 const weekSpinBtn = document.getElementById("week-spin-btn");
@@ -259,13 +260,19 @@ function startApp() {
     });
 }
 
-function boot(attempt = 0) {
-  if (!window.KLifeVault || typeof window.pako === "undefined") {
-    if (attempt < 50) {
-      setTimeout(() => boot(attempt + 1), 100);
-      return;
+async function boot() {
+  applyUiLang();
+  if (typeof window.pako === "undefined") {
+    for (let i = 0; i < 30 && typeof window.pako === "undefined"; i += 1) {
+      await new Promise((r) => setTimeout(r, 100));
     }
-    applyUiLang();
+  }
+  try {
+    await loadVault();
+  } catch {
+    /* loadVault tries all filenames */
+  }
+  if (!window.KLifeVault || typeof window.pako === "undefined") {
     passportEl.textContent = `${t("errPrefix")}: ${diagnoseBootFailure()}`;
     loader.classList.add("hidden");
     return;

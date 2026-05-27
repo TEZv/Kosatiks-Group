@@ -9,7 +9,7 @@
       content="Інтерактивний 3D-компас 12 сфер [K Life OS]. Рандомайзер, тема тижня, цитати з серії Anteros."
     />
     <meta name="theme-color" content="#060812" />
-    <link rel="stylesheet" href="./styles.css?v=20260528d" />
+    <link rel="stylesheet" href="./styles.css?v=20260528e" />
   </head>
   <body>
     <div id="loader" class="loader" aria-hidden="true">
@@ -95,17 +95,7 @@
       </div>
     </aside>
 
-    <script defer src="./vendor/pako/pako.min.js?v=20260528d"></script>
-    <script defer src="./klife-vault.js?v=20260528d"></script>
-    <script>
-      window.addEventListener("DOMContentLoaded", () => {
-        if (window.KLifeVault) return;
-        const fallback = document.createElement("script");
-        fallback.src = "./vault.bundle.js?v=20260528d";
-        fallback.defer = true;
-        document.head.append(fallback);
-      });
-    </script>
-    <script type="module" src="./app.js?v=20260528d"></script>
+    <script defer src="./vendor/pako/pako.min.js?v=20260528e"></script>
+    <script type="module" src="./app.js?v=20260528e"></script>
   </body>
 </html>

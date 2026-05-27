@@ -1,4 +1,6 @@
 {
+  "installCommand": "",
+  "buildCommand": "",
   "rewrites": [
     {
       "source": "/",
@@ -19,7 +21,7 @@
       ]
     },
     {
-      "source": "/game/(.*\\.(js|css))",
+      "source": "/game/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
       ]

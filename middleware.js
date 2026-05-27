@@ -1,5 +1,7 @@
-import { rewrite } from "@vercel/functions";
-
+/**
+ * game.kosatiks-group.pp.ua → /game/*
+ * No npm dependency (package.json broke static deploy on Vercel).
+ */
 const GAME_HOST = "game.kosatiks-group.pp.ua";
 
 export default function middleware(request) {
@@ -14,7 +16,11 @@ export default function middleware(request) {
         ? url.pathname
         : `/game${url.pathname}`;
 
-  return rewrite(new URL(pathname, url));
+  return new Response(null, {
+    headers: {
+      "x-middleware-rewrite": new URL(pathname, url).toString(),
+    },
+  });
 }
 
 export const config = {
