@@ -1,19 +1,20 @@
-/**
- * game.kosatiks-group.pp.ua → /game/*
- * Root index.html wins over vercel.json rewrites on static deploys; middleware runs first.
- */
+import { rewrite } from "@vercel/functions";
+
+const GAME_HOST = "game.kosatiks-group.pp.ua";
+
 export default function middleware(request) {
   const host = request.headers.get("host") || "";
-  if (host !== "game.kosatiks-group.pp.ua") return;
+  if (host !== GAME_HOST) return;
 
   const url = new URL(request.url);
-  let { pathname } = url;
+  const pathname =
+    url.pathname === "/"
+      ? "/game/index.html"
+      : url.pathname.startsWith("/game")
+        ? url.pathname
+        : `/game${url.pathname}`;
 
-  if (!pathname.startsWith("/game")) {
-    pathname = pathname === "/" ? "/game/index.html" : `/game${pathname}`;
-  }
-
-  return Response.rewrite(new URL(pathname, url));
+  return rewrite(new URL(pathname, url));
 }
 
 export const config = {
