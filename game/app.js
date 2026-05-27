@@ -1,3 +1,6 @@
+import { t, sphereDisplayName, formatWeekLabel } from "./i18n.js";
+import { applyUiLang, initLangToggle } from "./lang-ui.js";
+
 const spinBtn = document.getElementById("spin-btn");
 const weekSpinBtn = document.getElementById("week-spin-btn");
 const copyBtn = document.getElementById("copy-btn");
@@ -31,13 +34,14 @@ let kosatikMode = false;
 let immersiveMode = false;
 let weeklyPack = null;
 let createCompassScene = null;
+let weekSpinActive = false;
 
 function mulberry32(a) {
   return function () {
-    let t = (a += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    let s = (a += 0x6d2b79f5);
+    s = Math.imul(s ^ (s >>> 15), s | 1);
+    s ^= s + Math.imul(s ^ (s >>> 7), s | 61);
+    return ((s ^ (s >>> 14)) >>> 0) / 4294967296;
   };
 }
 
@@ -50,34 +54,35 @@ function pickTwoSpheres(rng) {
 }
 
 function formatSphere(sp) {
-  return `${sp.icon} S${sp.id}: ${sp.name}`;
+  return `${sp.icon} S${sp.id}: ${sphereDisplayName(sp)}`;
 }
 
 function updateResult(primary, secondary, rng, weekTopicText) {
   const q1 = window.KLifeVault.getQuote(primary.id, rng);
   const q2 = window.KLifeVault.getQuote(secondary.id, rng);
-  const t1 = weekTopicText || window.KLifeVault.getTopic(primary.id, rng);
-  const t2 = window.KLifeVault.getTopic(secondary.id, rng);
+  const topic1 = weekTopicText || window.KLifeVault.getTopic(primary.id, rng);
+  const topic2 = window.KLifeVault.getTopic(secondary.id, rng);
 
   primaryName.textContent = formatSphere(primary);
   primaryQuote.textContent = `«${q1.t}»`;
   primarySource.textContent = q1.s ? `— ${q1.s}` : "";
-  primaryTopic.textContent = `Топік: ${t1}`;
+  primaryTopic.textContent = `${t("topic")}: ${topic1}`;
 
   secondaryName.textContent = formatSphere(secondary);
   secondaryQuote.textContent = `«${q2.t}»`;
   secondarySource.textContent = q2.s ? `— ${q2.s}` : "";
-  secondaryTopic.textContent = `Топік: ${t2}`;
+  secondaryTopic.textContent = `${t("topic")}: ${topic2}`;
 
   passportEl.textContent = `🧭 [K Life OS] ➜ [S${primary.id}: ${primary.slug}] + [S${secondary.id}: ${secondary.slug}]`;
+  if (weekSpinActive) passportEl.textContent += t("weekSpinTag");
 
   if (compass) {
     compass.spinToSphereId(primary.id);
     compass.setHighlight(primary.id);
   }
 
-  lastOutcome = { primary, secondary, t1, t2, q1, q2 };
-  updateShareLinks(primary, secondary, t1);
+  lastOutcome = { primary, secondary, t1: topic1, t2: topic2, q1, q2 };
+  updateShareLinks(primary, secondary, topic1);
 }
 
 function updateShareLinks(primary, secondary, topic) {
@@ -90,12 +95,13 @@ function updateShareLinks(primary, secondary, topic) {
 
 function renderWeeklyBanner() {
   weeklyPack = window.KLifeVault.getWeeklyPack();
-  weeklyTitle.textContent = weeklyPack.weekLabel;
+  weeklyTitle.textContent = formatWeekLabel(weeklyPack.seed);
   weeklySpheres.textContent = `${formatSphere(weeklyPack.primary)} × ${formatSphere(weeklyPack.secondary)}`;
   weeklyTopic.textContent = weeklyPack.weekTopic;
 }
 
 function spinRandom() {
+  weekSpinActive = false;
   const rng = Math.random;
   const [primary, secondary] = pickTwoSpheres(rng);
   updateResult(primary, secondary, rng);
@@ -103,10 +109,10 @@ function spinRandom() {
 }
 
 function spinWeek() {
+  weekSpinActive = true;
   const pack = window.KLifeVault.getWeeklyPack();
   const rng = mulberry32(pack.seed);
   updateResult(pack.primary, pack.secondary, rng, pack.weekTopic);
-  passportEl.textContent += " • 🗓️ Спін тижня";
   if (kosatikMode) showKosatikQuip();
 }
 
@@ -120,16 +126,18 @@ function showKosatikQuip() {
 async function copyOutcome() {
   if (!lastOutcome) return;
   const text = [
-    "[K Life OS] — маршрут",
-    `Primary: ${lastOutcome.primary.name}`,
-    `Secondary: ${lastOutcome.secondary.name}`,
-    `Цитата: ${lastOutcome.q1.t}`,
-    `Топік: ${lastOutcome.t1}`,
+    t("copyHeader"),
+    `Primary: ${sphereDisplayName(lastOutcome.primary)}`,
+    `Secondary: ${sphereDisplayName(lastOutcome.secondary)}`,
+    `${t("copyQuote")}: ${lastOutcome.q1.t}`,
+    `${t("copyTopic")}: ${lastOutcome.t1}`,
     "https://game.kosatiks-group.pp.ua/",
   ].join("\n");
   await navigator.clipboard.writeText(text);
-  copyBtn.textContent = "Скопійовано ✓";
-  setTimeout(() => { copyBtn.textContent = "Скопіювати"; }, 1400);
+  copyBtn.textContent = t("copied");
+  setTimeout(() => {
+    copyBtn.textContent = t("copy");
+  }, 1400);
 }
 
 function toggleKosatik() {
@@ -144,7 +152,29 @@ function toggleKosatik() {
 function toggleImmersive() {
   immersiveMode = !immersiveMode;
   document.body.classList.toggle("immersive", immersiveMode);
-  immersiveBtn.textContent = immersiveMode ? "Immersive: On" : "Immersive";
+  immersiveBtn.textContent = immersiveMode ? t("immersiveOn") : t("immersive");
+}
+
+function refreshAfterLangChange() {
+  applyUiLang();
+  const canvas3d = document.getElementById("compass-3d");
+  if (canvas3d) canvas3d.setAttribute("aria-label", t("compassAria"));
+  if (window.KLifeVault) {
+    renderWeeklyBanner();
+    if (lastOutcome) {
+      const pack = weeklyPack || window.KLifeVault.getWeeklyPack();
+      const rng = weekSpinActive ? mulberry32(pack.seed) : Math.random;
+      const topic = weekSpinActive ? pack.weekTopic : undefined;
+      updateResult(
+        lastOutcome.primary,
+        lastOutcome.secondary,
+        rng,
+        topic,
+      );
+    } else {
+      spinWeek();
+    }
+  }
 }
 
 function initStarfield() {
@@ -188,21 +218,15 @@ function initStarfield() {
 }
 
 function diagnoseBootFailure() {
-  if (window.location.protocol === "file:") {
-    return "Відкрито як file:// — потрібен локальний сервер (npx serve .) або деплой на HTTPS.";
-  }
-  if (typeof window.pako === "undefined") {
-    return "Не завантажився vendor/pako/pako.min.js (перевір шлях і заливку папки vendor/).";
-  }
-  if (!window.KLifeVault) {
-    return "Не завантажився klife-vault.js (перевір мережу, Ctrl+F5; інколи блокує AdBlock — вимкни для game.…).";
-  }
+  if (window.location.protocol === "file:") return t("errFile");
+  if (typeof window.pako === "undefined") return t("errPako");
+  if (!window.KLifeVault) return t("errVault");
   try {
     window.KLifeVault.getSpheres();
   } catch (err) {
-    return `Vault пошкоджений або pako не розпаковує: ${err.message}`;
+    return `${t("errVaultBroken")}: ${err.message}`;
   }
-  return "Невідома помилка старту.";
+  return t("errUnknown");
 }
 
 function startApp() {
@@ -210,11 +234,12 @@ function startApp() {
   try {
     spheres = window.KLifeVault.getSpheres();
   } catch (err) {
-    passportEl.textContent = `Помилка: ${diagnoseBootFailure()} (${err.message})`;
+    passportEl.textContent = `${t("errPrefix")}: ${diagnoseBootFailure()} (${err.message})`;
     loader.classList.add("hidden");
     return;
   }
 
+  initLangToggle(refreshAfterLangChange);
   renderWeeklyBanner();
   spinWeek();
 
@@ -226,7 +251,7 @@ function startApp() {
     })
     .catch((err) => {
       document.body.classList.add("mode-2d");
-      passportEl.textContent += " • 2D режим (3D недоступний — рандомайзер працює)";
+      passportEl.textContent += t("mode2d");
       console.warn("3D init failed:", err);
     })
     .finally(() => {
@@ -240,7 +265,8 @@ function boot(attempt = 0) {
       setTimeout(() => boot(attempt + 1), 100);
       return;
     }
-    passportEl.textContent = `Помилка: ${diagnoseBootFailure()}`;
+    applyUiLang();
+    passportEl.textContent = `${t("errPrefix")}: ${diagnoseBootFailure()}`;
     loader.classList.add("hidden");
     return;
   }
@@ -254,10 +280,10 @@ kosatikBtn.addEventListener("click", toggleKosatik);
 immersiveBtn.addEventListener("click", toggleImmersive);
 
 initStarfield();
+applyUiLang();
 if (document.readyState === "complete") boot();
 else window.addEventListener("load", () => boot());
 
-// Hard safety: prevent infinite loader in any runtime edge-case.
 window.setTimeout(() => {
   loader.classList.add("hidden");
 }, 4500);

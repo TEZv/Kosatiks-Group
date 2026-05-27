@@ -135,6 +135,40 @@ h1 {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  border: 1px solid rgba(139, 227, 255, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.65rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.lang-btn.active {
+  background: rgba(139, 227, 255, 0.2);
+  color: var(--accent);
+}
+
+.content-lang-note {
+  margin: 0 0 0.75rem;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+  border-radius: 12px;
 }
 
 .weekly-banner {
