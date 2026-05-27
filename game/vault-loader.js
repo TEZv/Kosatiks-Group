@@ -1,35 +1,57 @@
-/** Tries several vault filenames (AdBlock often blocks *bundle*). */
-export function loadVault() {
-  if (window.KLifeVault) return Promise.resolve();
-  const urls = ["./vault.js", "./klife-vault.js", "./vault.bundle.js"];
-  const v = `?v=${encodeURIComponent("20260528e")}`;
+/** Load vault: classic script tags in HTML first, then fetch+run if AdBlock blocked scripts. */
+const VAULT_URLS = ["./vault.js", "./klife-vault.js", "./vault.bundle.js"];
+const V = "20260528f";
 
+function runVaultSource(code) {
+  if (!code || !code.includes("KLifeVault")) {
+    throw new Error("invalid_vault_source");
+  }
+  const fn = new Function(code);
+  fn();
+}
+
+export async function loadVault() {
+  if (window.KLifeVault) return;
+
+  for (const base of VAULT_URLS) {
+    const url = `${base}?v=${encodeURIComponent(V)}`;
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) continue;
+      const code = await res.text();
+      runVaultSource(code);
+      if (window.KLifeVault) return;
+    } catch {
+      /* try next */
+    }
+  }
+
+  await loadVaultViaScriptTag();
+  if (window.KLifeVault) return;
+
+  throw new Error("vault_unavailable");
+}
+
+function loadVaultViaScriptTag() {
   return new Promise((resolve, reject) => {
     let i = 0;
-    function tryNext() {
+    function next() {
       if (window.KLifeVault) {
         resolve();
         return;
       }
-      if (i >= urls.length) {
-        reject(new Error("vault_scripts_failed"));
+      if (i >= VAULT_URLS.length) {
+        reject(new Error("vault_script_tags_failed"));
         return;
       }
-      const src = urls[i++] + v;
-      const existing = document.querySelector(`script[data-vault-src="${src}"]`);
-      if (existing) {
-        if (window.KLifeVault) resolve();
-        else tryNext();
-        return;
-      }
+      const src = `${VAULT_URLS[i++]}?v=${encodeURIComponent(V)}`;
       const s = document.createElement("script");
       s.src = src;
-      s.defer = true;
-      s.dataset.vaultSrc = src;
-      s.onload = () => (window.KLifeVault ? resolve() : tryNext());
-      s.onerror = () => tryNext();
+      s.async = false;
+      s.onload = () => (window.KLifeVault ? resolve() : next());
+      s.onerror = () => next();
       document.head.append(s);
     }
-    tryNext();
+    next();
   });
 }

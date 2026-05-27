@@ -69,7 +69,7 @@ export const UI = {
     errFile: "Відкрито як file:// — потрібен локальний сервер (npx serve .) або деплой на HTTPS.",
     errPako: "Не завантажився vendor/pako/pako.min.js.",
     errVault:
-      "Не завантажився klife-vault.js (Ctrl+F5; інколи блокує AdBlock для game.…).",
+      "Не завантажились дані vault (vault.js). Ctrl+Shift+R; вимкни AdBlock для game.… або спробуй інкогніто.",
     errVaultBroken: "Vault пошкоджений або pako не розпаковує",
     errUnknown: "Невідома помилка старту.",
     errPrefix: "Помилка",
@@ -108,7 +108,8 @@ export const UI = {
     copyTopic: "Topic",
     errFile: "Opened as file:// — use a local server (npx serve .) or HTTPS deploy.",
     errPako: "vendor/pako/pako.min.js did not load.",
-    errVault: "klife-vault.js did not load (Ctrl+F5; AdBlock may block game.…).",
+    errVault:
+      "Vault data did not load (vault.js). Ctrl+Shift+R; disable AdBlock for game.… or try incognito.",
     errVaultBroken: "Vault corrupt or pako failed to decompress",
     errUnknown: "Unknown startup error.",
     errPrefix: "Error",

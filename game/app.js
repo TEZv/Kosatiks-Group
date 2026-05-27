@@ -240,7 +240,6 @@ function startApp() {
     return;
   }
 
-  initLangToggle(refreshAfterLangChange);
   renderWeeklyBanner();
   spinWeek();
 
@@ -288,6 +287,8 @@ immersiveBtn.addEventListener("click", toggleImmersive);
 
 initStarfield();
 applyUiLang();
+initLangToggle(refreshAfterLangChange);
+
 if (document.readyState === "complete") boot();
 else window.addEventListener("load", () => boot());
 
