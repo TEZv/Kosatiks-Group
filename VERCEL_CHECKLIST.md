@@ -30,6 +30,23 @@ This site is static HTML/CSS/JS. It should be served directly.
 5. Add those records in the `pp.ua` panel.
 6. Wait for SSL and propagation.
 
+## Game subdomain (`game.kosatiks-group.pp.ua`)
+
+Статичні файли лежать у папці **`game/`** у цьому репо. `vercel.json` віддає їх лише на хості `game.kosatiks-group.pp.ua` (основний домен не змінюється).
+
+1. Закоміть і запуш `game/` + `vercel.json` у `main` (або змердж PR).
+2. Vercel → **Settings → Domains** → **Add** → `game.kosatiks-group.pp.ua`.
+3. У кабінеті **pp.ua** (DNS зони домену) додай запис, який покаже Vercel (зазвичай **CNAME**):
+   - Name: `game`
+   - Value: `cname.vercel-dns.com` (або те, що дасть Vercel у підказці)
+4. Дочекайся SSL (зелена галочка в Vercel).
+5. Перевір у браузері:
+   - `https://game.kosatiks-group.pp.ua/` — гра
+   - `https://game.kosatiks-group.pp.ua/vault.bundle.js` — ~65 KB, не 404
+   - `https://kosatiks-group.pp.ua/` — як і раніше, головний портал
+
+**Не потрібен** окремий FTP-хостинг для `game`, якщо весь домен уже на Vercel.
+
 ## Verification
 
 After deploy, verify:

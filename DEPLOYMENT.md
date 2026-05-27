@@ -28,6 +28,12 @@ To connect `kosatiks-group.pp.ua`:
 4. Add those records in the `pp.ua` control panel.
 5. Wait for SSL issuance.
 
+### Game subdomain (same Vercel project)
+
+- Files: repository folder `game/`
+- Host routing: `vercel.json` rewrites for `game.kosatiks-group.pp.ua`
+- Add the subdomain in Vercel Domains + CNAME `game` in the pp.ua DNS panel (see `VERCEL_CHECKLIST.md`).
+
 ## Public GitHub + LinkedIn Positioning
 
 Recommended presentation:
