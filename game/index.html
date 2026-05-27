@@ -83,8 +83,17 @@
       </div>
     </aside>
 
-    <script defer src="./vendor/pako/pako.min.js?v=20260528b"></script>
-    <script defer src="./klife-vault.js?v=20260528b"></script>
-    <script type="module" src="./app.js?v=20260528b"></script>
+    <script defer src="./vendor/pako/pako.min.js?v=20260528c"></script>
+    <script defer src="./klife-vault.js?v=20260528c"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        if (window.KLifeVault) return;
+        const fallback = document.createElement("script");
+        fallback.src = "./vault.bundle.js?v=20260528c";
+        fallback.defer = true;
+        document.head.append(fallback);
+      });
+    </script>
+    <script type="module" src="./app.js?v=20260528c"></script>
   </body>
 </html>
