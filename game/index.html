@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[K Life OS] — Куди мене занесе?</title>
+    <meta
+      name="description"
+      content="Інтерактивний 3D-компас 12 сфер [K Life OS]. Рандомайзер, тема тижня, цитати з серії Anteros."
+    />
+    <meta name="theme-color" content="#060812" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="loader" class="loader" aria-hidden="true">
+      <div class="loader-ring"></div>
+      <p>Завантажую всесвіт [K Life OS]…</p>
+    </div>
+
+    <canvas id="space-bg" aria-hidden="true"></canvas>
+    <canvas id="compass-3d" aria-label="3D компас 12 сфер"></canvas>
+
+    <main class="app">
+      <header class="topbar glass">
+        <div>
+          <p class="eyebrow">game.kosatiks-group.pp.ua</p>
+          <h1>Куди мене занесе сьогодні?</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="kosatik-btn" class="ghost-btn" type="button" aria-pressed="false">🐋 Косатик</button>
+          <button id="immersive-btn" class="ghost-btn" type="button">Immersive</button>
+          <a class="ghost-btn" href="https://kosatiks-group.pp.ua/" target="_blank" rel="noreferrer">K Identity</a>
+        </div>
+      </header>
+
+      <section id="weekly-banner" class="weekly-banner glass" aria-live="polite">
+        <p class="weekly-label">Тема тижня (спільна для всіх)</p>
+        <h2 id="weekly-title">—</h2>
+        <p id="weekly-spheres" class="weekly-spheres">—</p>
+        <p id="weekly-topic" class="weekly-topic">—</p>
+      </section>
+
+      <section class="hud glass">
+        <p class="control-title">Системний паспорт</p>
+        <div id="passport" class="passport">🧭 [K Life OS] — натисни «Рандомайзер» або «Спін тижня»</div>
+        <div class="btn-row">
+          <button id="spin-btn" class="primary-btn" type="button">Рандомайзер сфер</button>
+          <button id="week-spin-btn" class="ghost-btn" type="button">Спін тижня</button>
+          <button id="copy-btn" class="ghost-btn" type="button">Скопіювати</button>
+        </div>
+        <p id="kosatik-line" class="kosatik-line hidden" role="note"></p>
+      </section>
+
+      <section id="result-panel" class="result-panel glass" aria-live="polite">
+        <h2>Твій маршрут</h2>
+        <div class="result-grid">
+          <article class="result-card">
+            <p class="card-label">Primary</p>
+            <h3 id="primary-name">—</h3>
+            <blockquote id="primary-quote" class="quote">—</blockquote>
+            <p id="primary-source" class="source">—</p>
+            <p id="primary-topic" class="topic">—</p>
+          </article>
+          <article class="result-card">
+            <p class="card-label">Secondary</p>
+            <h3 id="secondary-name">—</h3>
+            <blockquote id="secondary-quote" class="quote">—</blockquote>
+            <p id="secondary-source" class="source">—</p>
+            <p id="secondary-topic" class="topic">—</p>
+          </article>
+        </div>
+        <div class="share-row">
+          <a id="share-threads" class="ghost-btn" href="#" target="_blank" rel="noreferrer">Threads</a>
+          <a id="share-x" class="ghost-btn" href="#" target="_blank" rel="noreferrer">X</a>
+        </div>
+      </section>
+    </main>
+
+    <aside id="kosatik-panel" class="kosatik-panel" hidden>
+      <div class="kosatik-card glass">
+        <p class="kosatik-title">Кит-Кіт Косатик</p>
+        <p id="kosatik-quip" class="kosatik-quip">Бекстейдж-режим увімкнено.</p>
+      </div>
+    </aside>
+
+    <script src="./vendor/pako/pako.min.js?v=20260528"></script>
+    <script src="./vault.bundle.js?v=20260528"></script>
+    <script type="module" src="./app.js?v=20260528"></script>
+  </body>
+</html>
