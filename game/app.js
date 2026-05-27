@@ -195,7 +195,7 @@ function diagnoseBootFailure() {
     return "Не завантажився vendor/pako/pako.min.js (перевір шлях і заливку папки vendor/).";
   }
   if (!window.KLifeVault) {
-    return "Не завантажився vault.bundle.js (перевір, що файл у корені піддомену game/).";
+    return "Не завантажився klife-vault.js (перевір мережу, Ctrl+F5; інколи блокує AdBlock — вимкни для game.…).";
   }
   try {
     window.KLifeVault.getSpheres();
@@ -205,13 +205,7 @@ function diagnoseBootFailure() {
   return "Невідома помилка старту.";
 }
 
-function boot() {
-  if (!window.KLifeVault || typeof window.pako === "undefined") {
-    passportEl.textContent = `Помилка: ${diagnoseBootFailure()}`;
-    loader.classList.add("hidden");
-    return;
-  }
-
+function startApp() {
   let spheres;
   try {
     spheres = window.KLifeVault.getSpheres();
@@ -224,7 +218,6 @@ function boot() {
   renderWeeklyBanner();
   spinWeek();
 
-  // Never block the UI on 3D init: if Three.js fails, app still works.
   import("./scene3d.js")
     .then((mod) => {
       createCompassScene = mod.createCompassScene;
@@ -241,6 +234,19 @@ function boot() {
     });
 }
 
+function boot(attempt = 0) {
+  if (!window.KLifeVault || typeof window.pako === "undefined") {
+    if (attempt < 50) {
+      setTimeout(() => boot(attempt + 1), 100);
+      return;
+    }
+    passportEl.textContent = `Помилка: ${diagnoseBootFailure()}`;
+    loader.classList.add("hidden");
+    return;
+  }
+  startApp();
+}
+
 spinBtn.addEventListener("click", spinRandom);
 weekSpinBtn.addEventListener("click", spinWeek);
 copyBtn.addEventListener("click", copyOutcome);
@@ -248,7 +254,8 @@ kosatikBtn.addEventListener("click", toggleKosatik);
 immersiveBtn.addEventListener("click", toggleImmersive);
 
 initStarfield();
-window.addEventListener("load", boot);
+if (document.readyState === "complete") boot();
+else window.addEventListener("load", () => boot());
 
 // Hard safety: prevent infinite loader in any runtime edge-case.
 window.setTimeout(() => {
