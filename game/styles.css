@@ -233,18 +233,22 @@ h1 {
   height: min(72vh, 760px);
   perspective: 1600px;
   transform-style: preserve-3d;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .cube-card {
   position: absolute;
   left: 50%;
   top: 0;
-  width: min(900px, 94vw);
+  width: min(760px, 86vw);
   max-height: min(72vh, 760px);
   overflow: auto;
   margin-top: 0 !important;
   transform-style: preserve-3d;
   will-change: transform, opacity;
+  backface-visibility: hidden;
+  animation: none !important;
 }
 
 [data-view-section].view-hidden {
@@ -511,6 +515,10 @@ body.immersive .glass {
 .result-panel,
 .book-lab {
   animation: float-card 9s ease-in-out infinite;
+}
+
+.cube-stage .cube-card {
+  animation: none !important;
 }
 
 .weekly-banner { animation-delay: 0.4s; }

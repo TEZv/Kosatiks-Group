@@ -360,22 +360,35 @@ function initCardTilt() {
 
 function applyCubeLayout() {
   if (!cubeStage || window.innerWidth <= 760 || !cubeCards.length) return;
-  const step = 90;
-  const zDepth = Math.min(420, Math.max(280, window.innerWidth * 0.32));
+  const step = (Math.PI * 2) / cubeCards.length;
+  const radiusX = Math.min(360, Math.max(220, window.innerWidth * 0.22));
+  const radiusZ = Math.min(250, Math.max(140, window.innerWidth * 0.15));
+  let bestIdx = 0;
+  let bestZ = -Infinity;
   cubeCards.forEach((card, i) => {
-    const angle = (i - cubeFocusIndex) * step + cubeOrbitAngle;
-    const normalized = Math.abs((((angle % 360) + 540) % 360) - 180);
-    const nearFront = normalized < 70;
-    card.style.transform = `translateX(-50%) rotateY(${angle}deg) translateZ(${zDepth}px)`;
-    card.style.opacity = nearFront ? "1" : "0.2";
-    card.style.pointerEvents = nearFront ? "auto" : "none";
-    card.style.zIndex = nearFront ? "4" : "1";
+    const angle = (i - cubeFocusIndex) * step + (cubeOrbitAngle * Math.PI) / 180;
+    const x = Math.sin(angle) * radiusX;
+    const z = Math.cos(angle) * radiusZ;
+    const rotateY = (Math.sin(angle) * 14).toFixed(2);
+    const scale = (0.86 + ((z + radiusZ) / (radiusZ * 2)) * 0.16).toFixed(3);
+    const opacity = (0.24 + ((z + radiusZ) / (radiusZ * 2)) * 0.76).toFixed(3);
+    card.style.transform = `translateX(calc(-50% + ${x.toFixed(1)}px)) translateZ(${z.toFixed(1)}px) rotateY(${rotateY}deg) scale(${scale})`;
+    card.style.opacity = opacity;
+    card.style.zIndex = String(100 + Math.round(z));
+    if (z > bestZ) {
+      bestZ = z;
+      bestIdx = i;
+    }
+  });
+  cubeCards.forEach((card, i) => {
+    const interactive = i === bestIdx;
+    card.style.pointerEvents = interactive ? "auto" : "none";
   });
 }
 
 function tickCubeOrbit() {
   if (orbitEnabled && window.innerWidth > 760) {
-    cubeOrbitAngle -= 0.18;
+    cubeOrbitAngle -= 0.1;
     applyCubeLayout();
   }
   cubeOrbitRaf = requestAnimationFrame(tickCubeOrbit);
