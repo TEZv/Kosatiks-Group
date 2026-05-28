@@ -17,6 +17,8 @@ const compassFocusBtn = document.getElementById("compass-focus-btn");
 const compassOrbitBtn = document.getElementById("compass-orbit-btn");
 const viewButtons = Array.from(document.querySelectorAll("[data-view-mode]"));
 const viewSections = Array.from(document.querySelectorAll("[data-view-section]"));
+const cubeStage = document.getElementById("cube-stage");
+const cubeCards = Array.from(document.querySelectorAll("[data-cube-card]"));
 const passportEl = document.getElementById("passport");
 const loader = document.getElementById("loader");
 
@@ -52,6 +54,9 @@ let weekSpinActive = false;
 let orbitEnabled = true;
 let reflectionState = null;
 let currentViewMode = "all";
+let cubeFocusIndex = 0;
+let cubeOrbitAngle = 0;
+let cubeOrbitRaf = null;
 
 function mulberry32(a) {
   return function () {
@@ -263,6 +268,8 @@ function toggleImmersive() {
 }
 
 function resetCompassFocus() {
+  cubeFocusIndex = (cubeFocusIndex + 1) % Math.max(cubeCards.length, 1);
+  applyCubeLayout();
   if (!compass) return;
   const target = lastOutcome?.primary?.id || weeklyPack?.primary?.id || 1;
   compass.spinToSphereId(target, 2);
@@ -271,9 +278,8 @@ function resetCompassFocus() {
 }
 
 function toggleCompassOrbit() {
-  if (!compass) return;
   orbitEnabled = !orbitEnabled;
-  compass.setAutoRotate(orbitEnabled);
+  if (compass) compass.setAutoRotate(orbitEnabled);
   compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
   compassOrbitBtn?.classList.toggle("active-pulse", orbitEnabled);
 }
@@ -312,6 +318,16 @@ function setViewMode(mode) {
     const visible = mode === "all" || values.includes(mode) || values.includes("all");
     el.classList.toggle("view-hidden", !visible);
   });
+  if (mode !== "all") {
+    const idx = cubeCards.findIndex((card) => {
+      const values = (card.getAttribute("data-view-section") || "").split(/\s+/).filter(Boolean);
+      return values.includes(mode);
+    });
+    if (idx >= 0) {
+      cubeFocusIndex = idx;
+      applyCubeLayout();
+    }
+  }
 }
 
 function initViewModeSwitch() {
@@ -340,6 +356,36 @@ function initCardTilt() {
       card.style.setProperty("--rx", "0deg");
     });
   });
+}
+
+function applyCubeLayout() {
+  if (!cubeStage || window.innerWidth <= 760 || !cubeCards.length) return;
+  const step = 90;
+  const zDepth = Math.min(420, Math.max(280, window.innerWidth * 0.32));
+  cubeCards.forEach((card, i) => {
+    const angle = (i - cubeFocusIndex) * step + cubeOrbitAngle;
+    const normalized = Math.abs((((angle % 360) + 540) % 360) - 180);
+    const nearFront = normalized < 70;
+    card.style.transform = `translateX(-50%) rotateY(${angle}deg) translateZ(${zDepth}px)`;
+    card.style.opacity = nearFront ? "1" : "0.2";
+    card.style.pointerEvents = nearFront ? "auto" : "none";
+    card.style.zIndex = nearFront ? "4" : "1";
+  });
+}
+
+function tickCubeOrbit() {
+  if (orbitEnabled && window.innerWidth > 760) {
+    cubeOrbitAngle -= 0.18;
+    applyCubeLayout();
+  }
+  cubeOrbitRaf = requestAnimationFrame(tickCubeOrbit);
+}
+
+function initCubeStage() {
+  if (!cubeStage || !cubeCards.length) return;
+  applyCubeLayout();
+  window.addEventListener("resize", applyCubeLayout);
+  if (!cubeOrbitRaf) cubeOrbitRaf = requestAnimationFrame(tickCubeOrbit);
 }
 
 function refreshAfterLangChange() {
@@ -510,6 +556,7 @@ applyUiLang();
 initLangToggle(refreshAfterLangChange);
 initViewModeSwitch();
 initCardTilt();
+initCubeStage();
 if (reflectionPromptEl) reflectionPromptEl.textContent = t("reflectionSeed");
 if (reflectionResultEl) reflectionResultEl.textContent = t("reflectionResultSeed");
 

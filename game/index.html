@@ -9,7 +9,7 @@
       content="Інтерактивний 3D-компас 12 сфер [K Life OS]. Рандомайзер, тема тижня, цитати з серії Anteros."
     />
     <meta name="theme-color" content="#060812" />
-    <link rel="stylesheet" href="./styles.css?v=20260528m" />
+    <link rel="stylesheet" href="./styles.css?v=20260528n" />
   </head>
   <body>
     <div id="loader" class="loader" aria-hidden="true">
@@ -61,15 +61,15 @@
         <p class="stage-note" data-i18n="compassHint">Тягни мишею: обертай сцену. Колесо: zoom.</p>
       </section>
 
-      <section class="experience-grid" data-view-section="all weekly random">
-        <article id="weekly-banner" class="weekly-banner glass" aria-live="polite" data-view-section="all weekly">
+      <section id="cube-stage" class="cube-stage" data-view-section="all weekly random route book">
+        <article id="weekly-banner" class="weekly-banner glass cube-card" aria-live="polite" data-view-section="all weekly" data-cube-card>
           <p class="weekly-label" data-i18n="weeklyLabel">Тема тижня (спільна для всіх)</p>
           <h2 id="weekly-title">—</h2>
           <p id="weekly-spheres" class="weekly-spheres">—</p>
           <p id="weekly-topic" class="weekly-topic">—</p>
         </article>
 
-        <article class="hud glass" data-view-section="all random">
+        <article class="hud glass cube-card" data-view-section="all random" data-cube-card>
           <p class="control-title" data-i18n="randomTitle">Живий рандом</p>
           <p class="control-subtitle" data-i18n="passportTitle">Системний паспорт</p>
           <div id="passport" class="passport">🧭 [K Life OS] — …</div>
@@ -81,9 +81,8 @@
           <p id="kosatik-line" class="kosatik-line hidden" role="note"></p>
           <p id="kosatik-logic-inline" class="stage-note hidden" data-i18n="kosatikLogic"></p>
         </article>
-      </section>
 
-      <section id="result-panel" class="result-panel glass" aria-live="polite" data-view-section="all route">
+      <section id="result-panel" class="result-panel glass cube-card" aria-live="polite" data-view-section="all route" data-cube-card>
         <h2 data-i18n="route">Твій маршрут</h2>
         <div class="result-grid">
           <article class="result-card">
@@ -107,7 +106,7 @@
         </div>
       </section>
 
-      <section class="book-lab glass" aria-live="polite" data-view-section="all book">
+      <section class="book-lab glass cube-card" aria-live="polite" data-view-section="all book" data-cube-card>
         <p class="control-title" data-i18n="bookLabTitle">Поговорити з книги</p>
         <p id="book-source" class="book-source">—</p>
         <div class="share-row">
@@ -134,6 +133,7 @@
         </div>
         <p id="reflection-result" class="stage-note" data-i18n="reflectionResultSeed">Тут з’явиться обрана позиція.</p>
       </section>
+      </section>
     </main>
 
     <aside id="kosatik-panel" class="kosatik-panel" hidden>
@@ -143,8 +143,8 @@
       </div>
     </aside>
 
-    <script defer src="./vendor/pako/pako.min.js?v=20260528m"></script>
-    <script defer src="./vault.js?v=20260528m"></script>
-    <script type="module" src="./app.js?v=20260528m"></script>
+    <script defer src="./vendor/pako/pako.min.js?v=20260528n"></script>
+    <script defer src="./vault.js?v=20260528n"></script>
+    <script type="module" src="./app.js?v=20260528n"></script>
   </body>
 </html>
