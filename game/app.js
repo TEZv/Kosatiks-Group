@@ -57,6 +57,7 @@ let currentViewMode = "all";
 let cubeFocusIndex = 0;
 let cubeOrbitAngle = 0;
 let cubeOrbitRaf = null;
+let cubeEnabled = false;
 
 function mulberry32(a) {
   return function () {
@@ -312,6 +313,7 @@ function applyCustomReflection() {
 
 function setViewMode(mode) {
   currentViewMode = mode;
+  cubeEnabled = mode !== "all";
   viewButtons.forEach((btn) => btn.classList.toggle("active", btn.getAttribute("data-view-mode") === mode));
   viewSections.forEach((el) => {
     const values = (el.getAttribute("data-view-section") || "").split(/\s+/).filter(Boolean);
@@ -325,9 +327,9 @@ function setViewMode(mode) {
     });
     if (idx >= 0) {
       cubeFocusIndex = idx;
-      applyCubeLayout();
     }
   }
+  applyCubeLayout();
 }
 
 function initViewModeSwitch() {
@@ -359,7 +361,20 @@ function initCardTilt() {
 }
 
 function applyCubeLayout() {
-  if (!cubeStage || window.innerWidth <= 760 || !cubeCards.length) return;
+  if (!cubeStage || !cubeCards.length) return;
+  if (!cubeEnabled || window.innerWidth <= 760) {
+    cubeStage.classList.remove("cube-enabled");
+    cubeCards.forEach((card) => {
+      card.style.transform = "";
+      card.style.opacity = "1";
+      card.style.pointerEvents = "auto";
+      card.style.zIndex = "auto";
+      card.classList.remove("cube-front");
+      card.classList.remove("cube-back");
+    });
+    return;
+  }
+  cubeStage.classList.add("cube-enabled");
   const step = (Math.PI * 2) / cubeCards.length;
   const radiusX = Math.min(360, Math.max(220, window.innerWidth * 0.22));
   const radiusZ = Math.min(250, Math.max(140, window.innerWidth * 0.15));
@@ -371,7 +386,7 @@ function applyCubeLayout() {
     const z = Math.cos(angle) * radiusZ;
     const rotateY = (Math.sin(angle) * 14).toFixed(2);
     const scale = (0.86 + ((z + radiusZ) / (radiusZ * 2)) * 0.16).toFixed(3);
-    const opacity = (0.24 + ((z + radiusZ) / (radiusZ * 2)) * 0.76).toFixed(3);
+    const opacity = (0.04 + ((z + radiusZ) / (radiusZ * 2)) * 0.96).toFixed(3);
     card.style.transform = `translateX(calc(-50% + ${x.toFixed(1)}px)) translateZ(${z.toFixed(1)}px) rotateY(${rotateY}deg) scale(${scale})`;
     card.style.opacity = opacity;
     card.style.zIndex = String(100 + Math.round(z));
@@ -383,11 +398,13 @@ function applyCubeLayout() {
   cubeCards.forEach((card, i) => {
     const interactive = i === bestIdx;
     card.style.pointerEvents = interactive ? "auto" : "none";
+    card.classList.toggle("cube-front", interactive);
+    card.classList.toggle("cube-back", !interactive);
   });
 }
 
 function tickCubeOrbit() {
-  if (orbitEnabled && window.innerWidth > 760) {
+  if (cubeEnabled && orbitEnabled && window.innerWidth > 760) {
     cubeOrbitAngle -= 0.1;
     applyCubeLayout();
   }

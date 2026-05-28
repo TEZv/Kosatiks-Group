@@ -237,6 +237,11 @@ h1 {
   border-radius: 20px;
 }
 
+.cube-stage.cube-enabled {
+  border: 1px solid rgba(139, 227, 255, 0.2);
+  background: radial-gradient(circle at center, rgba(18, 30, 68, 0.2), rgba(6, 10, 24, 0.14));
+}
+
 .cube-card {
   position: absolute;
   left: 50%;
@@ -249,6 +254,16 @@ h1 {
   will-change: transform, opacity;
   backface-visibility: hidden;
   animation: none !important;
+  transition: transform 360ms ease, opacity 320ms ease, filter 320ms ease;
+}
+
+.cube-card.cube-back {
+  filter: blur(1.6px) saturate(0.7);
+}
+
+.cube-card.cube-front {
+  filter: none;
+  box-shadow: 0 26px 70px rgba(8, 14, 40, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 [data-view-section].view-hidden {
