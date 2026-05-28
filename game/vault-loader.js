@@ -1,6 +1,6 @@
 /** Load vault: classic script tags in HTML first, then fetch+run if AdBlock blocked scripts. */
 const VAULT_URLS = ["./vault.js", "./klife-vault.js", "./vault.bundle.js"];
-const V = "20260528f";
+const V = "20260528h";
 
 function runVaultSource(code) {
   if (!code || !code.includes("KLifeVault")) {

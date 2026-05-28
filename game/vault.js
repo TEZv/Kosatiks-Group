@@ -57,7 +57,7 @@
       const weekTopic = global.KLifeVault.getTopic(primary.id, rng);
       return {
         seed,
-        weekLabel: `Тиждень ${seed % 100}, ${seed // 100}`,
+        weekLabel: `Тиждень ${seed % 100}, ${Math.floor(seed / 100)}`,
         primary,
         secondary,
         weekTopic,

@@ -54,10 +54,10 @@
       const primary = spheres[Math.floor(rng() * spheres.length)];
       let secondary = spheres[Math.floor(rng() * spheres.length)];
       while (secondary.id === primary.id) secondary = spheres[Math.floor(rng() * spheres.length)];
-      const weekTopic = data().topics[String(primary.id)][Math.floor(rng() * 90)];
+      const weekTopic = global.KLifeVault.getTopic(primary.id, rng);
       return {
         seed,
-        weekLabel: `Тиждень ${seed % 100}, ${seed // 100}`,
+        weekLabel: `Тиждень ${seed % 100}, ${Math.floor(seed / 100)}`,
         primary,
         secondary,
         weekTopic,
