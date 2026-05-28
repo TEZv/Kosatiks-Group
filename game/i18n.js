@@ -47,6 +47,11 @@ export const UI = {
     identity: "K Identity",
     weeklyLabel: "Тема тижня (спільна для всіх)",
     randomTitle: "Живий рандом",
+    viewAll: "Усе",
+    viewWeekly: "Тиждень",
+    viewRandom: "Рандом",
+    viewRoute: "Маршрут",
+    viewBook: "Книга",
     compassTitle: "3D-компас [K Life OS]",
     compassHint: "Тягни мишею: обертай сцену. Колесо: zoom.",
     compassFocus: "Фокус",
@@ -66,6 +71,8 @@ export const UI = {
     mode2d: " • 2D режим (3D недоступний — рандомайзер працює)",
     kosatikTitle: "Кит-Кіт Косатик",
     kosatikDefault: "Бекстейдж-режим увімкнено.",
+    kosatikLogic:
+      "Логіка Kosatik: м’яка іронія + чесний фокус. Це режим, де ми не героїзуємо хаос, а шукаємо маленький реальний крок.",
     contentNote:
       "Цитати й топіки зараз українською (канон Anteros). Англомовна бібліотека — у наступному оновленні.",
     weekLabel: (w, y) => `Тиждень ${w}, ${y}`,
@@ -89,6 +96,10 @@ export const UI = {
     reflectionPicked: "Обрано",
     reflectionCustomPicked: "Мій варіант",
     reflectionNeedCustom: "Спершу впиши свій варіант у поле.",
+    enVaultFallbackQuote: "Ukrainian canon quote is available in UA mode.",
+    enVaultFallbackTopic: "What one real step can you take this week?",
+    enVaultFallbackWeekly:
+      "Weekly prompt is generated from Ukrainian canon. Full EN quote/topic pack is in progress.",
     errFile: "Відкрито як file:// — потрібен локальний сервер (npx serve .) або деплой на HTTPS.",
     errPako: "Не завантажився vendor/pako/pako.min.js.",
     errVault:
@@ -110,6 +121,11 @@ export const UI = {
     identity: "K Identity",
     weeklyLabel: "Weekly theme (shared for everyone)",
     randomTitle: "Live random",
+    viewAll: "All",
+    viewWeekly: "Weekly",
+    viewRandom: "Random",
+    viewRoute: "Route",
+    viewBook: "Book",
     compassTitle: "3D [K Life OS] compass",
     compassHint: "Drag to rotate scene. Wheel to zoom.",
     compassFocus: "Focus",
@@ -129,6 +145,8 @@ export const UI = {
     mode2d: " • 2D mode (3D unavailable — randomizer still works)",
     kosatikTitle: "Kit-Kit Kosatik",
     kosatikDefault: "Backstage mode on.",
+    kosatikLogic:
+      "Kosatik logic: gentle irony + honest focus. This mode avoids chaos-glorification and looks for one real action.",
     contentNote:
       "UI is English. Quotes and topics are shown from the Ukrainian canon (Anteros) until EN vault is generated.",
     weekLabel: (w, y) => `Week ${w}, ${y}`,
@@ -152,6 +170,10 @@ export const UI = {
     reflectionPicked: "Selected",
     reflectionCustomPicked: "My option",
     reflectionNeedCustom: "Write your own option first.",
+    enVaultFallbackQuote: "Ukrainian canon quote is available in UA mode.",
+    enVaultFallbackTopic: "What one real step can you take this week?",
+    enVaultFallbackWeekly:
+      "Weekly prompt is generated from Ukrainian canon. Full EN quote/topic pack is in progress.",
     errFile: "Opened as file:// — use a local server (npx serve .) or HTTPS deploy.",
     errPako: "vendor/pako/pako.min.js did not load.",
     errVault:

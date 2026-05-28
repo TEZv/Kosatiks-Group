@@ -15,6 +15,8 @@ const reflectionCustomEl = document.getElementById("reflection-custom");
 const reflectionResultEl = document.getElementById("reflection-result");
 const compassFocusBtn = document.getElementById("compass-focus-btn");
 const compassOrbitBtn = document.getElementById("compass-orbit-btn");
+const viewButtons = Array.from(document.querySelectorAll("[data-view-mode]"));
+const viewSections = Array.from(document.querySelectorAll("[data-view-section]"));
 const passportEl = document.getElementById("passport");
 const loader = document.getElementById("loader");
 
@@ -36,6 +38,7 @@ const shareX = document.getElementById("share-x");
 const kosatikLine = document.getElementById("kosatik-line");
 const kosatikPanel = document.getElementById("kosatik-panel");
 const kosatikQuip = document.getElementById("kosatik-quip");
+const kosatikLogicInline = document.getElementById("kosatik-logic-inline");
 const bookSourceEl = document.getElementById("book-source");
 const reflectionPromptEl = document.getElementById("reflection-prompt");
 
@@ -48,6 +51,7 @@ let createCompassScene = null;
 let weekSpinActive = false;
 let orbitEnabled = true;
 let reflectionState = null;
+let currentViewMode = "all";
 
 function mulberry32(a) {
   return function () {
@@ -68,6 +72,17 @@ function pickTwoSpheres(rng) {
 
 function formatSphere(sp) {
   return `${sp.icon} S${sp.id}: ${sphereDisplayName(sp)}`;
+}
+
+function containsCyrillic(text = "") {
+  return /[\u0400-\u04FF]/.test(text);
+}
+
+function enSafeText(text, fallbackKey) {
+  const lang = document.documentElement.lang === "en" ? "en" : "ua";
+  if (lang !== "en") return text;
+  if (!text || containsCyrillic(text)) return t(fallbackKey);
+  return text;
 }
 
 function prettifyBookSource(raw) {
@@ -111,21 +126,30 @@ function renderReflectionPrompt(topic, quote, source, primary, secondary) {
   if (reflectionCustomEl) reflectionCustomEl.value = "";
 }
 
+function buildEnTopicPrompt(primary, secondary) {
+  return `What one step connects ${sphereDisplayName(primary)} and ${sphereDisplayName(secondary)} this week?`;
+}
+
 function updateResult(primary, secondary, rng, weekTopicText) {
   const q1 = window.KLifeVault.getQuote(primary.id, rng);
   const q2 = window.KLifeVault.getQuote(secondary.id, rng);
   const topic1 = weekTopicText || window.KLifeVault.getTopic(primary.id, rng);
   const topic2 = window.KLifeVault.getTopic(secondary.id, rng);
+  const lang = document.documentElement.lang === "en" ? "en" : "ua";
+  const safeQ1 = enSafeText(q1.t, "enVaultFallbackQuote");
+  const safeQ2 = enSafeText(q2.t, "enVaultFallbackQuote");
+  const safeT1 = lang === "en" ? buildEnTopicPrompt(primary, secondary) : topic1;
+  const safeT2 = lang === "en" ? buildEnTopicPrompt(secondary, primary) : topic2;
 
   primaryName.textContent = formatSphere(primary);
-  primaryQuote.textContent = `«${q1.t}»`;
+  primaryQuote.textContent = `«${safeQ1}»`;
   primarySource.textContent = q1.s ? `— ${prettifyBookSource(q1.s)}` : "";
-  primaryTopic.textContent = `${t("topic")}: ${topic1}`;
+  primaryTopic.textContent = `${t("topic")}: ${safeT1}`;
 
   secondaryName.textContent = formatSphere(secondary);
-  secondaryQuote.textContent = `«${q2.t}»`;
+  secondaryQuote.textContent = `«${safeQ2}»`;
   secondarySource.textContent = q2.s ? `— ${prettifyBookSource(q2.s)}` : "";
-  secondaryTopic.textContent = `${t("topic")}: ${topic2}`;
+  secondaryTopic.textContent = `${t("topic")}: ${safeT2}`;
 
   passportEl.textContent = `🧭 [K Life OS] ➜ [S${primary.id}: ${primary.slug}] + [S${secondary.id}: ${secondary.slug}]`;
   if (weekSpinActive) passportEl.textContent += t("weekSpinTag");
@@ -137,10 +161,10 @@ function updateResult(primary, secondary, rng, weekTopicText) {
 
   const prettySource = prettifyBookSource(q1.s || q2.s);
   if (bookSourceEl) bookSourceEl.textContent = prettySource;
-  renderReflectionPrompt(topic1, q1.t, prettySource, primary, secondary);
+  renderReflectionPrompt(safeT1, safeQ1, prettySource, primary, secondary);
 
-  lastOutcome = { primary, secondary, t1: topic1, t2: topic2, q1, q2 };
-  updateShareLinks(primary, secondary, topic1);
+  lastOutcome = { primary, secondary, t1: safeT1, t2: safeT2, q1: { ...q1, t: safeQ1 }, q2: { ...q2, t: safeQ2 } };
+  updateShareLinks(primary, secondary, safeT1);
 }
 
 function updateShareLinks(primary, secondary, topic) {
@@ -160,9 +184,13 @@ function requireVault() {
 function renderWeeklyBanner() {
   requireVault();
   weeklyPack = window.KLifeVault.getWeeklyPack();
+  const lang = document.documentElement.lang === "en" ? "en" : "ua";
   weeklyTitle.textContent = formatWeekLabel(weeklyPack.seed);
   weeklySpheres.textContent = `${formatSphere(weeklyPack.primary)} × ${formatSphere(weeklyPack.secondary)}`;
-  weeklyTopic.textContent = weeklyPack.weekTopic;
+  weeklyTopic.textContent =
+    lang === "en"
+      ? `${t("enVaultFallbackWeekly")} ${buildEnTopicPrompt(weeklyPack.primary, weeklyPack.secondary)}`
+      : weeklyPack.weekTopic;
 }
 
 function spinRandom() {
@@ -192,7 +220,10 @@ function spinWeek() {
 }
 
 function showKosatikQuip() {
-  const line = window.KLifeVault.getKosatikLine(Math.random);
+  let line = window.KLifeVault.getKosatikLine(Math.random);
+  if (document.documentElement.lang === "en" && containsCyrillic(line)) {
+    line = "Kosatik whisper: choose one honest micro-action and protect your focus.";
+  }
   kosatikLine.textContent = line;
   kosatikLine.classList.remove("hidden");
   kosatikQuip.textContent = line;
@@ -222,6 +253,7 @@ function toggleKosatik() {
   kosatikPanel.hidden = !kosatikMode;
   if (kosatikMode) showKosatikQuip();
   else kosatikLine.classList.add("hidden");
+  if (kosatikLogicInline) kosatikLogicInline.classList.toggle("hidden", !kosatikMode);
 }
 
 function toggleImmersive() {
@@ -272,6 +304,44 @@ function applyCustomReflection() {
   reflectionResultEl.textContent = `${t("reflectionCustomPicked")}: ${raw}`;
 }
 
+function setViewMode(mode) {
+  currentViewMode = mode;
+  viewButtons.forEach((btn) => btn.classList.toggle("active", btn.getAttribute("data-view-mode") === mode));
+  viewSections.forEach((el) => {
+    const values = (el.getAttribute("data-view-section") || "").split(/\s+/).filter(Boolean);
+    const visible = mode === "all" || values.includes(mode) || values.includes("all");
+    el.classList.toggle("view-hidden", !visible);
+  });
+}
+
+function initViewModeSwitch() {
+  viewButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const mode = btn.getAttribute("data-view-mode") || "all";
+      setViewMode(mode);
+    });
+  });
+  setViewMode("all");
+}
+
+function initCardTilt() {
+  const cards = Array.from(document.querySelectorAll(".glass"));
+  cards.forEach((card) => {
+    card.classList.add("tilt-card");
+    card.addEventListener("pointermove", (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.setProperty("--ry", `${(x * 6).toFixed(2)}deg`);
+      card.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
+    });
+    card.addEventListener("pointerleave", () => {
+      card.style.setProperty("--ry", "0deg");
+      card.style.setProperty("--rx", "0deg");
+    });
+  });
+}
+
 function refreshAfterLangChange() {
   applyUiLang();
   if (reflectionBtn) reflectionBtn.textContent = t("reflectionBtn");
@@ -281,6 +351,8 @@ function refreshAfterLangChange() {
   if (reflectionPromptEl && !lastOutcome) reflectionPromptEl.textContent = t("reflectionSeed");
   if (reflectionResultEl && !reflectionState) reflectionResultEl.textContent = t("reflectionResultSeed");
   if (compassOrbitBtn) compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
+  if (kosatikLogicInline) kosatikLogicInline.textContent = t("kosatikLogic");
+  setViewMode(currentViewMode);
   const canvas3d = document.getElementById("compass-3d");
   if (canvas3d) canvas3d.setAttribute("aria-label", t("compassAria"));
   if (!window.KLifeVault) {
@@ -436,6 +508,8 @@ if (compassOrbitBtn) compassOrbitBtn.addEventListener("click", toggleCompassOrbi
 initStarfield();
 applyUiLang();
 initLangToggle(refreshAfterLangChange);
+initViewModeSwitch();
+initCardTilt();
 if (reflectionPromptEl) reflectionPromptEl.textContent = t("reflectionSeed");
 if (reflectionResultEl) reflectionResultEl.textContent = t("reflectionResultSeed");
 

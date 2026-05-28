@@ -9,7 +9,7 @@
       content="Інтерактивний 3D-компас 12 сфер [K Life OS]. Рандомайзер, тема тижня, цитати з серії Anteros."
     />
     <meta name="theme-color" content="#060812" />
-    <link rel="stylesheet" href="./styles.css?v=20260528k" />
+    <link rel="stylesheet" href="./styles.css?v=20260528m" />
   </head>
   <body>
     <div id="loader" class="loader" aria-hidden="true">
@@ -42,8 +42,15 @@
       </header>
 
       <p id="content-lang-note" class="content-lang-note glass" data-i18n="contentNote"></p>
+      <nav class="view-switch glass" aria-label="View mode">
+        <button class="ghost-btn view-btn active" type="button" data-view-mode="all" data-i18n="viewAll">Усе</button>
+        <button class="ghost-btn view-btn" type="button" data-view-mode="weekly" data-i18n="viewWeekly">Weekly</button>
+        <button class="ghost-btn view-btn" type="button" data-view-mode="random" data-i18n="viewRandom">Random</button>
+        <button class="ghost-btn view-btn" type="button" data-view-mode="route" data-i18n="viewRoute">Route</button>
+        <button class="ghost-btn view-btn" type="button" data-view-mode="book" data-i18n="viewBook">Book</button>
+      </nav>
 
-      <section class="compass-stage glass">
+      <section class="compass-stage glass" data-view-section="all">
         <div class="stage-header">
           <p class="weekly-label" data-i18n="compassTitle">3D-компас [K Life OS]</p>
           <div class="btn-row compact">
@@ -54,15 +61,15 @@
         <p class="stage-note" data-i18n="compassHint">Тягни мишею: обертай сцену. Колесо: zoom.</p>
       </section>
 
-      <section class="experience-grid">
-        <article id="weekly-banner" class="weekly-banner glass" aria-live="polite">
+      <section class="experience-grid" data-view-section="all weekly random">
+        <article id="weekly-banner" class="weekly-banner glass" aria-live="polite" data-view-section="all weekly">
           <p class="weekly-label" data-i18n="weeklyLabel">Тема тижня (спільна для всіх)</p>
           <h2 id="weekly-title">—</h2>
           <p id="weekly-spheres" class="weekly-spheres">—</p>
           <p id="weekly-topic" class="weekly-topic">—</p>
         </article>
 
-        <article class="hud glass">
+        <article class="hud glass" data-view-section="all random">
           <p class="control-title" data-i18n="randomTitle">Живий рандом</p>
           <p class="control-subtitle" data-i18n="passportTitle">Системний паспорт</p>
           <div id="passport" class="passport">🧭 [K Life OS] — …</div>
@@ -72,10 +79,11 @@
             <button id="copy-btn" class="ghost-btn" type="button" data-i18n="copy">Скопіювати</button>
           </div>
           <p id="kosatik-line" class="kosatik-line hidden" role="note"></p>
+          <p id="kosatik-logic-inline" class="stage-note hidden" data-i18n="kosatikLogic"></p>
         </article>
       </section>
 
-      <section id="result-panel" class="result-panel glass" aria-live="polite">
+      <section id="result-panel" class="result-panel glass" aria-live="polite" data-view-section="all route">
         <h2 data-i18n="route">Твій маршрут</h2>
         <div class="result-grid">
           <article class="result-card">
@@ -99,7 +107,7 @@
         </div>
       </section>
 
-      <section class="book-lab glass" aria-live="polite">
+      <section class="book-lab glass" aria-live="polite" data-view-section="all book">
         <p class="control-title" data-i18n="bookLabTitle">Поговорити з книги</p>
         <p id="book-source" class="book-source">—</p>
         <div class="share-row">
@@ -135,8 +143,8 @@
       </div>
     </aside>
 
-    <script defer src="./vendor/pako/pako.min.js?v=20260528k"></script>
-    <script defer src="./vault.js?v=20260528k"></script>
-    <script type="module" src="./app.js?v=20260528k"></script>
+    <script defer src="./vendor/pako/pako.min.js?v=20260528m"></script>
+    <script defer src="./vault.js?v=20260528m"></script>
+    <script type="module" src="./app.js?v=20260528m"></script>
   </body>
 </html>

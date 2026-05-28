@@ -102,6 +102,11 @@ body.mode-2d #compass-3d {
   transform-style: preserve-3d;
 }
 
+.tilt-card {
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+}
+
 /* iOS / older browsers fallback when backdrop-filter is unsupported */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .glass {
@@ -173,6 +178,21 @@ h1 {
   border-radius: 12px;
 }
 
+.view-switch {
+  margin: 0 0 12px;
+  padding: 8px;
+  border-radius: 14px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.view-btn.active {
+  background: linear-gradient(135deg, #28ceff, #7e74ff);
+  color: #071018;
+  border-color: transparent;
+}
+
 .weekly-banner {
   border-radius: 18px;
   padding: 16px 18px;
@@ -205,6 +225,10 @@ h1 {
   display: grid;
   grid-template-columns: 1.15fr 0.95fr;
   gap: 12px;
+}
+
+[data-view-section].view-hidden {
+  display: none !important;
 }
 
 .weekly-label {
@@ -494,5 +518,9 @@ body.immersive .glass {
 
   .topbar-actions {
     flex-wrap: wrap;
+  }
+
+  .view-switch {
+    gap: 5px;
   }
 }
