@@ -48,6 +48,7 @@ export function createCompassScene(canvas, spheres) {
   scene.add(core);
 
   const ringGroup = new THREE.Group();
+  const haloGroup = new THREE.Group();
   const orbitMeshes = [];
   const radius = 3.2;
   const step = (Math.PI * 2) / spheres.length;
@@ -83,7 +84,17 @@ export function createCompassScene(canvas, spheres) {
     ),
     new THREE.LineBasicMaterial({ color: 0x8be3ff, transparent: true, opacity: 0.25 }),
   );
-  scene.add(orbitLine, ringGroup);
+  const haloLine = new THREE.LineLoop(
+    new THREE.BufferGeometry().setFromPoints(
+      Array.from({ length: 64 }, (_, i) => {
+        const a = (i / 64) * Math.PI * 2;
+        return new THREE.Vector3(Math.cos(a) * (radius + 0.8), 0.7, Math.sin(a) * (radius + 0.8));
+      }),
+    ),
+    new THREE.LineBasicMaterial({ color: 0x7f73ff, transparent: true, opacity: 0.22 }),
+  );
+  haloGroup.add(haloLine);
+  scene.add(orbitLine, ringGroup, haloGroup);
 
   const particles = makeParticles(420);
   scene.add(particles);
@@ -164,7 +175,8 @@ export function createCompassScene(canvas, spheres) {
     }
     core.rotation.y += 0.004;
     core.rotation.x += 0.002;
-    particles.rotation.y += 0.0004;
+    particles.rotation.y += 0.0007;
+    haloGroup.rotation.y -= 0.0012;
     updateHighlight();
     controls.update();
     renderer.render(scene, camera);
@@ -174,5 +186,13 @@ export function createCompassScene(canvas, spheres) {
   window.addEventListener("resize", resize);
   tick();
 
-  return { spinToSphereId, setHighlight: (id) => { highlightId = id; } };
+  return {
+    spinToSphereId,
+    setHighlight: (id) => {
+      highlightId = id;
+    },
+    setAutoRotate: (enabled) => {
+      controls.autoRotate = Boolean(enabled);
+    },
+  };
 }

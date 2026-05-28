@@ -9,7 +9,7 @@
       content="Інтерактивний 3D-компас 12 сфер [K Life OS]. Рандомайзер, тема тижня, цитати з серії Anteros."
     />
     <meta name="theme-color" content="#060812" />
-    <link rel="stylesheet" href="./styles.css?v=20260528h" />
+    <link rel="stylesheet" href="./styles.css?v=20260528i" />
   </head>
   <body>
     <div id="loader" class="loader" aria-hidden="true">
@@ -43,22 +43,36 @@
 
       <p id="content-lang-note" class="content-lang-note glass" data-i18n="contentNote"></p>
 
-      <section id="weekly-banner" class="weekly-banner glass" aria-live="polite">
-        <p class="weekly-label" data-i18n="weeklyLabel">Тема тижня (спільна для всіх)</p>
-        <h2 id="weekly-title">—</h2>
-        <p id="weekly-spheres" class="weekly-spheres">—</p>
-        <p id="weekly-topic" class="weekly-topic">—</p>
+      <section class="compass-stage glass">
+        <div class="stage-header">
+          <p class="weekly-label" data-i18n="compassTitle">3D-компас [K Life OS]</p>
+          <div class="btn-row compact">
+            <button id="compass-focus-btn" class="ghost-btn" type="button" data-i18n="compassFocus">Фокус</button>
+            <button id="compass-orbit-btn" class="ghost-btn" type="button" data-i18n="compassOrbit">Orbit: ON</button>
+          </div>
+        </div>
+        <p class="stage-note" data-i18n="compassHint">Тягни мишею: обертай сцену. Колесо: zoom.</p>
       </section>
 
-      <section class="hud glass">
-        <p class="control-title" data-i18n="passportTitle">Системний паспорт</p>
-        <div id="passport" class="passport">🧭 [K Life OS] — …</div>
-        <div class="btn-row">
-          <button id="spin-btn" class="primary-btn" type="button" data-i18n="spin">Рандомайзер сфер</button>
-          <button id="week-spin-btn" class="ghost-btn" type="button" data-i18n="weekSpin">Спін тижня</button>
-          <button id="copy-btn" class="ghost-btn" type="button" data-i18n="copy">Скопіювати</button>
-        </div>
-        <p id="kosatik-line" class="kosatik-line hidden" role="note"></p>
+      <section class="experience-grid">
+        <article id="weekly-banner" class="weekly-banner glass" aria-live="polite">
+          <p class="weekly-label" data-i18n="weeklyLabel">Тема тижня (спільна для всіх)</p>
+          <h2 id="weekly-title">—</h2>
+          <p id="weekly-spheres" class="weekly-spheres">—</p>
+          <p id="weekly-topic" class="weekly-topic">—</p>
+        </article>
+
+        <article class="hud glass">
+          <p class="control-title" data-i18n="randomTitle">Живий рандом</p>
+          <p class="control-subtitle" data-i18n="passportTitle">Системний паспорт</p>
+          <div id="passport" class="passport">🧭 [K Life OS] — …</div>
+          <div class="btn-row">
+            <button id="spin-btn" class="primary-btn" type="button" data-i18n="spin">Рандомайзер сфер</button>
+            <button id="week-spin-btn" class="ghost-btn" type="button" data-i18n="weekSpin">Спін тижня</button>
+            <button id="copy-btn" class="ghost-btn" type="button" data-i18n="copy">Скопіювати</button>
+          </div>
+          <p id="kosatik-line" class="kosatik-line hidden" role="note"></p>
+        </article>
       </section>
 
       <section id="result-panel" class="result-panel glass" aria-live="polite">
@@ -84,6 +98,15 @@
           <a id="share-x" class="ghost-btn" href="#" target="_blank" rel="noreferrer">X</a>
         </div>
       </section>
+
+      <section class="book-lab glass" aria-live="polite">
+        <p class="control-title" data-i18n="bookLabTitle">Поговорити з книги</p>
+        <p id="book-source" class="book-source">—</p>
+        <p id="reflection-prompt" class="weekly-topic">—</p>
+        <div class="btn-row">
+          <button id="reflection-btn" class="ghost-btn" type="button" data-i18n="reflectionBtn">Новий роздум</button>
+        </div>
+      </section>
     </main>
 
     <aside id="kosatik-panel" class="kosatik-panel" hidden>
@@ -93,8 +116,8 @@
       </div>
     </aside>
 
-    <script defer src="./vendor/pako/pako.min.js?v=20260528h"></script>
-    <script defer src="./vault.js?v=20260528h"></script>
-    <script type="module" src="./app.js?v=20260528h"></script>
+    <script defer src="./vendor/pako/pako.min.js?v=20260528i"></script>
+    <script defer src="./vault.js?v=20260528i"></script>
+    <script type="module" src="./app.js?v=20260528i"></script>
   </body>
 </html>

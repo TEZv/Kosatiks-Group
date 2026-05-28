@@ -172,11 +172,37 @@ h1 {
 }
 
 .weekly-banner {
-  margin-top: 14px;
   border-radius: 18px;
   padding: 16px 18px;
   border-color: rgba(141, 124, 255, 0.45);
   background: linear-gradient(135deg, rgba(20, 28, 58, 0.75), rgba(12, 18, 40, 0.65));
+}
+
+.compass-stage {
+  margin-top: 14px;
+  border-radius: 18px;
+  padding: 14px 18px;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.stage-note {
+  margin: 8px 0 0;
+  font-size: 0.84rem;
+  color: var(--text-soft);
+}
+
+.experience-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 12px;
 }
 
 .weekly-label {
@@ -206,9 +232,19 @@ h1 {
 
 .hud,
 .result-panel {
-  margin-top: 14px;
   border-radius: 18px;
   padding: 16px 18px;
+}
+
+.result-panel,
+.book-lab {
+  margin-top: 14px;
+}
+
+.book-lab {
+  border-radius: 18px;
+  padding: 16px 18px;
+  border-color: rgba(255, 213, 106, 0.45);
 }
 
 .control-title {
@@ -217,6 +253,12 @@ h1 {
   color: var(--text-soft);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.control-subtitle {
+  margin: 0 0 8px;
+  font-size: 0.84rem;
+  color: var(--text-soft);
 }
 
 .passport {
@@ -234,6 +276,10 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.btn-row.compact {
+  margin-top: 0;
 }
 
 button,
@@ -322,6 +368,12 @@ a.ghost-btn {
   font-size: 0.88rem;
 }
 
+.book-source {
+  margin: 0 0 8px;
+  color: #ffd56a;
+  font-size: 0.92rem;
+}
+
 .kosatik-panel {
   position: fixed;
   right: 16px;
@@ -364,6 +416,10 @@ body.immersive .app {
   opacity: 0.92;
 }
 
+body.immersive #compass-3d {
+  opacity: 1;
+}
+
 @media (max-width: 760px) {
   .topbar {
     flex-direction: column;
@@ -371,6 +427,10 @@ body.immersive .app {
   }
 
   .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .experience-grid {
     grid-template-columns: 1fr;
   }
 

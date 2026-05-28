@@ -7,6 +7,9 @@ const weekSpinBtn = document.getElementById("week-spin-btn");
 const copyBtn = document.getElementById("copy-btn");
 const kosatikBtn = document.getElementById("kosatik-btn");
 const immersiveBtn = document.getElementById("immersive-btn");
+const reflectionBtn = document.getElementById("reflection-btn");
+const compassFocusBtn = document.getElementById("compass-focus-btn");
+const compassOrbitBtn = document.getElementById("compass-orbit-btn");
 const passportEl = document.getElementById("passport");
 const loader = document.getElementById("loader");
 
@@ -28,6 +31,8 @@ const shareX = document.getElementById("share-x");
 const kosatikLine = document.getElementById("kosatik-line");
 const kosatikPanel = document.getElementById("kosatik-panel");
 const kosatikQuip = document.getElementById("kosatik-quip");
+const bookSourceEl = document.getElementById("book-source");
+const reflectionPromptEl = document.getElementById("reflection-prompt");
 
 let compass = null;
 let lastOutcome = null;
@@ -36,6 +41,7 @@ let immersiveMode = false;
 let weeklyPack = null;
 let createCompassScene = null;
 let weekSpinActive = false;
+let orbitEnabled = true;
 
 function mulberry32(a) {
   return function () {
@@ -58,6 +64,39 @@ function formatSphere(sp) {
   return `${sp.icon} S${sp.id}: ${sphereDisplayName(sp)}`;
 }
 
+function prettifyBookSource(raw) {
+  if (!raw) return "Anteros • Series 1";
+  const cleaned = String(raw)
+    .replace(/\.(txt|md|json)$/i, "")
+    .replace(/[_-]+/g, " ")
+    .replace(/\b(full|draft|v\d+)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const numbered = cleaned.match(/(\d{1,2})/);
+  const bookNo = numbered ? Number(numbered[1]) : null;
+  const title = cleaned.replace(/\d{1,2}/, "").trim();
+  if (bookNo && title) return `Anteros • Series 1 · Book ${bookNo}: ${title}`;
+  if (bookNo) return `Anteros • Series 1 · Book ${bookNo}`;
+  return `Anteros • Series 1 · ${cleaned}`;
+}
+
+function renderReflectionPrompt(topic, quote, source, primary, secondary) {
+  if (!reflectionPromptEl) return;
+  const lang = document.documentElement.lang === "en" ? "en" : "ua";
+  const promptsUa = [
+    `Якщо взяти ідею «${topic}», який один крок ти робиш сьогодні між «${sphereDisplayName(primary)}» і «${sphereDisplayName(secondary)}»?`,
+    `У цитаті «${quote}» що для тебе звучить як чесний виклик цього тижня?`,
+    `Уяви розмову з книгою «${source}»: яке питання ти їй поставиш зараз, щоб зрушити з місця?`,
+  ];
+  const promptsEn = [
+    `If you apply “${topic}”, what one action do you take today between “${sphereDisplayName(primary)}” and “${sphereDisplayName(secondary)}”?`,
+    `In the quote “${quote}”, what feels like your honest challenge this week?`,
+    `Imagine talking to “${source}”: what question would you ask it right now to move forward?`,
+  ];
+  const pool = lang === "en" ? promptsEn : promptsUa;
+  reflectionPromptEl.textContent = pool[Math.floor(Math.random() * pool.length)];
+}
+
 function updateResult(primary, secondary, rng, weekTopicText) {
   const q1 = window.KLifeVault.getQuote(primary.id, rng);
   const q2 = window.KLifeVault.getQuote(secondary.id, rng);
@@ -66,12 +105,12 @@ function updateResult(primary, secondary, rng, weekTopicText) {
 
   primaryName.textContent = formatSphere(primary);
   primaryQuote.textContent = `«${q1.t}»`;
-  primarySource.textContent = q1.s ? `— ${q1.s}` : "";
+  primarySource.textContent = q1.s ? `— ${prettifyBookSource(q1.s)}` : "";
   primaryTopic.textContent = `${t("topic")}: ${topic1}`;
 
   secondaryName.textContent = formatSphere(secondary);
   secondaryQuote.textContent = `«${q2.t}»`;
-  secondarySource.textContent = q2.s ? `— ${q2.s}` : "";
+  secondarySource.textContent = q2.s ? `— ${prettifyBookSource(q2.s)}` : "";
   secondaryTopic.textContent = `${t("topic")}: ${topic2}`;
 
   passportEl.textContent = `🧭 [K Life OS] ➜ [S${primary.id}: ${primary.slug}] + [S${secondary.id}: ${secondary.slug}]`;
@@ -81,6 +120,10 @@ function updateResult(primary, secondary, rng, weekTopicText) {
     compass.spinToSphereId(primary.id);
     compass.setHighlight(primary.id);
   }
+
+  const prettySource = prettifyBookSource(q1.s || q2.s);
+  if (bookSourceEl) bookSourceEl.textContent = prettySource;
+  renderReflectionPrompt(topic1, q1.t, prettySource, primary, secondary);
 
   lastOutcome = { primary, secondary, t1: topic1, t2: topic2, q1, q2 };
   updateShareLinks(primary, secondary, topic1);
@@ -173,8 +216,34 @@ function toggleImmersive() {
   immersiveBtn.textContent = immersiveMode ? t("immersiveOn") : t("immersive");
 }
 
+function resetCompassFocus() {
+  if (!compass) return;
+  const target = lastOutcome?.primary?.id || weeklyPack?.primary?.id || 1;
+  compass.spinToSphereId(target, 1);
+}
+
+function toggleCompassOrbit() {
+  if (!compass) return;
+  orbitEnabled = !orbitEnabled;
+  compass.setAutoRotate(orbitEnabled);
+  compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
+}
+
+function spinReflection() {
+  if (!lastOutcome) {
+    reflectionPromptEl.textContent = t("reflectionSeed");
+    return;
+  }
+  const prettySource = prettifyBookSource(lastOutcome.q1.s || lastOutcome.q2.s);
+  if (bookSourceEl) bookSourceEl.textContent = prettySource;
+  renderReflectionPrompt(lastOutcome.t1, lastOutcome.q1.t, prettySource, lastOutcome.primary, lastOutcome.secondary);
+}
+
 function refreshAfterLangChange() {
   applyUiLang();
+  if (reflectionBtn) reflectionBtn.textContent = t("reflectionBtn");
+  if (reflectionPromptEl && !lastOutcome) reflectionPromptEl.textContent = t("reflectionSeed");
+  if (compassOrbitBtn) compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
   const canvas3d = document.getElementById("compass-3d");
   if (canvas3d) canvas3d.setAttribute("aria-label", t("compassAria"));
   if (!window.KLifeVault) {
@@ -272,6 +341,7 @@ function startApp() {
       createCompassScene = mod.createCompassScene;
       const canvas3d = document.getElementById("compass-3d");
       compass = createCompassScene(canvas3d, spheres);
+      compass.setAutoRotate(orbitEnabled);
     })
     .catch((err) => {
       document.body.classList.add("mode-2d");
@@ -319,10 +389,14 @@ weekSpinBtn.addEventListener("click", spinWeek);
 copyBtn.addEventListener("click", copyOutcome);
 kosatikBtn.addEventListener("click", toggleKosatik);
 immersiveBtn.addEventListener("click", toggleImmersive);
+if (reflectionBtn) reflectionBtn.addEventListener("click", spinReflection);
+if (compassFocusBtn) compassFocusBtn.addEventListener("click", resetCompassFocus);
+if (compassOrbitBtn) compassOrbitBtn.addEventListener("click", toggleCompassOrbit);
 
 initStarfield();
 applyUiLang();
 initLangToggle(refreshAfterLangChange);
+if (reflectionPromptEl) reflectionPromptEl.textContent = t("reflectionSeed");
 
 if (document.readyState === "complete") boot();
 else window.addEventListener("load", () => boot());
