@@ -9,7 +9,7 @@
       content="Інтерактивний 3D-компас 12 сфер [K Life OS]. Рандомайзер, тема тижня, цитати з серії Anteros."
     />
     <meta name="theme-color" content="#060812" />
-    <link rel="stylesheet" href="./styles.css?v=20260528i" />
+    <link rel="stylesheet" href="./styles.css?v=20260528j" />
   </head>
   <body>
     <div id="loader" class="loader" aria-hidden="true">
@@ -102,10 +102,29 @@
       <section class="book-lab glass" aria-live="polite">
         <p class="control-title" data-i18n="bookLabTitle">Поговорити з книги</p>
         <p id="book-source" class="book-source">—</p>
+        <div class="share-row">
+          <a id="anteros-main-link" class="ghost-btn" href="https://anteros-triad.vercel.app" target="_blank" rel="noreferrer" data-i18n="anterosMainLink">Anteros сайт</a>
+          <a id="anteros-antifan-link" class="ghost-btn" href="https://anteros-triad.vercel.app/anti-fan" target="_blank" rel="noreferrer" data-i18n="anterosAntiFanLink">Anti-Fan</a>
+        </div>
         <p id="reflection-prompt" class="weekly-topic">—</p>
+        <p class="control-subtitle" data-i18n="reflectionChooseTitle">Обери резонанс</p>
+        <div class="btn-row">
+          <button id="reflection-choice-a" class="ghost-btn" type="button">A</button>
+          <button id="reflection-choice-b" class="ghost-btn" type="button">B</button>
+        </div>
+        <label class="control-subtitle" for="reflection-custom" data-i18n="reflectionCustomTitle">Твій варіант</label>
+        <textarea
+          id="reflection-custom"
+          class="reflection-custom"
+          rows="3"
+          data-i18n-placeholder="reflectionCustomPlaceholder"
+          placeholder="Яка твоя відповідь?"
+        ></textarea>
         <div class="btn-row">
           <button id="reflection-btn" class="ghost-btn" type="button" data-i18n="reflectionBtn">Новий роздум</button>
+          <button id="reflection-apply-btn" class="ghost-btn" type="button" data-i18n="reflectionApplyBtn">Зафіксувати мій варіант</button>
         </div>
+        <p id="reflection-result" class="stage-note" data-i18n="reflectionResultSeed">Тут з’явиться обрана позиція.</p>
       </section>
     </main>
 
@@ -116,8 +135,8 @@
       </div>
     </aside>
 
-    <script defer src="./vendor/pako/pako.min.js?v=20260528i"></script>
-    <script defer src="./vault.js?v=20260528i"></script>
-    <script type="module" src="./app.js?v=20260528i"></script>
+    <script defer src="./vendor/pako/pako.min.js?v=20260528j"></script>
+    <script defer src="./vault.js?v=20260528j"></script>
+    <script type="module" src="./app.js?v=20260528j"></script>
   </body>
 </html>

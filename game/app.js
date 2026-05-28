@@ -8,6 +8,11 @@ const copyBtn = document.getElementById("copy-btn");
 const kosatikBtn = document.getElementById("kosatik-btn");
 const immersiveBtn = document.getElementById("immersive-btn");
 const reflectionBtn = document.getElementById("reflection-btn");
+const reflectionApplyBtn = document.getElementById("reflection-apply-btn");
+const reflectionChoiceABtn = document.getElementById("reflection-choice-a");
+const reflectionChoiceBBtn = document.getElementById("reflection-choice-b");
+const reflectionCustomEl = document.getElementById("reflection-custom");
+const reflectionResultEl = document.getElementById("reflection-result");
 const compassFocusBtn = document.getElementById("compass-focus-btn");
 const compassOrbitBtn = document.getElementById("compass-orbit-btn");
 const passportEl = document.getElementById("passport");
@@ -42,6 +47,7 @@ let weeklyPack = null;
 let createCompassScene = null;
 let weekSpinActive = false;
 let orbitEnabled = true;
+let reflectionState = null;
 
 function mulberry32(a) {
   return function () {
@@ -95,6 +101,14 @@ function renderReflectionPrompt(topic, quote, source, primary, secondary) {
   ];
   const pool = lang === "en" ? promptsEn : promptsUa;
   reflectionPromptEl.textContent = pool[Math.floor(Math.random() * pool.length)];
+  reflectionState = {
+    a: t("reflectionChoiceA"),
+    b: t("reflectionChoiceB"),
+  };
+  if (reflectionChoiceABtn) reflectionChoiceABtn.textContent = reflectionState.a;
+  if (reflectionChoiceBBtn) reflectionChoiceBBtn.textContent = reflectionState.b;
+  if (reflectionResultEl) reflectionResultEl.textContent = t("reflectionResultSeed");
+  if (reflectionCustomEl) reflectionCustomEl.value = "";
 }
 
 function updateResult(primary, secondary, rng, weekTopicText) {
@@ -239,10 +253,30 @@ function spinReflection() {
   renderReflectionPrompt(lastOutcome.t1, lastOutcome.q1.t, prettySource, lastOutcome.primary, lastOutcome.secondary);
 }
 
+function pickReflection(choice) {
+  if (!reflectionState || !reflectionResultEl) return;
+  const text = choice === "a" ? reflectionState.a : reflectionState.b;
+  reflectionResultEl.textContent = `${t("reflectionPicked")}: ${text}`;
+}
+
+function applyCustomReflection() {
+  if (!reflectionResultEl || !reflectionCustomEl) return;
+  const raw = reflectionCustomEl.value.trim();
+  if (!raw) {
+    reflectionResultEl.textContent = t("reflectionNeedCustom");
+    return;
+  }
+  reflectionResultEl.textContent = `${t("reflectionCustomPicked")}: ${raw}`;
+}
+
 function refreshAfterLangChange() {
   applyUiLang();
   if (reflectionBtn) reflectionBtn.textContent = t("reflectionBtn");
+  if (reflectionApplyBtn) reflectionApplyBtn.textContent = t("reflectionApplyBtn");
+  if (reflectionChoiceABtn && reflectionState) reflectionChoiceABtn.textContent = reflectionState.a;
+  if (reflectionChoiceBBtn && reflectionState) reflectionChoiceBBtn.textContent = reflectionState.b;
   if (reflectionPromptEl && !lastOutcome) reflectionPromptEl.textContent = t("reflectionSeed");
+  if (reflectionResultEl && !reflectionState) reflectionResultEl.textContent = t("reflectionResultSeed");
   if (compassOrbitBtn) compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
   const canvas3d = document.getElementById("compass-3d");
   if (canvas3d) canvas3d.setAttribute("aria-label", t("compassAria"));
@@ -390,6 +424,9 @@ copyBtn.addEventListener("click", copyOutcome);
 kosatikBtn.addEventListener("click", toggleKosatik);
 immersiveBtn.addEventListener("click", toggleImmersive);
 if (reflectionBtn) reflectionBtn.addEventListener("click", spinReflection);
+if (reflectionApplyBtn) reflectionApplyBtn.addEventListener("click", applyCustomReflection);
+if (reflectionChoiceABtn) reflectionChoiceABtn.addEventListener("click", () => pickReflection("a"));
+if (reflectionChoiceBBtn) reflectionChoiceBBtn.addEventListener("click", () => pickReflection("b"));
 if (compassFocusBtn) compassFocusBtn.addEventListener("click", resetCompassFocus);
 if (compassOrbitBtn) compassOrbitBtn.addEventListener("click", toggleCompassOrbit);
 
@@ -397,6 +434,7 @@ initStarfield();
 applyUiLang();
 initLangToggle(refreshAfterLangChange);
 if (reflectionPromptEl) reflectionPromptEl.textContent = t("reflectionSeed");
+if (reflectionResultEl) reflectionResultEl.textContent = t("reflectionResultSeed");
 
 if (document.readyState === "complete") boot();
 else window.addEventListener("load", () => boot());

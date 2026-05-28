@@ -374,6 +374,18 @@ a.ghost-btn {
   font-size: 0.92rem;
 }
 
+.reflection-custom {
+  width: 100%;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(4, 8, 20, 0.65);
+  color: var(--text);
+  padding: 10px 12px;
+  resize: vertical;
+  font: inherit;
+}
+
 .kosatik-panel {
   position: fixed;
   right: 16px;
