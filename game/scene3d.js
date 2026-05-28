@@ -102,6 +102,7 @@ export function createCompassScene(canvas, spheres) {
   let targetSpin = 0;
   let spinVelocity = 0;
   let highlightId = null;
+  let desiredAutoRotate = true;
 
   function makeLabelSprite(text) {
     const size = 128;
@@ -147,7 +148,12 @@ export function createCompassScene(canvas, spheres) {
     if (index < 0) return;
     const stepAngle = (Math.PI * 2) / spheres.length;
     const targetAngle = -index * stepAngle + Math.PI / 2;
-    targetSpin = extraTurns * Math.PI * 2 + targetAngle;
+    const full = Math.PI * 2;
+    const current = ((ringGroup.rotation.y % full) + full) % full;
+    const desired = ((targetAngle % full) + full) % full;
+    let delta = desired - current;
+    if (delta < 0) delta += full;
+    targetSpin = extraTurns * full + delta;
     spinVelocity = 0.14;
     controls.autoRotate = false;
     highlightId = sphereId;
@@ -170,7 +176,7 @@ export function createCompassScene(canvas, spheres) {
       spinVelocity *= 0.985;
       if (targetSpin <= 0.02) {
         spinVelocity = 0;
-        controls.autoRotate = true;
+        controls.autoRotate = desiredAutoRotate;
       }
     }
     core.rotation.y += 0.004;
@@ -192,7 +198,8 @@ export function createCompassScene(canvas, spheres) {
       highlightId = id;
     },
     setAutoRotate: (enabled) => {
-      controls.autoRotate = Boolean(enabled);
+      desiredAutoRotate = Boolean(enabled);
+      controls.autoRotate = desiredAutoRotate;
     },
   };
 }

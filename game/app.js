@@ -202,8 +202,8 @@ async function copyOutcome() {
   if (!lastOutcome) return;
   const text = [
     t("copyHeader"),
-    `Primary: ${sphereDisplayName(lastOutcome.primary)}`,
-    `Secondary: ${sphereDisplayName(lastOutcome.secondary)}`,
+    `${t("copyPrimary")}: ${sphereDisplayName(lastOutcome.primary)}`,
+    `${t("copySecondary")}: ${sphereDisplayName(lastOutcome.secondary)}`,
     `${t("copyQuote")}: ${lastOutcome.q1.t}`,
     `${t("copyTopic")}: ${lastOutcome.t1}`,
     "https://game.kosatiks-group.pp.ua/",
@@ -233,7 +233,9 @@ function toggleImmersive() {
 function resetCompassFocus() {
   if (!compass) return;
   const target = lastOutcome?.primary?.id || weeklyPack?.primary?.id || 1;
-  compass.spinToSphereId(target, 1);
+  compass.spinToSphereId(target, 2);
+  compassFocusBtn?.classList.add("active-pulse");
+  window.setTimeout(() => compassFocusBtn?.classList.remove("active-pulse"), 550);
 }
 
 function toggleCompassOrbit() {
@@ -241,6 +243,7 @@ function toggleCompassOrbit() {
   orbitEnabled = !orbitEnabled;
   compass.setAutoRotate(orbitEnabled);
   compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
+  compassOrbitBtn?.classList.toggle("active-pulse", orbitEnabled);
 }
 
 function spinReflection() {

@@ -86,6 +86,7 @@ body.mode-2d #compass-3d {
   margin: 0 auto;
   padding: 20px 0 48px;
   pointer-events: none;
+  perspective: 1200px;
 }
 
 .app > * {
@@ -98,6 +99,7 @@ body.mode-2d #compass-3d {
   box-shadow: 0 20px 48px rgba(3, 6, 18, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
+  transform-style: preserve-3d;
 }
 
 /* iOS / older browsers fallback when backdrop-filter is unsupported */
@@ -133,8 +135,8 @@ h1 {
 
 .topbar-actions {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-wrap: nowrap;
   align-items: center;
 }
 
@@ -289,10 +291,27 @@ a.ghost-btn {
   border-radius: 11px;
   border: 1px solid rgba(255, 255, 255, 0.22);
   background: rgba(8, 12, 28, 0.78);
-  padding: 9px 13px;
+  padding: 8px 11px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+button:hover,
+a.ghost-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(37, 67, 122, 0.32);
+}
+
+.active-pulse {
+  animation: pulse-btn 0.55s ease;
+}
+
+@keyframes pulse-btn {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.06); }
+  100% { transform: scale(1); }
 }
 
 .primary-btn {
@@ -432,6 +451,29 @@ body.immersive #compass-3d {
   opacity: 1;
 }
 
+body.immersive .glass {
+  box-shadow: 0 20px 64px rgba(17, 22, 60, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.11);
+}
+
+@keyframes float-card {
+  0% { transform: translateZ(0px) translateY(0px); }
+  50% { transform: translateZ(14px) translateY(-3px); }
+  100% { transform: translateZ(0px) translateY(0px); }
+}
+
+.compass-stage,
+.weekly-banner,
+.hud,
+.result-panel,
+.book-lab {
+  animation: float-card 9s ease-in-out infinite;
+}
+
+.weekly-banner { animation-delay: 0.4s; }
+.hud { animation-delay: 1.2s; }
+.result-panel { animation-delay: 1.8s; }
+.book-lab { animation-delay: 2.6s; }
+
 @media (max-width: 760px) {
   .topbar {
     flex-direction: column;
@@ -448,5 +490,9 @@ body.immersive #compass-3d {
 
   .app {
     width: min(920px, 96vw);
+  }
+
+  .topbar-actions {
+    flex-wrap: wrap;
   }
 }

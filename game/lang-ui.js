@@ -23,6 +23,12 @@ export function applyUiLang() {
       el.textContent = t(key);
     }
   });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (key && UI[lang][key] !== undefined && typeof UI[lang][key] !== "function") {
+      el.setAttribute("placeholder", t(key));
+    }
+  });
 
   const note = document.getElementById("content-lang-note");
   if (note) note.textContent = t("contentNote");
