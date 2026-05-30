@@ -30,8 +30,8 @@ To connect `kosatiks-group.pp.ua`:
 
 ### Game subdomain (same Vercel project)
 
-- Files: repository folder `k-life-os/` (URL лишається `game.kosatiks-group.pp.ua`)
-- Host routing: `vercel.json` rewrites for `game.kosatiks-group.pp.ua`
+- Files: repository folder `k-life-os/`
+- Host routing: `vercel.json` + `middleware.js` for `k-life-os.kosatiks-group.pp.ua` (alias: `game.`)
 - Add the subdomain in Vercel Domains + CNAME `game` in the pp.ua DNS panel (see `VERCEL_CHECKLIST.md`).
 
 ## Public GitHub + LinkedIn Positioning

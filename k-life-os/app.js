@@ -176,7 +176,7 @@ function updateResult(primary, secondary, rng, weekTopicText) {
 function updateShareLinks(primary, secondary, topic) {
   const shareText = `[K Life OS]: ${primary.icon}+${secondary.icon}. ${topic}`;
   const encoded = encodeURIComponent(shareText);
-  const page = encodeURIComponent("https://game.kosatiks-group.pp.ua/");
+  const page = encodeURIComponent("https://k-life-os.kosatiks-group.pp.ua/");
   shareThreads.href = `https://www.threads.net/intent/post?text=${encoded}%20${page}`;
   shareX.href = `https://twitter.com/intent/tweet?text=${encoded}&url=${page}`;
 }
@@ -243,7 +243,7 @@ async function copyOutcome() {
     `${t("copySecondary")}: ${sphereDisplayName(lastOutcome.secondary)}`,
     `${t("copyQuote")}: ${lastOutcome.q1.t}`,
     `${t("copyTopic")}: ${lastOutcome.t1}`,
-    "https://game.kosatiks-group.pp.ua/",
+    "https://k-life-os.kosatiks-group.pp.ua/",
   ].join("\n");
   await navigator.clipboard.writeText(text);
   copyBtn.textContent = t("copied");

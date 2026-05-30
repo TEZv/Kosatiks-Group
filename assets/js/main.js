@@ -300,7 +300,7 @@ const urls = {
 
     "https://www.notion.so/kosatiks-group/K-Life-Planner-Build-7fded99a6f8c8302a55b010fb56a6288?source=copy_link",
 
-  lifeOSGame: "https://game.kosatiks-group.pp.ua/",
+  lifeOSGame: "https://k-life-os.kosatiks-group.pp.ua/",
 
   kosatiksRepo: "https://github.com/TEZv/Kosatiks-Group",
 

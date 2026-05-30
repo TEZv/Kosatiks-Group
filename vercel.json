@@ -4,6 +4,16 @@
   "rewrites": [
     {
       "source": "/",
+      "has": [{ "type": "host", "value": "k-life-os.kosatiks-group.pp.ua" }],
+      "destination": "/k-life-os/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "k-life-os.kosatiks-group.pp.ua" }],
+      "destination": "/k-life-os/$1"
+    },
+    {
+      "source": "/",
       "has": [{ "type": "host", "value": "game.kosatiks-group.pp.ua" }],
       "destination": "/k-life-os/index.html"
     },

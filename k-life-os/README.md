@@ -2,7 +2,7 @@
 
 Статична міні-гра: рандомайзер 12 сфер, тема тижня, 3D-компас / cube stage.
 
-- **Публічна URL:** `https://game.kosatiks-group.pp.ua/` (піддомен `game.` — лише DNS; у репо папка `k-life-os/`)
+- **Публічна URL:** `https://k-life-os.kosatiks-group.pp.ua/` (alias: `game.kosatiks-group.pp.ua`)
 - **Джерело правок (розробка):** `Cursor/sites/k-life-os-play/` — після змін копіюй у `k-life-os/` у цьому репо.
 - **Перезбірка vault:** `sites/k-life-os-play/scripts/build_vault.py` → `vault.bundle.js`
 
