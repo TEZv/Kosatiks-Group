@@ -30,7 +30,7 @@ To connect `kosatiks-group.pp.ua`:
 
 ### Game subdomain (same Vercel project)
 
-- Files: repository folder `game/`
+- Files: repository folder `k-life-os/` (URL лишається `game.kosatiks-group.pp.ua`)
 - Host routing: `vercel.json` rewrites for `game.kosatiks-group.pp.ua`
 - Add the subdomain in Vercel Domains + CNAME `game` in the pp.ua DNS panel (see `VERCEL_CHECKLIST.md`).
 

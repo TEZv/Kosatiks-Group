@@ -5,12 +5,12 @@
     {
       "source": "/",
       "has": [{ "type": "host", "value": "game.kosatiks-group.pp.ua" }],
-      "destination": "/game/index.html"
+      "destination": "/k-life-os/index.html"
     },
     {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "game.kosatiks-group.pp.ua" }],
-      "destination": "/game/$1"
+      "destination": "/k-life-os/$1"
     }
   ],
   "headers": [
@@ -21,7 +21,7 @@
       ]
     },
     {
-      "source": "/game/(.*)",
+      "source": "/k-life-os/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
       ]

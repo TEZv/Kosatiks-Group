@@ -32,9 +32,9 @@ This site is static HTML/CSS/JS. It should be served directly.
 
 ## Game subdomain (`game.kosatiks-group.pp.ua`)
 
-Статичні файли лежать у папці **`game/`** у цьому репо. `vercel.json` віддає їх лише на хості `game.kosatiks-group.pp.ua` (основний домен не змінюється).
+Статичні файли лежать у папці **`k-life-os/`** у цьому репо. `vercel.json` віддає їх лише на хості `game.kosatiks-group.pp.ua` (основний домен не змінюється).
 
-1. Закоміть і запуш `game/` + `vercel.json` у `main` (або змердж PR).
+1. Закоміть і запуш `k-life-os/` + `vercel.json` у `main` (або змердж PR).
 2. Vercel → **Settings → Domains** → **Add** → `game.kosatiks-group.pp.ua`.
 3. У кабінеті **pp.ua** (DNS зони домену) додай запис, який покаже Vercel (зазвичай **CNAME**):
    - Name: `game`
@@ -68,7 +68,7 @@ This site is static HTML/CSS/JS. It should be served directly.
 - **`*` (зірочка)** — wildcard: усі піддомени без окремого запису йдуть на `cname.vercel-dns-017.com`.
 - **`game`** окремим записом не обов’язковий, якщо працює `*`.
 
-Якщо `game.` все одно показує головний портал, але DNS уже на Vercel — перевір **middleware.js** у репо (host → `/game/`), зроби **Redeploy** і Ctrl+F5.
+Якщо `game.` все одно показує головний портал, але DNS уже на Vercel — перевір **middleware.js** у репо (host → `/k-life-os/`), зроби **Redeploy** і Ctrl+F5.
 
 ## Verification
 

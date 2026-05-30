@@ -1,8 +1,9 @@
 /**
- * game.kosatiks-group.pp.ua → /game/*
+ * game.kosatiks-group.pp.ua → /k-life-os/*
  * No npm dependency (package.json broke static deploy on Vercel).
  */
 const GAME_HOST = "game.kosatiks-group.pp.ua";
+const APP_ROOT = "/k-life-os";
 
 export default function middleware(request) {
   const host = request.headers.get("host") || "";
@@ -11,10 +12,10 @@ export default function middleware(request) {
   const url = new URL(request.url);
   const pathname =
     url.pathname === "/"
-      ? "/game/index.html"
-      : url.pathname.startsWith("/game")
+      ? `${APP_ROOT}/index.html`
+      : url.pathname.startsWith(APP_ROOT)
         ? url.pathname
-        : `/game${url.pathname}`;
+        : `${APP_ROOT}${url.pathname}`;
 
   return new Response(null, {
     headers: {
