@@ -300,6 +300,7 @@ const urls = {
 
     "https://www.notion.so/kosatiks-group/K-Life-Planner-Build-7fded99a6f8c8302a55b010fb56a6288?source=copy_link",
 
+  lifeOSPlay: "https://k-life-os.kosatiks-group.pp.ua/",
   lifeOSGame: "https://k-life-os.kosatiks-group.pp.ua/",
 
   kosatiksRepo: "https://github.com/TEZv/Kosatiks-Group",
@@ -667,7 +668,7 @@ const HUBS = [
 
     links: [
 
-      { label: { ua: "Компас 12 сфер", en: "12-sphere compass" }, note: { ua: "гра: рандомайзер, тема тижня, цитати", en: "play: randomizer, weekly theme, quotes" }, url: urls.lifeOSGame, kind: "site" },
+      { label: { ua: "Компас 12 сфер", en: "12-sphere compass" }, note: { ua: "гра: рандомайзер, тема тижня, цитати", en: "play: randomizer, weekly theme, quotes" }, url: "https://k-life-os.kosatiks-group.pp.ua/", kind: "site" },
 
       { label: { ua: "Notion build", en: "Notion build" }, note: { ua: "поточна база K Life Planner / OS", en: "current K Life Planner / OS base" }, url: urls.lifeOSNotion, kind: "notion" },
 
