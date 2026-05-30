@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🌀 Калейдоскоп Сфер · 12 вібрацій натхнення</title>
+    <title>🎡 Рулетка Сфер Життя · Оракул Долі</title>
     <style>
         * {
             margin: 0;
@@ -11,387 +11,393 @@
             box-sizing: border-box;
             user-select: none;
         }
+
         body {
-            background: #0a0e1a;
+            background: linear-gradient(145deg, #0a0f1a 0%, #03060c 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            font-family: 'Segoe UI', 'Inter', 'Poppins', system-ui, sans-serif;
             overflow: hidden;
+            padding: 1rem;
         }
-        .container {
+
+        .roulette-container {
             position: relative;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: min(95vw, 95vh, 700px);
+            height: min(95vw, 95vh, 700px);
+            margin: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(0, 255, 200, 0.3), inset 0 0 20px rgba(0,0,0,0.5);
+            background: #1a1f2e;
         }
+
         canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: block;
-            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .info-panel {
+
+        .controls {
             position: absolute;
-            bottom: 2rem;
+            bottom: -80px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            z-index: 20;
+        }
+
+        button {
+            background: radial-gradient(circle at 30% 20%, #f5b042, #c9771e);
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #0f1722;
+            cursor: pointer;
+            transition: 0.1s linear;
+            box-shadow: 0 5px 0 #7a3a10;
+            font-family: inherit;
+            letter-spacing: 1px;
+        }
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #7a3a10;
+        }
+        button:disabled {
+            opacity: 0.6;
+            transform: translateY(0);
+            cursor: not-allowed;
+        }
+
+        .result-panel {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(16px);
+            border-radius: 3rem;
+            padding: 0.5rem 1.5rem;
+            white-space: nowrap;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #ffefcf;
+            border: 1px solid #ffb347;
+            box-shadow: 0 0 20px rgba(255,180,0,0.3);
+            z-index: 15;
+            font-family: monospace;
+            max-width: 90vw;
+            overflow-x: auto;
+            white-space: normal;
+            text-align: center;
+        }
+
+        .history {
+            position: absolute;
+            bottom: -120px;
             left: 0;
             right: 0;
             text-align: center;
-            pointer-events: none;
-            z-index: 10;
-        }
-        .message {
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(16px);
-            border-radius: 3rem;
-            padding: 0.7rem 1.8rem;
-            display: inline-block;
-            max-width: 85vw;
-            font-size: 1rem;
-            font-weight: 400;
-            color: #f5eac1;
-            border: 1px solid rgba(255, 100, 200, 0.5);
-            box-shadow: 0 0 20px rgba(255, 100, 200, 0.2);
-            letter-spacing: 0.3px;
-            transition: opacity 0.2s;
-            font-family: monospace;
-        }
-        .controls {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 20;
-            display: flex;
-            gap: 0.6rem;
-            background: rgba(10, 15, 35, 0.7);
-            backdrop-filter: blur(12px);
-            padding: 0.4rem 1rem;
-            border-radius: 3rem;
-            border: 1px solid rgba(255, 100, 200, 0.4);
-            pointer-events: auto;
-        }
-        button {
-            background: rgba(30, 40, 80, 0.9);
-            border: none;
-            color: #f0e6d0;
-            padding: 0.3rem 1rem;
+            font-size: 0.7rem;
+            color: #aaa;
+            background: rgba(0,0,0,0.5);
+            padding: 0.3rem;
             border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.1s;
-            font-family: inherit;
+            width: fit-content;
+            margin: 0 auto;
+            white-space: nowrap;
+            overflow-x: auto;
+            max-width: 90vw;
         }
-        button:hover {
-            background: #ff66cc;
-            color: #010312;
-            box-shadow: 0 0 12px #ff66cc;
-            transform: scale(1.02);
-        }
+
         @media (max-width: 700px) {
-            .controls { top: 1rem; right: 1rem; }
-            .message { font-size: 0.75rem; padding: 0.4rem 1rem; }
+            .roulette-container { width: 85vw; height: 85vw; }
+            .result-panel { top: -60px; font-size: 0.7rem; padding: 0.3rem 1rem; }
+            button { padding: 0.5rem 1rem; font-size: 0.8rem; }
+            .history { bottom: -90px; font-size: 0.6rem; }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <canvas id="kaleidoscopeCanvas"></canvas>
-    <div class="info-panel">
-        <div class="message" id="msg">🌀 оберіть будь-яку пелюстку</div>
-    </div>
-    <div class="controls">
-        <button id="randomBtn">✨ випадкова сфера</button>
-        <button id="copyBtn">📋 скопіювати</button>
-        <button id="pauseBtn">⏸️ пауза</button>
+<div style="position: relative; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div class="roulette-container">
+        <canvas id="wheelCanvas" width="700" height="700"></canvas>
+        <div class="controls">
+            <button id="spinBtn">🎲 КИНУТИ КУЛЬКУ 🎲</button>
+        </div>
+        <div class="result-panel" id="resultMessage">🌀 Натисніть «Кинути кульку»</div>
+        <div class="history" id="historyLog"></div>
     </div>
 </div>
 
 <script>
     (function() {
-        // ---------- 12 СФЕР ЖИТТЯ ----------
+        // ==================== ТОЧНІ 12 СФЕР (з емодзі) ====================
         const SPHERES = [
-            "Творчість", "Саморозвиток", "Дім", "Фінанси",
-            "Сім'я", "Хобі", "Спільнота", "Здоров'я",
-            "Кар'єра", "Екологія", "Стосунки", "Духовність"
+            { emoji: "🚀", name: "Creativity or Self-Expression" },
+            { emoji: "🧑‍🔬", name: "Personal Development or Self-Care" },
+            { emoji: "🏘", name: "Domestic Life or Household Management" },
+            { emoji: "💴", name: "Finance" },
+            { emoji: "🤝", name: "Parenting or Family" },
+            { emoji: "📚", name: "Recreation and Hobbies" },
+            { emoji: "🗣️", name: "Community Involvement or Social Connection" },
+            { emoji: "🌳", name: "Physical Health" },
+            { emoji: "🔎", name: "Career or Education" },
+            { emoji: "🌿", name: "Environmental or Charitable Causes" },
+            { emoji: "👥", name: "Personal Relationship" },
+            { emoji: "🧘", name: "Spirituality" }
         ];
 
-        // Багата база афірмацій/натхненних фраз (без генерації)
-        const AFFIRMATIONS = [
-            "Творчість — це подих душі", "Рости — це природно", "Дім починається з усмішки",
-            "Гроші люблять порядок", "Сім'я — це якір любові", "Хобі живить зсередини",
-            "Разом ми сильніші", "Здоров'я — це багатство", "Кар'єра — це гра, а не війна",
-            "Планета чекає на турботу", "Справжні стосунки — це безпека", "Тиша відкриває глибину",
-            "Дозволь собі бути незавершеною", "Кожен крок має значення", "Магія в дрібницях",
-            "Твій внутрішній оракул завжди поруч", "Сьогодні — день натхнення", "Відпочинок — це ресурс",
-            "Ти можеш все, але не одразу", "Світло всередині тебе не згасає", "Будь ніжною до себе",
-            "Зірки народжуються в темряві", "Довіряй своєму ритму", "Крила виростають у польоті"
+        // ==================== БАГАТО СЕНСОВНИХ ФРАЗ (БЕЗ ГЕНЕРАЦІЇ) ====================
+        const ORACLE_PHRASES = [
+            "🌟 Час діяти — всесвіт підтримує",
+            "🌙 Прислухайся до внутрішнього шепоту",
+            "🏠 Затишок починається з тебе",
+            "💎 Фінансова свобода — це рішення",
+            "💖 Родина — це тиха гавань",
+            "🎨 Твоє хобі — ключ до натхнення",
+            "🤝 Одна добра справа змінює день",
+            "💪 Твоє тіло — храм, дбай про нього",
+            "🚀 Маленький крок сьогодні — великий стрибок завтра",
+            "🍃 Планета дякує за кожну екодію",
+            "💞 Справжні стосунки починаються з любові до себе",
+            "🕉️ Тиша відкриває відповіді"
         ];
 
-        // ---------- НАЛАШТУВАННЯ КАНВАСУ ----------
-        const canvas = document.getElementById("kaleidoscopeCanvas");
+        // Додаткові фрази для кожної сфери (щоб було різноманіття)
+        const SPHERE_PHRASES = {
+            0: ["🎨 Творчість лікує там, де слова безсилі", "✨ Створи щось недосконале — це і є магія", "🖌️ Твій внутрішній художник чекає на дозвіл"],
+            1: ["🌱 Кожен день — нова версія тебе", "🧘 Саморозвиток не спринт, а танець", "📖 Читай, вчись, зростай без тиску"],
+            2: ["🕯️ Одна свічка змінює атмосферу всього дому", "🏡 Затишок починається з дрібниць", "🧹 Прибери з любов'ю — простір віддячить"],
+            3: ["💰 Гроші люблять турботу, а не страх", "💎 Фінансова грамотність — твоя суперсила", "📊 Маленькі заощадження створюють велику свободу"],
+            4: ["👨‍👩‍👧 Родина — це не обов'язок, а безпечне місце", "💖 Обійми без причини лікують", "🤗 Сімейні традиції тримають світ"],
+            5: ["🎯 Хобі — це твоя внутрішня дитина", "⚡ Відпочинок — не лінь, а перезавантаження", "🎮 Грай, щоб жити повніше"],
+            6: ["🤝 Сила спільноти народжується з маленьких жестів", "🗣️ Твій голос має значення", "🌟 Допоможи одному — зміниш світ"],
+            7: ["🏃‍♀️ Рух — це молитва тілу", "🌿 Твоє тіло шепоче — прислухайся", "💪 Здоров'я починається з дихання"],
+            8: ["🚀 Кар'єра — це гра, а не війна", "📈 Роби те, що має сенс, і гроші прийдуть", "💼 Навик, який змінить усе, вже в тобі"],
+            9: ["🍃 Маленька екозвичка рятує океан", "🌍 Ти можеш змінити планету, починаючи з себе", "♻️ Сортуй сміття — даруй майбутнє"],
+            10: ["💞 Стосунки квітнуть, коли є повага", "🤲 Слухати — це також любов", "💖 Найкращий комплімент — щирість"],
+            11: ["🕉️ Духовність — це повернення додому до себе", "🧘 Медитуй 5 хвилин — світ зміниться", "✨ Ти — частина великого космосу"]
+        };
+
+        // ==================== НАЛАШТУВАННЯ КОЛЕСА ====================
+        const canvas = document.getElementById("wheelCanvas");
         const ctx = canvas.getContext("2d");
-        let width, height, centerX, centerY;
-        let radius = 220;     // радіус калейдоскопа
-        let angleOffset = 0;
-        let rotationSpeed = 0.004;
-        let animateId = null;
-        let isPaused = false;
+        let width, height, centerX, centerY, radius;
+        let anglePerSegment = (Math.PI * 2) / 12;
+        let currentRotation = 0;          // кут повороту колеса (радіани)
+        let spinning = false;
+        let spinAnimation = null;
+        let finalAngle = 0;
+        let selectedIndex = -1;
 
-        let hoverIndex = -1;
-        let activeIndex = -1;   // для підсвітки при кліку
-        let currentMessage = "";
+        // Історія
+        let historyList = [];
 
-        // UI елементи
-        const msgDiv = document.getElementById("msg");
-        const randomBtn = document.getElementById("randomBtn");
-        const copyBtn = document.getElementById("copyBtn");
-        const pauseBtn = document.getElementById("pauseBtn");
+        // Елементи UI
+        const spinBtn = document.getElementById("spinBtn");
+        const resultDiv = document.getElementById("resultMessage");
+        const historyDiv = document.getElementById("historyLog");
 
-        // ---------- ФУНКЦІЇ РОЗМІРІВ ----------
         function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            centerX = width / 2;
-            centerY = height / 2;
-            radius = Math.min(width, height) * 0.28;
+            const container = document.querySelector(".roulette-container");
+            const size = container.clientWidth;
+            canvas.width = size;
+            canvas.height = size;
+            width = size;
+            height = size;
+            centerX = size/2;
+            centerY = size/2;
+            radius = size/2 - 8;
+            drawWheel();
         }
 
-        // ---------- ВИЗНАЧЕННЯ СЕГМЕНТА ПІД КУРСОРОМ ----------
-        function getSegmentIndex(mx, my) {
-            const dx = mx - centerX;
-            const dy = my - centerY;
-            const dist = Math.hypot(dx, dy);
-            if (dist > radius + 15 || dist < radius * 0.45) return -1;
-            let angle = Math.atan2(dy, dx) - angleOffset;
-            angle = (angle + Math.PI * 2) % (Math.PI * 2);
-            const step = (Math.PI * 2) / 12;
-            return Math.floor(angle / step);
-        }
-
-        // ---------- МАЛЮВАННЯ КАЛЕЙДОСКОПА ----------
-        function drawSegment(idx, startAng, endAng, isHover, isActive) {
-            // яскраві кольори, що змінюються з часом (додає різноманіття)
-            const hue = (idx * 30 + Date.now() * 0.5) % 360;
-            let color;
-            if (isActive) color = `hsl(45, 100%, 65%)`;
-            else if (isHover) color = `hsl(${hue}, 85%, 70%)`;
-            else color = `hsl(${hue}, 75%, 55%)`;
-
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, startAng, endAng);
-            ctx.arc(centerX, centerY, radius * 0.45, endAng, startAng, true);
-            ctx.closePath();
-            ctx.fillStyle = color;
-            ctx.fill();
-            ctx.strokeStyle = "rgba(255, 200, 100, 0.7)";
-            ctx.lineWidth = 1.2;
-            ctx.stroke();
-
-            // візерунок всередині (крапки/лінії)
-            const midAng = startAng + (endAng - startAng)/2;
-            const rText = radius * 0.75;
-            const tx = centerX + Math.cos(midAng) * rText;
-            const ty = centerY + Math.sin(midAng) * rText;
-            ctx.font = `bold ${Math.max(18, radius * 0.11)}px "Segoe UI"`;
-            ctx.fillStyle = isActive ? "#2a1a0a" : "#fff8e7";
-            ctx.shadowBlur = 5;
-            ctx.shadowColor = "#ffaa66";
-            ctx.fillText(idx+1, tx-12, ty+8);
-            ctx.shadowBlur = 0;
-
-            // додаткові декоративні лінії
-            ctx.beginPath();
-            ctx.moveTo(centerX + Math.cos(startAng) * (radius-8), centerY + Math.sin(startAng) * (radius-8));
-            ctx.lineTo(centerX + Math.cos(startAng) * (radius*0.5+8), centerY + Math.sin(startAng) * (radius*0.5+8));
-            ctx.strokeStyle = "rgba(255, 200, 100, 0.5)";
-            ctx.stroke();
-        }
-
-        function drawKaleidoscope() {
+        // Малювання колеса
+        function drawWheel() {
             if (!ctx) return;
             ctx.clearRect(0, 0, width, height);
-            // фон – глибокий космос із зірками, що переливаються
-            const grad = ctx.createLinearGradient(0, 0, width, height);
-            grad.addColorStop(0, "#0a0a1a");
-            grad.addColorStop(1, "#02020c");
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, width, height);
-            // зірки
-            ctx.fillStyle = "rgba(255,240,200,0.7)";
-            for (let i = 0; i < 180; i++) {
-                if (i%2 === 0) continue;
-                ctx.beginPath();
-                ctx.arc((i*131)%width, (i*253)%height, 1.2, 0, Math.PI*2);
-                ctx.fill();
-            }
-            // калейдоскоп
-            const step = (Math.PI * 2) / 12;
+            // фонова тінь
+            ctx.shadowBlur = 0;
             for (let i = 0; i < 12; i++) {
-                const start = i * step + angleOffset;
-                const end = (i+1) * step + angleOffset;
-                const isHover = (hoverIndex === i);
-                const isActive = (activeIndex === i);
-                drawSegment(i, start, end, isHover, isActive);
+                const start = i * anglePerSegment + currentRotation;
+                const end = (i+1) * anglePerSegment + currentRotation;
+                // градієнт для кожного сектора
+                const gradient = ctx.createLinearGradient(centerX - radius*0.5, centerY - radius*0.5, centerX + radius*0.5, centerY + radius*0.5);
+                const hue = (i * 30) % 360;
+                gradient.addColorStop(0, `hsl(${hue}, 75%, 55%)`);
+                gradient.addColorStop(1, `hsl(${hue}, 85%, 35%)`);
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, start, end);
+                ctx.lineTo(centerX, centerY);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                ctx.strokeStyle = "#ffdd99";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+            // малюємо текст та емодзі на секторах (виправити поворот)
+            for (let i = 0; i < 12; i++) {
+                const midAngle = i * anglePerSegment + anglePerSegment/2 + currentRotation;
+                const textRadius = radius * 0.7;
+                const x = centerX + Math.cos(midAngle) * textRadius;
+                const y = centerY + Math.sin(midAngle) * textRadius;
+                ctx.font = `bold ${Math.max(12, radius * 0.07)}px "Segoe UI"`;
+                ctx.fillStyle = "#fff8e7";
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = "black";
+                ctx.fillText(SPHERES[i].emoji, x-12, y-8);
+                ctx.font = `${Math.max(10, radius * 0.05)}px "Segoe UI"`;
+                ctx.fillStyle = "#ffffff";
+                ctx.fillText((i+1).toString(), x-6, y+10);
+                ctx.shadowBlur = 0;
             }
             // центральне коло
             ctx.beginPath();
-            ctx.arc(centerX, centerY, radius * 0.32, 0, Math.PI*2);
-            ctx.fillStyle = "#1e1e3acc";
+            ctx.arc(centerX, centerY, radius * 0.18, 0, Math.PI*2);
+            ctx.fillStyle = "#f5b042";
             ctx.fill();
             ctx.beginPath();
-            ctx.arc(centerX, centerY, radius * 0.18, 0, Math.PI*2);
-            ctx.fillStyle = "#ffcc88";
+            ctx.arc(centerX, centerY, radius * 0.12, 0, Math.PI*2);
+            ctx.fillStyle = "#7a3a10";
             ctx.fill();
-            ctx.font = `28px "Segoe UI Symbol"`;
-            ctx.fillStyle = "#1a102a";
-            ctx.fillText("🌀", centerX-16, centerY+12);
+            ctx.fillStyle = "white";
+            ctx.font = `bold ${radius * 0.1}px monospace`;
+            ctx.fillText("🎯", centerX-10, centerY+8);
         }
 
-        // ---------- АНІМАЦІЯ ----------
-        function animate() {
-            if (!isPaused) {
-                angleOffset += rotationSpeed;
+        // Функція визначення індексу за кутом (де зараз верхня точка вказувача)
+        // У нас вказівник – це просто візуальна стрілка, але ми будемо рахувати, який сектор знаходиться зверху (12 годин)
+        function getSelectedIndexFromRotation() {
+            // Верхня точка (12 годин) має кут -PI/2 відносно центру
+            const pointerAngle = -Math.PI/2;
+            // Знаходимо кут сектора відносно повороту колеса
+            let rawAngle = pointerAngle - currentRotation;
+            rawAngle = ((rawAngle % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+            const idx = Math.floor(rawAngle / anglePerSegment);
+            return idx % 12;
+        }
+
+        // Анімація обертання (симуляція кульки)
+        function startSpin() {
+            if (spinning) return;
+            spinning = true;
+            spinBtn.disabled = true;
+            // Випадковий кінцевий кут (багато обертів)
+            const spins = Math.floor(Math.random() * 10) + 15; // 15-25 обертів
+            const extraAngle = (Math.random() * Math.PI * 2);
+            const targetRotation = currentRotation + (spins * 2 * Math.PI) + extraAngle;
+            const startTime = performance.now();
+            const duration = 2500; // 2.5 секунди анімації
+
+            function animateSpin(now) {
+                const elapsed = now - startTime;
+                let t = Math.min(1, elapsed / duration);
+                // easeOutCubic
+                const ease = 1 - Math.pow(1-t, 3);
+                const newRotation = currentRotation + (targetRotation - currentRotation) * ease;
+                currentRotation = newRotation;
+                drawWheel();
+                if (t < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    // фінальний кут
+                    currentRotation = targetRotation % (2*Math.PI);
+                    drawWheel();
+                    const idx = getSelectedIndexFromRotation();
+                    selectedIndex = idx;
+                    // Показати результат
+                    const sphere = SPHERES[selectedIndex];
+                    const sphereSpecific = SPHERE_PHRASES[selectedIndex] || ORACLE_PHRASES;
+                    let phraseArray = sphereSpecific;
+                    if (Array.isArray(phraseArray)) {
+                        phraseArray = phraseArray;
+                    } else {
+                        phraseArray = ORACLE_PHRASES;
+                    }
+                    const randomPhrase = phraseArray[Math.floor(Math.random() * phraseArray.length)];
+                    const generalPhrase = ORACLE_PHRASES[Math.floor(Math.random() * ORACLE_PHRASES.length)];
+                    const finalMessage = `${sphere.emoji} ${sphere.name} · ${randomPhrase}`;
+                    resultDiv.innerHTML = `✨ ${finalMessage}`;
+                    // Додати в історію
+                    historyList.unshift(`${sphere.emoji} ${sphere.name}`);
+                    if (historyList.length > 5) historyList.pop();
+                    historyDiv.innerHTML = `📜 Історія: ${historyList.join(' · ')}`;
+                    // Ефект спалаху на canvas
+                    flashEffect();
+                    spinning = false;
+                    spinBtn.disabled = false;
+                }
             }
-            drawKaleidoscope();
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateSpin);
         }
 
-        // ---------- ВЗАЄМОДІЯ ----------
-        function onMouseMove(e) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            let mx, my;
-            if (e.touches) {
-                mx = (e.touches[0].clientX - rect.left) * scaleX;
-                my = (e.touches[0].clientY - rect.top) * scaleY;
-            } else {
-                mx = (e.clientX - rect.left) * scaleX;
-                my = (e.clientY - rect.top) * scaleY;
-            }
-            const idx = getSegmentIndex(mx, my);
-            if (idx !== hoverIndex) {
-                hoverIndex = idx;
-                canvas.style.cursor = (hoverIndex !== -1) ? "pointer" : "default";
-            }
+        function flashEffect() {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'absolute';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.borderRadius = '50%';
+            overlay.style.background = 'radial-gradient(circle, rgba(255,255,200,0.8) 0%, rgba(255,200,0,0) 80%)';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.zIndex = '10';
+            overlay.style.transition = 'opacity 0.4s';
+            document.querySelector('.roulette-container').appendChild(overlay);
+            setTimeout(() => { overlay.style.opacity = '0'; }, 50);
+            setTimeout(() => { overlay.remove(); }, 500);
         }
 
-        function onMouseLeave() {
-            hoverIndex = -1;
-            canvas.style.cursor = "default";
-        }
+        // Обробник кнопки
+        spinBtn.addEventListener("click", startSpin);
 
-        function onSphereClick(e) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            let mx, my;
-            if (e.touches) {
-                mx = (e.touches[0].clientX - rect.left) * scaleX;
-                my = (e.touches[0].clientY - rect.top) * scaleY;
-            } else {
-                mx = (e.clientX - rect.left) * scaleX;
-                my = (e.clientY - rect.top) * scaleY;
-            }
-            const idx = getSegmentIndex(mx, my);
-            if (idx === -1) return;
-
-            activeIndex = idx;
-            const sphereName = SPHERES[idx];
-            const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
-            currentMessage = `${sphereName} · ${randomAff}`;
-            msgDiv.style.opacity = "0";
-            setTimeout(() => {
-                msgDiv.innerHTML = `🌀 ${currentMessage}`;
-                msgDiv.style.opacity = "1";
-            }, 60);
-
-            // ефект пульсації (тимчасове збільшення швидкості обертання)
-            const originalSpeed = rotationSpeed;
-            rotationSpeed = 0.02;
-            setTimeout(() => { rotationSpeed = originalSpeed; }, 200);
-
-            setTimeout(() => {
-                if (activeIndex === idx) activeIndex = -1;
-            }, 1000);
-        }
-
-        function randomSphere() {
-            const rand = Math.floor(Math.random() * 12);
-            activeIndex = rand;
-            const sphereName = SPHERES[rand];
-            const aff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
-            currentMessage = `${sphereName} · ${aff}`;
-            msgDiv.style.opacity = "0";
-            setTimeout(() => {
-                msgDiv.innerHTML = `🌀 ${currentMessage}`;
-                msgDiv.style.opacity = "1";
-            }, 60);
-            setTimeout(() => {
-                if (activeIndex === rand) activeIndex = -1;
-            }, 1000);
-            // додатковий візуальний спалах (прискорення обертання)
-            const originalSpeed = rotationSpeed;
-            rotationSpeed = 0.025;
-            setTimeout(() => { rotationSpeed = originalSpeed; }, 250);
-        }
-
-        function copyToClipboard() {
-            if (currentMessage) {
-                navigator.clipboard.writeText(currentMessage);
-                const originalText = msgDiv.innerText;
-                msgDiv.innerHTML = "✅ скопійовано!";
-                setTimeout(() => { msgDiv.innerHTML = originalText; }, 1200);
-            } else {
-                msgDiv.innerHTML = "🌀 спочатку оберіть сферу";
-                setTimeout(() => {
-                    msgDiv.innerHTML = currentMessage || "🌀 оберіть будь-яку пелюстку";
-                }, 1500);
-            }
-        }
-
-        function togglePause() {
-            isPaused = !isPaused;
-            pauseBtn.textContent = isPaused ? "▶️ пуск" : "⏸️ пауза";
-        }
-
-        // ---------- ПОДІЇ ----------
-        function bindEvents() {
-            canvas.addEventListener("mousemove", onMouseMove);
-            canvas.addEventListener("mouseleave", onMouseLeave);
-            canvas.addEventListener("click", onSphereClick);
-            canvas.addEventListener("touchmove", (e) => { e.preventDefault(); onMouseMove(e); });
-            canvas.addEventListener("touchend", onMouseLeave);
-            canvas.addEventListener("touchstart", (e) => { e.preventDefault(); onSphereClick(e); });
-            randomBtn.addEventListener("click", randomSphere);
-            copyBtn.addEventListener("click", copyToClipboard);
-            pauseBtn.addEventListener("click", togglePause);
-        }
-
-        // ---------- ІНІЦІАЛІЗАЦІЯ ----------
-        function init() {
+        // Ініціалізація
+        window.addEventListener("resize", () => {
             resizeCanvas();
-            bindEvents();
-            animate();
-            window.addEventListener("resize", () => {
-                resizeCanvas();
-            });
-            // стартова випадкова фраза для настрою
-            setTimeout(() => {
-                randomSphere();
-            }, 300);
-        }
+            drawWheel();
+        });
+        resizeCanvas();
+        drawWheel();
 
-        init();
+        // Додатковий декоративний елемент – статична стрілка зверху (вказівник)
+        const container = document.querySelector('.roulette-container');
+        const pointer = document.createElement('div');
+        pointer.style.position = 'absolute';
+        pointer.style.top = '-20px';
+        pointer.style.left = '50%';
+        pointer.style.transform = 'translateX(-50%)';
+        pointer.style.width = '0';
+        pointer.style.height = '0';
+        pointer.style.borderLeft = '20px solid transparent';
+        pointer.style.borderRight = '20px solid transparent';
+        pointer.style.borderTop = '40px solid #ffd966';
+        pointer.style.filter = 'drop-shadow(0 5px 6px black)';
+        pointer.style.zIndex = '20';
+        pointer.style.pointerEvents = 'none';
+        container.appendChild(pointer);
+        // Маленька кулька в центрі (статична декорація)
+        const ballDeco = document.createElement('div');
+        ballDeco.style.position = 'absolute';
+        ballDeco.style.bottom = '10%';
+        ballDeco.style.right = '10%';
+        ballDeco.style.width = '25px';
+        ballDeco.style.height = '25px';
+        ballDeco.style.background = 'radial-gradient(circle at 30% 30%, white, silver)';
+        ballDeco.style.borderRadius = '50%';
+        ballDeco.style.boxShadow = '0 0 12px gold';
+        ballDeco.style.zIndex = '15';
+        ballDeco.style.pointerEvents = 'none';
+        container.appendChild(ballDeco);
     })();
 </script>
 </body>
