@@ -1,6 +1,7 @@
 import { t, sphereDisplayName, formatWeekLabel } from "./i18n.js";
 import { applyUiLang, initLangToggle } from "./lang-ui.js";
 import { loadVault } from "./vault-loader.js";
+import { init3D } from "./scene3d.js";
 
 const spinBtn = document.getElementById("spin-btn");
 const weekSpinBtn = document.getElementById("week-spin-btn");
@@ -49,9 +50,9 @@ let lastOutcome = null;
 let kosatikMode = false;
 let immersiveMode = false;
 let weeklyPack = null;
-let createCompassScene = null;
 let weekSpinActive = false;
 let orbitEnabled = true;
+let cubeOrbitEnabled = true;
 let reflectionState = null;
 let currentViewMode = "all";
 let cubeFocusIndex = 0;
@@ -87,7 +88,9 @@ function containsCyrillic(text = "") {
 function enSafeText(text, fallbackKey) {
   const lang = document.documentElement.lang === "en" ? "en" : "ua";
   if (lang !== "en") return text;
-  if (!text || containsCyrillic(text)) return t(fallbackKey);
+  if (!text || containsCyrillic(text)) {
+    return "Let this moment between spheres inspire your next step.";
+  }
   return text;
 }
 
@@ -271,18 +274,19 @@ function toggleImmersive() {
 function resetCompassFocus() {
   cubeFocusIndex = (cubeFocusIndex + 1) % Math.max(cubeCards.length, 1);
   applyCubeLayout();
-  if (!compass) return;
-  const target = lastOutcome?.primary?.id || weeklyPack?.primary?.id || 1;
-  compass.spinToSphereId(target, 2);
   compassFocusBtn?.classList.add("active-pulse");
   window.setTimeout(() => compassFocusBtn?.classList.remove("active-pulse"), 550);
+  if (compass) {
+    const target = lastOutcome?.primary?.id || weeklyPack?.primary?.id || 1;
+    compass.spinToSphereId(target);
+  }
 }
 
 function toggleCompassOrbit() {
-  orbitEnabled = !orbitEnabled;
-  if (compass) compass.setAutoRotate(orbitEnabled);
-  compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
-  compassOrbitBtn?.classList.toggle("active-pulse", orbitEnabled);
+  cubeOrbitEnabled = !cubeOrbitEnabled;
+  if (compass) compass.setAutoRotate(cubeOrbitEnabled);
+  compassOrbitBtn.textContent = cubeOrbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
+  compassOrbitBtn?.classList.toggle("active-pulse", cubeOrbitEnabled);
 }
 
 function spinReflection() {
@@ -404,7 +408,7 @@ function applyCubeLayout() {
 }
 
 function tickCubeOrbit() {
-  if (cubeEnabled && orbitEnabled && window.innerWidth > 760) {
+  if (cubeEnabled && cubeOrbitEnabled && window.innerWidth > 760) {
     cubeOrbitAngle -= 0.1;
     applyCubeLayout();
   }
@@ -426,7 +430,7 @@ function refreshAfterLangChange() {
   if (reflectionChoiceBBtn && reflectionState) reflectionChoiceBBtn.textContent = reflectionState.b;
   if (reflectionPromptEl && !lastOutcome) reflectionPromptEl.textContent = t("reflectionSeed");
   if (reflectionResultEl && !reflectionState) reflectionResultEl.textContent = t("reflectionResultSeed");
-  if (compassOrbitBtn) compassOrbitBtn.textContent = orbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
+  if (compassOrbitBtn) compassOrbitBtn.textContent = cubeOrbitEnabled ? t("compassOrbit") : t("compassOrbitOff");
   if (kosatikLogicInline) kosatikLogicInline.textContent = t("kosatikLogic");
   setViewMode(currentViewMode);
   const canvas3d = document.getElementById("compass-3d");
@@ -459,12 +463,12 @@ function initStarfield() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     stars.length = 0;
-    for (let i = 0; i < 180; i += 1) {
+    for (let i = 0; i < 400; i++) {
       stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        r: Math.random() * 1.6 + 0.2,
-        v: Math.random() * 0.2 + 0.03,
+        r: Math.random() * 1.8 + 0.2,
+        v: Math.random() * 0.15 + 0.02,
       });
     }
   }
@@ -521,21 +525,42 @@ function startApp() {
     return;
   }
 
-  import("./scene3d.js")
-    .then((mod) => {
-      createCompassScene = mod.createCompassScene;
-      const canvas3d = document.getElementById("compass-3d");
-      compass = createCompassScene(canvas3d, spheres);
-      compass.setAutoRotate(orbitEnabled);
-    })
-    .catch((err) => {
-      document.body.classList.add("mode-2d");
-      passportEl.textContent += t("mode2d");
-      console.warn("3D init failed:", err);
-    })
-    .finally(() => {
-      loader.classList.add("hidden");
-    });
+  try {
+    const canvas3d = document.getElementById("compass-3d");
+    if (canvas3d) {
+      compass = init3D("compass-3d", spheres, (sphereId) => {
+        const sphere = spheres.find(s => s.id === sphereId);
+        if (sphere) {
+          const quote = window.KLifeVault.getQuote(sphere.id, Math.random);
+          const topic = window.KLifeVault.getTopic(sphere.id, Math.random);
+          const lang = document.documentElement.lang === "en" ? "en" : "ua";
+          const safeQuote = enSafeText(quote.t, "enVaultFallbackQuote");
+          const safeTopic = lang === "en" ? buildEnTopicPrompt(sphere, sphere) : topic;
+          primaryName.textContent = formatSphere(sphere);
+          primaryQuote.textContent = `«${safeQuote}»`;
+          primarySource.textContent = quote.s ? `— ${prettifyBookSource(quote.s)}` : "";
+          primaryTopic.textContent = `${t("topic")}: ${safeTopic}`;
+          secondaryName.textContent = "—";
+          secondaryQuote.textContent = "—";
+          secondaryTopic.textContent = "—";
+          passportEl.textContent = `🧭 [K Life OS] ➜ Сфера ${sphere.id}: ${sphere.slug}`;
+          if (compass) compass.setHighlight(sphereId);
+        }
+      });
+      if (compass) {
+        compass.setAutoRotate(orbitEnabled);
+      } else {
+        document.body.classList.add("mode-2d");
+        passportEl.textContent += t("mode2d");
+      }
+    }
+  } catch (err) {
+    console.error("3D init failed:", err);
+    document.body.classList.add("mode-2d");
+    passportEl.textContent += " • 3D error: " + err.message;
+  } finally {
+    loader.classList.add("hidden");
+  }
 }
 
 async function waitForPako(maxMs = 8000) {
@@ -552,7 +577,7 @@ async function boot() {
   try {
     await loadVault();
   } catch {
-    /* vault-loader tries script + fetch */
+    // vault-loader tries script + fetch
   }
   if (!window.KLifeVault || typeof window.pako === "undefined") {
     passportEl.textContent = `${t("errPrefix")}: ${diagnoseBootFailure()}`;

@@ -1,9 +1,8 @@
 # [K Life OS] — секретна кімната
 
-Статична міні-гра: рандомайзер 12 сфер, тема тижня, 3D-компас / cube stage.
+Експериментальний інтерфейс (зараз: «Калейдоскоп Сфер») — локальна розробка тут, деплой у `Kosatiks-Group/k-life-os/`.
 
-- **Публічна URL:** `https://k-life-os.kosatiks-group.pp.ua/` (alias: `game.kosatiks-group.pp.ua`)
-- **Джерело правок (розробка):** `Cursor/sites/k-life-os-play/` — після змін копіюй у `k-life-os/` у цьому репо.
-- **Перезбірка vault:** `sites/k-life-os-play/scripts/build_vault.py` → `vault.bundle.js`
+- **Публічна URL:** `https://k-life-os.kosatiks-group.pp.ua/`
+- **Синк на прод:** скопіюй цю теку → `Documents/PYTHON/Personal SMM/Kosatiks-Group-repo/k-life-os/` → commit + push `main`
 
-Деплой: той самий Vercel-проєкт, що й основний портал (`TEZv/Kosatiks-Group`). Див. `VERCEL_CHECKLIST.md` → розділ Game subdomain.
+Деплой: Vercel-проєкт `TEZv/Kosatiks-Group`. Див. `VERCEL_CHECKLIST.md`.

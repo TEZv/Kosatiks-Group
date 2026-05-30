@@ -1,150 +1,398 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="uk">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>[K Life OS] — Куди мене занесе?</title>
-    <meta
-      name="description"
-      content="Інтерактивний 3D-компас 12 сфер [K Life OS]. Рандомайзер, тема тижня, цитати з серії Anteros."
-    />
-    <meta name="theme-color" content="#060812" />
-    <link rel="stylesheet" href="./styles.css?v=20260528p" />
-  </head>
-  <body>
-    <div id="loader" class="loader" aria-hidden="true">
-      <div class="loader-ring"></div>
-      <p data-i18n="loader">Завантажую всесвіт [K Life OS]…</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🌀 Калейдоскоп Сфер · 12 вібрацій натхнення</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: #0a0e1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+        }
+        .info-panel {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .message {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(16px);
+            border-radius: 3rem;
+            padding: 0.7rem 1.8rem;
+            display: inline-block;
+            max-width: 85vw;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #f5eac1;
+            border: 1px solid rgba(255, 100, 200, 0.5);
+            box-shadow: 0 0 20px rgba(255, 100, 200, 0.2);
+            letter-spacing: 0.3px;
+            transition: opacity 0.2s;
+            font-family: monospace;
+        }
+        .controls {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 20;
+            display: flex;
+            gap: 0.6rem;
+            background: rgba(10, 15, 35, 0.7);
+            backdrop-filter: blur(12px);
+            padding: 0.4rem 1rem;
+            border-radius: 3rem;
+            border: 1px solid rgba(255, 100, 200, 0.4);
+            pointer-events: auto;
+        }
+        button {
+            background: rgba(30, 40, 80, 0.9);
+            border: none;
+            color: #f0e6d0;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.1s;
+            font-family: inherit;
+        }
+        button:hover {
+            background: #ff66cc;
+            color: #010312;
+            box-shadow: 0 0 12px #ff66cc;
+            transform: scale(1.02);
+        }
+        @media (max-width: 700px) {
+            .controls { top: 1rem; right: 1rem; }
+            .message { font-size: 0.75rem; padding: 0.4rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <canvas id="kaleidoscopeCanvas"></canvas>
+    <div class="info-panel">
+        <div class="message" id="msg">🌀 оберіть будь-яку пелюстку</div>
     </div>
+    <div class="controls">
+        <button id="randomBtn">✨ випадкова сфера</button>
+        <button id="copyBtn">📋 скопіювати</button>
+        <button id="pauseBtn">⏸️ пауза</button>
+    </div>
+</div>
 
-    <canvas id="space-bg" aria-hidden="true"></canvas>
-    <canvas id="compass-3d" data-i18n-aria="compassAria" aria-label="3D компас 12 сфер"></canvas>
+<script>
+    (function() {
+        // ---------- 12 СФЕР ЖИТТЯ ----------
+        const SPHERES = [
+            "Творчість", "Саморозвиток", "Дім", "Фінанси",
+            "Сім'я", "Хобі", "Спільнота", "Здоров'я",
+            "Кар'єра", "Екологія", "Стосунки", "Духовність"
+        ];
 
-    <main class="app">
-      <header class="topbar glass">
-        <div>
-          <p class="eyebrow">k-life-os.kosatiks-group.pp.ua</p>
-          <h1 data-i18n="h1">Куди мене занесе сьогодні?</h1>
-        </div>
-        <div class="topbar-actions">
-          <div class="lang-toggle" role="group" aria-label="Language">
-            <button type="button" class="lang-btn active" data-lang-btn="ua" aria-pressed="true">UA</button>
-            <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
-          </div>
-          <button id="kosatik-btn" class="ghost-btn" type="button" aria-pressed="false" data-i18n="kosatik">
-            🐋 Косатик
-          </button>
-          <button id="immersive-btn" class="ghost-btn" type="button" data-i18n="immersive">Immersive</button>
-          <a class="ghost-btn" href="https://kosatiks-group.pp.ua/" target="_blank" rel="noreferrer" data-i18n="identity"
-            >K Identity</a
-          >
-        </div>
-      </header>
+        // Багата база афірмацій/натхненних фраз (без генерації)
+        const AFFIRMATIONS = [
+            "Творчість — це подих душі", "Рости — це природно", "Дім починається з усмішки",
+            "Гроші люблять порядок", "Сім'я — це якір любові", "Хобі живить зсередини",
+            "Разом ми сильніші", "Здоров'я — це багатство", "Кар'єра — це гра, а не війна",
+            "Планета чекає на турботу", "Справжні стосунки — це безпека", "Тиша відкриває глибину",
+            "Дозволь собі бути незавершеною", "Кожен крок має значення", "Магія в дрібницях",
+            "Твій внутрішній оракул завжди поруч", "Сьогодні — день натхнення", "Відпочинок — це ресурс",
+            "Ти можеш все, але не одразу", "Світло всередині тебе не згасає", "Будь ніжною до себе",
+            "Зірки народжуються в темряві", "Довіряй своєму ритму", "Крила виростають у польоті"
+        ];
 
-      <p id="content-lang-note" class="content-lang-note glass" data-i18n="contentNote"></p>
-      <nav class="view-switch glass" aria-label="View mode">
-        <button class="ghost-btn view-btn active" type="button" data-view-mode="all" data-i18n="viewAll">Усе</button>
-        <button class="ghost-btn view-btn" type="button" data-view-mode="weekly" data-i18n="viewWeekly">Weekly</button>
-        <button class="ghost-btn view-btn" type="button" data-view-mode="random" data-i18n="viewRandom">Random</button>
-        <button class="ghost-btn view-btn" type="button" data-view-mode="route" data-i18n="viewRoute">Route</button>
-        <button class="ghost-btn view-btn" type="button" data-view-mode="book" data-i18n="viewBook">Book</button>
-      </nav>
+        // ---------- НАЛАШТУВАННЯ КАНВАСУ ----------
+        const canvas = document.getElementById("kaleidoscopeCanvas");
+        const ctx = canvas.getContext("2d");
+        let width, height, centerX, centerY;
+        let radius = 220;     // радіус калейдоскопа
+        let angleOffset = 0;
+        let rotationSpeed = 0.004;
+        let animateId = null;
+        let isPaused = false;
 
-      <section class="compass-stage glass" data-view-section="all">
-        <div class="stage-header">
-          <p class="weekly-label" data-i18n="compassTitle">3D-компас [K Life OS]</p>
-          <div class="btn-row compact">
-            <button id="compass-focus-btn" class="ghost-btn" type="button" data-i18n="compassFocus">Фокус</button>
-            <button id="compass-orbit-btn" class="ghost-btn" type="button" data-i18n="compassOrbit">Orbit: ON</button>
-          </div>
-        </div>
-        <p class="stage-note" data-i18n="compassHint">Тягни мишею: обертай сцену. Колесо: zoom.</p>
-      </section>
+        let hoverIndex = -1;
+        let activeIndex = -1;   // для підсвітки при кліку
+        let currentMessage = "";
 
-      <section id="cube-stage" class="cube-stage" data-view-section="all weekly random route book">
-        <article id="weekly-banner" class="weekly-banner glass cube-card" aria-live="polite" data-view-section="all weekly" data-cube-card>
-          <p class="weekly-label" data-i18n="weeklyLabel">Тема тижня (спільна для всіх)</p>
-          <h2 id="weekly-title">—</h2>
-          <p id="weekly-spheres" class="weekly-spheres">—</p>
-          <p id="weekly-topic" class="weekly-topic">—</p>
-        </article>
+        // UI елементи
+        const msgDiv = document.getElementById("msg");
+        const randomBtn = document.getElementById("randomBtn");
+        const copyBtn = document.getElementById("copyBtn");
+        const pauseBtn = document.getElementById("pauseBtn");
 
-        <article class="hud glass cube-card" data-view-section="all random" data-cube-card>
-          <p class="control-title" data-i18n="randomTitle">Живий рандом</p>
-          <p class="control-subtitle" data-i18n="passportTitle">Системний паспорт</p>
-          <div id="passport" class="passport">🧭 [K Life OS] — …</div>
-          <div class="btn-row">
-            <button id="spin-btn" class="primary-btn" type="button" data-i18n="spin">Рандомайзер сфер</button>
-            <button id="week-spin-btn" class="ghost-btn" type="button" data-i18n="weekSpin">Спін тижня</button>
-            <button id="copy-btn" class="ghost-btn" type="button" data-i18n="copy">Скопіювати</button>
-          </div>
-          <p id="kosatik-line" class="kosatik-line hidden" role="note"></p>
-          <p id="kosatik-logic-inline" class="stage-note hidden" data-i18n="kosatikLogic"></p>
-        </article>
+        // ---------- ФУНКЦІЇ РОЗМІРІВ ----------
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            centerX = width / 2;
+            centerY = height / 2;
+            radius = Math.min(width, height) * 0.28;
+        }
 
-      <section id="result-panel" class="result-panel glass cube-card" aria-live="polite" data-view-section="all route" data-cube-card>
-        <h2 data-i18n="route">Твій маршрут</h2>
-        <div class="result-grid">
-          <article class="result-card">
-            <p class="card-label" data-i18n="primary">Primary</p>
-            <h3 id="primary-name">—</h3>
-            <blockquote id="primary-quote" class="quote">—</blockquote>
-            <p id="primary-source" class="source">—</p>
-            <p id="primary-topic" class="topic">—</p>
-          </article>
-          <article class="result-card">
-            <p class="card-label" data-i18n="secondary">Secondary</p>
-            <h3 id="secondary-name">—</h3>
-            <blockquote id="secondary-quote" class="quote">—</blockquote>
-            <p id="secondary-source" class="source">—</p>
-            <p id="secondary-topic" class="topic">—</p>
-          </article>
-        </div>
-        <div class="share-row">
-          <a id="share-threads" class="ghost-btn" href="#" target="_blank" rel="noreferrer">Threads</a>
-          <a id="share-x" class="ghost-btn" href="#" target="_blank" rel="noreferrer">X</a>
-        </div>
-      </section>
+        // ---------- ВИЗНАЧЕННЯ СЕГМЕНТА ПІД КУРСОРОМ ----------
+        function getSegmentIndex(mx, my) {
+            const dx = mx - centerX;
+            const dy = my - centerY;
+            const dist = Math.hypot(dx, dy);
+            if (dist > radius + 15 || dist < radius * 0.45) return -1;
+            let angle = Math.atan2(dy, dx) - angleOffset;
+            angle = (angle + Math.PI * 2) % (Math.PI * 2);
+            const step = (Math.PI * 2) / 12;
+            return Math.floor(angle / step);
+        }
 
-      <section class="book-lab glass cube-card" aria-live="polite" data-view-section="all book" data-cube-card>
-        <p class="control-title" data-i18n="bookLabTitle">Поговорити з книги</p>
-        <p id="book-source" class="book-source">—</p>
-        <div class="share-row">
-          <a id="anteros-main-link" class="ghost-btn" href="https://anteros-triad.vercel.app" target="_blank" rel="noreferrer" data-i18n="anterosMainLink">Anteros сайт</a>
-          <a id="anteros-antifan-link" class="ghost-btn" href="https://anteros-triad.vercel.app/anti-fan" target="_blank" rel="noreferrer" data-i18n="anterosAntiFanLink">Anti-Fan</a>
-        </div>
-        <p id="reflection-prompt" class="weekly-topic">—</p>
-        <p class="control-subtitle" data-i18n="reflectionChooseTitle">Обери резонанс</p>
-        <div class="btn-row">
-          <button id="reflection-choice-a" class="ghost-btn" type="button">A</button>
-          <button id="reflection-choice-b" class="ghost-btn" type="button">B</button>
-        </div>
-        <label class="control-subtitle" for="reflection-custom" data-i18n="reflectionCustomTitle">Твій варіант</label>
-        <textarea
-          id="reflection-custom"
-          class="reflection-custom"
-          rows="3"
-          data-i18n-placeholder="reflectionCustomPlaceholder"
-          placeholder="Яка твоя відповідь?"
-        ></textarea>
-        <div class="btn-row">
-          <button id="reflection-btn" class="ghost-btn" type="button" data-i18n="reflectionBtn">Новий роздум</button>
-          <button id="reflection-apply-btn" class="ghost-btn" type="button" data-i18n="reflectionApplyBtn">Зафіксувати мій варіант</button>
-        </div>
-        <p id="reflection-result" class="stage-note" data-i18n="reflectionResultSeed">Тут з’явиться обрана позиція.</p>
-      </section>
-      </section>
-    </main>
+        // ---------- МАЛЮВАННЯ КАЛЕЙДОСКОПА ----------
+        function drawSegment(idx, startAng, endAng, isHover, isActive) {
+            // яскраві кольори, що змінюються з часом (додає різноманіття)
+            const hue = (idx * 30 + Date.now() * 0.5) % 360;
+            let color;
+            if (isActive) color = `hsl(45, 100%, 65%)`;
+            else if (isHover) color = `hsl(${hue}, 85%, 70%)`;
+            else color = `hsl(${hue}, 75%, 55%)`;
 
-    <aside id="kosatik-panel" class="kosatik-panel" hidden>
-      <div class="kosatik-card glass">
-        <p class="kosatik-title" data-i18n="kosatikTitle">Кит-Кіт Косатик</p>
-        <p id="kosatik-quip" class="kosatik-quip" data-i18n="kosatikDefault">Бекстейдж-режим увімкнено.</p>
-      </div>
-    </aside>
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, startAng, endAng);
+            ctx.arc(centerX, centerY, radius * 0.45, endAng, startAng, true);
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.strokeStyle = "rgba(255, 200, 100, 0.7)";
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
 
-    <script defer src="./vendor/pako/pako.min.js?v=20260528p"></script>
-    <script defer src="./vault.js?v=20260528p"></script>
-    <script type="module" src="./app.js?v=20260528p"></script>
-  </body>
+            // візерунок всередині (крапки/лінії)
+            const midAng = startAng + (endAng - startAng)/2;
+            const rText = radius * 0.75;
+            const tx = centerX + Math.cos(midAng) * rText;
+            const ty = centerY + Math.sin(midAng) * rText;
+            ctx.font = `bold ${Math.max(18, radius * 0.11)}px "Segoe UI"`;
+            ctx.fillStyle = isActive ? "#2a1a0a" : "#fff8e7";
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = "#ffaa66";
+            ctx.fillText(idx+1, tx-12, ty+8);
+            ctx.shadowBlur = 0;
+
+            // додаткові декоративні лінії
+            ctx.beginPath();
+            ctx.moveTo(centerX + Math.cos(startAng) * (radius-8), centerY + Math.sin(startAng) * (radius-8));
+            ctx.lineTo(centerX + Math.cos(startAng) * (radius*0.5+8), centerY + Math.sin(startAng) * (radius*0.5+8));
+            ctx.strokeStyle = "rgba(255, 200, 100, 0.5)";
+            ctx.stroke();
+        }
+
+        function drawKaleidoscope() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+            // фон – глибокий космос із зірками, що переливаються
+            const grad = ctx.createLinearGradient(0, 0, width, height);
+            grad.addColorStop(0, "#0a0a1a");
+            grad.addColorStop(1, "#02020c");
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, width, height);
+            // зірки
+            ctx.fillStyle = "rgba(255,240,200,0.7)";
+            for (let i = 0; i < 180; i++) {
+                if (i%2 === 0) continue;
+                ctx.beginPath();
+                ctx.arc((i*131)%width, (i*253)%height, 1.2, 0, Math.PI*2);
+                ctx.fill();
+            }
+            // калейдоскоп
+            const step = (Math.PI * 2) / 12;
+            for (let i = 0; i < 12; i++) {
+                const start = i * step + angleOffset;
+                const end = (i+1) * step + angleOffset;
+                const isHover = (hoverIndex === i);
+                const isActive = (activeIndex === i);
+                drawSegment(i, start, end, isHover, isActive);
+            }
+            // центральне коло
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.32, 0, Math.PI*2);
+            ctx.fillStyle = "#1e1e3acc";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.18, 0, Math.PI*2);
+            ctx.fillStyle = "#ffcc88";
+            ctx.fill();
+            ctx.font = `28px "Segoe UI Symbol"`;
+            ctx.fillStyle = "#1a102a";
+            ctx.fillText("🌀", centerX-16, centerY+12);
+        }
+
+        // ---------- АНІМАЦІЯ ----------
+        function animate() {
+            if (!isPaused) {
+                angleOffset += rotationSpeed;
+            }
+            drawKaleidoscope();
+            requestAnimationFrame(animate);
+        }
+
+        // ---------- ВЗАЄМОДІЯ ----------
+        function onMouseMove(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let mx, my;
+            if (e.touches) {
+                mx = (e.touches[0].clientX - rect.left) * scaleX;
+                my = (e.touches[0].clientY - rect.top) * scaleY;
+            } else {
+                mx = (e.clientX - rect.left) * scaleX;
+                my = (e.clientY - rect.top) * scaleY;
+            }
+            const idx = getSegmentIndex(mx, my);
+            if (idx !== hoverIndex) {
+                hoverIndex = idx;
+                canvas.style.cursor = (hoverIndex !== -1) ? "pointer" : "default";
+            }
+        }
+
+        function onMouseLeave() {
+            hoverIndex = -1;
+            canvas.style.cursor = "default";
+        }
+
+        function onSphereClick(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            let mx, my;
+            if (e.touches) {
+                mx = (e.touches[0].clientX - rect.left) * scaleX;
+                my = (e.touches[0].clientY - rect.top) * scaleY;
+            } else {
+                mx = (e.clientX - rect.left) * scaleX;
+                my = (e.clientY - rect.top) * scaleY;
+            }
+            const idx = getSegmentIndex(mx, my);
+            if (idx === -1) return;
+
+            activeIndex = idx;
+            const sphereName = SPHERES[idx];
+            const randomAff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+            currentMessage = `${sphereName} · ${randomAff}`;
+            msgDiv.style.opacity = "0";
+            setTimeout(() => {
+                msgDiv.innerHTML = `🌀 ${currentMessage}`;
+                msgDiv.style.opacity = "1";
+            }, 60);
+
+            // ефект пульсації (тимчасове збільшення швидкості обертання)
+            const originalSpeed = rotationSpeed;
+            rotationSpeed = 0.02;
+            setTimeout(() => { rotationSpeed = originalSpeed; }, 200);
+
+            setTimeout(() => {
+                if (activeIndex === idx) activeIndex = -1;
+            }, 1000);
+        }
+
+        function randomSphere() {
+            const rand = Math.floor(Math.random() * 12);
+            activeIndex = rand;
+            const sphereName = SPHERES[rand];
+            const aff = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+            currentMessage = `${sphereName} · ${aff}`;
+            msgDiv.style.opacity = "0";
+            setTimeout(() => {
+                msgDiv.innerHTML = `🌀 ${currentMessage}`;
+                msgDiv.style.opacity = "1";
+            }, 60);
+            setTimeout(() => {
+                if (activeIndex === rand) activeIndex = -1;
+            }, 1000);
+            // додатковий візуальний спалах (прискорення обертання)
+            const originalSpeed = rotationSpeed;
+            rotationSpeed = 0.025;
+            setTimeout(() => { rotationSpeed = originalSpeed; }, 250);
+        }
+
+        function copyToClipboard() {
+            if (currentMessage) {
+                navigator.clipboard.writeText(currentMessage);
+                const originalText = msgDiv.innerText;
+                msgDiv.innerHTML = "✅ скопійовано!";
+                setTimeout(() => { msgDiv.innerHTML = originalText; }, 1200);
+            } else {
+                msgDiv.innerHTML = "🌀 спочатку оберіть сферу";
+                setTimeout(() => {
+                    msgDiv.innerHTML = currentMessage || "🌀 оберіть будь-яку пелюстку";
+                }, 1500);
+            }
+        }
+
+        function togglePause() {
+            isPaused = !isPaused;
+            pauseBtn.textContent = isPaused ? "▶️ пуск" : "⏸️ пауза";
+        }
+
+        // ---------- ПОДІЇ ----------
+        function bindEvents() {
+            canvas.addEventListener("mousemove", onMouseMove);
+            canvas.addEventListener("mouseleave", onMouseLeave);
+            canvas.addEventListener("click", onSphereClick);
+            canvas.addEventListener("touchmove", (e) => { e.preventDefault(); onMouseMove(e); });
+            canvas.addEventListener("touchend", onMouseLeave);
+            canvas.addEventListener("touchstart", (e) => { e.preventDefault(); onSphereClick(e); });
+            randomBtn.addEventListener("click", randomSphere);
+            copyBtn.addEventListener("click", copyToClipboard);
+            pauseBtn.addEventListener("click", togglePause);
+        }
+
+        // ---------- ІНІЦІАЛІЗАЦІЯ ----------
+        function init() {
+            resizeCanvas();
+            bindEvents();
+            animate();
+            window.addEventListener("resize", () => {
+                resizeCanvas();
+            });
+            // стартова випадкова фраза для настрою
+            setTimeout(() => {
+                randomSphere();
+            }, 300);
+        }
+
+        init();
+    })();
+</script>
+</body>
 </html>
