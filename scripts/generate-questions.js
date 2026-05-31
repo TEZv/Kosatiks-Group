@@ -47,10 +47,28 @@ async function generate(lang, sphere) {
     body: JSON.stringify({ model: 'llama3-8b-8192', messages: [{ role: 'user', content: prompt }], temperature: 0.9, max_tokens: 80 })
   });
   const data = await res.json();
-  return data.choices?.[0]?.message?.content?.trim().replace(/^["']|["']$/g, '') || null;
+  if (!res.ok) {
+    console.error(`  HTTP ${res.status}: ${JSON.stringify(data).substring(0, 200)}`);
+    throw new Error(`HTTP ${res.status}`);
+  }
+  const text = data.choices?.[0]?.message?.content?.trim().replace(/^["']|["']$/g, '') || '';
+  if (!text) {
+    console.error(`  Empty response: ${JSON.stringify(data).substring(0, 300)}`);
+    throw new Error('Empty response from Groq');
+  }
+  return text;
 }
 
 (async () => {
+  const key = process.env.GROQ_API_KEY;
+  if (!key) {
+    console.error('ERROR: GROQ_API_KEY environment variable is not set!');
+    console.error('Go to GitHub repo → Settings → Secrets → Actions → New repository secret');
+    console.error('Name: GROQ_API_KEY, Value: gsk_...');
+    process.exit(1);
+  }
+  console.log(`API key loaded: ${key.substring(0, 8)}...`);
+  
   const output = { generatedAt: new Date().toISOString(), ua: {}, en: {} };
   for (const lang of ['ua', 'en']) {
     for (const sphere of SPHERES[lang]) {
@@ -60,6 +78,7 @@ async function generate(lang, sphere) {
         console.log(`\u2713 ${lang}: ${sphere}`);
       } catch (e) {
         console.error(`\u2717 ${lang}: ${sphere} \u2014 ${e.message}`);
+        output[lang][sphere] = null;
       }
       await new Promise(r => setTimeout(r, 500));
     }
