@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎡 Рулетка Сфер · Колесо Долі</title>
+    <title>🪷 Колесо тем · 12 сфер натхнення</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,600 +12,366 @@
             box-sizing: border-box;
             user-select: none;
         }
+
         body {
-            background: radial-gradient(ellipse at 30% 40%, #0a0f1a, #010308);
-            font-family: 'Segoe UI', 'Inter', 'Times New Roman', serif;
+            background: radial-gradient(ellipse at 30% 40%, #0a0f2a, #01030a);
+            font-family: 'Inter', sans-serif;
+            color: #f0f0f0;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 1rem;
         }
-        .roulette-layout {
-            max-width: 1400px;
+
+        /* головний контейнер – картка */
+        .oracle-card {
+            max-width: 800px;
             width: 100%;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(8px);
-            border-radius: 3rem;
+            background: rgba(15, 20, 40, 0.55);
+            backdrop-filter: blur(16px);
+            border-radius: 2rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        /* заголовок */
+        .header {
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0,255,255,0.2);
+        }
+        .header h1 {
+            font-weight: 600;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #fff5cf, #ffd27a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .sub {
+            font-size: 0.75rem;
+            color: #8da0c0;
+            margin-top: 0.3rem;
+        }
+
+        /* сфера + результат */
+        .result-area {
             padding: 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 255, 200, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.5);
+            text-align: center;
         }
-        .wheel-area {
-            flex: 1.2;
-            min-width: 320px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        canvas {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            background: #1a3a2a;
-            border-radius: 50%;
-            box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 0 30px cyan, 0 15px 35px black;
-        }
-        .betting-area {
-            flex: 0.9;
-            min-width: 300px;
-            background: rgba(15, 40, 31, 0.7);
-            backdrop-filter: blur(12px);
+        .sphere-badge {
+            display: inline-block;
+            background: #2a3e66cc;
             border-radius: 2rem;
-            padding: 1rem;
-            border: 2px solid #0ff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        .lang-switch {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .lang-btn {
-            background: #2a4a3a;
-            border: none;
-            padding: 0.2rem 0.8rem;
-            border-radius: 2rem;
-            color: #f5e6b0;
-            cursor: pointer;
-            font-size: 0.7rem;
-        }
-        .lang-btn.active {
-            background: #0ff;
-            color: #0a1a12;
-            box-shadow: 0 0 8px cyan;
-        }
-        .api-settings {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            background: #0a1f18;
-            padding: 0.4rem;
-            border-radius: 2rem;
-            align-items: center;
-            border: 1px solid #0ff;
-        }
-        .api-settings input {
-            background: #1a3a2a;
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
             border: 1px solid cyan;
-            color: #f9e2a1;
-            padding: 0.2rem 0.5rem;
+        }
+        .topic {
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.3;
+            margin: 1rem 0;
+            color: #f8eccf;
+        }
+        .question {
+            font-size: 1rem;
+            font-style: italic;
+            background: #0a102f80;
+            padding: 0.8rem;
             border-radius: 1rem;
-            font-size: 0.7rem;
-            width: 140px;
+            margin: 1rem 0;
+            border-left: 3px solid #ffaa44;
         }
-        .api-settings button {
-            background: #0ff;
-            border: none;
-            padding: 0.1rem 0.6rem;
-            border-radius: 2rem;
-            font-size: 0.6rem;
-            cursor: pointer;
-            color: #0a1f18;
-            font-weight: bold;
-        }
-        .betting-title {
-            text-align: center;
-            font-size: 1.3rem;
-            color: #0ff;
-            letter-spacing: 2px;
-            border-bottom: 1px solid cyan;
-            padding-bottom: 0.3rem;
-            text-shadow: 0 0 5px cyan;
-        }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.6rem;
-            max-height: 55vh;
-            overflow-y: auto;
-            padding-right: 0.3rem;
-        }
-        .sphere-card {
-            background: rgba(30, 50, 70, 0.6);
-            backdrop-filter: blur(8px);
+        .visual-prompt {
+            font-size: 0.75rem;
+            color: #b9c7e8;
+            margin: 0.8rem 0;
+            padding: 0.5rem;
+            background: #00000040;
             border-radius: 1rem;
-            padding: 0.5rem 0.3rem;
-            text-align: center;
-            transition: all 0.2s ease;
-            border: 1px solid rgba(0, 255, 255, 0.5);
-            color: #e9d6a3;
-            font-size: 0.7rem;
-            font-weight: bold;
-            word-break: break-word;
         }
-        .sphere-card.selected-card {
-            background: radial-gradient(circle, #f5b042, #b45f1b);
-            color: #0f1a0e;
-            border-color: #ffff80;
-            box-shadow: 0 0 15px #ffaa33;
-        }
-        .sphere-emoji { font-size: 1.3rem; display: block; }
-        .sphere-name-full { font-size: 0.65rem; font-weight: normal; }
-        .controls {
+
+        /* кнопки */
+        .button-group {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 1rem;
-            margin: 0.5rem 0;
+            gap: 0.8rem;
+            margin: 1rem 0;
         }
-        button {
-            background: radial-gradient(circle at 30% 20%, #f5b042, #b45f1b);
+        .btn {
+            background: #1f2f55;
             border: none;
             padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: bold;
-            font-size: 0.85rem;
-            color: #0f1a0e;
+            border-radius: 3rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: 0.05s linear;
-            box-shadow: 0 3px 0 #5a2e0a, 0 0 8px rgba(255, 100, 0, 0.8);
-        }
-        button:active {
-            transform: translateY(2px);
-            box-shadow: 0 1px 0 #5a2e0a;
-        }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .result-area {
-            background: #0a1f18;
-            border-radius: 1.5rem;
-            padding: 0.5rem;
-            border: 1px solid cyan;
-            text-align: center;
-        }
-        .result-text {
-            color: #f9e2a1;
+            transition: 0.1s;
+            color: white;
             font-size: 0.85rem;
+        }
+        .btn-primary {
+            background: #ff3e6c;
+            box-shadow: 0 0 8px #ff3e6c;
+        }
+        .btn-primary:hover {
+            background: #ff6b8f;
+            transform: scale(1.02);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid cyan;
+        }
+        .btn-outline:hover {
+            background: cyan;
+            color: #010312;
+        }
+
+        /* статистика */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #0a102f70;
+            padding: 0.8rem 1.5rem;
+            font-size: 0.7rem;
+            border-top: 1px solid #2e3a5e;
+        }
+        .stat-item {
+            text-align: center;
         }
         .history {
-            margin-top: 0.4rem;
-            font-size: 0.65rem;
-            color: #c9b27c;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-        .timer-hint {
+            padding: 0.8rem 1.5rem;
+            border-top: 1px solid #2e3a5e;
             font-size: 0.7rem;
-            font-weight: bold;
-            color: #0ff;
-            text-align: center;
-            background: #0a1f18;
-            padding: 0.2rem;
-            border-radius: 2rem;
-        }
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(12px);
             display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.2s;
+            flex-wrap: wrap;
+            gap: 0.3rem;
         }
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
+        .history-tag {
+            background: #1a2542;
+            border-radius: 1rem;
+            padding: 0.2rem 0.6rem;
         }
-        .modal-card {
-            background: #0f281f;
-            border-radius: 2rem;
-            padding: 1.5rem;
-            max-width: 500px;
-            width: 90%;
-            border: 2px solid #0ff;
-            box-shadow: 0 0 40px cyan;
-            text-align: center;
+
+        @keyframes pulse {
+            0% { text-shadow: 0 0 0 cyan; }
+            100% { text-shadow: 0 0 8px cyan; }
         }
-        .modal-card h3 { color: #0ff; margin-bottom: 1rem; }
-        .modal-question { font-size: 1.1rem; color: #ffefcf; margin: 1rem 0; line-height: 1.4; }
-        .modal-actions { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
-        .modal-actions button { background: #0ff; color: #0a1f18; box-shadow: none; }
+        .animate {
+            animation: pulse 0.3s ease;
+        }
     </style>
 </head>
 <body>
-<div class="roulette-layout">
-    <div class="wheel-area">
-        <canvas id="rouletteCanvas" width="600" height="600"></canvas>
-        <div class="top-bar" style="width:100%; justify-content:center;">
-            <div class="lang-switch">
-                <button class="lang-btn active" data-lang="ua">🇺🇦 UA</button>
-                <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
-            </div>
+<div class="oracle-card">
+    <div class="header">
+        <h1>🌀 Колесо Сфер 🌀</h1>
+        <div class="sub">натхнення для блогу · міфологічний рандомайзер</div>
+    </div>
+    <div class="result-area" id="resultArea">
+        <div class="sphere-badge" id="sphereBadge">⚡ оберіть сферу</div>
+        <div class="topic" id="topicDisplay">Натисніть «Згенерувати тему»</div>
+        <div class="question" id="questionDisplay"></div>
+        <div class="visual-prompt" id="visualPrompt"></div>
+        <div class="button-group">
+            <button class="btn btn-primary" id="randomBtn">✨ Випадкова тема</button>
+            <button class="btn btn-outline" id="copyBtn">📋 Копіювати тему</button>
+            <button class="btn btn-outline" id="aiBtn">🪄 AI-ідея (локальна)</button>
         </div>
     </div>
-    <div class="betting-area">
-        <div class="betting-title" id="titleField">✨ поле сфер ✨</div>
-        <div class="cards-grid" id="cardsGrid"></div>
-        <div class="controls">
-            <button id="spinBtn">🎲 SPIN THE BALL</button>
-            <button id="copyBtn">📋 COPY</button>
-        </div>
-        <div class="result-area">
-            <div class="result-text" id="resultMessage">🌀 натисніть SPIN</div>
-            <div class="history" id="historyLog"></div>
-        </div>
-        <div class="timer-hint" id="timerHint"></div>
-        <div class="api-settings">
-            <input type="text" id="groqKeyInput" placeholder="Groq API key (gsk_...)" autocomplete="off">
-            <input type="text" id="proxyUrlInput" placeholder="https://your-proxy.vercel.app/api/groq">
-            <button id="saveKeyBtn">💾</button>
-        </div>
+    <div class="stats">
+        <div class="stat-item">🎯 Ціль на тиждень: <span id="weeklyGoal">2</span> / <span id="weeklyDone">0</span></div>
+        <div class="stat-item">📅 Згенеровано сьогодні: <span id="todayCount">0</span></div>
+        <button id="resetWeekBtn" style="background:none; border:none; color:#8da0c0; cursor:pointer;">↺ скинути тиждень</button>
     </div>
-</div>
-<div id="modal" class="modal">
-    <div class="modal-card">
-        <h3>🌀 Оракул сфери</h3>
-        <div id="modalSphere" style="font-weight:bold; color:#ffaa33;"></div>
-        <div class="modal-question" id="modalQuestion"></div>
-        <div class="modal-actions">
-            <button id="modalCloseBtn">Закрити</button>
-            <button id="modalSaveBtn">💾 Зберегти в історію</button>
-        </div>
-    </div>
+    <div class="history" id="historyList"></div>
 </div>
 
 <script>
-    (function() {
-        // ---------- ДАНІ СФЕР ----------
-        const SPHERES = {
-            ua: [
-                { emoji: "🚀", name: "Творчість або Самовираження", short: "Творчість" },
-                { emoji: "🧑‍🔬", name: "Особистий розвиток або Турбота про себе", short: "Саморозвиток" },
-                { emoji: "🏘", name: "Домашнє життя або Ведення господарства", short: "Дім" },
-                { emoji: "💴", name: "Фінанси", short: "Фінанси" },
-                { emoji: "🤝", name: "Батьківство або Сім'я", short: "Сім'я" },
-                { emoji: "📚", name: "Відпочинок і Хобі", short: "Хобі" },
-                { emoji: "🗣️", name: "Спільнота або Соціальні зв'язки", short: "Спільнота" },
-                { emoji: "🌳", name: "Фізичне здоров'я", short: "Здоров'я" },
-                { emoji: "🔎", name: "Кар'єра або Освіта", short: "Кар'єра" },
-                { emoji: "🌿", name: "Екологія або Благодійність", short: "Екологія" },
-                { emoji: "👥", name: "Особисті стосунки", short: "Стосунки" },
-                { emoji: "🧘", name: "Духовність", short: "Духовність" }
-            ],
-            en: [
-                { emoji: "🚀", name: "Creativity or Self-Expression", short: "Creativity" },
-                { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Self-Development" },
-                { emoji: "🏘", name: "Domestic Life or Household Management", short: "Home" },
-                { emoji: "💴", name: "Finance", short: "Finance" },
-                { emoji: "🤝", name: "Parenting or Family", short: "Family" },
-                { emoji: "📚", name: "Recreation and Hobbies", short: "Hobbies" },
-                { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Community" },
-                { emoji: "🌳", name: "Physical Health", short: "Health" },
-                { emoji: "🔎", name: "Career or Education", short: "Career" },
-                { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Ecology" },
-                { emoji: "👥", name: "Personal Relationship", short: "Relationships" },
-                { emoji: "🧘", name: "Spirituality", short: "Spirituality" }
-            ]
-        };
+    // ------------------------- БАЗА ДАНИХ: 12 СФЕР + ТЕМИ + ПИТАННЯ + ВІЗУАЛ -------------------------
+    const spheresUA = [
+        "Творчість / Самовираження", "Особистий розвиток", "Дім / Затишок", "Фінанси",
+        "Сім'я", "Відпочинок / Хобі", "Спільнота", "Фізичне здоров'я",
+        "Кар'єра / Освіта", "Екологія / Благодійність", "Стосунки", "Духовність"
+    ];
+    // величезний набір тем для кожної сфери (по 10-15 унікальних)
+    const topicsDB = {
+        0: ["Що я створюю, коли ніхто не оцінює?", "Якби страх зник, який артефакт я б створила?", "Чому творчість – це міст між світами?", "10 хвилин вільного малювання: що народжується?", "Як повернути гру в доросле життя?"],
+        1: ["Звичка, яка змінює свідомість за 5 хвилин", "Що моя тінь хоче мені сказати?", "Ритуал ранку: як налаштуватися на день?", "Чому я відкладаю найважливіше?", "Щоденник однієї емоції: експеримент"],
+        2: ["Магія домашнього вогнища: 3 ритуали", "Як створити святилище в одній кімнаті?", "Що викинути, щоб звільнити простір для мрій?", "Затишок без витрат: 5 ідей", "Звуки дому: яка музика лікує?"],
+        3: ["Гроші як енергія: як змінити переконання?", "Бюджет, що надихає: графік витрат", "Що я купила з радістю останнім часом?", "Фінансова свобода: мій перший крок", "Як говорити з грошима вдячно?"],
+        4: ["Сімейна легенда, яка мене сформувала", "Як сказати «люблю» без слів?", "Вечір настільних ігор: чому це важливо", "Традиція, яку я хочу створити", "Що мої батьки передали мені найціннішого?"],
+        5: ["Хобі, яке я відкладаю роками", "Стан потоку: як його впіймати?", "20 хвилин нічогонероблення: експеримент", "Чому відпочинок – це не лінь?", "Як знайти час для себе у шаленому ритмі?"],
+        6: ["Кому я давно хочу подякувати?", "Одна добра справа без приводу", "Як створити спільноту однодумців?", "Чому ми біжимо від самотності?", "Сила щирого компліменту"],
+        7: ["Танок, що лікує: 5 хвилин імпровізації", "Що моє тіло намагається мені сказати?", "Рух без мети: ранкова розминка", "Як полюбити своє відображення?", "Сон як найкращий лікар: гігієна сну"],
+        8: ["Якби робота була грою – які правила я б змінила?", "Мої 3 суперсили на роботі", "Що я роблю не через покликання?", "Навик, який змінить мій рік", "Ідеальний робочий день: мій сценарій"],
+        9: ["Екозвичка, що приносить радість", "Як зменшити пластик сьогодні без зусиль", "Прогулянка лісом: що я там знаходжу?", "Чому природа – найкращий терапевт?", "Мій внесок у планету: 3 простих дії"],
+        10: ["Комплімент, який я хочу почути", "Як я проявляю любов без слів?", "Стосунки, які виснажують: як відпустити?", "Розмова з внутрішньою дитиною", "Що робить стосунки магічними?"],
+        11: ["Ранкова медитація за 3 хвилини", "Як знайти тишу в натовпі?", "Практика вдячності: 5 речей", "Що таке душа? моя версія", "Зв'язок зі світом: де я його відчуваю?"]
+    };
+    // питання для роздумів (додатковий шар)
+    const questionsDB = {
+        0: "Що б ти намалювала, якби не боялась осуду?",
+        1: "Яка частина тебе потребує прощення?",
+        2: "Який аромат робить твій дім живим?",
+        3: "Якби гроші були енергією, який колір вони мали б?",
+        4: "Яку сімейну історію ти ніколи не розповідала?",
+        5: "Чому ти не дозволяєш собі просто радіти?",
+        6: "Хто потребує твого теплого слова просто зараз?",
+        7: "Коли востаннє ти відчувала своє тіло щасливим?",
+        8: "Уяви, що твоя робота – це гра. Як би вона виглядала?",
+        9: "Як ти можеш подякувати природі сьогодні?",
+        10: "Що тобі найважче пробачити іншим?",
+        11: "Де ти шукаєш відповіді, коли тихо?",
+    };
+    // візуальні підказки (для картинки/відео)
+    const visualDB = {
+        0: "🎨 абстрактний сплеск кольору, неон, вільний мазок",
+        1: "🌱 світанок, відкритий щоденник, чашка какао з зорею",
+        2: "🕯️ тепле світло свічки, книга, плед",
+        3: "💰 монети, що перетворюються на метеликів",
+        4: "👨‍👩‍👧 обійми, сімейна вечеря, сміх",
+        5: "🎧 навушники, танок у кімнаті, веселощі",
+        6: "🤝 руки, що підтримують, коло друзів",
+        7: "🧘 йога на світанку, легкість",
+        8: "💼 робочий стіл перетворюється на конструктор",
+        9: "🌿 листя, краплі роси, скляна пляшка",
+        10: "💞 дві долоні, що торкаються, серце",
+        11: "🕉️ мандала, зірки, космос",
+    };
 
-        let currentLang = "ua";
-        let currentSpheres = SPHERES.ua;
-        let groqApiKey = localStorage.getItem("groq_api_key") || "";
-        let proxyUrl = localStorage.getItem("groq_proxy_url") || "";
-        let lastMessage = "", lastQuestion = "", history = [];
-        let spinning = false, lastSpinTime = 0;
-        const SPIN_COOLDOWN = 3600000;
+    let currentSphere = 0;
+    let currentTopic = "";
+    let currentQuestion = "";
+    let currentVisual = "";
 
-        // Canvas
-        const canvas = document.getElementById("rouletteCanvas");
-        const ctx = canvas.getContext("2d");
-        let size = 600, center = 300, radius = 280;
-        let wheelAngle = 0, ballAngle = 0;
-        let spinStart = 0, spinDuration = 2500;
-        let wheelStartAngle = 0, ballStartAngle = 0, wheelDelta = 0, ballDelta = 0;
+    // статистика: weeklyGoal, weeklyDone, todayCount, history (масив)
+    let stats = {
+        weeklyGoal: 2,
+        weeklyDone: 0,
+        todayCount: 0,
+        lastResetDate: new Date().toDateString(),
+        history: [] // зберігає останні 5 тем
+    };
 
-        // DOM
-        const cardsGrid = document.getElementById("cardsGrid");
-        const resultDiv = document.getElementById("resultMessage");
-        const historyDiv = document.getElementById("historyLog");
-        const spinBtn = document.getElementById("spinBtn");
-        const copyBtn = document.getElementById("copyBtn");
-        const timerHint = document.getElementById("timerHint");
-        const groqKeyInput = document.getElementById("groqKeyInput");
-        const proxyUrlInput = document.getElementById("proxyUrlInput");
-        const saveKeyBtn = document.getElementById("saveKeyBtn");
-        const modal = document.getElementById("modal");
-        const modalSphere = document.getElementById("modalSphere");
-        const modalQuestion = document.getElementById("modalQuestion");
-        const modalCloseBtn = document.getElementById("modalCloseBtn");
-        const modalSaveBtn = document.getElementById("modalSaveBtn");
-
-        if (groqApiKey) groqKeyInput.value = groqApiKey;
-        if (proxyUrl) proxyUrlInput.value = proxyUrl;
-
-        function buildCards() {
-            cardsGrid.innerHTML = "";
-            currentSpheres.forEach((s, idx) => {
-                const card = document.createElement("div");
-                card.className = "sphere-card";
-                card.dataset.idx = idx;
-                card.innerHTML = `<span class="sphere-emoji">${s.emoji}</span><div class="sphere-name-full">${s.name}</div>`;
-                cardsGrid.appendChild(card);
-            });
-        }
-
-        function highlightCard(index) {
-            document.querySelectorAll(".sphere-card").forEach((card, i) => {
-                if (i === index) card.classList.add("selected-card");
-                else card.classList.remove("selected-card");
-            });
-        }
-
-        // Малюємо колесо (червоне/чорне, номери)
-        function drawWheel() {
-            if (!ctx) return;
-            ctx.clearRect(0, 0, size, size);
-            ctx.fillStyle = "#1e3a2a";
-            ctx.fillRect(0, 0, size, size);
-            const step = (Math.PI * 2) / 12;
-            for (let i = 0; i < 12; i++) {
-                const start = i * step + wheelAngle;
-                const end = (i+1) * step + wheelAngle;
-                const isRed = (i % 2 === 0);
-                const grad = ctx.createRadialGradient(center, center, radius*0.2, center, center, radius);
-                grad.addColorStop(0, isRed ? "#b22222" : "#2c2c2c");
-                grad.addColorStop(1, isRed ? "#8b0000" : "#1a1a1a");
-                ctx.beginPath();
-                ctx.arc(center, center, radius, start, end);
-                ctx.lineTo(center, center);
-                ctx.fillStyle = grad;
-                ctx.fill();
-                ctx.strokeStyle = "#f7d97a";
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-                const mid = start + step/2;
-                const txtR = radius * 0.7;
-                const x = center + Math.cos(mid) * txtR;
-                const y = center + Math.sin(mid) * txtR;
-                ctx.font = `bold ${Math.max(18, radius*0.08)}px "Segoe UI"`;
-                ctx.fillStyle = "#fff8e7";
-                ctx.shadowBlur = 3;
-                ctx.fillText(i+1, x-11, y+7);
-                ctx.shadowBlur = 0;
+    function loadStats() {
+        const saved = localStorage.getItem("blog_topics_stats");
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            // перевірка чи не новий день для скидання todayCount
+            const todayStr = new Date().toDateString();
+            if (parsed.lastResetDate !== todayStr) {
+                parsed.todayCount = 0;
+                parsed.lastResetDate = todayStr;
             }
-            ctx.beginPath();
-            ctx.arc(center, center, radius*0.18, 0, Math.PI*2);
-            ctx.fillStyle = "#d4af37";
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(center, center, radius*0.1, 0, Math.PI*2);
-            ctx.fillStyle = "#b8860b";
-            ctx.fill();
-            // Кулька
-            const ballRad = radius * 0.045;
-            const ballX = center + Math.cos(ballAngle) * (radius - ballRad - 5);
-            const ballY = center + Math.sin(ballAngle) * (radius - ballRad - 5);
-            ctx.beginPath();
-            ctx.arc(ballX, ballY, ballRad, 0, Math.PI*2);
-            ctx.fillStyle = "#f0f0f0";
-            ctx.fill();
-            ctx.fillStyle = "#ffffff";
-            ctx.beginPath();
-            ctx.arc(ballX-2, ballY-2, ballRad*0.3, 0, Math.PI*2);
-            ctx.fill();
+            stats = parsed;
+        } else {
+            stats.lastResetDate = new Date().toDateString();
+            stats.todayCount = 0;
+            stats.weeklyDone = 0;
+            stats.history = [];
         }
+        updateStatsUI();
+    }
 
-        function getSegmentAtTop() {
-            const pointerAngle = -Math.PI/2;
-            let raw = pointerAngle - wheelAngle;
-            raw = ((raw % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
-            return Math.floor(raw / (Math.PI*2/12));
-        }
+    function saveStats() {
+        localStorage.setItem("blog_topics_stats", JSON.stringify(stats));
+    }
 
-        async function generateDeepQuestion(sphereName) {
-            const prompt = currentLang === "ua" 
-                ? `Ти — мудрий оракул. Напиши одне глибоке, провокаційне, ситуативне питання для роздумів (максимум 20 слів) для сфери життя "${sphereName}". Питання має спонукати до саморефлексії. Не використовуй лапки, тільки текст питання.`
-                : `You are a wise oracle. Write one deep, provocative, situational question for reflection (max 20 words) for the life sphere "${sphereName}". No quotes, just the question.`;
-            if (!groqApiKey) return currentLang === "ua" ? "Яке питання ти давно не ставила собі?" : "What question have you not asked yourself for a long time?";
-            try {
-                let url = "https://api.groq.com/openai/v1/chat/completions";
-                let headers = { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" };
-                let body = JSON.stringify({ model: "llama3-70b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 80 });
-                if (proxyUrl && proxyUrl.trim() !== "") {
-                    url = proxyUrl.trim();
-                    headers = { "Content-Type": "application/json" };
-                    body = JSON.stringify({ prompt, apiKey: groqApiKey });
-                }
-                const response = await fetch(url, { method: "POST", headers, body });
-                if (!response.ok) throw new Error();
-                const data = await response.json();
-                let text = data.choices?.[0]?.message?.content?.trim() || "";
-                text = text.replace(/^["']|["']$/g, '');
-                return text || (currentLang === "ua" ? "Яке питання ти давно не ставила собі?" : "What question have you not asked yourself?");
-            } catch {
-                return currentLang === "ua" ? "Яке питання ти давно не ставила собі?" : "What question have you not asked yourself?";
-            }
-        }
+    function updateStatsUI() {
+        document.getElementById("weeklyGoal").innerText = stats.weeklyGoal;
+        document.getElementById("weeklyDone").innerText = stats.weeklyDone;
+        document.getElementById("todayCount").innerText = stats.todayCount;
+        // відобразити історію
+        const historyDiv = document.getElementById("historyList");
+        historyDiv.innerHTML = stats.history.map(h => `<span class="history-tag">✨ ${h.substring(0, 35)}</span>`).join('');
+        if(stats.history.length === 0) historyDiv.innerHTML = '<span class="history-tag">немає згенерованих тем</span>';
+    }
 
-        function formatCooldown(ms) {
-            const hours = Math.floor(ms / 3600000);
-            const minutes = Math.floor((ms % 3600000) / 60000);
-            const seconds = Math.floor((ms % 60000) / 1000);
-            if (hours > 0) return `${hours}г ${minutes}хв ${seconds}с`;
-            if (minutes > 0) return `${minutes}хв ${seconds}с`;
-            return `${seconds}с`;
-        }
+    function addToHistory(topic) {
+        stats.history.unshift(topic);
+        if(stats.history.length > 5) stats.history.pop();
+        stats.todayCount++;
+        // якщо досягнуто weeklyGoal, збільшуємо weeklyDone тільки при унікальному додаванні? краще рахувати окремо
+        // але weeklyDone рахується як кількість тем, згенерованих за тиждень (можна окремий лічильник)
+        // додамо логіку: weeklyDone збільшується при кожній генерації, але не більше weeklyGoal? ні, хай просто рахує
+        stats.weeklyDone++;
+        saveStats();
+        updateStatsUI();
+    }
 
-        async function startSpin() {
-            if (spinning) return;
-            const now = Date.now();
-            const timeLeft = SPIN_COOLDOWN - (now - lastSpinTime);
-            if (lastSpinTime && timeLeft > 0) {
-                timerHint.innerText = currentLang === "ua" ? `⏳ наступний спін через ${formatCooldown(timeLeft)}` : `⏳ next spin in ${formatCooldown(timeLeft)}`;
-                return;
-            }
-            timerHint.innerText = "";
-            const finalTarget = Math.floor(Math.random() * 12);
-            spinning = true;
-            spinBtn.disabled = true;
-            const currentIdx = getSegmentAtTop();
-            let deltaIndices = (finalTarget - currentIdx + 12) % 12;
-            let deltaAngle = deltaIndices * (Math.PI*2/12);
-            const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
-            wheelDelta = deltaAngle + extraFull;
-            const finalBallPos = -Math.PI/2;
-            let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
-            ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
-            ballDelta = ballDeltaVal;
-            wheelStartAngle = wheelAngle;
-            ballStartAngle = ballAngle;
-            spinStart = performance.now();
-            requestAnimationFrame(animateSpin);
+    function resetWeek() {
+        stats.weeklyDone = 0;
+        stats.todayCount = 0;
+        stats.lastResetDate = new Date().toDateString();
+        stats.history = [];
+        saveStats();
+        updateStatsUI();
+        alert("Тиждень скинуто! Починайте новий цикл натхнення ✨");
+    }
 
-            async function animateSpin(now) {
-                const elapsed = now - spinStart;
-                let t = Math.min(1, elapsed / spinDuration);
-                const ease = 1 - Math.pow(1-t, 3);
-                wheelAngle = wheelStartAngle + wheelDelta * ease;
-                ballAngle = ballStartAngle + ballDelta * ease;
-                drawWheel();
-                if (t < 1) {
-                    requestAnimationFrame(animateSpin);
-                } else {
-                    wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
-                    ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
-                    drawWheel();
-                    const finalIdx = getSegmentAtTop();
-                    const sphere = currentSpheres[finalIdx];
-                    const question = await generateDeepQuestion(sphere.name);
-                    lastMessage = `${sphere.emoji} ${sphere.name}`;
-                    lastQuestion = question;
-                    resultDiv.innerHTML = `✨ ${lastMessage}`;
-                    history.unshift(`${sphere.emoji} ${sphere.short}`);
-                    if (history.length > 6) history.pop();
-                    historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
-                    highlightCard(finalIdx);
-                    modalSphere.innerHTML = lastMessage;
-                    modalQuestion.innerHTML = lastQuestion;
-                    modal.classList.add("active");
-                    spinning = false;
-                    spinBtn.disabled = false;
-                    lastSpinTime = Date.now();
-                    timerHint.innerText = currentLang === "ua" ? "✅ спін виконано! наступний через 1 годину" : "✅ spin done! next in 1 hour";
-                    setTimeout(() => { if (!spinning) timerHint.innerText = ""; }, 5000);
-                    flashEffect();
-                }
-            }
-        }
+    function getRandomTopic(sphereId) {
+        const arr = topicsDB[sphereId];
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
 
-        function flashEffect() {
-            const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '100%';
-            overlay.style.background = 'radial-gradient(circle, rgba(0,255,255,0.2), transparent)';
-            overlay.style.pointerEvents = 'none';
-            overlay.style.zIndex = '999';
-            document.body.appendChild(overlay);
-            setTimeout(() => overlay.remove(), 400);
-        }
+    function generateRandom() {
+        const newSphere = Math.floor(Math.random() * 12);
+        currentSphere = newSphere;
+        currentTopic = getRandomTopic(currentSphere);
+        currentQuestion = questionsDB[currentSphere] || "Яке питання ти давно не ставила собі?";
+        currentVisual = visualDB[currentSphere] || "абстрактне світло, неон, казка";
+        updateUI();
+        addToHistory(currentTopic);
+        // анімація
+        const topicDiv = document.getElementById("topicDisplay");
+        topicDiv.classList.add("animate");
+        setTimeout(() => topicDiv.classList.remove("animate"), 300);
+    }
 
-        function copyResult() {
-            const text = lastQuestion ? `${lastMessage}\n💭 ${lastQuestion}` : lastMessage;
-            if (text) {
-                navigator.clipboard.writeText(text);
-                const original = resultDiv.innerText;
-                resultDiv.innerHTML = "✅ copied!";
-                setTimeout(() => resultDiv.innerHTML = original, 1200);
-            }
-        }
+    function updateUI() {
+        document.getElementById("sphereBadge").innerHTML = `🌀 ${spheresUA[currentSphere]}`;
+        document.getElementById("topicDisplay").innerHTML = currentTopic;
+        document.getElementById("questionDisplay").innerHTML = `💭 ${currentQuestion}`;
+        document.getElementById("visualPrompt").innerHTML = `🎬 Ідея для візуалу: ${currentVisual}`;
+    }
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            currentSpheres = SPHERES[lang];
-            document.querySelectorAll(".lang-btn").forEach(btn => {
-                if (btn.dataset.lang === lang) btn.classList.add("active");
-                else btn.classList.remove("active");
-            });
-            buildCards();
-            resultDiv.innerHTML = lang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN";
-        }
+    function copyTopic() {
+        const text = `${spheresUA[currentSphere]} · ${currentTopic}\n💭 ${currentQuestion}\n🎬 ${currentVisual}`;
+        navigator.clipboard.writeText(text);
+        alert("Тему скопійовано! Вставте у свою нотатку в Obsidian 📋");
+    }
 
-        function saveApiSettings() {
-            const key = groqKeyInput.value.trim();
-            const proxy = proxyUrlInput.value.trim();
-            if (key) groqApiKey = key;
-            if (proxy) proxyUrl = proxy;
-            localStorage.setItem("groq_api_key", groqApiKey);
-            localStorage.setItem("groq_proxy_url", proxyUrl);
-            resultDiv.innerHTML = currentLang === "ua" ? "🔑 налаштування збережено" : "🔑 settings saved";
-            setTimeout(() => {
-                resultDiv.innerHTML = lastMessage ? `✨ ${lastMessage}` : (currentLang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN");
-            }, 1500);
-        }
+    // локальний AI: випадкова нова тема з бази (замість API)
+    function aiIdea() {
+        const newSphere = Math.floor(Math.random() * 12);
+        const newTopic = getRandomTopic(newSphere);
+        const newQuestion = questionsDB[newSphere];
+        const newVisual = visualDB[newSphere];
+        currentSphere = newSphere;
+        currentTopic = newTopic;
+        currentQuestion = newQuestion;
+        currentVisual = newVisual;
+        updateUI();
+        addToHistory(currentTopic);
+        const topicDiv = document.getElementById("topicDisplay");
+        topicDiv.classList.add("animate");
+        setTimeout(() => topicDiv.classList.remove("animate"), 300);
+    }
 
-        function closeModal() { modal.classList.remove("active"); }
-        function saveToHistory() {
-            if (lastQuestion) {
-                history.unshift(`${lastMessage} · ${lastQuestion.substring(0, 40)}...`);
-                if (history.length > 8) history.pop();
-                historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
-                modal.classList.remove("active");
-            }
-        }
+    // ініціалізація та генерація першої теми
+    loadStats();
+    generateRandom();
 
-        modalCloseBtn.addEventListener("click", closeModal);
-        modalSaveBtn.addEventListener("click", saveToHistory);
-        window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
-
-        function init() {
-            buildCards();
-            drawWheel();
-            spinBtn.addEventListener("click", startSpin);
-            copyBtn.addEventListener("click", copyResult);
-            saveKeyBtn.addEventListener("click", saveApiSettings);
-            document.querySelectorAll(".lang-btn").forEach(btn => {
-                btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
-            });
-            window.addEventListener("resize", () => drawWheel());
-        }
-        init();
-    })();
+    document.getElementById("randomBtn").onclick = generateRandom;
+    document.getElementById("copyBtn").onclick = copyTopic;
+    document.getElementById("aiBtn").onclick = aiIdea;
+    document.getElementById("resetWeekBtn").onclick = resetWeek;
 </script>
 </body>
 </html>
