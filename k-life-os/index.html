@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎡 Рулетка Сфер · Неоновий Оракул</title>
+    <title>🎡 Рулетка Сфер · Неоновий Оракул (з вогниками)</title>
     <style>
         * {
             margin: 0;
@@ -20,7 +20,6 @@
             align-items: center;
             padding: 1rem;
         }
-        /* неонова оболонка */
         .roulette-layout {
             max-width: 1500px;
             width: 100%;
@@ -45,7 +44,7 @@
         }
         canvas {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             height: auto;
             background: #1a3a2a;
             border-radius: 50%;
@@ -53,7 +52,7 @@
             transition: box-shadow 0.2s;
         }
         canvas:hover {
-            box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 0 40px cyan;
+            box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 0 45px cyan;
         }
         .betting-area {
             flex: 0.9;
@@ -219,14 +218,13 @@
             padding: 0.2rem;
             border-radius: 2rem;
         }
-        /* Модальне вікно */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
@@ -355,7 +353,6 @@
             ]
         };
 
-        // Локальна база глибоких питань (fallback)
         const FALLBACK_QUESTIONS = {
             ua: [
                 "Якби страх зник, що б ти створила?",
@@ -399,7 +396,7 @@
         let lastSpinTime = 0;
         const SPIN_COOLDOWN = 3600000; // 1 година
 
-        // Canvas
+        // Canvas wheel
         const canvas = document.getElementById("rouletteCanvas");
         const ctx = canvas.getContext("2d");
         let size = 600, center = 300, radius = 280;
@@ -448,6 +445,7 @@
             });
         }
 
+        // ========== РУЛЕТКА З ВОГНИКАМИ ==========
         function drawWheel() {
             if (!ctx) return;
             ctx.clearRect(0, 0, size, size);
@@ -471,6 +469,7 @@
                 ctx.strokeStyle = "#f7d97a";
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
+                // номер сектора
                 const mid = start + step/2;
                 const txtR = radius * 0.7;
                 const x = center + Math.cos(mid) * txtR;
@@ -481,6 +480,7 @@
                 ctx.fillText(i+1, x-11, y+7);
                 ctx.shadowBlur = 0;
             }
+            // центральне коло
             ctx.beginPath();
             ctx.arc(center, center, radius*0.18, 0, Math.PI*2);
             ctx.fillStyle = "#d4af37";
@@ -489,6 +489,25 @@
             ctx.arc(center, center, radius*0.1, 0, Math.PI*2);
             ctx.fillStyle = "#b8860b";
             ctx.fill();
+            // ** ВОГНИКИ (12 шт) по зовнішньому колу **
+            const lightRadius = radius + 12;
+            for (let i = 0; i < 12; i++) {
+                const angle = i * step + wheelAngle + step/2;
+                const lx = center + Math.cos(angle) * lightRadius;
+                const ly = center + Math.sin(angle) * lightRadius;
+                ctx.beginPath();
+                ctx.arc(lx, ly, 6, 0, Math.PI*2);
+                const gradLight = ctx.createRadialGradient(lx-2, ly-2, 2, lx, ly, 8);
+                gradLight.addColorStop(0, "#ffdd88");
+                gradLight.addColorStop(1, "#ff6600");
+                ctx.fillStyle = gradLight;
+                ctx.fill();
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = "orange";
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+            // малюємо кульку поверх всього
             const ballRad = radius * 0.045;
             const ballX = center + Math.cos(ballAngle) * (radius - ballRad - 5);
             const ballY = center + Math.sin(ballAngle) * (radius - ballRad - 5);
@@ -561,19 +580,23 @@
             const finalTarget = Math.floor(Math.random() * 12);
             spinning = true;
             spinBtn.disabled = true;
+            
             const currentIdx = getSegmentAtTop();
             let deltaIndices = (finalTarget - currentIdx + 12) % 12;
             let deltaAngle = deltaIndices * (Math.PI*2/12);
             const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
             wheelDelta = deltaAngle + extraFull;
+            
             const finalBallPos = -Math.PI/2;
             let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
             ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
             ballDelta = ballDeltaVal;
+            
             wheelStartAngle = wheelAngle;
             ballStartAngle = ballAngle;
             spinStart = performance.now();
             requestAnimationFrame(animateSpin);
+            
             async function animateSpin(now) {
                 const elapsed = now - spinStart;
                 let t = Math.min(1, elapsed / spinDuration);
@@ -598,7 +621,6 @@
                     if (history.length > 6) history.pop();
                     historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
                     highlightCard(finalIdx);
-                    // показати модалку з питанням
                     modalSphere.innerHTML = lastMessage;
                     modalQuestion.innerHTML = lastQuestion;
                     modal.classList.add("active");
@@ -662,10 +684,7 @@
             }, 1500);
         }
 
-        function closeModal() {
-            modal.classList.remove("active");
-        }
-
+        function closeModal() { modal.classList.remove("active"); }
         function saveToHistory() {
             if (lastQuestion) {
                 history.unshift(`${lastMessage} · ${lastQuestion.substring(0, 40)}...`);
