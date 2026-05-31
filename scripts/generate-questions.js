@@ -44,7 +44,7 @@ async function generate(lang, sphere) {
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 0.9, max_tokens: 80 })
+    body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 0.9, max_tokens: 80 })
   });
   const data = await res.json();
   if (!res.ok) {
