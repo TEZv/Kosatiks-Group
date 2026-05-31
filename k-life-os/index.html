@@ -528,35 +528,23 @@
             return Math.floor(raw / (Math.PI*2/12));
         }
 
-        async function generateDeepQuestion(sphereName) {
-            const prompt = currentLang === "ua" 
-                ? `Ти — мудрий оракул. Напиши одне глибоке, провокаційне, ситуативне питання для роздумів (максимум 20 слів) для сфери життя "${sphereName}". Питання має спонукати до саморефлексії. Не використовуй лапки, тільки текст питання.`
-                : `You are a wise oracle. Write one deep, provocative, situational question for reflection (max 20 words) for the life sphere "${sphereName}". The question should encourage self-reflection. No quotes, just the question text.`;
-            
-            if (!groqApiKey) {
-                const fallbackList = FALLBACK_QUESTIONS[currentLang];
-                return fallbackList[Math.floor(Math.random() * fallbackList.length)];
-            }
+        let cachedQuestions = null;
+        async function loadQuestions() {
+            if (cachedQuestions) return cachedQuestions;
             try {
-                let url = "https://api.groq.com/openai/v1/chat/completions";
-                let headers = { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" };
-                let body = JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 80 });
-                if (proxyUrl && proxyUrl.trim() !== "") {
-                    url = proxyUrl.trim();
-                    headers = { "Content-Type": "application/json" };
-                    body = JSON.stringify({ prompt, apiKey: groqApiKey });
-                }
-                const response = await fetch(url, { method: "POST", headers, body });
-                if (!response.ok) throw new Error();
-                const data = await response.json();
-                let text = data.choices?.[0]?.message?.content?.trim() || "";
-                text = text.replace(/^["']|["']$/g, '');
-                if (text.length === 0) throw new Error();
-                return text;
-            } catch (err) {
-                const fallbackList = FALLBACK_QUESTIONS[currentLang];
-                return fallbackList[Math.floor(Math.random() * fallbackList.length)];
+                const r = await fetch('questions.json?t=' + Date.now());
+                cachedQuestions = await r.json();
+                return cachedQuestions;
+            } catch { return null; }
+        }
+
+        async function generateDeepQuestion(sphereName) {
+            const q = await loadQuestions();
+            if (q && q[currentLang] && q[currentLang][sphereName]) {
+                return q[currentLang][sphereName];
             }
+            const fallbackList = FALLBACK_QUESTIONS[currentLang];
+            return fallbackList[Math.floor(Math.random() * fallbackList.length)];
         }
 
         function formatCooldown(ms) {
