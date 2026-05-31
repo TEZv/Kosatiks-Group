@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎡 Рулетка Сфер · Колесо Життя (1 година між спінами)</title>
+    <title>🎡 Рулетка Сфер · Оракул Життя</title>
     <style>
         * {
             margin: 0;
@@ -141,7 +141,6 @@
             font-weight: bold;
             word-break: break-word;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            /* без cursor pointer — не клікабельні */
         }
         .sphere-card.selected-card {
             background: radial-gradient(circle, #f5b042, #b45f1b);
@@ -186,7 +185,20 @@
             border: 1px solid #d4af37;
             text-align: center;
         }
-        .result-text { color: #f9e2a1; font-size: 0.8rem; word-break: break-word; }
+        .result-text {
+            color: #f9e2a1;
+            font-size: 0.85rem;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+        .question-text {
+            color: #ffdfa0;
+            font-style: italic;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            border-top: 1px dashed #d4af37;
+            padding-top: 0.5rem;
+        }
         .history {
             margin-top: 0.4rem;
             font-size: 0.65rem;
@@ -231,6 +243,7 @@
         </div>
         <div class="result-area">
             <div class="result-text" id="resultMessage">🌀 натисніть SPIN</div>
+            <div class="question-text" id="questionMessage"></div>
             <div class="history" id="historyLog"></div>
         </div>
         <div class="timer-hint" id="timerHint"></div>
@@ -276,16 +289,48 @@
             ]
         };
 
+        // Локальна база глибоких питань (fallback)
+        const FALLBACK_QUESTIONS = {
+            ua: {
+                0: "Якби страх зник, що б ти створила?",
+                1: "Яка звичка виснажує тебе, але ти її тримаєшся?",
+                2: "Який емоційний слід залишив твій дім у твоїй душі?",
+                3: "Якби гроші не мали значення, чим би ти займалась?",
+                4: "Яку роль ти граєш у сім'ї, і чи хочеш її змінити?",
+                5: "Чому ти не дозволяєш собі відпочивати без провини?",
+                6: "Де ти шукаєш прийняття, але не знаходиш?",
+                7: "Як твоє тіло намагається з тобою говорити?",
+                8: "Що ти робиш не через покликання, а через страх?",
+                9: "Як твоя повсякденність впливає на планету?",
+                10: "Які стосунки ти терпиш, хоча вони тебе руйнують?",
+                11: "Де ти втрачаєш себе, намагаючись догодити іншим?"
+            },
+            en: {
+                0: "If fear disappeared, what would you create?",
+                1: "Which habit drains you but you keep it?",
+                2: "What emotional trace did your home leave in your soul?",
+                3: "If money didn't matter, what would you do?",
+                4: "What role do you play in your family – do you want to change it?",
+                5: "Why don't you allow yourself to rest without guilt?",
+                6: "Where do you seek acceptance but don't find it?",
+                7: "How is your body trying to speak to you?",
+                8: "What do you do not out of calling but out of fear?",
+                9: "How does your daily life affect the planet?",
+                10: "Which relationships do you tolerate though they harm you?",
+                11: "Where do you lose yourself trying to please others?"
+            }
+        };
+
         let currentLang = "ua";
         let currentSpheres = SPHERES.ua;
         let groqApiKey = localStorage.getItem("groq_api_key") || "";
         let proxyUrl = localStorage.getItem("groq_proxy_url") || "";
         let lastMessage = "";
+        let lastQuestion = "";
         let history = [];
         let spinning = false;
         let lastSpinTime = 0;
-        // 1 година в мілісекундах
-        const SPIN_COOLDOWN = 3600000; // 60 * 60 * 1000
+        const SPIN_COOLDOWN = 3600000; // 1 година
 
         // Canvas wheel
         const canvas = document.getElementById("rouletteCanvas");
@@ -301,6 +346,7 @@
         // DOM
         const cardsGrid = document.getElementById("cardsGrid");
         const resultDiv = document.getElementById("resultMessage");
+        const questionDiv = document.getElementById("questionMessage");
         const historyDiv = document.getElementById("historyLog");
         const spinBtn = document.getElementById("spinBtn");
         const copyBtn = document.getElementById("copyBtn");
@@ -312,7 +358,7 @@
         if (groqApiKey) groqKeyInput.value = groqApiKey;
         if (proxyUrl) proxyUrlInput.value = proxyUrl;
 
-        // Побудова карток (без обробників кліку)
+        // Побудова карток (неклікабельні)
         function buildCards() {
             cardsGrid.innerHTML = "";
             currentSpheres.forEach((s, idx) => {
@@ -397,18 +443,22 @@
             return Math.floor(raw / (Math.PI*2/12));
         }
 
-        // AI генерація через Groq
-        async function generateAIPhrase(sphereName) {
+        // Генерація глибокого питання через Groq
+        async function generateDeepQuestion(sphereName) {
             const prompt = currentLang === "ua" 
-                ? `Ти — мудрий оракул. Напиши одне глибоке, натхненне речення (максимум 20 слів) для сфери життя "${sphereName}". Речення має спонукати до роздумів або дії. Не використовуй лапки, тільки текст.`
-                : `You are a wise oracle. Write one deep, inspiring sentence (max 20 words) for the life sphere "${sphereName}". The sentence should encourage reflection or action. No quotes, just text.`;
+                ? `Ти — мудрий оракул. Напиши одне глибоке, провокаційне, ситуативне питання для роздумів (максимум 20 слів) для сфери життя "${sphereName}". Питання має спонукати до саморефлексії. Не використовуй лапки, тільки текст питання.`
+                : `You are a wise oracle. Write one deep, provocative, situational question for reflection (max 20 words) for the life sphere "${sphereName}". The question should encourage self-reflection. No quotes, just the question text.`;
             
-            if (!groqApiKey) return currentLang === "ua" ? "✨ Віднайди свою глибину в цій сфері" : "✨ Discover your depth within this sphere";
+            if (!groqApiKey) {
+                // fallback з бази
+                const fallback = FALLBACK_QUESTIONS[currentLang];
+                return fallback ? (fallback[Math.floor(Math.random() * 12)] || "Яке питання ти давно не ставила собі?") : "Яке питання ти давно не ставила собі?";
+            }
             
             try {
                 let url = "https://api.groq.com/openai/v1/chat/completions";
                 let headers = { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" };
-                let body = JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 60 });
+                let body = JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 80 });
                 
                 if (proxyUrl && proxyUrl.trim() !== "") {
                     url = proxyUrl.trim();
@@ -425,11 +475,12 @@
                 return text;
             } catch (err) {
                 console.warn("AI fallback", err);
-                return currentLang === "ua" ? "✨ Віднайди свою глибину в цій сфері" : "✨ Discover your depth within this sphere";
+                const fallback = FALLBACK_QUESTIONS[currentLang];
+                return fallback ? (fallback[Math.floor(Math.random() * 12)] || "Яке питання ти давно не ставила собі?") : "Яке питання ти давно не ставила собі?";
             }
         }
 
-        // Форматування залишку часу
+        // Форматування часу
         function formatCooldown(ms) {
             const hours = Math.floor(ms / 3600000);
             const minutes = Math.floor((ms % 3600000) / 60000);
@@ -439,7 +490,7 @@
             return `${seconds}с`;
         }
 
-        // Запуск спіну (випадковий сектор)
+        // Запуск спіну
         async function startSpin() {
             if (spinning) return;
             const now = Date.now();
@@ -458,12 +509,14 @@
             spinning = true;
             spinBtn.disabled = true;
             
+            // Обчислюємо необхідний поворот колеса, щоб сектор finalTarget опинився під вказівником
             const currentIdx = getSegmentAtTop();
             let deltaIndices = (finalTarget - currentIdx + 12) % 12;
             let deltaAngle = deltaIndices * (Math.PI*2/12);
             const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
             wheelDelta = deltaAngle + extraFull;
             
+            // Кулька: багато обертів + фіксуємо у верхній точці (12 годин)
             const finalBallPos = -Math.PI/2;
             let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
             ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
@@ -489,9 +542,11 @@
                     drawWheel();
                     const finalIdx = getSegmentAtTop();
                     const sphere = currentSpheres[finalIdx];
-                    const phrase = await generateAIPhrase(sphere.name);
-                    lastMessage = `${sphere.emoji} ${sphere.name} · ${phrase}`;
+                    const question = await generateDeepQuestion(sphere.name);
+                    lastMessage = `${sphere.emoji} ${sphere.name}`;
+                    lastQuestion = question;
                     resultDiv.innerHTML = `✨ ${lastMessage}`;
+                    questionDiv.innerHTML = `💭 ${question}`;
                     history.unshift(`${sphere.emoji} ${sphere.short}`);
                     if (history.length > 6) history.pop();
                     historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
@@ -499,7 +554,6 @@
                     spinning = false;
                     spinBtn.disabled = false;
                     lastSpinTime = Date.now();
-                    // Показати повідомлення про наступний спін через годину
                     const timeUntilNext = SPIN_COOLDOWN;
                     const timeStr = formatCooldown(timeUntilNext);
                     timerHint.innerText = currentLang === "ua" 
@@ -528,8 +582,9 @@
         }
 
         function copyResult() {
-            if (lastMessage) {
-                navigator.clipboard.writeText(lastMessage);
+            const textToCopy = lastQuestion ? `${lastMessage}\n💭 ${lastQuestion}` : lastMessage;
+            if (textToCopy) {
+                navigator.clipboard.writeText(textToCopy);
                 const original = resultDiv.innerText;
                 resultDiv.innerHTML = "✅ copied!";
                 setTimeout(() => resultDiv.innerHTML = original, 1200);
@@ -551,6 +606,7 @@
             });
             buildCards();
             resultDiv.innerHTML = lang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN";
+            questionDiv.innerHTML = "";
         }
 
         function saveApiSettings() {
