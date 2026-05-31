@@ -1,724 +1,610 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Карта сфер: Колесо хобби и вдохновения</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      user-select: none;
-    }
-
-    body {
-      background: radial-gradient(circle at 10% 20%, #0a0f1e, #03060c);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-      padding: 20px;
-    }
-
-    /* главный контейнер */
-    .dashboard {
-      max-width: 1400px;
-      width: 100%;
-      background: rgba(15, 25, 45, 0.55);
-      backdrop-filter: blur(12px);
-      border-radius: 3rem;
-      padding: 1.8rem 2rem;
-      box-shadow: 0 25px 45px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,240,0.15);
-    }
-
-    /* верхняя панель: индикатор активной сферы и кнопка */
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 2rem;
-      border-bottom: 1px dashed rgba(255,215,150,0.3);
-      padding-bottom: 0.75rem;
-    }
-
-    .active-badge {
-      background: linear-gradient(135deg, #ffdf7e, #e0a800);
-      padding: 0.5rem 1.4rem;
-      border-radius: 60px;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #1a1f2c;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      backdrop-filter: blur(4px);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .active-badge span {
-      font-size: 1.5rem;
-    }
-
-    .cooldown-btn {
-      background: #2e3b4e;
-      border: none;
-      padding: 0.6rem 1.8rem;
-      border-radius: 60px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      font-family: inherit;
-      color: #f0ede8;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 6px 0 #12161f;
-      transform: translateY(-2px);
-    }
-
-    .cooldown-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #12161f;
-    }
-
-    .cooldown-btn:disabled {
-      opacity: 0.7;
-      transform: translateY(0);
-      cursor: not-allowed;
-      background: #3a4a5e;
-      box-shadow: 0 2px 0 #12161f;
-    }
-
-    /* Основная сетка: колесо + информация */
-    .main-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    /* колесо сфер */
-    .wheel-area {
-      flex: 1.2;
-      min-width: 280px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .wheel-wrapper {
-      position: relative;
-      width: 320px;
-      height: 320px;
-      margin: 0 auto;
-    }
-
-    .spinner-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-      cursor: pointer;
-    }
-
-    .sphere-item {
-      position: absolute;
-      width: 70px;
-      height: 70px;
-      background: rgba(20, 30, 55, 0.85);
-      backdrop-filter: blur(8px);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.5rem;
-      color: #ffecb3;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,200,100,0.5);
-      transition: all 0.2s;
-      font-family: monospace;
-      transform-origin: center;
-      cursor: pointer;
-      z-index: 5;
-    }
-
-    .sphere-item.active-sphere {
-      background: radial-gradient(circle at 30% 20%, #f5b042, #c9771e);
-      color: #141c2c;
-      border: 2px solid #ffd966;
-      box-shadow: 0 0 0 4px rgba(255,200,100,0.6);
-      transform: scale(1.02);
-    }
-
-    /* указатель сверху */
-    .pointer {
-      position: absolute;
-      top: -28px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-top: 40px solid #ffcd7e;
-      filter: drop-shadow(0 4px 6px black);
-      z-index: 10;
-    }
-
-    .pointer::after {
-      content: "🎯";
-      position: absolute;
-      top: -45px;
-      left: -12px;
-      font-size: 24px;
-      filter: drop-shadow(0 0 2px gold);
-    }
-
-    /* карточка информации */
-    .info-panel {
-      flex: 1.8;
-      background: rgba(10, 18, 28, 0.7);
-      backdrop-filter: blur(12px);
-      border-radius: 2rem;
-      padding: 1.5rem;
-      border: 1px solid rgba(255,215,130,0.25);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-
-    .sphere-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #FFE6B0, #ffb347);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 0.4rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .quote {
-      font-style: italic;
-      font-size: 1.1rem;
-      color: #cdddee;
-      border-left: 4px solid #f3b33d;
-      padding-left: 16px;
-      margin: 0.8rem 0;
-    }
-
-    .prompt {
-      background: #07111e;
-      padding: 0.8rem;
-      border-radius: 24px;
-      font-size: 0.95rem;
-      color: #ffeaaf;
-      margin: 1rem 0;
-    }
-
-    .route-block {
-      margin-top: 1.2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .route-card {
-      background: rgba(0, 0, 0, 0.5);
-      flex: 1;
-      border-radius: 1.2rem;
-      padding: 0.8rem;
-      border-left: 3px solid #f0a34b;
-    }
-
-    .route-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #ffbc6e;
-    }
-
-    .route-sphere {
-      font-weight: bold;
-      font-size: 1rem;
-      color: white;
-    }
-
-    .book-section {
-      margin-top: 1.2rem;
-      background: #121d2b;
-      border-radius: 1rem;
-      padding: 0.9rem;
-      border-top: 1px solid #e2b45e;
-    }
-
-    .resonance {
-      font-size: 0.85rem;
-      color: #b8cdff;
-      margin-top: 8px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    /* лог случайных выборов */
-    .random-log {
-      margin-top: 2rem;
-      background: rgba(0, 0, 0, 0.45);
-      border-radius: 1.8rem;
-      padding: 1rem 1.5rem;
-      backdrop-filter: blur(4px);
-    }
-
-    .log-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: bold;
-      color: #fad17c;
-      font-size: 1rem;
-      margin-bottom: 12px;
-      border-bottom: 1px dashed #f6b83e60;
-      padding-bottom: 6px;
-    }
-
-    .log-list {
-      max-height: 110px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.85rem;
-      padding-right: 6px;
-    }
-
-    .log-entry {
-      background: #0f172f70;
-      padding: 6px 12px;
-      border-radius: 40px;
-      color: #ffe3b3;
-      font-family: monospace;
-      font-size: 0.8rem;
-      border-left: 3px solid #ffb347;
-    }
-
-    .timestamp {
-      font-size: 0.7rem;
-      color: #90a4c9;
-      margin-left: 10px;
-    }
-
-    ::-webkit-scrollbar {
-      width: 4px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #111c2a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #f3b33d;
-      border-radius: 10px;
-    }
-
-    @media (max-width: 780px) {
-      .dashboard {
-        padding: 1rem;
-      }
-      .sphere-item {
-        width: 55px;
-        height: 55px;
-        font-size: 1.2rem;
-      }
-      .wheel-wrapper {
-        width: 260px;
-        height: 260px;
-      }
-      .sphere-title {
-        font-size: 1.4rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🎡 Рулетка Сфер · Колесо Долі</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: radial-gradient(ellipse at 30% 40%, #0a0f1a, #010308);
+            font-family: 'Segoe UI', 'Inter', 'Times New Roman', serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .roulette-layout {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 3rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 255, 200, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.5);
+        }
+        .wheel-area {
+            flex: 1.2;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        canvas {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            background: #1a3a2a;
+            border-radius: 50%;
+            box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 0 30px cyan, 0 15px 35px black;
+        }
+        .betting-area {
+            flex: 0.9;
+            min-width: 300px;
+            background: rgba(15, 40, 31, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 1rem;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .lang-btn {
+            background: #2a4a3a;
+            border: none;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+            color: #f5e6b0;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .lang-btn.active {
+            background: #0ff;
+            color: #0a1a12;
+            box-shadow: 0 0 8px cyan;
+        }
+        .api-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: #0a1f18;
+            padding: 0.4rem;
+            border-radius: 2rem;
+            align-items: center;
+            border: 1px solid #0ff;
+        }
+        .api-settings input {
+            background: #1a3a2a;
+            border: 1px solid cyan;
+            color: #f9e2a1;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.7rem;
+            width: 140px;
+        }
+        .api-settings button {
+            background: #0ff;
+            border: none;
+            padding: 0.1rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.6rem;
+            cursor: pointer;
+            color: #0a1f18;
+            font-weight: bold;
+        }
+        .betting-title {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #0ff;
+            letter-spacing: 2px;
+            border-bottom: 1px solid cyan;
+            padding-bottom: 0.3rem;
+            text-shadow: 0 0 5px cyan;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-right: 0.3rem;
+        }
+        .sphere-card {
+            background: rgba(30, 50, 70, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            padding: 0.5rem 0.3rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            color: #e9d6a3;
+            font-size: 0.7rem;
+            font-weight: bold;
+            word-break: break-word;
+        }
+        .sphere-card.selected-card {
+            background: radial-gradient(circle, #f5b042, #b45f1b);
+            color: #0f1a0e;
+            border-color: #ffff80;
+            box-shadow: 0 0 15px #ffaa33;
+        }
+        .sphere-emoji { font-size: 1.3rem; display: block; }
+        .sphere-name-full { font-size: 0.65rem; font-weight: normal; }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0.5rem 0;
+        }
+        button {
+            background: radial-gradient(circle at 30% 20%, #f5b042, #b45f1b);
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #0f1a0e;
+            cursor: pointer;
+            transition: 0.05s linear;
+            box-shadow: 0 3px 0 #5a2e0a, 0 0 8px rgba(255, 100, 0, 0.8);
+        }
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #5a2e0a;
+        }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .result-area {
+            background: #0a1f18;
+            border-radius: 1.5rem;
+            padding: 0.5rem;
+            border: 1px solid cyan;
+            text-align: center;
+        }
+        .result-text {
+            color: #f9e2a1;
+            font-size: 0.85rem;
+        }
+        .history {
+            margin-top: 0.4rem;
+            font-size: 0.65rem;
+            color: #c9b27c;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .timer-hint {
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #0ff;
+            text-align: center;
+            background: #0a1f18;
+            padding: 0.2rem;
+            border-radius: 2rem;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.2s;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-card {
+            background: #0f281f;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 40px cyan;
+            text-align: center;
+        }
+        .modal-card h3 { color: #0ff; margin-bottom: 1rem; }
+        .modal-question { font-size: 1.1rem; color: #ffefcf; margin: 1rem 0; line-height: 1.4; }
+        .modal-actions { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+        .modal-actions button { background: #0ff; color: #0a1f18; box-shadow: none; }
+    </style>
 </head>
 <body>
-<div class="dashboard">
-  <div class="top-bar">
-    <div class="active-badge">
-      <span>🌀</span> АКТИВНАЯ СФЕРА: <strong id="activeSphereNumber">S6</strong>
-    </div>
-    <button class="cooldown-btn" id="spinButton">🎲 ВРАЩАТЬ СФЕРЫ</button>
-  </div>
-
-  <div class="main-grid">
+<div class="roulette-layout">
     <div class="wheel-area">
-      <div class="wheel-wrapper">
-        <div class="pointer"></div>
-        <div id="spinnerWheel" class="spinner-container"></div>
-      </div>
+        <canvas id="rouletteCanvas" width="600" height="600"></canvas>
+        <div class="top-bar" style="width:100%; justify-content:center;">
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="ua">🇺🇦 UA</button>
+                <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+            </div>
+        </div>
     </div>
-
-    <div class="info-panel" id="infoPanel">
-      <!-- динамически заполняется -->
-      <div id="dynamicContent">
-        <!-- загрузится из JS -->
-      </div>
+    <div class="betting-area">
+        <div class="betting-title" id="titleField">✨ поле сфер ✨</div>
+        <div class="cards-grid" id="cardsGrid"></div>
+        <div class="controls">
+            <button id="spinBtn">🎲 SPIN THE BALL</button>
+            <button id="copyBtn">📋 COPY</button>
+        </div>
+        <div class="result-area">
+            <div class="result-text" id="resultMessage">🌀 натисніть SPIN</div>
+            <div class="history" id="historyLog"></div>
+        </div>
+        <div class="timer-hint" id="timerHint"></div>
+        <div class="api-settings">
+            <input type="text" id="groqKeyInput" placeholder="Groq API key (gsk_...)" autocomplete="off">
+            <input type="text" id="proxyUrlInput" placeholder="https://your-proxy.vercel.app/api/groq">
+            <button id="saveKeyBtn">💾</button>
+        </div>
     </div>
-  </div>
-
-  <div class="random-log">
-    <div class="log-header">
-      <span>🎲 ЗАПИСЬ СЛУЧАЙНЫХ ВЫБОРОВ</span>
-      <span>🔄 (рандом возвращён)</span>
+</div>
+<div id="modal" class="modal">
+    <div class="modal-card">
+        <h3>🌀 Оракул сфери</h3>
+        <div id="modalSphere" style="font-weight:bold; color:#ffaa33;"></div>
+        <div class="modal-question" id="modalQuestion"></div>
+        <div class="modal-actions">
+            <button id="modalCloseBtn">Закрити</button>
+            <button id="modalSaveBtn">💾 Зберегти в історію</button>
+        </div>
     </div>
-    <div id="logContainer" class="log-list">
-      <!-- записи появятся тут -->
-    </div>
-  </div>
 </div>
 
 <script>
-  // --------------------------------------------------------------
-  // 1. ДАННЫЕ СФЕР (S1 - S12) с учетом деталей из задания
-  //    Сфера 6 — точь-в-точь как на изображении,
-  //    Сфера 12, 11 — по описанию пользователя
-  // --------------------------------------------------------------
-  const spheresData = {
-    1: {
-      number: 1,
-      title: "Творчество и Самовыражение",
-      quote: "Creativity begins where fear ends.",
-      prompt: "What do I create when no one watches?",
-      primaryRoute: { sphereId: 6, title: "Recreation and Hobbies", quote: "Hobby is a space where you are real.", prompt: "What hobby have I been putting off?" },
-      secondaryRoute: { sphereId: 12, title: "Spirituality", quote: "Spirituality is the search for yourself.", prompt: "Theme #846: Find harmony between inner and outer." },
-      book: { name: "📖 Anteros • Книга Вдохновения", eros: "Love begins with creativity.", resonance: ["🎨 Напиши/нарисуй спонтанно", "🧘 День в тишине наблюдения"] }
-    },
-    2: {
-      number: 2, title: "Здоровье и Энергия", quote: "Your body is your home.", prompt: "When did I last move with joy?",
-      primaryRoute: { sphereId: 1, title: "Creativity", quote: "Imagination heals", prompt: "Draw your energy today" },
-      secondaryRoute: { sphereId: 11, title: "Personal Relationship", quote: "Love is an action", prompt: "Give a warm word to yourself" },
-      book: { name: "📘 Body & Soul", eros: "Movement creates life.", resonance: ["🚶 Прогулка без цели", "🌿 5 мин растяжки"] }
-    },
-    3: {
-      number: 3, title: "Карьера и Предназначение", quote: "Purpose is the compass.", prompt: "What work feels like play?",
-      primaryRoute: { sphereId: 5, title: "Home and Environment", quote: "Your space reflects mind.", prompt: "Clear one corner today" },
-      secondaryRoute: { sphereId: 1, title: "Self-Expression", quote: "Speak your truth", prompt: "Share an idea" },
-      book: { name: "⭐ Ikigai", eros: "Do what you love.", resonance: ["✍️ Напиши миссию", "🗣️ Расскажи о мечте"] }
-    },
-    4: {
-      number: 4, title: "Финансы и Изобилие", quote: "Abundance flows with gratitude.", prompt: "What limits my prosperity mindset?",
-      primaryRoute: { sphereId: 7, title: "Learning", quote: "Knowledge grows wealth", prompt: "Learn one money skill" },
-      secondaryRoute: { sphereId: 9, title: "Family", quote: "Generosity begins at home", prompt: "Gift a smile today" },
-      book: { name: "💰 Rich Brain", eros: "Abundance is creative.", resonance: ["📊 Запиши доходы", "🙏 Благодарность"] }
-    },
-    5: {
-      number: 5, title: "Дом и Пространство", quote: "Sanctuary of the soul.", prompt: "What corner needs my love?",
-      primaryRoute: { sphereId: 8, title: "Community", quote: "We grow together", prompt: "Help a neighbor" },
-      secondaryRoute: { sphereId: 3, title: "Career", quote: "Order brings clarity", prompt: "Organize desk" },
-      book: { name: "🏡 Sacred Space", eros: "Create beauty around you.", resonance: ["🕯️ Зажги свечу", "🧹 Убери хаос"] }
-    },
-    6: {
-      number: 6,
-      title: "Recreation and Hobbies",
-      quote: "Hobby is a space where you are real.",
-      prompt: "What hobby have I been putting off?",
-      primaryRoute: { sphereId: 1, title: "Creativity or Self-Expression", quote: "Creativity begins where fear ends.", prompt: "What do I create when no one watches?" },
-      secondaryRoute: { sphereId: 1, title: "Creativity or Self-Expression", quote: "Imagination is more important than knowledge.", prompt: "Where is the place for art in my life?" },
-      book: { name: "📘 Anteros • Book 1", eros: "Love begins with creativity. What will you create today to get closer to yourself?", resonance: ["🎨 Paint/write something spontaneous", "🌙 Spend the day in silence observing"] }
-    },
-    7: {
-      number: 7, title: "Обучение и Знания", quote: "Curiosity is the engine.", prompt: "What subject ignites my fire?",
-      primaryRoute: { sphereId: 4, title: "Finances", quote: "Knowledge = freedom", prompt: "Read 10 pages" },
-      secondaryRoute: { sphereId: 6, title: "Hobbies", quote: "Learn for fun", prompt: "Try a new skill" },
-      book: { name: "📚 Polymath", eros: "Ideas expand reality.", resonance: ["📖 Читай новое", "🧠 Запиши вывод"] }
-    },
-    8: {
-      number: 8, title: "Сообщество и Вклад", quote: "We rise by lifting others.", prompt: "How can I serve today?",
-      primaryRoute: { sphereId: 10, title: "Romance", quote: "Love multiplies", prompt: "Compliment someone" },
-      secondaryRoute: { sphereId: 2, title: "Health", quote: "Collective energy", prompt: "Group walk" },
-      book: { name: "🤝 The Kindness Kit", eros: "Action creates connection.", resonance: ["❤️ Помоги другу", "📞 Позвони родным"] }
-    },
-    9: {
-      number: 9, title: "Семья и Корни", quote: "Roots give wings.", prompt: "What tradition needs reviving?",
-      primaryRoute: { sphereId: 5, title: "Home", quote: "Family heart", prompt: "Cook together" },
-      secondaryRoute: { sphereId: 11, title: "Personal Relationship", quote: "Warm words heal", prompt: "Say 'I love you'" },
-      book: { name: "👪 Ancestors", eros: "Stories bind generations.", resonance: ["📸 Семейное фото", "🍲 Общий ужин"] }
-    },
-    10: {
-      number: 10, title: "Романтика и Страсть", quote: "Passion is a flame.", prompt: "What makes my heart race?",
-      primaryRoute: { sphereId: 8, title: "Community", quote: "Shared joy", prompt: "Plan a date night" },
-      secondaryRoute: { sphereId: 6, title: "Hobbies", quote: "Play together", prompt: "Dance freely" },
-      book: { name: "❤️‍🔥 The Art of Seduction", eros: "Desire creates life.", resonance: ["💌 Напиши признание", "✨ Зажги свечи"] }
-    },
-    11: {
-      number: 11, title: "Личные Отношения", quote: "Love is an action, not a word.",
-      prompt: "To whom can I give a warm word today?",
-      primaryRoute: { sphereId: 9, title: "Family", quote: "Bonding deepens", prompt: "Call a friend" },
-      secondaryRoute: { sphereId: 12, title: "Spirituality", quote: "Connection to all", prompt: "Meditate on love" },
-      book: { name: "💞 The Relationship Cure", eros: "Presence is gift.", resonance: ["📱 Напиши тёплое сообщение", "🤗 Обними"] }
-    },
-    12: {
-      number: 12, title: "Духовность", quote: "Spirituality is the search for yourself.",
-      prompt: "Тема недели #846: Найди гармонию между внутренним и внешним.",
-      primaryRoute: { sphereId: 12, title: "Spirituality", quote: "Silence is the altar.", prompt: "Find 10 min of stillness." },
-      secondaryRoute: { sphereId: 11, title: "Personal Relationship", quote: "Love is an action, not a word.", prompt: "To whom can I give a warm word today?" },
-      book: { name: "🕉️ Inner Compass", eros: "Stillness reveals truth.", resonance: ["🧘 Медитация", "🌿 Природа в тишине"] }
-    }
-  };
+    (function() {
+        // ---------- ДАНІ СФЕР ----------
+        const SPHERES = {
+            ua: [
+                { emoji: "🚀", name: "Творчість або Самовираження", short: "Творчість" },
+                { emoji: "🧑‍🔬", name: "Особистий розвиток або Турбота про себе", short: "Саморозвиток" },
+                { emoji: "🏘", name: "Домашнє життя або Ведення господарства", short: "Дім" },
+                { emoji: "💴", name: "Фінанси", short: "Фінанси" },
+                { emoji: "🤝", name: "Батьківство або Сім'я", short: "Сім'я" },
+                { emoji: "📚", name: "Відпочинок і Хобі", short: "Хобі" },
+                { emoji: "🗣️", name: "Спільнота або Соціальні зв'язки", short: "Спільнота" },
+                { emoji: "🌳", name: "Фізичне здоров'я", short: "Здоров'я" },
+                { emoji: "🔎", name: "Кар'єра або Освіта", short: "Кар'єра" },
+                { emoji: "🌿", name: "Екологія або Благодійність", short: "Екологія" },
+                { emoji: "👥", name: "Особисті стосунки", short: "Стосунки" },
+                { emoji: "🧘", name: "Духовність", short: "Духовність" }
+            ],
+            en: [
+                { emoji: "🚀", name: "Creativity or Self-Expression", short: "Creativity" },
+                { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Self-Development" },
+                { emoji: "🏘", name: "Domestic Life or Household Management", short: "Home" },
+                { emoji: "💴", name: "Finance", short: "Finance" },
+                { emoji: "🤝", name: "Parenting or Family", short: "Family" },
+                { emoji: "📚", name: "Recreation and Hobbies", short: "Hobbies" },
+                { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Community" },
+                { emoji: "🌳", name: "Physical Health", short: "Health" },
+                { emoji: "🔎", name: "Career or Education", short: "Career" },
+                { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Ecology" },
+                { emoji: "👥", name: "Personal Relationship", short: "Relationships" },
+                { emoji: "🧘", name: "Spirituality", short: "Spirituality" }
+            ]
+        };
 
-  // дополним для отсутствующих ключей или чтобы все имели book (если нет - базовый)
-  for (let i = 1; i <= 12; i++) {
-    if (!spheresData[i]) {
-      spheresData[i] = {
-        number: i, title: `Сфера ${i}`, quote: "Исследуй себя.",
-        prompt: "Что сегодня важно?",
-        primaryRoute: { sphereId: 6, title: "Hobby", quote: "Be real", prompt: "Discover" },
-        secondaryRoute: { sphereId: 1, title: "Creativity", quote: "Imagine", prompt: "Act" },
-        book: { name: "📖 Путь", eros: "Создай момент", resonance: ["🌱 Шаг вперёд"] }
-      };
-    }
-  }
+        let currentLang = "ua";
+        let currentSpheres = SPHERES.ua;
+        let groqApiKey = localStorage.getItem("groq_api_key") || "";
+        let proxyUrl = localStorage.getItem("groq_proxy_url") || "";
+        let lastMessage = "", lastQuestion = "", history = [];
+        let spinning = false, lastSpinTime = 0;
+        const SPIN_COOLDOWN = 3600000;
 
-  // ------------------------- UI ЭЛЕМЕНТЫ -------------------------
-  const wheelContainer = document.getElementById("spinnerWheel");
-  const spinBtn = document.getElementById("spinButton");
-  const activeSpan = document.getElementById("activeSphereNumber");
-  const dynamicContentDiv = document.getElementById("dynamicContent");
-  const logContainer = document.getElementById("logContainer");
+        // Canvas
+        const canvas = document.getElementById("rouletteCanvas");
+        const ctx = canvas.getContext("2d");
+        let size = 600, center = 300, radius = 280;
+        let wheelAngle = 0, ballAngle = 0;
+        let spinStart = 0, spinDuration = 2500;
+        let wheelStartAngle = 0, ballStartAngle = 0, wheelDelta = 0, ballDelta = 0;
 
-  let currentRotation = 0;        // текущий угол поворота колеса (в градусах)
-  let isSpinning = false;
-  let cooldownTimer = null;
-  let remainingCooldown = 0;
-  const COOLDOWN_SEC = 3;          // отсчёт на кнопке (как просил пользователь)
+        // DOM
+        const cardsGrid = document.getElementById("cardsGrid");
+        const resultDiv = document.getElementById("resultMessage");
+        const historyDiv = document.getElementById("historyLog");
+        const spinBtn = document.getElementById("spinBtn");
+        const copyBtn = document.getElementById("copyBtn");
+        const timerHint = document.getElementById("timerHint");
+        const groqKeyInput = document.getElementById("groqKeyInput");
+        const proxyUrlInput = document.getElementById("proxyUrlInput");
+        const saveKeyBtn = document.getElementById("saveKeyBtn");
+        const modal = document.getElementById("modal");
+        const modalSphere = document.getElementById("modalSphere");
+        const modalQuestion = document.getElementById("modalQuestion");
+        const modalCloseBtn = document.getElementById("modalCloseBtn");
+        const modalSaveBtn = document.getElementById("modalSaveBtn");
 
-  // массив с DOM элементами сфер для подсветки
-  let sphereElements = [];
-  let currentActiveSphere = 6;      // по умолчанию покажем сферу 6
+        if (groqApiKey) groqKeyInput.value = groqApiKey;
+        if (proxyUrl) proxyUrlInput.value = proxyUrl;
 
-  // Лог записей (максимум 12)
-  let randomLogs = [];
-
-  // --------------------------------------------------------------
-  // 2. Построение колеса (12 позиций по кругу)
-  // --------------------------------------------------------------
-  function buildWheel() {
-    wheelContainer.innerHTML = "";
-    sphereElements = [];
-    const radius = 140; // px радиус расположения центров сфер
-    const center = 160; // центр контейнера 320x320
-    
-    for (let i = 1; i <= 12; i++) {
-      const angle = (i - 1) * 30; // 0°,30°,60°... (0° = top, но мы скорректируем)
-      // стандартный угол в радианах, 0° сверху: вычислим сдвиг -90°, чтобы первый элемент был вверху
-      const rad = (angle - 90) * Math.PI / 180;
-      const x = center + radius * Math.cos(rad);
-      const y = center + radius * Math.sin(rad);
-      
-      const sphereDiv = document.createElement("div");
-      sphereDiv.className = "sphere-item";
-      sphereDiv.textContent = `S${i}`;
-      sphereDiv.style.left = `${x - 35}px`;   // 35 = половина ширины 70px
-      sphereDiv.style.top = `${y - 35}px`;
-      sphereDiv.setAttribute("data-sphere", i);
-      sphereDiv.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!isSpinning && remainingCooldown === 0) {
-          manuallySelectSphere(i);
+        function buildCards() {
+            cardsGrid.innerHTML = "";
+            currentSpheres.forEach((s, idx) => {
+                const card = document.createElement("div");
+                card.className = "sphere-card";
+                card.dataset.idx = idx;
+                card.innerHTML = `<span class="sphere-emoji">${s.emoji}</span><div class="sphere-name-full">${s.name}</div>`;
+                cardsGrid.appendChild(card);
+            });
         }
-      });
-      wheelContainer.appendChild(sphereDiv);
-      sphereElements.push(sphereDiv);
-    }
-    updateActiveHighlight();
-  }
 
-  // обновить визуальную подсветку активной сферы
-  function updateActiveHighlight() {
-    sphereElements.forEach((el, idx) => {
-      const sphereNum = parseInt(el.getAttribute("data-sphere"));
-      if (sphereNum === currentActiveSphere) {
-        el.classList.add("active-sphere");
-      } else {
-        el.classList.remove("active-sphere");
-      }
-    });
-  }
+        function highlightCard(index) {
+            document.querySelectorAll(".sphere-card").forEach((card, i) => {
+                if (i === index) card.classList.add("selected-card");
+                else card.classList.remove("selected-card");
+            });
+        }
 
-  // отображение контента в информационной панели
-  function renderInfoPanel(sphereId) {
-    const data = spheresData[sphereId];
-    if (!data) return;
-    const primary = data.primaryRoute;
-    const secondary = data.secondaryRoute;
-    const book = data.book;
-    
-    const primarySphereTitle = primary ? `S${primary.sphereId}: ${primary.title}` : "—";
-    const secondarySphereTitle = secondary ? `S${secondary.sphereId}: ${secondary.title}` : "—";
-    
-    const html = `
-      <div class="sphere-title">
-        <span>🌀 Сфера ${data.number}</span> <span>— ${data.title}</span>
-      </div>
-      <div class="quote">«${data.quote}»</div>
-      <div class="prompt">✨ ${data.prompt}</div>
-      
-      <div class="route-block">
-        <div class="route-card">
-          <div class="route-label">ПЕРВИЧНЫЙ МАРШРУТ</div>
-          <div class="route-sphere">${primarySphereTitle}</div>
-          <div class="quote" style="font-size:0.8rem; border-left-color:#c29a4a;">“${primary?.quote || ""}”</div>
-          <div style="font-size:0.75rem; margin-top:6px;">⚡ ${primary?.prompt || ""}</div>
-        </div>
-        <div class="route-card">
-          <div class="route-label">ВТОРИЧНЫЙ МАРШРУТ</div>
-          <div class="route-sphere">${secondarySphereTitle}</div>
-          <div class="quote" style="font-size:0.8rem; border-left-color:#c29a4a;">“${secondary?.quote || ""}”</div>
-          <div style="font-size:0.75rem; margin-top:6px;">⚡ ${secondary?.prompt || ""}</div>
-        </div>
-      </div>
-      
-      <div class="book-section">
-        <div style="font-weight:bold;">📖 ${book?.name || "Книга отражений"}</div>
-        <div style="font-size:0.85rem; margin-top:4px;">💬 «${book?.eros || "Искра творчества"}»</div>
-        <div class="resonance">
-          ${book?.resonance?.map(r => `<span>🎯 ${r}</span>`).join('') || "🎨 Создай что-то спонтанное"}
-        </div>
-      </div>
-    `;
-    dynamicContentDiv.innerHTML = html;
-    activeSpan.innerText = `S${sphereId} — ${data.title.substring(0, 20)}`;
-  }
+        // Малюємо колесо (червоне/чорне, номери)
+        function drawWheel() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, size, size);
+            ctx.fillStyle = "#1e3a2a";
+            ctx.fillRect(0, 0, size, size);
+            const step = (Math.PI * 2) / 12;
+            for (let i = 0; i < 12; i++) {
+                const start = i * step + wheelAngle;
+                const end = (i+1) * step + wheelAngle;
+                const isRed = (i % 2 === 0);
+                const grad = ctx.createRadialGradient(center, center, radius*0.2, center, center, radius);
+                grad.addColorStop(0, isRed ? "#b22222" : "#2c2c2c");
+                grad.addColorStop(1, isRed ? "#8b0000" : "#1a1a1a");
+                ctx.beginPath();
+                ctx.arc(center, center, radius, start, end);
+                ctx.lineTo(center, center);
+                ctx.fillStyle = grad;
+                ctx.fill();
+                ctx.strokeStyle = "#f7d97a";
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                const mid = start + step/2;
+                const txtR = radius * 0.7;
+                const x = center + Math.cos(mid) * txtR;
+                const y = center + Math.sin(mid) * txtR;
+                ctx.font = `bold ${Math.max(18, radius*0.08)}px "Segoe UI"`;
+                ctx.fillStyle = "#fff8e7";
+                ctx.shadowBlur = 3;
+                ctx.fillText(i+1, x-11, y+7);
+                ctx.shadowBlur = 0;
+            }
+            ctx.beginPath();
+            ctx.arc(center, center, radius*0.18, 0, Math.PI*2);
+            ctx.fillStyle = "#d4af37";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(center, center, radius*0.1, 0, Math.PI*2);
+            ctx.fillStyle = "#b8860b";
+            ctx.fill();
+            // Кулька
+            const ballRad = radius * 0.045;
+            const ballX = center + Math.cos(ballAngle) * (radius - ballRad - 5);
+            const ballY = center + Math.sin(ballAngle) * (radius - ballRad - 5);
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, ballRad, 0, Math.PI*2);
+            ctx.fillStyle = "#f0f0f0";
+            ctx.fill();
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(ballX-2, ballY-2, ballRad*0.3, 0, Math.PI*2);
+            ctx.fill();
+        }
 
-  // Добавить запись в лог рандома
-  function addLogEntry(sphereId, fromSpin = true) {
-    const data = spheresData[sphereId];
-    const title = data?.title || `Сфера ${sphereId}`;
-    const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-    const logText = `🎲 ВЫБОР: Сфера ${sphereId} — ${title.substring(0, 35)}`;
-    randomLogs.unshift({ text: logText, time, sphere: sphereId });
-    if (randomLogs.length > 8) randomLogs.pop();
-    updateLogUI();
-  }
+        function getSegmentAtTop() {
+            const pointerAngle = -Math.PI/2;
+            let raw = pointerAngle - wheelAngle;
+            raw = ((raw % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+            return Math.floor(raw / (Math.PI*2/12));
+        }
 
-  function updateLogUI() {
-    logContainer.innerHTML = randomLogs.map(log => `
-      <div class="log-entry">
-        ${log.text} <span class="timestamp">${log.time}</span>
-      </div>
-    `).join('');
-    if (randomLogs.length === 0) logContainer.innerHTML = '<div class="log-entry">✨ Нажми «Вращать сферы» — появится магия рандома ✨</div>';
-  }
+        async function generateDeepQuestion(sphereName) {
+            const prompt = currentLang === "ua" 
+                ? `Ти — мудрий оракул. Напиши одне глибоке, провокаційне, ситуативне питання для роздумів (максимум 20 слів) для сфери життя "${sphereName}". Питання має спонукати до саморефлексії. Не використовуй лапки, тільки текст питання.`
+                : `You are a wise oracle. Write one deep, provocative, situational question for reflection (max 20 words) for the life sphere "${sphereName}". No quotes, just the question.`;
+            if (!groqApiKey) return currentLang === "ua" ? "Яке питання ти давно не ставила собі?" : "What question have you not asked yourself for a long time?";
+            try {
+                let url = "https://api.groq.com/openai/v1/chat/completions";
+                let headers = { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" };
+                let body = JSON.stringify({ model: "llama3-70b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 80 });
+                if (proxyUrl && proxyUrl.trim() !== "") {
+                    url = proxyUrl.trim();
+                    headers = { "Content-Type": "application/json" };
+                    body = JSON.stringify({ prompt, apiKey: groqApiKey });
+                }
+                const response = await fetch(url, { method: "POST", headers, body });
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                let text = data.choices?.[0]?.message?.content?.trim() || "";
+                text = text.replace(/^["']|["']$/g, '');
+                return text || (currentLang === "ua" ? "Яке питання ти давно не ставила собі?" : "What question have you not asked yourself?");
+            } catch {
+                return currentLang === "ua" ? "Яке питання ти давно не ставила собі?" : "What question have you not asked yourself?";
+            }
+        }
 
-  // выбор сферы (ручной или после вращения) + обновление всего
-  function selectSphere(sphereId, fromSpin = true) {
-    if (sphereId < 1 || sphereId > 12) return;
-    currentActiveSphere = sphereId;
-    renderInfoPanel(sphereId);
-    updateActiveHighlight();
-    if (fromSpin) {
-      addLogEntry(sphereId, true);
-    }
-    // небольшой эффект дополнительно: можно "качнуть" информацию
-  }
+        function formatCooldown(ms) {
+            const hours = Math.floor(ms / 3600000);
+            const minutes = Math.floor((ms % 3600000) / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            if (hours > 0) return `${hours}г ${minutes}хв ${seconds}с`;
+            if (minutes > 0) return `${minutes}хв ${seconds}с`;
+            return `${seconds}с`;
+        }
 
-  // ручной выбор без кулдауна (клик по сфере)
-  function manuallySelectSphere(sphereId) {
-    if (isSpinning) return;
-    selectSphere(sphereId, true);
-  }
+        async function startSpin() {
+            if (spinning) return;
+            const now = Date.now();
+            const timeLeft = SPIN_COOLDOWN - (now - lastSpinTime);
+            if (lastSpinTime && timeLeft > 0) {
+                timerHint.innerText = currentLang === "ua" ? `⏳ наступний спін через ${formatCooldown(timeLeft)}` : `⏳ next spin in ${formatCooldown(timeLeft)}`;
+                return;
+            }
+            timerHint.innerText = "";
+            const finalTarget = Math.floor(Math.random() * 12);
+            spinning = true;
+            spinBtn.disabled = true;
+            const currentIdx = getSegmentAtTop();
+            let deltaIndices = (finalTarget - currentIdx + 12) % 12;
+            let deltaAngle = deltaIndices * (Math.PI*2/12);
+            const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
+            wheelDelta = deltaAngle + extraFull;
+            const finalBallPos = -Math.PI/2;
+            let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
+            ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
+            ballDelta = ballDeltaVal;
+            wheelStartAngle = wheelAngle;
+            ballStartAngle = ballAngle;
+            spinStart = performance.now();
+            requestAnimationFrame(animateSpin);
 
-  // функция вращения колеса + рандом с отсчётом
-  function spinWheel() {
-    if (isSpinning || remainingCooldown > 0) return;
-    
-    isSpinning = true;
-    spinBtn.disabled = true;
-    
-    // 1. Случайный выбор сферы (честный рандом 1-12)
-    const randomSphere = Math.floor(Math.random() * 12) + 1;
-    
-    // 2. Вычисляем нужный поворот, чтобы выбранная сфера оказалась под указателем (сверху)
-    // Позиции сфер в исходной расстановке (углы в градусах от верхней точки):
-    // Для сферы с номером N (от 1 до 12) исходный угол = (N-1)*30 - 90 (чтобы S1 был наверху)
-    // Указатель сверху соответствует углу -90° (или 270°). Нам нужно, чтобы после поворота целевой угол сферы совпал с -90°.
-    const targetSphereIndex = randomSphere - 1;
-    const initialAngle = (targetSphereIndex * 30) - 90;   // от -90 до 260
-    // текущий поворот контейнера: currentRotation (mod 360). Требуемый дополнительный поворот newRot, чтобы финальный угол сферы = -90°.
-    // формула: (initialAngle + currentRotation + delta) % 360 = -90 (mod 360) -> delta = (-90 - initialAngle - currentRotation) mod 360
-    let delta = (-90 - initialAngle - currentRotation) % 360;
-    if (delta < 0) delta += 360;
-    // добавим несколько полных оборотов для эффекта (от 1080 до 1800 градусов дополнительно)
-    const extraSpins = 4 * 360; // 4 полных оборота
-    const newDelta = delta + extraSpins;
-    const newRotation = currentRotation + newDelta;
-    
-    // анимация
-    wheelContainer.style.transform = `rotate(${newRotation}deg)`;
-    
-    // по окончании анимации
-    const onTransitionEnd = () => {
-      wheelContainer.removeEventListener("transitionend", onTransitionEnd);
-      currentRotation = newRotation % 360;
-      wheelContainer.style.transition = "none";
-      wheelContainer.style.transform = `rotate(${currentRotation}deg)`;
-      // фикс reflow
-      void wheelContainer.offsetHeight;
-      wheelContainer.style.transition = "transform 1.2s cubic-bezier(0.23, 1, 0.32, 1)";
-      
-      // применяем выбранную сферу
-      selectSphere(randomSphere, true);
-      isSpinning = false;
-      
-      // запускаем кулдаун на кнопке (отсчёт на самой кнопке)
-      startCooldownOnButton();
-      
-      // если вдруг повторно нажать во время кулдауна — заблокировано
-    };
-    
-    wheelContainer.addEventListener("transitionend", onTransitionEnd, { once: true });
-  }
-  
-  // отсчёт на кнопке (3 секунды, нельзя крутить)
-  function startCooldownOnButton() {
-    if (cooldownTimer) clearInterval(cooldownTimer);
-    remainingCooldown = COOLDOWN_SEC;
-    spinBtn.disabled = true;
-    const updateButtonText = () => {
-      spinBtn.textContent = `⏳ Жди ${remainingCooldown}с ...`;
-    };
-    updateButtonText();
-    cooldownTimer = setInterval(() => {
-      remainingCooldown--;
-      if (remainingCooldown <= 0) {
-        clearInterval(cooldownTimer);
-        cooldownTimer = null;
-        spinBtn.disabled = false;
-        spinBtn.textContent = "🎲 ВРАЩАТЬ СФЕРЫ";
-        remainingCooldown = 0;
-        // если анимация не активна, кнопка активна
-      } else {
-        updateButtonText();
-      }
-    }, 1000);
-  }
-  
-  // инициализация: строим колесо, выставляем сферу 6 (как на изображении)
-  function init() {
-    buildWheel();
-    // начальный поворот без смещения (S1 вверху, но выставим активную сферу 6, но вращать не надо)
-    // просто отобразим контент для S6
-    selectSphere(6, false);
-    // добавим стартовую запись в лог (не рандом, но демонстрация)
-    randomLogs = [];
-    addLogEntry(6, false);
-    // для красоты отобразим "последний пик"
-    spinBtn.addEventListener("click", spinWheel);
-  }
-  
-  init();
+            async function animateSpin(now) {
+                const elapsed = now - spinStart;
+                let t = Math.min(1, elapsed / spinDuration);
+                const ease = 1 - Math.pow(1-t, 3);
+                wheelAngle = wheelStartAngle + wheelDelta * ease;
+                ballAngle = ballStartAngle + ballDelta * ease;
+                drawWheel();
+                if (t < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
+                    ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
+                    drawWheel();
+                    const finalIdx = getSegmentAtTop();
+                    const sphere = currentSpheres[finalIdx];
+                    const question = await generateDeepQuestion(sphere.name);
+                    lastMessage = `${sphere.emoji} ${sphere.name}`;
+                    lastQuestion = question;
+                    resultDiv.innerHTML = `✨ ${lastMessage}`;
+                    history.unshift(`${sphere.emoji} ${sphere.short}`);
+                    if (history.length > 6) history.pop();
+                    historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
+                    highlightCard(finalIdx);
+                    modalSphere.innerHTML = lastMessage;
+                    modalQuestion.innerHTML = lastQuestion;
+                    modal.classList.add("active");
+                    spinning = false;
+                    spinBtn.disabled = false;
+                    lastSpinTime = Date.now();
+                    timerHint.innerText = currentLang === "ua" ? "✅ спін виконано! наступний через 1 годину" : "✅ spin done! next in 1 hour";
+                    setTimeout(() => { if (!spinning) timerHint.innerText = ""; }, 5000);
+                    flashEffect();
+                }
+            }
+        }
+
+        function flashEffect() {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.background = 'radial-gradient(circle, rgba(0,255,255,0.2), transparent)';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.zIndex = '999';
+            document.body.appendChild(overlay);
+            setTimeout(() => overlay.remove(), 400);
+        }
+
+        function copyResult() {
+            const text = lastQuestion ? `${lastMessage}\n💭 ${lastQuestion}` : lastMessage;
+            if (text) {
+                navigator.clipboard.writeText(text);
+                const original = resultDiv.innerText;
+                resultDiv.innerHTML = "✅ copied!";
+                setTimeout(() => resultDiv.innerHTML = original, 1200);
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            currentSpheres = SPHERES[lang];
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                if (btn.dataset.lang === lang) btn.classList.add("active");
+                else btn.classList.remove("active");
+            });
+            buildCards();
+            resultDiv.innerHTML = lang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN";
+        }
+
+        function saveApiSettings() {
+            const key = groqKeyInput.value.trim();
+            const proxy = proxyUrlInput.value.trim();
+            if (key) groqApiKey = key;
+            if (proxy) proxyUrl = proxy;
+            localStorage.setItem("groq_api_key", groqApiKey);
+            localStorage.setItem("groq_proxy_url", proxyUrl);
+            resultDiv.innerHTML = currentLang === "ua" ? "🔑 налаштування збережено" : "🔑 settings saved";
+            setTimeout(() => {
+                resultDiv.innerHTML = lastMessage ? `✨ ${lastMessage}` : (currentLang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN");
+            }, 1500);
+        }
+
+        function closeModal() { modal.classList.remove("active"); }
+        function saveToHistory() {
+            if (lastQuestion) {
+                history.unshift(`${lastMessage} · ${lastQuestion.substring(0, 40)}...`);
+                if (history.length > 8) history.pop();
+                historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
+                modal.classList.remove("active");
+            }
+        }
+
+        modalCloseBtn.addEventListener("click", closeModal);
+        modalSaveBtn.addEventListener("click", saveToHistory);
+        window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+        function init() {
+            buildCards();
+            drawWheel();
+            spinBtn.addEventListener("click", startSpin);
+            copyBtn.addEventListener("click", copyResult);
+            saveKeyBtn.addEventListener("click", saveApiSettings);
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+            });
+            window.addEventListener("resize", () => drawWheel());
+        }
+        init();
+    })();
 </script>
 </body>
 </html>
