@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎰 Рулетка Сфер Життя · Казино Долі</title>
+    <title>🎰 Sphere Roulette · Wheel of Life</title>
     <style>
         * {
             margin: 0;
@@ -34,7 +34,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
             border: 1px solid #d4af37;
         }
-        /* ліва частина — колесо */
         .wheel-area {
             flex: 1.2;
             min-width: 320px;
@@ -51,7 +50,6 @@
             border-radius: 50%;
             box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 15px 35px black;
         }
-        /* права частина — поле ставок (картки сфер) */
         .betting-area {
             flex: 0.8;
             min-width: 280px;
@@ -161,14 +159,14 @@
         <canvas id="rouletteCanvas" width="600" height="600" style="width:100%; height:auto; max-width:600px; aspect-ratio:1/1"></canvas>
     </div>
     <div class="betting-area">
-        <div class="betting-title">✨ поле сфер ✨</div>
+        <div class="betting-title">✨ field of spheres ✨</div>
         <div class="cards-grid" id="cardsGrid"></div>
         <div class="controls">
-            <button id="spinBtn">🎲 КИНУТИ КУЛЬКУ</button>
-            <button id="copyBtn">📋 КОПІЮВАТИ</button>
+            <button id="spinBtn">🎲 SPIN THE BALL</button>
+            <button id="copyBtn">📋 COPY</button>
         </div>
         <div class="result-area">
-            <div class="result-text" id="resultMessage">🌀 натисніть «кинути кульку»</div>
+            <div class="result-text" id="resultMessage">🌀 press "Spin the ball"</div>
             <div class="history" id="historyLog"></div>
         </div>
     </div>
@@ -176,51 +174,50 @@
 
 <script>
     (function() {
-        // ========== ТОЧНІ 12 СФЕР (повні назви) ==========
+        // ========== 12 SPHERES (full English names) ==========
         const SPHERES = [
-            { emoji: "🚀", name: "Creativity or Self-Expression", short: "Творчість" },
-            { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Саморозвиток" },
-            { emoji: "🏘", name: "Domestic Life or Household Management", short: "Дім" },
-            { emoji: "💴", name: "Finance", short: "Фінанси" },
-            { emoji: "🤝", name: "Parenting or Family", short: "Сім'я" },
-            { emoji: "📚", name: "Recreation and Hobbies", short: "Хобі" },
-            { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Спільнота" },
-            { emoji: "🌳", name: "Physical Health", short: "Здоров'я" },
-            { emoji: "🔎", name: "Career or Education", short: "Кар'єра" },
-            { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Екологія" },
-            { emoji: "👥", name: "Personal Relationship", short: "Стосунки" },
-            { emoji: "🧘", name: "Spirituality", short: "Духовність" }
+            { emoji: "🚀", name: "Creativity or Self-Expression", short: "Creativity" },
+            { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Self-Development" },
+            { emoji: "🏘", name: "Domestic Life or Household Management", short: "Home" },
+            { emoji: "💴", name: "Finance", short: "Finance" },
+            { emoji: "🤝", name: "Parenting or Family", short: "Family" },
+            { emoji: "📚", name: "Recreation and Hobbies", short: "Hobbies" },
+            { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Community" },
+            { emoji: "🌳", name: "Physical Health", short: "Health" },
+            { emoji: "🔎", name: "Career or Education", short: "Career" },
+            { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Ecology" },
+            { emoji: "👥", name: "Personal Relationship", short: "Relationships" },
+            { emoji: "🧘", name: "Spirituality", short: "Spirituality" }
         ];
 
-        // Багата база натхненних фраз (для кожної сфери)
+        // Rich database of inspirational phrases (English)
         const PHRASES = [
-            "Творчість — міст між світами", "Створи щось недосконале — це магія", "Кожен мазок — молитва",
-            "Рости — це природно, навіть боляче", "Маленький крок сьогодні змінює все", "Ти — сад, який потребує догляду",
-            "Запали свічку на згадку про себе", "Дім — дзеркало твоєї душі", "Прибери з любов'ю — простір віддячить",
-            "Гроші люблять повагу, а не страх", "Фінансова грамотність — це свобода", "Вдячність творить потік",
-            "Обійми лікують без слів", "Родина — це гавань, а не обов'язок", "Традиції тримають покоління",
-            "Гра — найсерйозніша справа", "Хобі — голос внутрішньої дитини", "Відпочинок зцілює",
-            "Разом ми — зірки одного сузір'я", "Твій голос має значення", "Маленька допомога змінює світ",
-            "Твоє тіло — храм", "Рух — це молитва", "Слухай, що шепоче твоя плоть",
-            "Кар'єра — це гра, а не війна", "Роби те, що має сенс", "Навик, який змінить усе, вже в тобі",
-            "Планета дихає разом із тобою", "Екозвичка — це подяка землі", "Навіть одна відмова від пластику рятує",
-            "Справжні стосунки — це безпека", "Слухати — найвища форма любові", "Кордони не руйнують, а зміцнюють",
-            "Духовність — це повернення додому", "Тиша відкриває відповіді", "Ти — іскра вічного вогню"
+            "Creativity is the bridge between worlds", "Create something imperfect — that's magic", "Every stroke is a prayer",
+            "Growth is natural, even when it hurts", "A small step today changes everything", "You are a garden that needs care",
+            "Light a candle in memory of yourself", "Home is a mirror of your soul", "Clean with love — space will thank you",
+            "Money loves respect, not fear", "Financial literacy is freedom", "Gratitude creates flow",
+            "Hugs heal where words fail", "Family is a harbor, not an obligation", "Traditions hold generations together",
+            "Play is the most serious thing", "Hobby is the voice of your inner child", "Rest heals better than medicine",
+            "Together we are stars of one constellation", "Your voice matters", "A small help changes the world",
+            "Your body is a temple", "Movement is a prayer", "Listen to what your flesh whispers",
+            "Career is a game, not a war", "Do what has meaning", "The skill that will change everything is already in you",
+            "The planet breathes with you", "Eco-habit is thanks to the earth", "Even one refusal of plastic saves",
+            "True relationships are safety", "Listening is the highest form of love", "Boundaries don't destroy, they strengthen",
+            "Spirituality is returning home", "Silence reveals answers", "You are a spark of eternal fire"
         ];
 
-        // ========== НАЛАШТУВАННЯ КАНВАСУ ==========
+        // ========== CANVAS SETUP ==========
         const canvas = document.getElementById("rouletteCanvas");
         const ctx = canvas.getContext("2d");
         let size = 600;
         let center = 300;
         let radius = 280;
-        let angleOffset = 0;
-        let wheelAngle = 0;
-        let ballAngle = 0;
+        let wheelAngle = 0;          // current wheel rotation
+        let ballAngle = 0;           // ball position along the rim
         let spinning = false;
         let spinStart = 0;
         let spinDuration = 2500;
-        let targetSegment = 0;
+        let targetSegment = -1;
         let wheelStartAngle = 0;
         let ballStartAngle = 0;
         let wheelDelta = 0;
@@ -229,24 +226,23 @@
         let lastMessage = "";
         let history = [];
 
-        // DOM елементи
+        // DOM elements
         const cardsGrid = document.getElementById("cardsGrid");
         const resultDiv = document.getElementById("resultMessage");
         const historyDiv = document.getElementById("historyLog");
         const spinBtn = document.getElementById("spinBtn");
         const copyBtn = document.getElementById("copyBtn");
 
-        // ========== ПОБУДОВА КАРТОК СПРАВА ==========
+        // ========== BUILD CARDS (RIGHT SIDE) ==========
         function buildCards() {
             cardsGrid.innerHTML = "";
             SPHERES.forEach((s, idx) => {
                 const card = document.createElement("div");
                 card.className = "sphere-card";
                 card.dataset.idx = idx;
-                card.innerHTML = `<span class="sphere-emoji">${s.emoji}</span><div>${s.short}</div><div class="sphere-short">${s.name.substring(0, 28)}</div>`;
+                card.innerHTML = `<span class="sphere-emoji">${s.emoji}</span><div>${s.short}</div><div class="sphere-short">${s.name.substring(0, 30)}</div>`;
                 card.addEventListener("click", () => {
                     if (!spinning) {
-                        // Запускаємо спін з цільовим сектором (вибрана картка)
                         targetSegment = idx;
                         startSpin();
                     }
@@ -263,11 +259,10 @@
             });
         }
 
-        // ========== МАЛЮВАННЯ КОЛЕСА ==========
+        // ========== DRAW WHEEL ==========
         function drawWheel() {
             if (!ctx) return;
             ctx.clearRect(0, 0, size, size);
-            // фон колеса
             ctx.fillStyle = "#1e3a2a";
             ctx.fillRect(0, 0, size, size);
             const step = (Math.PI * 2) / 12;
@@ -286,7 +281,7 @@
                 ctx.strokeStyle = "#f7d97a";
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
-                // номер
+                // draw number
                 const mid = start + step/2;
                 const txtR = radius * 0.7;
                 const x = center + Math.cos(mid) * txtR;
@@ -297,7 +292,7 @@
                 ctx.fillText(i+1, x-11, y+7);
                 ctx.shadowBlur = 0;
             }
-            // центральне коло
+            // center
             ctx.beginPath();
             ctx.arc(center, center, radius*0.18, 0, Math.PI*2);
             ctx.fillStyle = "#d4af37";
@@ -306,7 +301,7 @@
             ctx.arc(center, center, radius*0.1, 0, Math.PI*2);
             ctx.fillStyle = "#b8860b";
             ctx.fill();
-            // кулька
+            // ball
             const ballRad = radius * 0.045;
             const ballX = center + Math.cos(ballAngle) * (radius - ballRad - 5);
             const ballY = center + Math.sin(ballAngle) * (radius - ballRad - 5);
@@ -315,11 +310,12 @@
             ctx.fillStyle = "#f0f0f0";
             ctx.fill();
             ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
             ctx.arc(ballX-2, ballY-2, ballRad*0.3, 0, Math.PI*2);
             ctx.fill();
         }
 
-        // Визначення індексу сектора, на який вказує верхній вказівник (12 годин)
+        // Determine which sector is at the top (12 o'clock pointer)
         function getSegmentAtTop() {
             const pointerAngle = -Math.PI/2;
             let raw = pointerAngle - wheelAngle;
@@ -327,7 +323,6 @@
             return Math.floor(raw / (Math.PI*2/12));
         }
 
-        // Отримати випадкову фразу для сфери
         function getRandomPhrase(sphereIdx) {
             const pool = PHRASES.filter(p => p.length > 5);
             return pool[Math.floor(Math.random() * pool.length)];
@@ -337,21 +332,22 @@
             if (spinning) return;
             spinning = true;
             spinBtn.disabled = true;
-            // Якщо targetSegment не задано, вибираємо випадковий
-            if (targetSegment === undefined || targetSegment === -1) {
+
+            if (targetSegment === -1) {
                 targetSegment = Math.floor(Math.random() * 12);
             }
-            // Поточний індекс під вказівником
             const currentIdx = getSegmentAtTop();
             let deltaIndices = (targetSegment - currentIdx + 12) % 12;
             let deltaAngle = deltaIndices * (Math.PI*2/12);
             const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
             wheelDelta = deltaAngle + extraFull;
-            // Кулька: багато обертів + фіксуємо у верхній точці
+
+            // ball spins many times and stops at the top pointer position
             const finalBallPos = -Math.PI/2;
             let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
             ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
             ballDelta = ballDeltaVal;
+
             wheelStartAngle = wheelAngle;
             ballStartAngle = ballAngle;
             spinStart = performance.now();
@@ -368,7 +364,7 @@
             if (t < 1) {
                 requestAnimationFrame(animateSpin);
             } else {
-                // Фіксуємо кути
+                // finalize angles
                 wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
                 ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
                 drawWheel();
@@ -381,11 +377,10 @@
                 resultDiv.innerHTML = `✨ ${lastMessage}`;
                 history.unshift(`${sphere.emoji} ${sphere.short}`);
                 if (history.length > 6) history.pop();
-                historyDiv.innerHTML = `📜 історія: ${history.join(' · ')}`;
+                historyDiv.innerHTML = `📜 history: ${history.join(' · ')}`;
                 spinning = false;
                 spinBtn.disabled = false;
                 targetSegment = -1;
-                // ефект спалаху
                 flashEffect();
             }
         }
@@ -408,13 +403,13 @@
             if (lastMessage) {
                 navigator.clipboard.writeText(lastMessage);
                 const original = resultDiv.innerText;
-                resultDiv.innerHTML = "✅ скопійовано!";
+                resultDiv.innerHTML = "✅ copied!";
                 setTimeout(() => resultDiv.innerHTML = original, 1200);
             } else {
-                resultDiv.innerHTML = "🌀 спочатку зробіть спін";
+                resultDiv.innerHTML = "🌀 spin first";
                 setTimeout(() => {
                     if (lastMessage) resultDiv.innerHTML = `✨ ${lastMessage}`;
-                    else resultDiv.innerHTML = "🌀 натисніть «кинути кульку»";
+                    else resultDiv.innerHTML = "🌀 press 'Spin the ball'";
                 }, 1500);
             }
         }
@@ -425,16 +420,15 @@
             startSpin();
         }
 
-        // Ініціалізація
+        // Initialization
         function init() {
             buildCards();
             drawWheel();
             spinBtn.addEventListener("click", randomSpin);
             copyBtn.addEventListener("click", copyResult);
-            window.addEventListener("resize", () => { drawWheel(); });
-            // стартове повідомлення
+            window.addEventListener("resize", () => drawWheel());
             setTimeout(() => {
-                resultDiv.innerHTML = "🌀 оберіть картку або натисніть «кинути кульку»";
+                resultDiv.innerHTML = "🌀 click a card or press 'Spin the ball'";
             }, 500);
         }
         init();
