@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎡 Рулетка Сфер · Колесо Життя з AI</title>
+    <title>🎡 Рулетка Сфер · Колесо Життя (1 година між спінами)</title>
     <style>
         * {
             margin: 0;
@@ -86,25 +86,25 @@
             background: #d4af37;
             color: #0a1a12;
         }
-        .api-input {
+        .api-settings {
             display: flex;
-            gap: 0.4rem;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             background: #0a1f18;
-            padding: 0.2rem 0.6rem;
+            padding: 0.4rem;
             border-radius: 2rem;
-            border: 1px solid #d4af37;
+            align-items: center;
         }
-        .api-input input {
+        .api-settings input {
             background: #1a3a2a;
             border: none;
             color: #f9e2a1;
-            padding: 0.2rem 0.4rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 1rem;
             font-size: 0.7rem;
-            width: 160px;
+            width: 140px;
         }
-        .api-input button {
+        .api-settings button {
             background: #d4af37;
             border: none;
             padding: 0.1rem 0.6rem;
@@ -129,34 +129,26 @@
             padding-right: 0.3rem;
         }
         .sphere-card {
-            border-radius: 0.8rem;
+            background: rgba(30, 50, 70, 0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
             padding: 0.5rem 0.3rem;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            border: 1px solid #b8860b;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(212, 175, 55, 0.5);
             color: #e9d6a3;
             font-size: 0.7rem;
             font-weight: bold;
             word-break: break-word;
-        }
-        /* червоно-чорне тло для карток */
-        .sphere-card:nth-child(odd) {
-            background: linear-gradient(145deg, #8b1a1a, #5a0f0f);
-        }
-        .sphere-card:nth-child(even) {
-            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
-        }
-        .sphere-card:hover {
-            transform: scale(1.01);
-            filter: brightness(1.2);
-            border-color: #f5b042;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            /* без cursor pointer — не клікабельні */
         }
         .sphere-card.selected-card {
             background: radial-gradient(circle, #f5b042, #b45f1b);
             color: #0f1a0e;
             border-color: #ffdf80;
-            box-shadow: 0 0 12px #f5b042;
+            box-shadow: 0 0 15px #f5b042;
+            transform: scale(1.01);
         }
         .sphere-emoji { font-size: 1.3rem; display: block; }
         .sphere-name-full { font-size: 0.65rem; font-weight: normal; line-height: 1.2; }
@@ -203,10 +195,14 @@
             white-space: nowrap;
         }
         .timer-hint {
-            font-size: 0.6rem;
-            color: #e9b84a;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #ffaa66;
             text-align: center;
             margin-top: 0.2rem;
+            background: #0a1f18;
+            padding: 0.2rem;
+            border-radius: 2rem;
         }
         @media (max-width: 900px) {
             .roulette-layout { flex-direction: column; align-items: center; }
@@ -219,14 +215,10 @@
 <div class="roulette-layout">
     <div class="wheel-area">
         <canvas id="rouletteCanvas" width="600" height="600" style="width:100%; height:auto; max-width:600px; aspect-ratio:1/1"></canvas>
-        <div class="top-bar" style="width:100%; justify-content:center; gap:1rem;">
+        <div class="top-bar" style="width:100%; justify-content:center;">
             <div class="lang-switch">
                 <button class="lang-btn active" data-lang="ua">🇺🇦 UA</button>
                 <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
-            </div>
-            <div class="api-input">
-                <input type="text" id="groqKeyInput" placeholder="Groq API key (gsk_...)" autocomplete="off">
-                <button id="saveKeyBtn">💾</button>
             </div>
         </div>
     </div>
@@ -242,12 +234,17 @@
             <div class="history" id="historyLog"></div>
         </div>
         <div class="timer-hint" id="timerHint"></div>
+        <div class="api-settings">
+            <input type="text" id="groqKeyInput" placeholder="Groq API key (gsk_...)" autocomplete="off">
+            <input type="text" id="proxyUrlInput" placeholder="https://your-proxy.vercel.app/api/groq">
+            <button id="saveKeyBtn">💾</button>
+        </div>
     </div>
 </div>
 
 <script>
     (function() {
-        // ========== ДАНІ СФЕР ==========
+        // ---------- ДАНІ СФЕР (повні назви) ----------
         const SPHERES = {
             ua: [
                 { emoji: "🚀", name: "Творчість або Самовираження", short: "Творчість" },
@@ -279,32 +276,27 @@
             ]
         };
 
-        // Локальний fallback (красиві фрази)
-        const FALLBACK_PHRASES = {
-            ua: "✨ Віднайди свою глибину в цій сфері",
-            en: "✨ Discover your depth within this sphere"
-        };
-
         let currentLang = "ua";
         let currentSpheres = SPHERES.ua;
         let groqApiKey = localStorage.getItem("groq_api_key") || "";
+        let proxyUrl = localStorage.getItem("groq_proxy_url") || "";
+        let lastMessage = "";
+        let history = [];
+        let spinning = false;
+        let lastSpinTime = 0;
+        // 1 година в мілісекундах
+        const SPIN_COOLDOWN = 3600000; // 60 * 60 * 1000
 
-        // Wheel state
+        // Canvas wheel
         const canvas = document.getElementById("rouletteCanvas");
         const ctx = canvas.getContext("2d");
         let size = 600, center = 300, radius = 280;
         let wheelAngle = 0;
         let ballAngle = 0;
-        let spinning = false;
         let spinStart = 0;
         let spinDuration = 2500;
-        let targetSegment = -1;       // selected sphere index (via card)
         let wheelStartAngle = 0, ballStartAngle = 0;
         let wheelDelta = 0, ballDelta = 0;
-        let lastMessage = "";
-        let history = [];
-        let lastSpinTime = 0;
-        const SPIN_COOLDOWN = 2000;   // 2 секунди
 
         // DOM
         const cardsGrid = document.getElementById("cardsGrid");
@@ -312,36 +304,25 @@
         const historyDiv = document.getElementById("historyLog");
         const spinBtn = document.getElementById("spinBtn");
         const copyBtn = document.getElementById("copyBtn");
-        const titleField = document.getElementById("titleField");
         const timerHint = document.getElementById("timerHint");
         const groqKeyInput = document.getElementById("groqKeyInput");
+        const proxyUrlInput = document.getElementById("proxyUrlInput");
         const saveKeyBtn = document.getElementById("saveKeyBtn");
 
-        // Load saved key
         if (groqApiKey) groqKeyInput.value = groqApiKey;
+        if (proxyUrl) proxyUrlInput.value = proxyUrl;
 
-        // ========== ПОБУДОВА КАРТОК (без кліку-спіну) ==========
+        // Побудова карток (без обробників кліку)
         function buildCards() {
             cardsGrid.innerHTML = "";
             currentSpheres.forEach((s, idx) => {
                 const card = document.createElement("div");
                 card.className = "sphere-card";
-                if (idx === targetSegment) card.classList.add("selected-card");
                 card.dataset.idx = idx;
                 card.innerHTML = `
                     <span class="sphere-emoji">${s.emoji}</span>
                     <div class="sphere-name-full">${s.name}</div>
                 `;
-                card.addEventListener("click", () => {
-                    if (spinning) return;
-                    // тільки вибір, без спіну
-                    document.querySelectorAll(".sphere-card").forEach(c => c.classList.remove("selected-card"));
-                    card.classList.add("selected-card");
-                    targetSegment = idx;
-                    resultDiv.innerHTML = currentLang === "ua" 
-                        ? `✅ обрано: ${s.short} · натисніть SPIN` 
-                        : `✅ selected: ${s.short} · press SPIN`;
-                });
                 cardsGrid.appendChild(card);
             });
         }
@@ -354,7 +335,7 @@
             });
         }
 
-        // ========== МАЛЮВАННЯ КОЛЕСА (червоно-чорне) ==========
+        // Малювання колеса
         function drawWheel() {
             if (!ctx) return;
             ctx.clearRect(0, 0, size, size);
@@ -378,7 +359,6 @@
                 ctx.strokeStyle = "#f7d97a";
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
-                // number
                 const mid = start + step/2;
                 const txtR = radius * 0.7;
                 const x = center + Math.cos(mid) * txtR;
@@ -389,7 +369,6 @@
                 ctx.fillText(i+1, x-11, y+7);
                 ctx.shadowBlur = 0;
             }
-            // center
             ctx.beginPath();
             ctx.arc(center, center, radius*0.18, 0, Math.PI*2);
             ctx.fillStyle = "#d4af37";
@@ -398,7 +377,6 @@
             ctx.arc(center, center, radius*0.1, 0, Math.PI*2);
             ctx.fillStyle = "#b8860b";
             ctx.fill();
-            // ball
             const ballRad = radius * 0.045;
             const ballX = center + Math.cos(ballAngle) * (radius - ballRad - 5);
             const ballY = center + Math.sin(ballAngle) * (radius - ballRad - 5);
@@ -419,113 +397,119 @@
             return Math.floor(raw / (Math.PI*2/12));
         }
 
-        // ========== GENERATE AI PHRASE VIA GROQ ==========
-        async function generateAIPhrase(sphereName, sphereIndex) {
-            if (!groqApiKey || !groqApiKey.startsWith("gsk_")) {
-                // fallback
-                const fallback = FALLBACK_PHRASES[currentLang];
-                return fallback;
-            }
+        // AI генерація через Groq
+        async function generateAIPhrase(sphereName) {
             const prompt = currentLang === "ua" 
                 ? `Ти — мудрий оракул. Напиши одне глибоке, натхненне речення (максимум 20 слів) для сфери життя "${sphereName}". Речення має спонукати до роздумів або дії. Не використовуй лапки, тільки текст.`
                 : `You are a wise oracle. Write one deep, inspiring sentence (max 20 words) for the life sphere "${sphereName}". The sentence should encourage reflection or action. No quotes, just text.`;
+            
+            if (!groqApiKey) return currentLang === "ua" ? "✨ Віднайди свою глибину в цій сфері" : "✨ Discover your depth within this sphere";
+            
             try {
-                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${groqApiKey}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        model: "llama3-8b-8192",
-                        messages: [{ role: "user", content: prompt }],
-                        temperature: 0.9,
-                        max_tokens: 60
-                    })
-                });
-                if (!response.ok) {
-                    console.warn("Groq API error", response.status);
-                    return FALLBACK_PHRASES[currentLang];
+                let url = "https://api.groq.com/openai/v1/chat/completions";
+                let headers = { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" };
+                let body = JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 60 });
+                
+                if (proxyUrl && proxyUrl.trim() !== "") {
+                    url = proxyUrl.trim();
+                    headers = { "Content-Type": "application/json" };
+                    body = JSON.stringify({ prompt, apiKey: groqApiKey });
                 }
+                
+                const response = await fetch(url, { method: "POST", headers, body });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 let text = data.choices?.[0]?.message?.content?.trim() || "";
                 text = text.replace(/^["']|["']$/g, '');
-                if (text.length === 0) text = FALLBACK_PHRASES[currentLang];
+                if (text.length === 0) throw new Error("Empty response");
                 return text;
             } catch (err) {
-                console.error("Groq fetch failed", err);
-                return FALLBACK_PHRASES[currentLang];
+                console.warn("AI fallback", err);
+                return currentLang === "ua" ? "✨ Віднайди свою глибину в цій сфері" : "✨ Discover your depth within this sphere";
             }
         }
 
-        // ========== АНІМАЦІЯ СПІНУ ==========
-        function startSpin() {
+        // Форматування залишку часу
+        function formatCooldown(ms) {
+            const hours = Math.floor(ms / 3600000);
+            const minutes = Math.floor((ms % 3600000) / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            if (hours > 0) return `${hours}г ${minutes}хв ${seconds}с`;
+            if (minutes > 0) return `${minutes}хв ${seconds}с`;
+            return `${seconds}с`;
+        }
+
+        // Запуск спіну (випадковий сектор)
+        async function startSpin() {
             if (spinning) return;
             const now = Date.now();
-            if (now - lastSpinTime < SPIN_COOLDOWN) {
-                const waitSec = ((SPIN_COOLDOWN - (now - lastSpinTime)) / 1000).toFixed(1);
-                timerHint.innerText = currentLang === "ua" ? `⏳ зачекайте ${waitSec}с` : `⏳ wait ${waitSec}s`;
+            const timeLeft = SPIN_COOLDOWN - (now - lastSpinTime);
+            if (lastSpinTime && timeLeft > 0) {
+                const timeStr = formatCooldown(timeLeft);
+                timerHint.innerText = currentLang === "ua" 
+                    ? `⏳ наступний спін через ${timeStr}` 
+                    : `⏳ next spin in ${timeStr}`;
                 return;
             }
             timerHint.innerText = "";
+            
+            const finalTarget = Math.floor(Math.random() * 12);
+            
             spinning = true;
             spinBtn.disabled = true;
-
-            let finalTarget;
-            if (targetSegment !== -1 && targetSegment >= 0 && targetSegment < 12) {
-                finalTarget = targetSegment;
-            } else {
-                finalTarget = Math.floor(Math.random() * 12);
-                targetSegment = finalTarget;
-                highlightCard(finalTarget);
-            }
+            
             const currentIdx = getSegmentAtTop();
             let deltaIndices = (finalTarget - currentIdx + 12) % 12;
             let deltaAngle = deltaIndices * (Math.PI*2/12);
             const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
             wheelDelta = deltaAngle + extraFull;
-
+            
             const finalBallPos = -Math.PI/2;
             let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
             ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
             ballDelta = ballDeltaVal;
-
+            
             wheelStartAngle = wheelAngle;
             ballStartAngle = ballAngle;
             spinStart = performance.now();
             requestAnimationFrame(animateSpin);
-        }
-
-        async function animateSpin(now) {
-            const elapsed = now - spinStart;
-            let t = Math.min(1, elapsed / spinDuration);
-            const ease = 1 - Math.pow(1-t, 3);
-            wheelAngle = wheelStartAngle + wheelDelta * ease;
-            ballAngle = ballStartAngle + ballDelta * ease;
-            drawWheel();
-            if (t < 1) {
-                requestAnimationFrame(animateSpin);
-            } else {
-                wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
-                ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
+            
+            async function animateSpin(now) {
+                const elapsed = now - spinStart;
+                let t = Math.min(1, elapsed / spinDuration);
+                const ease = 1 - Math.pow(1-t, 3);
+                wheelAngle = wheelStartAngle + wheelDelta * ease;
+                ballAngle = ballStartAngle + ballDelta * ease;
                 drawWheel();
-                const finalIdx = getSegmentAtTop();
-                const sphere = currentSpheres[finalIdx];
-                // генеруємо фразу через Groq (або fallback)
-                const aiPhrase = await generateAIPhrase(sphere.name, finalIdx);
-                lastMessage = `${sphere.emoji} ${sphere.name} · ${aiPhrase}`;
-                resultDiv.innerHTML = `✨ ${lastMessage}`;
-                history.unshift(`${sphere.emoji} ${sphere.short}`);
-                if (history.length > 6) history.pop();
-                historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
-                spinning = false;
-                spinBtn.disabled = false;
-                lastSpinTime = Date.now();
-                // оновлюємо таймер хіба що через 2 секунди дозволить знову
-                setTimeout(() => {
-                    if (!spinning) timerHint.innerText = "";
-                }, SPIN_COOLDOWN);
-                flashEffect();
+                if (t < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
+                    ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
+                    drawWheel();
+                    const finalIdx = getSegmentAtTop();
+                    const sphere = currentSpheres[finalIdx];
+                    const phrase = await generateAIPhrase(sphere.name);
+                    lastMessage = `${sphere.emoji} ${sphere.name} · ${phrase}`;
+                    resultDiv.innerHTML = `✨ ${lastMessage}`;
+                    history.unshift(`${sphere.emoji} ${sphere.short}`);
+                    if (history.length > 6) history.pop();
+                    historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
+                    highlightCard(finalIdx);
+                    spinning = false;
+                    spinBtn.disabled = false;
+                    lastSpinTime = Date.now();
+                    // Показати повідомлення про наступний спін через годину
+                    const timeUntilNext = SPIN_COOLDOWN;
+                    const timeStr = formatCooldown(timeUntilNext);
+                    timerHint.innerText = currentLang === "ua" 
+                        ? `✅ спін виконано! наступний через ${timeStr}` 
+                        : `✅ spin done! next in ${timeStr}`;
+                    setTimeout(() => {
+                        if (!spinning) timerHint.innerText = "";
+                    }, 5000);
+                    flashEffect();
+                }
             }
         }
 
@@ -558,14 +542,6 @@
             }
         }
 
-        function randomSpin() {
-            if (spinning) return;
-            // випадковий вибір, без попереднього виділення? але виділимо картку
-            targetSegment = Math.floor(Math.random() * 12);
-            highlightCard(targetSegment);
-            startSpin();
-        }
-
         function setLanguage(lang) {
             currentLang = lang;
             currentSpheres = SPHERES[lang];
@@ -573,38 +549,34 @@
                 if (btn.dataset.lang === lang) btn.classList.add("active");
                 else btn.classList.remove("active");
             });
-            titleField.innerText = lang === "ua" ? "✨ поле сфер ✨" : "✨ field of spheres ✨";
             buildCards();
-            if (targetSegment !== -1) highlightCard(targetSegment);
             resultDiv.innerHTML = lang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN";
         }
 
-        function saveApiKey() {
+        function saveApiSettings() {
             const key = groqKeyInput.value.trim();
-            if (key && key.startsWith("gsk_")) {
-                groqApiKey = key;
-                localStorage.setItem("groq_api_key", key);
-                resultDiv.innerHTML = currentLang === "ua" ? "🔑 API ключ збережено!" : "🔑 API key saved!";
-                setTimeout(() => {
-                    resultDiv.innerHTML = lastMessage ? `✨ ${lastMessage}` : (currentLang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN");
-                }, 2000);
-            } else {
-                alert(currentLang === "ua" ? "Введіть коректний ключ Groq (починається з gsk_)" : "Enter a valid Groq key (starts with gsk_)");
-            }
+            const proxy = proxyUrlInput.value.trim();
+            if (key) groqApiKey = key;
+            if (proxy) proxyUrl = proxy;
+            localStorage.setItem("groq_api_key", groqApiKey);
+            localStorage.setItem("groq_proxy_url", proxyUrl);
+            resultDiv.innerHTML = currentLang === "ua" ? "🔑 налаштування збережено" : "🔑 settings saved";
+            setTimeout(() => {
+                resultDiv.innerHTML = lastMessage ? `✨ ${lastMessage}` : (currentLang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN");
+            }, 1500);
         }
 
         function init() {
             buildCards();
             drawWheel();
-            spinBtn.addEventListener("click", randomSpin);
+            spinBtn.addEventListener("click", startSpin);
             copyBtn.addEventListener("click", copyResult);
-            saveKeyBtn.addEventListener("click", saveApiKey);
+            saveKeyBtn.addEventListener("click", saveApiSettings);
             document.querySelectorAll(".lang-btn").forEach(btn => {
                 btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
             });
             window.addEventListener("resize", () => drawWheel());
             resultDiv.innerText = "🌀 натисніть SPIN";
-            if (groqApiKey) groqKeyInput.value = groqApiKey;
         }
         init();
     })();
