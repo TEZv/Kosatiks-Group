@@ -577,56 +577,101 @@
                 return;
             }
             timerHint.innerText = "";
+            
+            // 1. Вибираємо випадковий фінальний сектор (індекс від 0 до 11)
             const finalTarget = Math.floor(Math.random() * 12);
             spinning = true;
             spinBtn.disabled = true;
             
-            const currentIdx = getSegmentAtTop();
-            let deltaIndices = (finalTarget - currentIdx + 12) % 12;
-            let deltaAngle = deltaIndices * (Math.PI*2/12);
-            const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
-            wheelDelta = deltaAngle + extraFull;
+            // 2. Рахуємо цільовий кут для КОЛЕСА
+            // Щоб сектор встановивсь рівно по центру вгорі (-Math.PI / 2):
+            const step = (Math.PI * 2) / 12;
+            const targetWheelAngle = -Math.PI / 2 - (finalTarget * step + step / 2);
             
-            const finalBallPos = -Math.PI/2;
-            let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
-            ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
-            ballDelta = ballDeltaVal;
+            // Нормалізуємо поточний кут колеса, щоб крутити вперед без ривків
+            let currentWheelNormalized = wheelAngle % (Math.PI * 2);
+            if (currentWheelNormalized < 0) currentWheelNormalized += Math.PI * 2;
+            
+            let targetWheelNormalized = targetWheelAngle % (Math.PI * 2);
+            if (targetWheelNormalized < 0) targetWheelNormalized += Math.PI * 2;
+            
+            // Додаємо від 6 до 10 повних обертів для красивого тривалого крутіння
+            const wheelExtraTurns = (Math.floor(Math.random() * 5) + 6) * Math.PI * 2;
+            wheelDelta = (targetWheelNormalized - currentWheelNormalized) + wheelExtraTurns;
+            if (wheelDelta < wheelExtraTurns) wheelDelta += Math.PI * 2;
             
             wheelStartAngle = wheelAngle;
+
+            // 3. Рахуємо цільовий кут для КУЛЬКИ
+            // Кулька у фіналі повинна стати точно вгорі (-Math.PI / 2)
+            const finalBallPos = -Math.PI / 2;
+            
+            let currentBallNormalized = ballAngle % (Math.PI * 2);
+            if (currentBallNormalized < 0) currentBallNormalized += Math.PI * 2;
+            
+            // Кулька летить у протилежний бік, додаємо їй 10-14 обертів
+            const ballExtraTurns = (Math.floor(Math.random() * 5) + 10) * Math.PI * 2;
+            ballDelta = (finalBallPos - currentBallNormalized) + ballExtraTurns;
+            if (ballDelta < ballExtraTurns) ballDelta += Math.PI * 2;
+            
             ballStartAngle = ballAngle;
             spinStart = performance.now();
+            
             requestAnimationFrame(animateSpin);
             
             async function animateSpin(now) {
                 const elapsed = now - spinStart;
                 let t = Math.min(1, elapsed / spinDuration);
-                const ease = 1 - Math.pow(1-t, 3);
+                
+                // Кубічний ефект сповільнення (Ease Out)
+                const ease = 1 - Math.pow(1 - t, 3);
+                
                 wheelAngle = wheelStartAngle + wheelDelta * ease;
-                ballAngle = ballStartAngle + ballDelta * ease;
+                
+                // Доки триває рух — кулька летить назустріч. 
+                // В самий останній момент (t > 0.95) м'яко фіксуємо її в секторі.
+                if (t < 0.95) {
+                    ballAngle = ballStartAngle + ballDelta * ease;
+                } else {
+                    // Жорстка прив'язка кульки до центру фізичного сектора колеса
+                    // щоб при повній зупинці вона не зміщувалася ні на піксель
+                    ballAngle = -Math.PI / 2;
+                }
+                
                 drawWheel();
+                
                 if (t < 1) {
                     requestAnimationFrame(animateSpin);
                 } else {
-                    wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
-                    ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
+                    // Остаточне вирівнювання кутів після завершення анімації
+                    wheelAngle = targetWheelNormalized;
+                    ballAngle = -Math.PI / 2;
                     drawWheel();
-                    const finalIdx = getSegmentAtTop();
-                    const sphere = currentSpheres[finalIdx];
+                    
+                    const sphere = currentSpheres[finalTarget];
                     const question = await generateDeepQuestion(sphere.name);
+                    
                     lastSphereIdx = finalIdx;
                     lastMessage = `${sphere.emoji} ${sphere.name}`;
                     lastQuestion = question;
+                    
                     resultDiv.innerHTML = `✨ ${lastMessage}`;
+                    
+                    // Оновлення історії
                     history.unshift(`${sphere.emoji} ${sphere.short}`);
                     if (history.length > 6) history.pop();
                     historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
+                    
                     highlightCard(finalIdx);
+                    
                     modalSphere.innerHTML = lastMessage;
                     modalQuestion.innerHTML = lastQuestion;
                     modal.classList.add("active");
+                    
                     spinning = false;
                     spinBtn.disabled = false;
                     lastSpinTime = Date.now();
+                    
                     timerHint.innerText = currentLang === "ua" ? `✅ спін виконано! наступний через 1 годину` : `✅ spin done! next in 1 hour`;
                     setTimeout(() => { if (!spinning) timerHint.innerText = ""; }, 5000);
                     flashEffect();
