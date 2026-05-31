@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-05-31T21:46:32.028Z",
+  "ua": {
+    "Творчість або Самовираження": null,
+    "Особистий розвиток або Турбота про себе": null,
+    "Домашнє життя або Ведення господарства": null,
+    "Фінанси": null,
+    "Батьківство або Сім'я": null,
+    "Відпочинок і Хобі": null,
+    "Спільнота або Соціальні зв'язки": null,
+    "Фізичне здоров'я": null,
+    "Кар'єра або Освіта": null,
+    "Екологія або Благодійність": null,
+    "Особисті стосунки": null,
+    "Духовність": null
+  },
+  "en": {
+    "Creativity or Self-Expression": null,
+    "Personal Development or Self-Care": null,
+    "Domestic Life or Household Management": null,
+    "Finance": null,
+    "Parenting or Family": null,
+    "Recreation and Hobbies": null,
+    "Community Involvement or Social Connection": null,
+    "Physical Health": null,
+    "Career or Education": null,
+    "Environmental or Charitable Causes": null,
+    "Personal Relationship": null,
+    "Spirituality": null
+  }
+}
