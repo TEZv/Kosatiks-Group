@@ -3,569 +3,696 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>✨ Неоновий оракул · 12 сфер життя</title>
+    <title>🎡 Рулетка Сфер · Неоновий Оракул</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
         }
         body {
-            background: radial-gradient(ellipse at 20% 30%, #0a0f2a, #010108);
+            background: radial-gradient(ellipse at 30% 40%, #0a0f1a, #010308);
             font-family: 'Segoe UI', 'Inter', 'Times New Roman', serif;
             min-height: 100vh;
-            padding: 1.5rem;
-            color: #f0e6d0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
         }
-        /* фон з частинками */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* неонова оболонка */
+        .roulette-layout {
+            max-width: 1500px;
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 3rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 255, 200, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.5);
         }
-        .particle {
-            position: absolute;
-            background: rgba(255, 215, 150, 0.4);
+        .wheel-area {
+            flex: 1.2;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        canvas {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            background: #1a3a2a;
             border-radius: 50%;
-            animation: float 15s infinite linear;
+            box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 0 30px cyan, 0 15px 35px black;
+            transition: box-shadow 0.2s;
         }
-        @keyframes float {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+        canvas:hover {
+            box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 0 40px cyan;
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
+        .betting-area {
+            flex: 0.9;
+            min-width: 300px;
+            background: rgba(15, 40, 31, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 1rem;
+            border: 2px solid #0ff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
-        /* верхня панель */
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            background: rgba(10, 20, 35, 0.6);
-            backdrop-filter: blur(12px);
-            padding: 0.5rem 1.2rem;
-            border-radius: 3rem;
-            border: 1px solid rgba(0, 255, 255, 0.3);
+            gap: 0.5rem;
         }
         .lang-switch {
             display: flex;
             gap: 0.5rem;
         }
         .lang-btn {
-            background: none;
+            background: #2a4a3a;
             border: none;
-            color: #b9c7e8;
-            padding: 0.3rem 0.8rem;
+            padding: 0.2rem 0.8rem;
             border-radius: 2rem;
+            color: #f5e6b0;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
+            transition: 0.1s;
         }
         .lang-btn.active {
             background: #0ff;
-            color: #010312;
+            color: #0a1a12;
             box-shadow: 0 0 8px cyan;
         }
-        .api-area {
+        .api-settings {
             display: flex;
+            flex-wrap: wrap;
             gap: 0.5rem;
-            background: #0a1022cc;
-            padding: 0.2rem 0.8rem;
+            background: #0a1f18;
+            padding: 0.4rem;
             border-radius: 2rem;
+            align-items: center;
+            border: 1px solid #0ff;
         }
-        .api-area input {
-            background: #1a2a3a;
-            border: none;
-            color: #f0e6d0;
-            padding: 0.2rem 0.6rem;
+        .api-settings input {
+            background: #1a3a2a;
+            border: 1px solid cyan;
+            color: #f9e2a1;
+            padding: 0.2rem 0.5rem;
             border-radius: 1rem;
             font-size: 0.7rem;
-            width: 180px;
+            width: 140px;
         }
-        .api-area button {
-            background: #d4af37;
+        .api-settings button {
+            background: #0ff;
             border: none;
-            border-radius: 2rem;
             padding: 0.1rem 0.6rem;
+            border-radius: 2rem;
+            font-size: 0.6rem;
             cursor: pointer;
-            font-size: 0.7rem;
+            color: #0a1f18;
+            font-weight: bold;
         }
-        /* сітка карток */
+        .betting-title {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #0ff;
+            letter-spacing: 2px;
+            border-bottom: 1px solid cyan;
+            padding-bottom: 0.3rem;
+            text-shadow: 0 0 5px cyan;
+        }
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-right: 0.3rem;
         }
-        .sphere-neon-card {
-            background: rgba(15, 25, 45, 0.65);
-            backdrop-filter: blur(12px);
-            border-radius: 1.5rem;
-            padding: 1.2rem;
-            border: 1px solid rgba(0, 255, 255, 0.3);
+        .sphere-card {
+            background: rgba(30, 50, 70, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            padding: 0.5rem 0.3rem;
+            text-align: center;
             transition: all 0.2s ease;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-        .sphere-neon-card:hover {
-            transform: translateY(-6px);
-            border-color: #0ff;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-            background: rgba(25, 45, 75, 0.8);
-        }
-        .card-emoji {
-            font-size: 2rem;
-            display: inline-block;
-            margin-right: 0.5rem;
-        }
-        .card-title {
-            font-size: 1.1rem;
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            color: #e9d6a3;
+            font-size: 0.7rem;
             font-weight: bold;
-            display: inline-block;
-            vertical-align: middle;
+            word-break: break-word;
+            box-shadow: 0 0 5px rgba(0,255,255,0.3);
         }
-        .card-short {
-            font-size: 0.7rem;
-            color: #bbd0ff;
-            margin-top: 0.5rem;
-            border-left: 2px solid #0ff;
-            padding-left: 0.6rem;
+        .sphere-card.selected-card {
+            background: radial-gradient(circle, #f5b042, #b45f1b);
+            color: #0f1a0e;
+            border-color: #ffff80;
+            box-shadow: 0 0 15px #ffaa33;
+            transform: scale(1.01);
         }
-        /* історія */
-        .history-bar {
-            background: rgba(0,0,0,0.5);
-            border-radius: 2rem;
-            padding: 0.5rem 1rem;
+        .sphere-emoji { font-size: 1.3rem; display: block; }
+        .sphere-name-full { font-size: 0.65rem; font-weight: normal; line-height: 1.2; }
+        .controls {
             display: flex;
+            justify-content: center;
             gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 1rem;
+            margin: 0.5rem 0;
         }
-        .history-list {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .history-item {
-            background: #1a2a3a;
-            border-radius: 2rem;
-            padding: 0.2rem 0.6rem;
-            font-size: 0.7rem;
-        }
-        .copy-btn {
-            background: #d4af37;
+        button {
+            background: radial-gradient(circle at 30% 20%, #f5b042, #b45f1b);
             border: none;
+            padding: 0.5rem 1.2rem;
             border-radius: 2rem;
-            padding: 0.3rem 1rem;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #0f1a0e;
             cursor: pointer;
+            transition: 0.05s linear;
+            box-shadow: 0 3px 0 #5a2e0a, 0 0 8px rgba(255, 100, 0, 0.8);
         }
-        /* модальне вікно */
-        .modal-overlay {
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #5a2e0a;
+        }
+        button:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+        }
+        .result-area {
+            background: #0a1f18;
+            border-radius: 1.5rem;
+            padding: 0.5rem;
+            border: 1px solid cyan;
+            text-align: center;
+        }
+        .result-text {
+            color: #f9e2a1;
+            font-size: 0.85rem;
+            word-break: break-word;
+        }
+        .history {
+            margin-top: 0.4rem;
+            font-size: 0.65rem;
+            color: #c9b27c;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .timer-hint {
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: #0ff;
+            text-align: center;
+            margin-top: 0.2rem;
+            background: #0a1f18;
+            padding: 0.2rem;
+            border-radius: 2rem;
+        }
+        /* Модальне вікно */
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
-        .modal-overlay.active {
+        .modal.active {
             opacity: 1;
             visibility: visible;
         }
-        .modal-content {
-            background: #0e1a28;
+        .modal-card {
+            background: #0f281f;
             border-radius: 2rem;
-            max-width: 550px;
+            padding: 1.5rem;
+            max-width: 500px;
             width: 90%;
             border: 2px solid #0ff;
-            box-shadow: 0 0 40px rgba(0,255,255,0.3);
-            overflow: hidden;
-        }
-        .modal-header {
-            padding: 1rem 1.5rem;
-            background: #0a1522;
-            border-bottom: 1px solid #0ff3;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        .modal-close {
-            background: none;
-            border: none;
-            color: #0ff;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        .modal-body {
-            padding: 1.5rem;
-        }
-        .question-text {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-            border-left: 3px solid #ffaa44;
-            padding-left: 1rem;
-        }
-        .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            margin-bottom: 1.5rem;
-        }
-        .option-btn {
-            background: #1e2f44;
-            border: 1px solid #3a5a7a;
-            border-radius: 2rem;
-            padding: 0.6rem 1rem;
-            text-align: left;
-            cursor: pointer;
-            transition: 0.1s;
-            color: #e6f0ff;
-            font-size: 0.85rem;
-        }
-        .option-btn:hover {
-            background: #2a4a6a;
-            border-color: #0ff;
-        }
-        .modal-footer {
-            padding: 1rem 1.5rem;
-            background: #0a1522;
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.8rem;
-            border-top: 1px solid #0ff3;
-        }
-        .modal-footer button {
-            background: #2a4a6a;
-            border: none;
-            padding: 0.4rem 1rem;
-            border-radius: 2rem;
-            cursor: pointer;
-        }
-        .timer-hint {
-            font-size: 0.7rem;
-            color: #ffaa66;
+            box-shadow: 0 0 40px cyan;
             text-align: center;
-            margin-top: 0.5rem;
         }
-        @media (max-width: 700px) {
-            .cards-grid { grid-template-columns: 1fr; }
+        .modal-card h3 {
+            color: #0ff;
+            margin-bottom: 1rem;
+        }
+        .modal-question {
+            font-size: 1.1rem;
+            color: #ffefcf;
+            margin: 1rem 0;
+            line-height: 1.4;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .modal-actions button {
+            background: #0ff;
+            color: #0a1f18;
+            box-shadow: none;
+        }
+        @media (max-width: 900px) {
+            .roulette-layout { flex-direction: column; align-items: center; }
+            .betting-area { width: 100%; }
+            .cards-grid { max-height: 40vh; }
         }
     </style>
 </head>
 <body>
-<div class="particles" id="particles"></div>
-<div class="container">
-    <div class="top-bar">
-        <div class="lang-switch">
-            <button class="lang-btn active" data-lang="ua">UA</button>
-            <button class="lang-btn" data-lang="en">EN</button>
+<div class="roulette-layout">
+    <div class="wheel-area">
+        <canvas id="rouletteCanvas" width="600" height="600" style="width:100%; height:auto; max-width:600px; aspect-ratio:1/1"></canvas>
+        <div class="top-bar" style="width:100%; justify-content:center;">
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="ua">🇺🇦 UA</button>
+                <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+            </div>
         </div>
-        <div class="api-area">
-            <input type="text" id="groqKey" placeholder="Groq API key (gsk_...)" autocomplete="off">
+    </div>
+    <div class="betting-area">
+        <div class="betting-title" id="titleField">✨ поле сфер ✨</div>
+        <div class="cards-grid" id="cardsGrid"></div>
+        <div class="controls">
+            <button id="spinBtn">🎲 SPIN THE BALL</button>
+            <button id="copyBtn">📋 COPY</button>
+        </div>
+        <div class="result-area">
+            <div class="result-text" id="resultMessage">🌀 натисніть SPIN</div>
+            <div class="history" id="historyLog"></div>
+        </div>
+        <div class="timer-hint" id="timerHint"></div>
+        <div class="api-settings">
+            <input type="text" id="groqKeyInput" placeholder="Groq API key (gsk_...)" autocomplete="off">
+            <input type="text" id="proxyUrlInput" placeholder="https://your-proxy.vercel.app/api/groq">
             <button id="saveKeyBtn">💾</button>
         </div>
     </div>
-    <div class="cards-grid" id="cardsGrid"></div>
-    <div class="history-bar">
-        <div class="history-list" id="historyList"></div>
-        <button class="copy-btn" id="copyHistoryBtn">📋 COPY</button>
-    </div>
-    <div class="timer-hint" id="timerHint"></div>
 </div>
 
-<!-- Модальне вікно -->
-<div id="modalOverlay" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="modal-title" id="modalTitle">Сфера</span>
-            <button class="modal-close" id="modalClose">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="question-text" id="modalQuestion">Завантаження...</div>
-            <div class="options-list" id="modalOptions"></div>
-        </div>
-        <div class="modal-footer">
-            <button id="modalCopyBtn">📋 Копіювати питання</button>
+<div id="modal" class="modal">
+    <div class="modal-card">
+        <h3>🌀 Оракул сфери</h3>
+        <div id="modalSphere" style="font-weight:bold; color:#ffaa33;"></div>
+        <div class="modal-question" id="modalQuestion"></div>
+        <div class="modal-actions">
             <button id="modalCloseBtn">Закрити</button>
+            <button id="modalSaveBtn">💾 Зберегти в історію</button>
         </div>
     </div>
 </div>
 
 <script>
-    // ---------- ДАНІ СФЕР ----------
-    const SPHERES = {
-        ua: [
-            { emoji: "🚀", name: "Творчість або Самовираження", short: "Творчість" },
-            { emoji: "🧑‍🔬", name: "Особистий розвиток або Турбота про себе", short: "Саморозвиток" },
-            { emoji: "🏘", name: "Домашнє життя або Ведення господарства", short: "Дім" },
-            { emoji: "💴", name: "Фінанси", short: "Фінанси" },
-            { emoji: "🤝", name: "Батьківство або Сім'я", short: "Сім'я" },
-            { emoji: "📚", name: "Відпочинок і Хобі", short: "Хобі" },
-            { emoji: "🗣️", name: "Спільнота або Соціальні зв'язки", short: "Спільнота" },
-            { emoji: "🌳", name: "Фізичне здоров'я", short: "Здоров'я" },
-            { emoji: "🔎", name: "Кар'єра або Освіта", short: "Кар'єра" },
-            { emoji: "🌿", name: "Екологія або Благодійність", short: "Екологія" },
-            { emoji: "👥", name: "Особисті стосунки", short: "Стосунки" },
-            { emoji: "🧘", name: "Духовність", short: "Духовність" }
-        ],
-        en: [
-            { emoji: "🚀", name: "Creativity or Self-Expression", short: "Creativity" },
-            { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Self-Development" },
-            { emoji: "🏘", name: "Domestic Life or Household Management", short: "Home" },
-            { emoji: "💴", name: "Finance", short: "Finance" },
-            { emoji: "🤝", name: "Parenting or Family", short: "Family" },
-            { emoji: "📚", name: "Recreation and Hobbies", short: "Hobbies" },
-            { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Community" },
-            { emoji: "🌳", name: "Physical Health", short: "Health" },
-            { emoji: "🔎", name: "Career or Education", short: "Career" },
-            { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Ecology" },
-            { emoji: "👥", name: "Personal Relationship", short: "Relationships" },
-            { emoji: "🧘", name: "Spirituality", short: "Spirituality" }
-        ]
-    };
+    (function() {
+        // ---------- ДАНІ СФЕР ----------
+        const SPHERES = {
+            ua: [
+                { emoji: "🚀", name: "Творчість або Самовираження", short: "Творчість" },
+                { emoji: "🧑‍🔬", name: "Особистий розвиток або Турбота про себе", short: "Саморозвиток" },
+                { emoji: "🏘", name: "Домашнє життя або Ведення господарства", short: "Дім" },
+                { emoji: "💴", name: "Фінанси", short: "Фінанси" },
+                { emoji: "🤝", name: "Батьківство або Сім'я", short: "Сім'я" },
+                { emoji: "📚", name: "Відпочинок і Хобі", short: "Хобі" },
+                { emoji: "🗣️", name: "Спільнота або Соціальні зв'язки", short: "Спільнота" },
+                { emoji: "🌳", name: "Фізичне здоров'я", short: "Здоров'я" },
+                { emoji: "🔎", name: "Кар'єра або Освіта", short: "Кар'єра" },
+                { emoji: "🌿", name: "Екологія або Благодійність", short: "Екологія" },
+                { emoji: "👥", name: "Особисті стосунки", short: "Стосунки" },
+                { emoji: "🧘", name: "Духовність", short: "Духовність" }
+            ],
+            en: [
+                { emoji: "🚀", name: "Creativity or Self-Expression", short: "Creativity" },
+                { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Self-Development" },
+                { emoji: "🏘", name: "Domestic Life or Household Management", short: "Home" },
+                { emoji: "💴", name: "Finance", short: "Finance" },
+                { emoji: "🤝", name: "Parenting or Family", short: "Family" },
+                { emoji: "📚", name: "Recreation and Hobbies", short: "Hobbies" },
+                { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Community" },
+                { emoji: "🌳", name: "Physical Health", short: "Health" },
+                { emoji: "🔎", name: "Career or Education", short: "Career" },
+                { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Ecology" },
+                { emoji: "👥", name: "Personal Relationship", short: "Relationships" },
+                { emoji: "🧘", name: "Spirituality", short: "Spirituality" }
+            ]
+        };
 
-    // Локальна база питань з варіантами (для fallback)
-    const LOCAL_QUESTIONS = {
-        ua: [
-            { q: "Якби страх зник, що б ти створила?", opts: ["🎨 Намалювати картину", "📝 Написати вірш", "🎭 Вийти на сцену"] },
-            { q: "Яка звичка виснажує тебе, але ти її тримаєшся?", opts: ["Прокрастинація", "Скролінг соцмереж", "Надмірна самокритика"] },
-            { q: "Який емоційний слід залишив твій дім у твоїй душі?", opts: ["Тепло", "Тривога", "Свобода"] },
-            { q: "Якби гроші не мали значення, чим би ти займалась?", opts: ["Подорожі", "Творчість", "Допомога іншим"] },
-            { q: "Яку роль ти граєш у сім'ї, і чи хочеш її змінити?", opts: ["Миротворець", "Відповідальна", "Спостерігач"] },
-            { q: "Чому ти не дозволяєш собі відпочивати без провини?", opts: ["Відчуття обов'язку", "Страх осуду", "Звичка"] },
-            { q: "Де ти шукаєш прийняття, але не знаходиш?", opts: ["Робота", "Соцмережі", "Стосунки"] },
-            { q: "Як твоє тіло намагається з тобою говорити?", opts: ["Біль", "Втома", "Легкість"] },
-            { q: "Що ти робиш не через покликання, а через страх?", opts: ["Робота", "Навчання", "Стосунки"] },
-            { q: "Як твоя повсякденність впливає на планету?", opts: ["Відходи", "Транспорт", "Енергія"] },
-            { q: "Які стосунки ти терпиш, хоча вони тебе руйнують?", opts: ["Дружба", "Романтичні", "Родинні"] },
-            { q: "Де ти втрачаєш себе, намагаючись догодити іншим?", opts: ["Робота", "Сім'я", "Соціум"] }
-        ],
-        en: [
-            { q: "If fear disappeared, what would you create?", opts: ["Paint a picture", "Write a poem", "Perform on stage"] },
-            { q: "Which habit drains you but you keep it?", opts: ["Procrastination", "Social media scrolling", "Self-criticism"] },
-            { q: "What emotional trace did your home leave in your soul?", opts: ["Warmth", "Anxiety", "Freedom"] },
-            { q: "If money didn't matter, what would you do?", opts: ["Travel", "Create art", "Help others"] },
-            { q: "What role do you play in your family?", opts: ["Peacemaker", "Responsible one", "Observer"] },
-            { q: "Why don't you allow yourself to rest without guilt?", opts: ["Sense of duty", "Fear of judgment", "Habit"] },
-            { q: "Where do you seek acceptance but don't find it?", opts: ["Work", "Social media", "Relationships"] },
-            { q: "How is your body trying to speak to you?", opts: ["Pain", "Fatigue", "Lightness"] },
-            { q: "What do you do not out of calling but out of fear?", opts: ["Work", "Study", "Relationships"] },
-            { q: "How does your daily life affect the planet?", opts: ["Waste", "Transport", "Energy"] },
-            { q: "Which relationships do you tolerate though they harm you?", opts: ["Friendship", "Romantic", "Family"] },
-            { q: "Where do you lose yourself trying to please others?", opts: ["Work", "Family", "Society"] }
-        ]
-    };
+        // Локальна база глибоких питань (fallback)
+        const FALLBACK_QUESTIONS = {
+            ua: [
+                "Якби страх зник, що б ти створила?",
+                "Яка звичка виснажує тебе, але ти її тримаєшся?",
+                "Який емоційний слід залишив твій дім у твоїй душі?",
+                "Якби гроші не мали значення, чим би ти займалась?",
+                "Яку роль ти граєш у сім'ї, і чи хочеш її змінити?",
+                "Чому ти не дозволяєш собі відпочивати без провини?",
+                "Де ти шукаєш прийняття, але не знаходиш?",
+                "Як твоє тіло намагається з тобою говорити?",
+                "Що ти робиш не через покликання, а через страх?",
+                "Як твоя повсякденність впливає на планету?",
+                "Які стосунки ти терпиш, хоча вони тебе руйнують?",
+                "Де ти втрачаєш себе, намагаючись догодити іншим?"
+            ],
+            en: [
+                "If fear disappeared, what would you create?",
+                "Which habit drains you but you keep it?",
+                "What emotional trace did your home leave in your soul?",
+                "If money didn't matter, what would you do?",
+                "What role do you play in your family – do you want to change it?",
+                "Why don't you allow yourself to rest without guilt?",
+                "Where do you seek acceptance but don't find it?",
+                "How is your body trying to speak to you?",
+                "What do you do not out of calling but out of fear?",
+                "How does your daily life affect the planet?",
+                "Which relationships do you tolerate though they harm you?",
+                "Where do you lose yourself trying to please others?"
+            ]
+        };
 
-    let currentLang = "ua";
-    let currentSpheres = SPHERES.ua;
-    let groqApiKey = localStorage.getItem("groq_api_key") || "";
-    let lastGenerated = null; // { sphereId, question, options, timestamp }
-    let history = []; // масив { sphereShort, questionPreview }
-    let lastSpinTime = 0;
-    const COOLDOWN_MS = 3600000; // 1 година
+        let currentLang = "ua";
+        let currentSpheres = SPHERES.ua;
+        let groqApiKey = localStorage.getItem("groq_api_key") || "";
+        let proxyUrl = localStorage.getItem("groq_proxy_url") || "";
+        let lastMessage = "";
+        let lastQuestion = "";
+        let lastSphereIdx = -1;
+        let history = [];
+        let spinning = false;
+        let lastSpinTime = 0;
+        const SPIN_COOLDOWN = 3600000; // 1 година
 
-    // DOM
-    const cardsGrid = document.getElementById("cardsGrid");
-    const historyListDiv = document.getElementById("historyList");
-    const timerHint = document.getElementById("timerHint");
-    const groqKeyInput = document.getElementById("groqKey");
-    const saveKeyBtn = document.getElementById("saveKeyBtn");
-    const copyHistoryBtn = document.getElementById("copyHistoryBtn");
-    const modalOverlay = document.getElementById("modalOverlay");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalQuestion = document.getElementById("modalQuestion");
-    const modalOptions = document.getElementById("modalOptions");
-    const modalClose = document.getElementById("modalClose");
-    const modalCloseBtn = document.getElementById("modalCloseBtn");
-    const modalCopyBtn = document.getElementById("modalCopyBtn");
+        // Canvas
+        const canvas = document.getElementById("rouletteCanvas");
+        const ctx = canvas.getContext("2d");
+        let size = 600, center = 300, radius = 280;
+        let wheelAngle = 0;
+        let ballAngle = 0;
+        let spinStart = 0;
+        let spinDuration = 2500;
+        let wheelStartAngle = 0, ballStartAngle = 0;
+        let wheelDelta = 0, ballDelta = 0;
 
-    if (groqApiKey) groqKeyInput.value = groqApiKey;
+        // DOM
+        const cardsGrid = document.getElementById("cardsGrid");
+        const resultDiv = document.getElementById("resultMessage");
+        const historyDiv = document.getElementById("historyLog");
+        const spinBtn = document.getElementById("spinBtn");
+        const copyBtn = document.getElementById("copyBtn");
+        const timerHint = document.getElementById("timerHint");
+        const groqKeyInput = document.getElementById("groqKeyInput");
+        const proxyUrlInput = document.getElementById("proxyUrlInput");
+        const saveKeyBtn = document.getElementById("saveKeyBtn");
+        const modal = document.getElementById("modal");
+        const modalSphere = document.getElementById("modalSphere");
+        const modalQuestion = document.getElementById("modalQuestion");
+        const modalCloseBtn = document.getElementById("modalCloseBtn");
+        const modalSaveBtn = document.getElementById("modalSaveBtn");
 
-    // Генерація частинок
-    function createParticles() {
-        const container = document.getElementById("particles");
-        for (let i = 0; i < 80; i++) {
-            const p = document.createElement("div");
-            p.className = "particle";
-            const size = Math.random() * 4 + 1;
-            p.style.width = `${size}px`;
-            p.style.height = `${size}px`;
-            p.style.left = `${Math.random() * 100}%`;
-            p.style.animationDelay = `${Math.random() * 15}s`;
-            p.style.animationDuration = `${8 + Math.random() * 10}s`;
-            container.appendChild(p);
-        }
-    }
-    createParticles();
+        if (groqApiKey) groqKeyInput.value = groqApiKey;
+        if (proxyUrl) proxyUrlInput.value = proxyUrl;
 
-    // Отримання через Groq (ситуативне питання + варіанти)
-    async function generateQuestionWithOptions(sphereName) {
-        const prompt = currentLang === "ua" 
-            ? `Ти — мудрий оракул. Придумай одне глибоке ситуативне питання для сфери життя "${sphereName}" та 3-4 варіанти відповідей (кожен короткий, 3-7 слів). Формат виводу: спочатку питання, потім новий рядок, потім варіанти через кому. Не використовуй зайві символи.`
-            : `You are a wise oracle. Create one deep situational question for the life sphere "${sphereName}" and 3-4 answer options (each short, 3-7 words). Output format: question first, then new line, then options separated by commas. No extra symbols.`;
-        
-        if (!groqApiKey) {
-            // локальний fallback
-            const local = LOCAL_QUESTIONS[currentLang];
-            const idx = Math.floor(Math.random() * local.length);
-            return { question: local[idx].q, options: local[idx].opts };
-        }
-        
-        try {
-            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-                method: "POST",
-                headers: { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" },
-                body: JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 200 })
+        function buildCards() {
+            cardsGrid.innerHTML = "";
+            currentSpheres.forEach((s, idx) => {
+                const card = document.createElement("div");
+                card.className = "sphere-card";
+                card.dataset.idx = idx;
+                card.innerHTML = `<span class="sphere-emoji">${s.emoji}</span><div class="sphere-name-full">${s.name}</div>`;
+                cardsGrid.appendChild(card);
             });
-            if (!response.ok) throw new Error("API error");
-            const data = await response.json();
-            let text = data.choices[0].message.content.trim();
-            // парсинг: перший рядок – питання, далі – варіанти через кому
-            let lines = text.split(/\r?\n/);
-            let question = lines[0].replace(/^["']|["']$/g, '');
-            let optionsStr = lines.slice(1).join(' ').replace(/^["']|["']$/g, '');
-            let options = optionsStr.split(',').map(s => s.trim()).filter(s => s.length > 0);
-            if (options.length < 2) options = ["Так", "Ні", "Можливо"];
-            return { question, options };
-        } catch (err) {
-            console.warn("Groq failed, using local", err);
-            const local = LOCAL_QUESTIONS[currentLang];
-            const idx = Math.floor(Math.random() * local.length);
-            return { question: local[idx].q, options: local[idx].opts };
         }
-    }
 
-    // Показати модалку з питаннями
-    async function showModal(sphereId) {
-        const now = Date.now();
-        if (lastSpinTime && (now - lastSpinTime) < COOLDOWN_MS) {
-            const left = Math.ceil((COOLDOWN_MS - (now - lastSpinTime)) / 60000);
-            timerHint.innerText = currentLang === "ua" ? `⏳ наступний оракул через ${left} хв` : `⏳ next oracle in ${left} min`;
-            return;
+        function highlightCard(index) {
+            const cards = document.querySelectorAll(".sphere-card");
+            cards.forEach((card, i) => {
+                if (i === index) card.classList.add("selected-card");
+                else card.classList.remove("selected-card");
+            });
         }
-        const sphere = currentSpheres[sphereId];
-        modalTitle.innerHTML = `${sphere.emoji} ${sphere.name}`;
-        modalQuestion.innerHTML = "✨ Запитую оракула...";
-        modalOptions.innerHTML = "";
-        modalOverlay.classList.add("active");
-        
-        const result = await generateQuestionWithOptions(sphere.name);
-        modalQuestion.innerHTML = result.question;
-        modalOptions.innerHTML = "";
-        result.options.forEach(opt => {
-            const btn = document.createElement("button");
-            btn.className = "option-btn";
-            btn.innerHTML = opt;
-            btn.onclick = () => {
-                // можна додати збереження вибору, але поки просто повідомлення
-                alert(`✨ Ви обрали: ${opt}\nЗапишіть цю думку собі.`);
-            };
-            modalOptions.appendChild(btn);
-        });
-        
-        // зберігаємо в історію
-        const preview = sphere.short;
-        history.unshift({ sphereShort: preview, questionPreview: result.question.substring(0, 50) });
-        if (history.length > 6) history.pop();
-        updateHistoryUI();
-        
-        lastSpinTime = Date.now();
-        lastGenerated = { sphereId, question: result.question, options: result.options, timestamp: lastSpinTime };
-        timerHint.innerText = currentLang === "ua" ? `✅ оракул відповів! наступний через 1 годину` : `✅ oracle answered! next in 1 hour`;
-        setTimeout(() => {
-            if ((Date.now() - lastSpinTime) > COOLDOWN_MS) timerHint.innerText = "";
-        }, 5000);
-    }
-    
-    function updateHistoryUI() {
-        historyListDiv.innerHTML = history.map(h => `<div class="history-item">${h.sphereShort}</div>`).join('');
-    }
-    
-    function copyHistory() {
-        const text = history.map(h => `${h.sphereShort}: ${h.questionPreview}`).join('\n');
-        navigator.clipboard.writeText(text);
-        alert("Історія скопійована!");
-    }
-    
-    // Побудова карток
-    function buildCards() {
-        cardsGrid.innerHTML = "";
-        currentSpheres.forEach((sphere, idx) => {
-            const card = document.createElement("div");
-            card.className = "sphere-neon-card";
-            card.innerHTML = `
-                <div><span class="card-emoji">${sphere.emoji}</span><span class="card-title">${sphere.short}</span></div>
-                <div class="card-short">${sphere.name}</div>
-            `;
-            card.onclick = () => showModal(idx);
-            cardsGrid.appendChild(card);
-        });
-    }
-    
-    function setLanguage(lang) {
-        currentLang = lang;
-        currentSpheres = SPHERES[lang];
-        document.querySelectorAll(".lang-btn").forEach(btn => {
-            if (btn.dataset.lang === lang) btn.classList.add("active");
-            else btn.classList.remove("active");
-        });
-        buildCards();
-    }
-    
-    function saveApiKey() {
-        const key = groqKeyInput.value.trim();
-        if (key && key.startsWith("gsk_")) {
-            groqApiKey = key;
-            localStorage.setItem("groq_api_key", key);
-            alert("API ключ збережено!");
-        } else if (key) {
-            alert("Невірний формат ключа Groq (має починатися з gsk_)");
+
+        function drawWheel() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, size, size);
+            ctx.fillStyle = "#1e3a2a";
+            ctx.fillRect(0, 0, size, size);
+            const step = (Math.PI * 2) / 12;
+            for (let i = 0; i < 12; i++) {
+                const start = i * step + wheelAngle;
+                const end = (i+1) * step + wheelAngle;
+                const isRed = (i % 2 === 0);
+                const color1 = isRed ? "#b22222" : "#2c2c2c";
+                const color2 = isRed ? "#8b0000" : "#1a1a1a";
+                const grad = ctx.createRadialGradient(center, center, radius*0.2, center, center, radius);
+                grad.addColorStop(0, color1);
+                grad.addColorStop(1, color2);
+                ctx.beginPath();
+                ctx.arc(center, center, radius, start, end);
+                ctx.lineTo(center, center);
+                ctx.fillStyle = grad;
+                ctx.fill();
+                ctx.strokeStyle = "#f7d97a";
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                const mid = start + step/2;
+                const txtR = radius * 0.7;
+                const x = center + Math.cos(mid) * txtR;
+                const y = center + Math.sin(mid) * txtR;
+                ctx.font = `bold ${Math.max(18, radius*0.08)}px "Segoe UI"`;
+                ctx.fillStyle = "#fff8e7";
+                ctx.shadowBlur = 3;
+                ctx.fillText(i+1, x-11, y+7);
+                ctx.shadowBlur = 0;
+            }
+            ctx.beginPath();
+            ctx.arc(center, center, radius*0.18, 0, Math.PI*2);
+            ctx.fillStyle = "#d4af37";
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(center, center, radius*0.1, 0, Math.PI*2);
+            ctx.fillStyle = "#b8860b";
+            ctx.fill();
+            const ballRad = radius * 0.045;
+            const ballX = center + Math.cos(ballAngle) * (radius - ballRad - 5);
+            const ballY = center + Math.sin(ballAngle) * (radius - ballRad - 5);
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, ballRad, 0, Math.PI*2);
+            ctx.fillStyle = "#f0f0f0";
+            ctx.fill();
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.arc(ballX-2, ballY-2, ballRad*0.3, 0, Math.PI*2);
+            ctx.fill();
         }
-    }
-    
-    // Події модалки
-    modalClose.onclick = () => modalOverlay.classList.remove("active");
-    modalCloseBtn.onclick = () => modalOverlay.classList.remove("active");
-    modalCopyBtn.onclick = () => {
-        if (lastGenerated) {
-            const text = `${lastGenerated.question}\n${lastGenerated.options.join('\n')}`;
-            navigator.clipboard.writeText(text);
-            alert("Питання скопійовано!");
+
+        function getSegmentAtTop() {
+            const pointerAngle = -Math.PI/2;
+            let raw = pointerAngle - wheelAngle;
+            raw = ((raw % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+            return Math.floor(raw / (Math.PI*2/12));
         }
-    };
-    
-    document.querySelectorAll(".lang-btn").forEach(btn => btn.onclick = () => setLanguage(btn.dataset.lang));
-    saveKeyBtn.onclick = saveApiKey;
-    copyHistoryBtn.onclick = copyHistory;
-    
-    buildCards();
-    updateHistoryUI();
+
+        async function generateDeepQuestion(sphereName) {
+            const prompt = currentLang === "ua" 
+                ? `Ти — мудрий оракул. Напиши одне глибоке, провокаційне, ситуативне питання для роздумів (максимум 20 слів) для сфери життя "${sphereName}". Питання має спонукати до саморефлексії. Не використовуй лапки, тільки текст питання.`
+                : `You are a wise oracle. Write one deep, provocative, situational question for reflection (max 20 words) for the life sphere "${sphereName}". The question should encourage self-reflection. No quotes, just the question text.`;
+            
+            if (!groqApiKey) {
+                const fallbackList = FALLBACK_QUESTIONS[currentLang];
+                return fallbackList[Math.floor(Math.random() * fallbackList.length)];
+            }
+            try {
+                let url = "https://api.groq.com/openai/v1/chat/completions";
+                let headers = { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" };
+                let body = JSON.stringify({ model: "llama3-8b-8192", messages: [{ role: "user", content: prompt }], temperature: 0.9, max_tokens: 80 });
+                if (proxyUrl && proxyUrl.trim() !== "") {
+                    url = proxyUrl.trim();
+                    headers = { "Content-Type": "application/json" };
+                    body = JSON.stringify({ prompt, apiKey: groqApiKey });
+                }
+                const response = await fetch(url, { method: "POST", headers, body });
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                let text = data.choices?.[0]?.message?.content?.trim() || "";
+                text = text.replace(/^["']|["']$/g, '');
+                if (text.length === 0) throw new Error();
+                return text;
+            } catch (err) {
+                const fallbackList = FALLBACK_QUESTIONS[currentLang];
+                return fallbackList[Math.floor(Math.random() * fallbackList.length)];
+            }
+        }
+
+        function formatCooldown(ms) {
+            const hours = Math.floor(ms / 3600000);
+            const minutes = Math.floor((ms % 3600000) / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            if (hours > 0) return `${hours}г ${minutes}хв ${seconds}с`;
+            if (minutes > 0) return `${minutes}хв ${seconds}с`;
+            return `${seconds}с`;
+        }
+
+        async function startSpin() {
+            if (spinning) return;
+            const now = Date.now();
+            const timeLeft = SPIN_COOLDOWN - (now - lastSpinTime);
+            if (lastSpinTime && timeLeft > 0) {
+                timerHint.innerText = currentLang === "ua" ? `⏳ наступний спін через ${formatCooldown(timeLeft)}` : `⏳ next spin in ${formatCooldown(timeLeft)}`;
+                return;
+            }
+            timerHint.innerText = "";
+            const finalTarget = Math.floor(Math.random() * 12);
+            spinning = true;
+            spinBtn.disabled = true;
+            const currentIdx = getSegmentAtTop();
+            let deltaIndices = (finalTarget - currentIdx + 12) % 12;
+            let deltaAngle = deltaIndices * (Math.PI*2/12);
+            const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
+            wheelDelta = deltaAngle + extraFull;
+            const finalBallPos = -Math.PI/2;
+            let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
+            ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
+            ballDelta = ballDeltaVal;
+            wheelStartAngle = wheelAngle;
+            ballStartAngle = ballAngle;
+            spinStart = performance.now();
+            requestAnimationFrame(animateSpin);
+            async function animateSpin(now) {
+                const elapsed = now - spinStart;
+                let t = Math.min(1, elapsed / spinDuration);
+                const ease = 1 - Math.pow(1-t, 3);
+                wheelAngle = wheelStartAngle + wheelDelta * ease;
+                ballAngle = ballStartAngle + ballDelta * ease;
+                drawWheel();
+                if (t < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
+                    ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
+                    drawWheel();
+                    const finalIdx = getSegmentAtTop();
+                    const sphere = currentSpheres[finalIdx];
+                    const question = await generateDeepQuestion(sphere.name);
+                    lastSphereIdx = finalIdx;
+                    lastMessage = `${sphere.emoji} ${sphere.name}`;
+                    lastQuestion = question;
+                    resultDiv.innerHTML = `✨ ${lastMessage}`;
+                    history.unshift(`${sphere.emoji} ${sphere.short}`);
+                    if (history.length > 6) history.pop();
+                    historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
+                    highlightCard(finalIdx);
+                    // показати модалку з питанням
+                    modalSphere.innerHTML = lastMessage;
+                    modalQuestion.innerHTML = lastQuestion;
+                    modal.classList.add("active");
+                    spinning = false;
+                    spinBtn.disabled = false;
+                    lastSpinTime = Date.now();
+                    timerHint.innerText = currentLang === "ua" ? `✅ спін виконано! наступний через 1 годину` : `✅ spin done! next in 1 hour`;
+                    setTimeout(() => { if (!spinning) timerHint.innerText = ""; }, 5000);
+                    flashEffect();
+                }
+            }
+        }
+
+        function flashEffect() {
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '100%';
+            overlay.style.background = 'radial-gradient(circle, rgba(0,255,255,0.2), transparent)';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.zIndex = '999';
+            document.body.appendChild(overlay);
+            setTimeout(() => overlay.remove(), 400);
+        }
+
+        function copyResult() {
+            const text = lastQuestion ? `${lastMessage}\n💭 ${lastQuestion}` : lastMessage;
+            if (text) {
+                navigator.clipboard.writeText(text);
+                const original = resultDiv.innerText;
+                resultDiv.innerHTML = "✅ copied!";
+                setTimeout(() => resultDiv.innerHTML = original, 1200);
+            } else {
+                resultDiv.innerHTML = currentLang === "ua" ? "🌀 спершу зробіть спін" : "🌀 spin first";
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            currentSpheres = SPHERES[lang];
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                if (btn.dataset.lang === lang) btn.classList.add("active");
+                else btn.classList.remove("active");
+            });
+            buildCards();
+            resultDiv.innerHTML = lang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN";
+        }
+
+        function saveApiSettings() {
+            const key = groqKeyInput.value.trim();
+            const proxy = proxyUrlInput.value.trim();
+            if (key) groqApiKey = key;
+            if (proxy) proxyUrl = proxy;
+            localStorage.setItem("groq_api_key", groqApiKey);
+            localStorage.setItem("groq_proxy_url", proxyUrl);
+            resultDiv.innerHTML = currentLang === "ua" ? "🔑 налаштування збережено" : "🔑 settings saved";
+            setTimeout(() => {
+                resultDiv.innerHTML = lastMessage ? `✨ ${lastMessage}` : (currentLang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN");
+            }, 1500);
+        }
+
+        function closeModal() {
+            modal.classList.remove("active");
+        }
+
+        function saveToHistory() {
+            if (lastQuestion) {
+                history.unshift(`${lastMessage} · ${lastQuestion.substring(0, 40)}...`);
+                if (history.length > 8) history.pop();
+                historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
+                modal.classList.remove("active");
+            }
+        }
+
+        modalCloseBtn.addEventListener("click", closeModal);
+        modalSaveBtn.addEventListener("click", saveToHistory);
+        window.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+        function init() {
+            buildCards();
+            drawWheel();
+            spinBtn.addEventListener("click", startSpin);
+            copyBtn.addEventListener("click", copyResult);
+            saveKeyBtn.addEventListener("click", saveApiSettings);
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+            });
+            window.addEventListener("resize", () => drawWheel());
+            resultDiv.innerText = "🌀 натисніть SPIN";
+        }
+        init();
+    })();
 </script>
 </body>
 </html>
