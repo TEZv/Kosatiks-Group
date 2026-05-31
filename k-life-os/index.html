@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎰 Sphere Roulette · Wheel of Life</title>
+    <title>🎡 Рулетка Сфер Життя · Wheel of Life</title>
     <style>
         * {
             margin: 0;
@@ -21,9 +21,9 @@
             padding: 1rem;
         }
         .roulette-layout {
-            max-width: 1400px;
+            max-width: 1500px;
             width: 100%;
-            background: rgba(0,0,0,0.55);
+            background: rgba(0,0,0,0.6);
             backdrop-filter: blur(4px);
             border-radius: 3rem;
             padding: 1.5rem;
@@ -38,9 +38,9 @@
             flex: 1.2;
             min-width: 320px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            position: relative;
+            gap: 0.8rem;
         }
         canvas {
             width: 100%;
@@ -51,33 +51,55 @@
             box-shadow: 0 0 0 8px #b8860b, 0 0 0 12px #d4af37, 0 15px 35px black;
         }
         .betting-area {
-            flex: 0.8;
-            min-width: 280px;
+            flex: 0.9;
+            min-width: 300px;
             background: #0f281f;
             border-radius: 2rem;
             padding: 1rem;
             border: 2px solid #d4af37;
             box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 10px 20px black;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .lang-switch {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+        .lang-btn {
+            background: #2a4a3a;
+            border: none;
+            padding: 0.2rem 0.8rem;
+            border-radius: 2rem;
+            color: #f5e6b0;
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .lang-btn.active {
+            background: #d4af37;
+            color: #0a1a12;
         }
         .betting-title {
             text-align: center;
             font-size: 1.2rem;
             color: #f7d97a;
-            margin-bottom: 1rem;
             letter-spacing: 2px;
             border-bottom: 1px solid #d4af37;
-            display: inline-block;
-            width: 100%;
+            padding-bottom: 0.3rem;
         }
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.7rem;
+            gap: 0.6rem;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-right: 0.3rem;
         }
         .sphere-card {
             background: linear-gradient(145deg, #1e3a2a, #0f241a);
-            border-radius: 1rem;
-            padding: 0.5rem;
+            border-radius: 0.8rem;
+            padding: 0.5rem 0.3rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.1s ease;
@@ -85,39 +107,34 @@
             color: #e9d6a3;
             font-size: 0.7rem;
             font-weight: bold;
+            word-break: break-word;
         }
         .sphere-card:hover {
-            transform: scale(1.02);
+            transform: scale(1.01);
             background: #2a5a3a;
             border-color: #f5b042;
         }
-        .sphere-card.active-card {
+        .sphere-card.selected-card {
             background: radial-gradient(circle, #f5b042, #b45f1b);
             color: #0f1a0e;
             border-color: #ffdf80;
-            box-shadow: 0 0 15px #f5b042;
+            box-shadow: 0 0 12px #f5b042;
         }
-        .sphere-emoji {
-            font-size: 1.4rem;
-            display: block;
-        }
-        .sphere-short {
-            font-size: 0.6rem;
-            font-weight: normal;
-        }
+        .sphere-emoji { font-size: 1.3rem; display: block; }
+        .sphere-name-full { font-size: 0.65rem; font-weight: normal; line-height: 1.2; }
         .controls {
             display: flex;
             justify-content: center;
             gap: 1rem;
-            margin-top: 1.5rem;
+            margin: 0.5rem 0;
         }
         button {
             background: radial-gradient(circle at 30% 20%, #f5b042, #b45f1b);
             border: none;
-            padding: 0.5rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 2rem;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #0f1a0e;
             cursor: pointer;
             transition: 0.05s linear;
@@ -128,20 +145,15 @@
             box-shadow: 0 1px 0 #5a2e0a;
         }
         .result-area {
-            margin-top: 1rem;
-            text-align: center;
             background: #0a1f18;
-            border-radius: 2rem;
+            border-radius: 1.5rem;
             padding: 0.5rem;
             border: 1px solid #d4af37;
+            text-align: center;
         }
-        .result-text {
-            color: #f9e2a1;
-            font-size: 0.8rem;
-            word-break: break-word;
-        }
+        .result-text { color: #f9e2a1; font-size: 0.8rem; word-break: break-word; }
         .history {
-            margin-top: 0.5rem;
+            margin-top: 0.4rem;
             font-size: 0.65rem;
             color: #c9b27c;
             overflow-x: auto;
@@ -150,6 +162,7 @@
         @media (max-width: 900px) {
             .roulette-layout { flex-direction: column; align-items: center; }
             .betting-area { width: 100%; }
+            .cards-grid { max-height: 40vh; }
         }
     </style>
 </head>
@@ -157,16 +170,20 @@
 <div class="roulette-layout">
     <div class="wheel-area">
         <canvas id="rouletteCanvas" width="600" height="600" style="width:100%; height:auto; max-width:600px; aspect-ratio:1/1"></canvas>
+        <div class="lang-switch">
+            <button class="lang-btn active" data-lang="ua">🇺🇦 UA</button>
+            <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+        </div>
     </div>
     <div class="betting-area">
-        <div class="betting-title">✨ field of spheres ✨</div>
+        <div class="betting-title" id="titleField">✨ поле сфер ✨</div>
         <div class="cards-grid" id="cardsGrid"></div>
         <div class="controls">
-            <button id="spinBtn">🎲 SPIN THE BALL</button>
+            <button id="spinBtn">🎲 SPIN</button>
             <button id="copyBtn">📋 COPY</button>
         </div>
         <div class="result-area">
-            <div class="result-text" id="resultMessage">🌀 press "Spin the ball"</div>
+            <div class="result-text" id="resultMessage">🌀 натисніть SPIN</div>
             <div class="history" id="historyLog"></div>
         </div>
     </div>
@@ -174,78 +191,118 @@
 
 <script>
     (function() {
-        // ========== 12 SPHERES (full English names) ==========
-        const SPHERES = [
-            { emoji: "🚀", name: "Creativity or Self-Expression", short: "Creativity" },
-            { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Self-Development" },
-            { emoji: "🏘", name: "Domestic Life or Household Management", short: "Home" },
-            { emoji: "💴", name: "Finance", short: "Finance" },
-            { emoji: "🤝", name: "Parenting or Family", short: "Family" },
-            { emoji: "📚", name: "Recreation and Hobbies", short: "Hobbies" },
-            { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Community" },
-            { emoji: "🌳", name: "Physical Health", short: "Health" },
-            { emoji: "🔎", name: "Career or Education", short: "Career" },
-            { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Ecology" },
-            { emoji: "👥", name: "Personal Relationship", short: "Relationships" },
-            { emoji: "🧘", name: "Spirituality", short: "Spirituality" }
-        ];
+        // ---------- БАЗА СФЕР (повні назви, емодзі) ----------
+        const SPHERES = {
+            ua: [
+                { emoji: "🚀", name: "Творчість або Самовираження", short: "Творчість" },
+                { emoji: "🧑‍🔬", name: "Особистий розвиток або Турбота про себе", short: "Саморозвиток" },
+                { emoji: "🏘", name: "Домашнє життя або Ведення господарства", short: "Дім" },
+                { emoji: "💴", name: "Фінанси", short: "Фінанси" },
+                { emoji: "🤝", name: "Батьківство або Сім'я", short: "Сім'я" },
+                { emoji: "📚", name: "Відпочинок і Хобі", short: "Хобі" },
+                { emoji: "🗣️", name: "Спільнота або Соціальні зв'язки", short: "Спільнота" },
+                { emoji: "🌳", name: "Фізичне здоров'я", short: "Здоров'я" },
+                { emoji: "🔎", name: "Кар'єра або Освіта", short: "Кар'єра" },
+                { emoji: "🌿", name: "Екологія або Благодійність", short: "Екологія" },
+                { emoji: "👥", name: "Особисті стосунки", short: "Стосунки" },
+                { emoji: "🧘", name: "Духовність", short: "Духовність" }
+            ],
+            en: [
+                { emoji: "🚀", name: "Creativity or Self-Expression", short: "Creativity" },
+                { emoji: "🧑‍🔬", name: "Personal Development or Self-Care", short: "Self-Development" },
+                { emoji: "🏘", name: "Domestic Life or Household Management", short: "Home" },
+                { emoji: "💴", name: "Finance", short: "Finance" },
+                { emoji: "🤝", name: "Parenting or Family", short: "Family" },
+                { emoji: "📚", name: "Recreation and Hobbies", short: "Hobbies" },
+                { emoji: "🗣️", name: "Community Involvement or Social Connection", short: "Community" },
+                { emoji: "🌳", name: "Physical Health", short: "Health" },
+                { emoji: "🔎", name: "Career or Education", short: "Career" },
+                { emoji: "🌿", name: "Environmental or Charitable Causes", short: "Ecology" },
+                { emoji: "👥", name: "Personal Relationship", short: "Relationships" },
+                { emoji: "🧘", name: "Spirituality", short: "Spirituality" }
+            ]
+        };
 
-        // Rich database of inspirational phrases (English)
-        const PHRASES = [
-            "Creativity is the bridge between worlds", "Create something imperfect — that's magic", "Every stroke is a prayer",
-            "Growth is natural, even when it hurts", "A small step today changes everything", "You are a garden that needs care",
-            "Light a candle in memory of yourself", "Home is a mirror of your soul", "Clean with love — space will thank you",
-            "Money loves respect, not fear", "Financial literacy is freedom", "Gratitude creates flow",
-            "Hugs heal where words fail", "Family is a harbor, not an obligation", "Traditions hold generations together",
-            "Play is the most serious thing", "Hobby is the voice of your inner child", "Rest heals better than medicine",
-            "Together we are stars of one constellation", "Your voice matters", "A small help changes the world",
-            "Your body is a temple", "Movement is a prayer", "Listen to what your flesh whispers",
-            "Career is a game, not a war", "Do what has meaning", "The skill that will change everything is already in you",
-            "The planet breathes with you", "Eco-habit is thanks to the earth", "Even one refusal of plastic saves",
-            "True relationships are safety", "Listening is the highest form of love", "Boundaries don't destroy, they strengthen",
-            "Spirituality is returning home", "Silence reveals answers", "You are a spark of eternal fire"
-        ];
+        // БАГАТО ФРАЗ (UA та EN)
+        const PHRASES = {
+            ua: [
+                "Творчість — міст між світами", "Створи щось недосконале — це магія", "Кожен мазок — молитва",
+                "Рости — це природно, навіть боляче", "Маленький крок сьогодні змінює все", "Ти — сад, який потребує догляду",
+                "Запали свічку на згадку про себе", "Дім — дзеркало твоєї душі", "Прибери з любов'ю — простір віддячить",
+                "Гроші люблять повагу, а не страх", "Фінансова грамотність — це свобода", "Вдячність творить потік",
+                "Обійми лікують без слів", "Родина — це гавань, а не обов'язок", "Традиції тримають покоління",
+                "Гра — найсерйозніша справа", "Хобі — голос внутрішньої дитини", "Відпочинок зцілює",
+                "Разом ми — зірки одного сузір'я", "Твій голос має значення", "Маленька допомога змінює світ",
+                "Твоє тіло — храм", "Рух — це молитва", "Слухай, що шепоче твоя плоть",
+                "Кар'єра — це гра, а не війна", "Роби те, що має сенс", "Навик, який змінить усе, вже в тобі",
+                "Планета дихає разом із тобою", "Екозвичка — це подяка землі", "Навіть одна відмова від пластику рятує",
+                "Справжні стосунки — це безпека", "Слухати — найвища форма любові", "Кордони не руйнують, а зміцнюють",
+                "Духовність — це повернення додому", "Тиша відкриває відповіді", "Ти — іскра вічного вогню"
+            ],
+            en: [
+                "Creativity is the bridge between worlds", "Create something imperfect — that's magic", "Every stroke is a prayer",
+                "Growth is natural, even when it hurts", "A small step today changes everything", "You are a garden that needs care",
+                "Light a candle in memory of yourself", "Home is a mirror of your soul", "Clean with love — space will thank you",
+                "Money loves respect, not fear", "Financial literacy is freedom", "Gratitude creates flow",
+                "Hugs heal where words fail", "Family is a harbor, not an obligation", "Traditions hold generations together",
+                "Play is the most serious thing", "Hobby is the voice of your inner child", "Rest heals better than medicine",
+                "Together we are stars of one constellation", "Your voice matters", "A small help changes the world",
+                "Your body is a temple", "Movement is a prayer", "Listen to what your flesh whispers",
+                "Career is a game, not a war", "Do what has meaning", "The skill that will change everything is already in you",
+                "The planet breathes with you", "Eco-habit is thanks to the earth", "Even one refusal of plastic saves",
+                "True relationships are safety", "Listening is the highest form of love", "Boundaries don't destroy, they strengthen",
+                "Spirituality is returning home", "Silence reveals answers", "You are a spark of eternal fire"
+            ]
+        };
 
-        // ========== CANVAS SETUP ==========
+        let currentLang = "ua";
+        let currentSpheres = SPHERES.ua;
+        let currentPhrases = PHRASES.ua;
+
+        // Wheel state
         const canvas = document.getElementById("rouletteCanvas");
         const ctx = canvas.getContext("2d");
-        let size = 600;
-        let center = 300;
-        let radius = 280;
-        let wheelAngle = 0;          // current wheel rotation
-        let ballAngle = 0;           // ball position along the rim
+        let size = 600, center = 300, radius = 280;
+        let wheelAngle = 0;          // rotation of wheel
+        let ballAngle = 0;           // ball position
         let spinning = false;
         let spinStart = 0;
         let spinDuration = 2500;
-        let targetSegment = -1;
-        let wheelStartAngle = 0;
-        let ballStartAngle = 0;
-        let wheelDelta = 0;
-        let ballDelta = 0;
+        let targetSegment = -1;       // preselected from card (-1 = random)
+        let wheelStartAngle = 0, ballStartAngle = 0;
+        let wheelDelta = 0, ballDelta = 0;
         let activeSphereIndex = -1;
         let lastMessage = "";
         let history = [];
 
-        // DOM elements
+        // DOM
         const cardsGrid = document.getElementById("cardsGrid");
         const resultDiv = document.getElementById("resultMessage");
         const historyDiv = document.getElementById("historyLog");
         const spinBtn = document.getElementById("spinBtn");
         const copyBtn = document.getElementById("copyBtn");
+        const titleField = document.getElementById("titleField");
 
-        // ========== BUILD CARDS (RIGHT SIDE) ==========
+        // Build cards with full names (no truncation)
         function buildCards() {
             cardsGrid.innerHTML = "";
-            SPHERES.forEach((s, idx) => {
+            currentSpheres.forEach((s, idx) => {
                 const card = document.createElement("div");
                 card.className = "sphere-card";
+                if (idx === targetSegment) card.classList.add("selected-card");
                 card.dataset.idx = idx;
-                card.innerHTML = `<span class="sphere-emoji">${s.emoji}</span><div>${s.short}</div><div class="sphere-short">${s.name.substring(0, 30)}</div>`;
+                card.innerHTML = `
+                    <span class="sphere-emoji">${s.emoji}</span>
+                    <div class="sphere-name-full">${s.name}</div>
+                `;
                 card.addEventListener("click", () => {
-                    if (!spinning) {
-                        targetSegment = idx;
-                        startSpin();
-                    }
+                    if (spinning) return;
+                    // remove previous selected
+                    document.querySelectorAll(".sphere-card").forEach(c => c.classList.remove("selected-card"));
+                    card.classList.add("selected-card");
+                    targetSegment = idx;
+                    // Also update result hint
+                    resultDiv.innerHTML = currentLang === "ua" ? `✅ обрано: ${s.short} · натисніть SPIN` : `✅ selected: ${s.short} · press SPIN`;
                 });
                 cardsGrid.appendChild(card);
             });
@@ -254,12 +311,12 @@
         function highlightCard(index) {
             const cards = document.querySelectorAll(".sphere-card");
             cards.forEach((card, i) => {
-                if (i === index) card.classList.add("active-card");
-                else card.classList.remove("active-card");
+                if (i === index) card.classList.add("selected-card");
+                else card.classList.remove("selected-card");
             });
         }
 
-        // ========== DRAW WHEEL ==========
+        // Draw wheel with red/black sectors (casino style)
         function drawWheel() {
             if (!ctx) return;
             ctx.clearRect(0, 0, size, size);
@@ -269,10 +326,13 @@
             for (let i = 0; i < 12; i++) {
                 const start = i * step + wheelAngle;
                 const end = (i+1) * step + wheelAngle;
-                const hue = (i * 30) % 360;
+                // red/black pattern (roulette: red for odd? we'll do alternating)
+                const isRed = (i % 2 === 0);
+                const color1 = isRed ? "#b22222" : "#2c2c2c";
+                const color2 = isRed ? "#8b0000" : "#1a1a1a";
                 const grad = ctx.createRadialGradient(center, center, radius*0.2, center, center, radius);
-                grad.addColorStop(0, `hsl(${hue}, 85%, 60%)`);
-                grad.addColorStop(1, `hsl(${hue}, 80%, 40%)`);
+                grad.addColorStop(0, color1);
+                grad.addColorStop(1, color2);
                 ctx.beginPath();
                 ctx.arc(center, center, radius, start, end);
                 ctx.lineTo(center, center);
@@ -292,7 +352,7 @@
                 ctx.fillText(i+1, x-11, y+7);
                 ctx.shadowBlur = 0;
             }
-            // center
+            // center decor
             ctx.beginPath();
             ctx.arc(center, center, radius*0.18, 0, Math.PI*2);
             ctx.fillStyle = "#d4af37";
@@ -301,7 +361,7 @@
             ctx.arc(center, center, radius*0.1, 0, Math.PI*2);
             ctx.fillStyle = "#b8860b";
             ctx.fill();
-            // ball
+            // draw ball
             const ballRad = radius * 0.045;
             const ballX = center + Math.cos(ballAngle) * (radius - ballRad - 5);
             const ballY = center + Math.sin(ballAngle) * (radius - ballRad - 5);
@@ -315,7 +375,6 @@
             ctx.fill();
         }
 
-        // Determine which sector is at the top (12 o'clock pointer)
         function getSegmentAtTop() {
             const pointerAngle = -Math.PI/2;
             let raw = pointerAngle - wheelAngle;
@@ -323,8 +382,8 @@
             return Math.floor(raw / (Math.PI*2/12));
         }
 
-        function getRandomPhrase(sphereIdx) {
-            const pool = PHRASES.filter(p => p.length > 5);
+        function getRandomPhrase() {
+            const pool = currentPhrases;
             return pool[Math.floor(Math.random() * pool.length)];
         }
 
@@ -333,16 +392,22 @@
             spinning = true;
             spinBtn.disabled = true;
 
-            if (targetSegment === -1) {
-                targetSegment = Math.floor(Math.random() * 12);
+            let finalTarget;
+            if (targetSegment !== -1 && targetSegment >= 0 && targetSegment < 12) {
+                finalTarget = targetSegment;
+            } else {
+                finalTarget = Math.floor(Math.random() * 12);
+                // update selected card visually
+                targetSegment = finalTarget;
+                highlightCard(finalTarget);
             }
             const currentIdx = getSegmentAtTop();
-            let deltaIndices = (targetSegment - currentIdx + 12) % 12;
+            let deltaIndices = (finalTarget - currentIdx + 12) % 12;
             let deltaAngle = deltaIndices * (Math.PI*2/12);
             const extraFull = (Math.floor(Math.random() * 8) + 8) * 2 * Math.PI;
             wheelDelta = deltaAngle + extraFull;
 
-            // ball spins many times and stops at the top pointer position
+            // ball stops exactly at top pointer
             const finalBallPos = -Math.PI/2;
             let ballDeltaVal = (finalBallPos - ballAngle + 2*Math.PI) % (2*Math.PI);
             ballDeltaVal += (Math.floor(Math.random() * 10) + 12) * 2 * Math.PI;
@@ -364,23 +429,22 @@
             if (t < 1) {
                 requestAnimationFrame(animateSpin);
             } else {
-                // finalize angles
                 wheelAngle = (wheelStartAngle + wheelDelta) % (2*Math.PI);
                 ballAngle = (ballStartAngle + ballDelta) % (2*Math.PI);
                 drawWheel();
                 const finalIdx = getSegmentAtTop();
                 activeSphereIndex = finalIdx;
                 highlightCard(finalIdx);
-                const sphere = SPHERES[finalIdx];
-                const phrase = getRandomPhrase(finalIdx);
+                targetSegment = finalIdx; // synchronize selected card
+                const sphere = currentSpheres[finalIdx];
+                const phrase = getRandomPhrase();
                 lastMessage = `${sphere.emoji} ${sphere.name} · ${phrase}`;
                 resultDiv.innerHTML = `✨ ${lastMessage}`;
                 history.unshift(`${sphere.emoji} ${sphere.short}`);
                 if (history.length > 6) history.pop();
-                historyDiv.innerHTML = `📜 history: ${history.join(' · ')}`;
+                historyDiv.innerHTML = `📜 ${currentLang === "ua" ? "історія" : "history"}: ${history.join(' · ')}`;
                 spinning = false;
                 spinBtn.disabled = false;
-                targetSegment = -1;
                 flashEffect();
             }
         }
@@ -406,30 +470,51 @@
                 resultDiv.innerHTML = "✅ copied!";
                 setTimeout(() => resultDiv.innerHTML = original, 1200);
             } else {
-                resultDiv.innerHTML = "🌀 spin first";
+                resultDiv.innerHTML = currentLang === "ua" ? "🌀 спершу зробіть спін" : "🌀 spin first";
                 setTimeout(() => {
                     if (lastMessage) resultDiv.innerHTML = `✨ ${lastMessage}`;
-                    else resultDiv.innerHTML = "🌀 press 'Spin the ball'";
+                    else resultDiv.innerHTML = currentLang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN";
                 }, 1500);
             }
         }
 
         function randomSpin() {
             if (spinning) return;
+            // clear preselection? we keep random target but don't change card highlight? we'll set targetSegment to random and update card
             targetSegment = Math.floor(Math.random() * 12);
+            highlightCard(targetSegment);
             startSpin();
         }
 
-        // Initialization
+        function setLanguage(lang) {
+            currentLang = lang;
+            currentSpheres = SPHERES[lang];
+            currentPhrases = PHRASES[lang];
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                if (btn.dataset.lang === lang) btn.classList.add("active");
+                else btn.classList.remove("active");
+            });
+            titleField.innerText = lang === "ua" ? "✨ поле сфер ✨" : "✨ field of spheres ✨";
+            buildCards();
+            if (targetSegment !== -1) highlightCard(targetSegment);
+            if (lastMessage) {
+                // optionally rephrase last message? better to reset
+                lastMessage = "";
+                resultDiv.innerText = lang === "ua" ? "🌀 натисніть SPIN" : "🌀 press SPIN";
+            }
+        }
+
+        // Initialize
         function init() {
             buildCards();
             drawWheel();
             spinBtn.addEventListener("click", randomSpin);
             copyBtn.addEventListener("click", copyResult);
+            document.querySelectorAll(".lang-btn").forEach(btn => {
+                btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+            });
             window.addEventListener("resize", () => drawWheel());
-            setTimeout(() => {
-                resultDiv.innerHTML = "🌀 click a card or press 'Spin the ball'";
-            }, 500);
+            resultDiv.innerText = "🌀 натисніть SPIN";
         }
         init();
     })();
