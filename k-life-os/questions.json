@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-01T13:08:04.221Z",
-  "day": "2026-06-01",
+  "generatedAt": "2026-06-01T23:23:28.103Z",
+  "day": "2026-06-02",
   "ua": {
     "Творчість або Самовираження": [
       {
@@ -29,6 +29,33 @@
           "Закриває ноутбук і починає слухати подію як звичайний слухач"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Жінка стоїть біля мольберта з нерозпочатою картиною",
+        "a": [
+          "Відволікається на соцмережі, щоб не думати про роботу",
+          "Роби детальний план композиції та кольорів",
+          "Закриває очі, щоб відчути внутрішній образ"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Людина в останній день дедлайну пише листа",
+        "a": [
+          "Пише гнівного листа клієнту з виправданнями",
+          "Редагує й оптимізує зміст згідно вимог",
+          "Вигадує нові ідеї для майбутніх проектів"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Під час семінару жінка відчуває творчий тупик",
+        "a": [
+          "Переглядає презентацію заради нових ідей",
+          "Активно конспектує, структуруючи свої думки",
+          "Промовляє свої ідеї вголос для натхнення"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Особистий розвиток або Турбота про себе": [
@@ -58,6 +85,33 @@
           "Делегує завдання своїй команді активніше"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Вона прокидається о 6:00 з тривогою про майбутній день",
+        "a": [
+          "Лежить і гортає соціальні мережі",
+          "Складає план дня в голові",
+          "Виконує швидку медитацію"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Жінка іде додому після довгого робочого дня",
+        "a": [
+          "Відразу перевіряє робочу електронку",
+          "Планує вечерю і відпочинок",
+          "Зупиняється в парку для прогулянки"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Людина відчуває стрес через перевантаження на роботі",
+        "a": [
+          "Перебирає робочі завдання у сні",
+          "Розставляє пріоритети завдань списком",
+          "Записується на масаж чи спа"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Домашнє життя або Ведення господарства": [
@@ -87,6 +141,33 @@
           "Вирішила зробити нову прикрасу власноруч"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Вона стоїть біля раковини з посудом після сімейної вечері",
+        "a": [
+          "Думає про те, як рідко допомагає чоловік",
+          "Вимиває посуд із задоволенням, бо наводить порядок",
+          "Передає миття посудів своїй дитині"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона лежить на дивані серед невипраної білизни",
+        "a": [
+          "Закриває очі і ігнорує цей безлад",
+          "Складає план прання на весь день",
+          "Викликає клінінг для допомоги"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона вийшла з лікарні з хворим членом сім'ї",
+        "a": [
+          "Біжи додому готувати ліки та їжу",
+          "Подзвонила сусідці щоб попередити",
+          "Зупинилася щоб купити ліки у аптеці"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Фінанси": [
@@ -116,6 +197,33 @@
           "Розробляє нову інвестиційну стратегію з урахуванням ризиків"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Жінка виявила перевищення бюджету на рекламу в кіберпросторі",
+        "a": [
+          "Ігнорує проблему, сподіваючись, що вона зникне сама",
+          "Ретельно аналізує кожну витрату, щоб знайти рішення",
+          "Розглядає можливість інвестицій у нові маркетингові стратегії"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона втратила великого клієнта через затримку поставки",
+        "a": [
+          "Відкладає вирішення проблеми, відчуваючи розчарування",
+          "Переглядає логістику, щоб запобігти майбутнім затримкам",
+          "Використовує досвід для розробки нових умов контракту"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Її бізнес отримує несподіваний прибуток від неочікуваного джерела",
+        "a": [
+          "Відразу ж інвестує гроші в розширення виробництва",
+          "Аналізує фінансові звіти, щоб зрозуміти причину успіху",
+          "Розглядає можливість розподілу прибутку на благодійність"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Батьківство або Сім'я": [
@@ -145,6 +253,33 @@
           "Встановлює гнучкий графік для сім'ї та роботи"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Жінка чекає на першу зустріч з вагітної сестрою в лікарні",
+        "a": [
+          "Відволікається на роботу, щоб не нервувати",
+          "Контролює інформацію про перебіг вагітності сестри",
+          "Відкрито каже про свої очікування та підтримку"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона гуляє з дітьми в парку під дощем без парасольки",
+        "a": [
+          "Швидко збирає дітей і біжить додому",
+          "Диктує дітям правила поведінки під час дощу",
+          "Пускає калюжі та грається з дітьми в дощ"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Сім'я відмовляється підтримати її бізнес-ідею",
+        "a": [
+          "Переконує їх за допомогою логічних аргументів",
+          "Залишає їх думку поза увагою та робить своє",
+          "Розуміє їхні сумніви і враховує їхню думку"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Відпочинок і Хобі": [
@@ -174,6 +309,33 @@
           "Вирішує зібрати цікавий камінь чи листок"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Вона відпочиває на пляжі, але постійно перевіряє робочі повідомлення",
+        "a": [
+          "Закриває телефон і зосереджується на хвилях",
+          "Відправляє колегам повідомлення про термінові справи",
+          "Пише собі нагадування про робочі завдання після відпочинку"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Жінка планує відпустку, але відчуває тривогу через незручності",
+        "a": [
+          "Бронює всі деталі відпустки заздалегідь",
+          "Відкладає планування і обирає інший час",
+          "Вибирає гнучкий маршрут і змінює плани під час відпустки"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Людина втратила інтерес до улюбленого хобі після року занять",
+        "a": [
+          "Пробує нові техніки і матеріали в хобі",
+          "Починає займатися іншим хобі паралельно",
+          "Бере перерву і повертається до хобі через місяць"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Спільнота або Соціальні зв'язки": [
@@ -203,6 +365,33 @@
           "Відкидає очікування і ділиться своїм справжнім баченням"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Вона відвідує бізнес-ланч зі своїми колишніми колегами в новому місті",
+        "a": [
+          "Відмовляється від пропозицій співпраці, щоб уникнути зобов'язань",
+          "Домінує в розмові, контролюючи тему та спрямовуючи дискусію",
+          "Відкривається до нових ідей і знайомств із співрозмовниками"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Жінка відчуває самотність після переїзду в інший район міста",
+        "a": [
+          "Ігнорує відчуття, займаючись роботою та домашніми справами",
+          "Активно створює соціальну мережу через події та заходи",
+          "Розширює онлайн-коло спілкування в соціальних мережах"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Під час семінару вона стикається з критикою своєї бізнес-ідеї",
+        "a": [
+          "Стає оборонною, виправдовуючи кожне своє рішення",
+          "Активно слухає критику та використовує її для зростання",
+          "Відходить від обговорення, втрачаючи інтерес до ідеї"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Фізичне здоров'я": [
@@ -232,6 +421,33 @@
           "Обмірковує план відновлення і йде додому"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Вона прокидається о 6:00 з сильним головним болем після безсонної ночі",
+        "a": [
+          "Іде випити таблетку і продовжити день",
+          "Відразу починає планувати свій день і завдання",
+          "Робить глибокий вдих і виконує коротку медитацію"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Під час довгої поїздки на авто вона відчуває сильну втому і голод",
+        "a": [
+          "Їде в найближчий фаст-фуд і замовляє їжу",
+          "Вибирає здорові закуски з бардачка і продовжує їхати",
+          "Зупиняється на годину відпочити і зробити коротку прогулянку"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Після обіду в ресторані вона відчуває тяжкість і сонливість",
+        "a": [
+          "Випиває каву і намагається працювати далі",
+          "Робить короткий сон на дивані в офісі",
+          "Виходить на свіже повітря і робить коротку прогулянку"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Кар'єра або Освіта": [
@@ -261,6 +477,33 @@
           "Шукає нові можливості професійного зростання в компанії"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Жінка отримала відмову на співбесіді в компанії мрії",
+        "a": [
+          "Відразу відправляє заявку в іншу компанію",
+          "Аналізує свої помилки на співбесіді",
+          "Розглядає можливість відкриття власного бізнесу"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Під час важливої презентації її техніка вийшла з ладу",
+        "a": [
+          "Звинувачує техніка і намагається замінити",
+          "Спокійно повідомляє про технічну проблему аудиторії",
+          "Імпровізує і починає говорити без техніки"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона відчуває вигорання на своїй роботі після року роботи",
+        "a": [
+          "Починає шукати нову роботу одразу",
+          "Планує відпустку і бере час на відновлення",
+          "Розглядає можливість зміни напрямку в роботі"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Екологія або Благодійність": [
@@ -290,6 +533,33 @@
           "Змінює зміст плаката на більш радикальний гасло"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Жінка зібрала кошти на висадку дерев у місті",
+        "a": [
+          "Віддає організацією іншим, щоб не брати відповідальність",
+          "Контролює кожен етап робіт особисто",
+          "Визначає нові цілі для майбутніх проектів"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "На конференції жінка дізналась про нові екотехнології",
+        "a": [
+          "Відмовляється від впровадження через брак фінансів",
+          "Розробляє бізнес-план для інтеграції технологій",
+          "Ділиться знаннями з колегами в соціальних мережах"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Під час звіту про діяльність жінка відчуває сором",
+        "a": [
+          "Звинувачує зовнішні обставини у провалах",
+          "Пере аналізує дані для знаходження помилок",
+          "Визначає уроки для майбутнього вдосконалення"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Особисті стосунки": [
@@ -319,6 +589,33 @@
           "Приймає свої емоції і займається саморефлексією на природі"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Жінка відмовляється від запрошення на подію через конфлікт із партнером",
+        "a": [
+          "Відмовляється від інших планів, щоб провести час із собою",
+          "Передзвонює організаторам, щоб змінити обставини зустрічі",
+          "Приймає рішення піти на подію всупереч усьому"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона дізнається про зраду партнера під час відпустки",
+        "a": [
+          "Відразу ж намагається зібрати всі речі та повернутися додому",
+          "Закриває інформацію, щоб зберегти стосунки на деякий час",
+          "Розпочинає внутрішній діалог щодо майбутнього стосунків"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Під час сімейної вечері вона відчуває постійну критику",
+        "a": [
+          "Ігнорує слова близьких, щоб зберегти емоційний спокій",
+          "Відповідає взаємністю, щоб показати своє незадоволення",
+          "Активно слухає та відповідає на питання щодо майбутнього сім'ї"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Духовність": [
@@ -348,6 +645,33 @@
           "Відкривається близьким про свої сумніви і отримує підтримку"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "Вона сидить у своїй кімнаті зі свічками та інцентом о 22:00",
+        "a": [
+          "Починає медитувати, щоб заспокоїти розум",
+          "Відволікається на телефон, щоб не думати про проблеми",
+          "Записує свої думки у щоденник для аналізу"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона відвідує ашрам в Індії під час місячного затемнення",
+        "a": [
+          "Активно бере участь в обрядах, щоб відпустити минуле",
+          "Тримається осторонь через незручність серед чужих людей",
+          "Розмовляє з місцевим гуру про свої життєві цілі"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Вона виконує ранкову его-мантру перед дзеркалом щодня",
+        "a": [
+          "Повторяє афірмації для підвищення самооцінки",
+          "Критикує себе за зовнішній вигляд та поведінку",
+          "Змінює мантру на нову згідно зі своїми цілями"
+        ],
+        "_day": "2026-06-02"
       }
     ]
   },
@@ -379,6 +703,33 @@
           "Takes a walk and starts recording voice notes ideas"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She stands before her blank canvas in her studio, anxious about her art show",
+        "a": [
+          "Quickly sketches a familiar landscape to calm down",
+          "Rips up her plans and starts a new piece",
+          "Accepts her anxiety, focusing on the sensations"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "In her journaling routine, she recalls her childhood love for poetry and music",
+        "a": [
+          "Pushes the memories away, focusing on current tasks",
+          "Creates a plan to incorporate poetry into her business",
+          "Allows herself to daydream, letting emotions resurface"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Her creative team brainstorming session results in conflict and unmet expectations",
+        "a": [
+          "Shifts the blame to others, defending her own ideas",
+          "Takes charge, restructuring the team's approach",
+          "Listens to feedback, exploring new perspectives openly"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Personal Development or Self-Care": [
@@ -408,6 +759,33 @@
           "Starts journaling and brainstorming new ideas"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She wakes up late on Sunday morning, feeling anxious about the week ahead",
+        "a": [
+          "Scrolls through her phone to distract herself from the anxiety",
+          "Rushes to meditate and plan her week perfectly",
+          "Allows herself to relax and enjoy a slow morning"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "After a fight with her partner, she finds herself alone in their empty apartment",
+        "a": [
+          "Tries to numb her emotions with a glass of wine and TV",
+          "Writes a list of things she needs to control in the relationship",
+          "Takes a deep breath and starts writing in her journal"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "On her 30th birthday, she feels unfulfilled and uncertain about her life choices",
+        "a": [
+          "Compares her life to her friends' on social media",
+          "Creates a vision board to manifest her ideal life",
+          "Accepts her current reality and focuses on the present moment"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Domestic Life or Household Management": [
@@ -437,6 +815,33 @@
           "Creates a magical bedtime story to ease the transition"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She stands in her messy kitchen on a Sunday morning, feeling overwhelmed",
+        "a": [
+          "Quickly scrolls through cleaning apps for solutions",
+          "Starts cleaning room by room, making a checklist",
+          "Takes a deep breath, embracing the chaos"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Her family arrives unexpectedly on a Friday evening, very tired",
+        "a": [
+          "Swiftly texts her partner to take them to a hotel",
+          "Directs everyone to their rooms, planning a quick dinner",
+          "Opens a bottle of wine, offering impromptu hospitality"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "She inherits her grandmother's antique furniture, sparking memories and regret",
+        "a": [
+          "Focuses on sorting items to donate or sell quickly",
+          "Measures and plans where each piece will fit perfectly",
+          "Creates a story and legacy around the inherited items"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Finance": [
@@ -466,6 +871,33 @@
           "Sees it as an opportunity to innovate and pivot"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She stares at her empty bank account on her laptop in her small home office",
+        "a": [
+          "Avoids thinking about it, checks social media instead",
+          "Creates a strict budget plan to regain control",
+          "Sees it as an opportunity to seek investors"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "The person receives a tax audit notice on her kitchen table on a Sunday morning",
+        "a": [
+          "Immediately calls her accountant to handle it",
+          "Panics and tries to gather all documents hastily",
+          "Accepts the situation, takes a few deep breaths"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "She loses a major client, impacting her revenue forecast on a conference call",
+        "a": [
+          "Tries to win the client back with a discount",
+          "Redirects focus to acquiring new clients immediately",
+          "Adapts her business model to reduce client dependence"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Parenting or Family": [
@@ -495,6 +927,33 @@
           "Asks a neighbor if they can swap childcare duties for a day"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She sits on the couch, watching her child struggle with homework on a Friday evening",
+        "a": [
+          "Pulls out her phone to text her husband for help",
+          "Takes the pen and starts solving the problems herself",
+          "Offers a warm hug and a fresh perspective instead"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Her mother-in-law calls to criticize her parenting style on the day of a family gathering",
+        "a": [
+          "Deflects the conversation to a more neutral topic quickly",
+          "Argues and defends her parenting decisions firmly",
+          "Listens calmly and acknowledges her mother-in-law's concerns"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "She's running late for her daughter's school play, stuck in a jammed traffic on the highway",
+        "a": [
+          "Calls the school to apologize and explain the situation",
+          "Tries to find an alternate route on her GPS aggressively",
+          "Takes a deep breath and enjoys the extra time with her daughter in the car"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Recreation and Hobbies": [
@@ -524,6 +983,33 @@
           "Laughs and creates a new, imperfect masterpiece"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "On a solo Sunday morning, she finds herself at a deserted art museum",
+        "a": [
+          "Quickly snaps photos to post on social media",
+          "Creates a mental map to control her exploration route",
+          "Allows herself to wander and discover new pieces"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "During her weekly painting class, she struggles with her uninspired still life composition",
+        "a": [
+          "Avoids the task by chatting with fellow classmates",
+          "Tries to control the outcome by following a tutorial",
+          "Introduces random objects to spark new creativity"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "After a cancelled hiking trip, she has a free afternoon in the city park",
+        "a": [
+          "Rushing to the nearest café to grab a coffee",
+          "Takes a detour to explore a nearby unfamiliar trail",
+          "Sits on a bench and observes nature without plans"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Community Involvement or Social Connection": [
@@ -553,6 +1039,33 @@
           "Listens actively and seeks common ground with the neighbor"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "The woman cancels her speaking engagement and sits alone at home on a Sunday morning",
+        "a": [
+          "Deletes all social media notifications to avoid thinking about it",
+          "Schedules a makeup call with the organizer to explain",
+          "Plans a new community event to make up for it"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "At a charity gala, she accidentally insults a prominent donor while giving a toast",
+        "a": [
+          "Apologizes profusely and tries to justify her actions",
+          "Quickly exits the conversation to avoid more embarrassment",
+          "Laughs it off and redirects to a different topic"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "After a disagreement with her business partner, she walks alone in the park at night",
+        "a": [
+          "Mentally rehearses a defensive argument for their next meeting",
+          "Calls a mutual friend to gossip about the partner",
+          "Listens to calming music and lets go of the tension"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Physical Health": [
@@ -582,6 +1095,33 @@
           "Uses the unexpected downtime to start a new self-care routine"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She wakes up late on Monday morning with a throbbing headache",
+        "a": [
+          "Reaches for painkillers and ignores the cause",
+          "Plans a strict daily routine to prevent future headaches",
+          "Listens to her body and takes a relaxing day"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "During her lunch break, she notices her energy levels dropping rapidly",
+        "a": [
+          "Grabs another coffee to push through the afternoon",
+          "Prepares a healthy snack to stabilize her blood sugar",
+          "Takes a short walk outside to refresh her mind"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "After a month of poor sleep, she feels exhausted at the gym",
+        "a": [
+          "Pushes through the workout despite her fatigue",
+          "Creates a sleep schedule and sticks to it strictly",
+          "Explores alternative exercise routines for low-energy days"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Career or Education": [
@@ -611,6 +1151,33 @@
           "Uses the offer as leverage to seek investors"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She stands at the podium, facing her empty classroom on the first day of teaching",
+        "a": [
+          "Feels anxious and considers calling in sick",
+          "Quickly scans and adjusts her lesson plan",
+          "Takes a deep breath, embracing the challenge"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Her startup's funding is rejected, and she sits at her desk, staring at the email",
+        "a": [
+          "Immediately drafts a response, demanding reconsideration",
+          "Feels defeated and pushes the issue aside",
+          "Sees an opportunity to explore alternative funding"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "She receives an offer for a secure but unfulfilling corporate job after months of freelancing",
+        "a": [
+          "Accepts the offer to alleviate financial stress",
+          "Negotiates a flexible schedule to pursue side projects",
+          "Declines, choosing to pursue her passion project"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Environmental or Charitable Causes": [
@@ -640,6 +1207,33 @@
           "Chooses to leave, seeking a fresh start elsewhere"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "At a climate change protest, she sees a confrontational clash between activists and police officers",
+        "a": [
+          "Avoids the conflict by quickly leaving the scene",
+          "Tries to mediate between the two groups assertively",
+          "Takes a moment to breathe and observe the chaos calmly"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "Her charity event planning is behind schedule, causing financial losses and donor dissatisfaction",
+        "a": [
+          "Delegates tasks to team members to regain control",
+          "Creates a new budget and schedule to compensate",
+          "Accepts the setback and re-evaluates her goals"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "While hiking, she finds a large amount of plastic waste polluting the natural landscape",
+        "a": [
+          "Takes photos to raise awareness on social media",
+          "Organizes a clean-up initiative with local community",
+          "Sits among the waste, feeling hopeless and despairing"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Personal Relationship": [
@@ -669,6 +1263,33 @@
           "Listens actively, seeking common ground and understanding"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "She sits on the couch with her partner after a heated argument at home",
+        "a": [
+          "Changes the subject to avoid more conflict",
+          "Tries to convince her partner of her point of view",
+          "Listens to her partner's feelings with empathy"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "The woman receives a surprise visit from her estranged mother at her office",
+        "a": [
+          "Quickly excuses herself to avoid confrontation",
+          "Sets boundaries and explains her expectations",
+          "Opens up and shares her true feelings"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "She reads a hurtful text from her best friend on her birthday morning",
+        "a": [
+          "Immediately responds with anger and hurt",
+          "Takes time to reflect before responding calmly",
+          "Writes a heartfelt letter to release emotions"
+        ],
+        "_day": "2026-06-02"
       }
     ],
     "Spirituality": [
@@ -698,6 +1319,33 @@
           "Trusts her intuition and allows her heart to guide her"
         ],
         "_day": "2026-06-01"
+      },
+      {
+        "q": "During her morning meditation, she feels anxious about an upcoming speaking engagement",
+        "a": [
+          "Pushes the thoughts away, focusing on breath",
+          "Tries to rationalize her anxiety with logic",
+          "Allows the anxiety, exploring its root cause"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "She spends a solo weekend at her family's rural cabin, feeling restless and disconnected",
+        "a": [
+          "Scrolls through her phone, avoiding the stillness",
+          "Plans a packed schedule for the next day",
+          "Embarks on a nature walk, embracing solitude"
+        ],
+        "_day": "2026-06-02"
+      },
+      {
+        "q": "At her yoga studio, she struggles to lead a challenging class with injured staff",
+        "a": [
+          "Tries to control every pose and transition",
+          "Postpones the class, citing safety concerns",
+          "Creates a modified sequence on the spot"
+        ],
+        "_day": "2026-06-02"
       }
     ]
   }
