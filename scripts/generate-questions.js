@@ -93,22 +93,43 @@ async function generate(lang, sphere) {
   const key = process.env.GROQ_API_KEY;
   if (!key) throw new Error('GROQ_API_KEY not set');
   const prompt = PROMPTS[lang](sphere);
-  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 1.1, max_tokens: 700 })
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    console.error(`  HTTP ${res.status}: ${JSON.stringify(data).substring(0, 200)}`);
-    throw new Error(`HTTP ${res.status}`);
+  const maxRetries = 3;
+  let lastErr;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 1.1, max_tokens: 700 })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        const errMsg = `HTTP ${res.status}: ${JSON.stringify(data).substring(0, 200)}`;
+        if (res.status === 429 || res.status >= 500) {
+          console.warn(`  attempt ${attempt}/${maxRetries} (${errMsg}) — retrying...`);
+          await new Promise(r => setTimeout(r, 2000 * attempt));
+          lastErr = new Error(errMsg);
+          continue;
+        }
+        throw new Error(errMsg);
+      }
+      const text = data.choices?.[0]?.message?.content?.trim() || '';
+      if (!text) {
+        console.error(`  Empty response: ${JSON.stringify(data).substring(0, 300)}`);
+        throw new Error('Empty response from Groq');
+      }
+      return parseResponse(text);
+    } catch (e) {
+      lastErr = e;
+      if (attempt < maxRetries && (e.message.includes('fetch') || e.message.includes('network'))) {
+        console.warn(`  attempt ${attempt}/${maxRetries} (${e.message}) — retrying...`);
+        await new Promise(r => setTimeout(r, 2000 * attempt));
+        continue;
+      }
+      throw e;
+    }
   }
-  const text = data.choices?.[0]?.message?.content?.trim() || '';
-  if (!text) {
-    console.error(`  Empty response: ${JSON.stringify(data).substring(0, 300)}`);
-    throw new Error('Empty response from Groq');
-  }
-  return parseResponse(text);
+  throw lastErr;
 }
 
 function parseResponse(text) {
@@ -161,4 +182,7 @@ function parseResponse(text) {
   const outPath = path.join(__dirname, '..', 'k-life-os', 'questions.json');
   fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`\nSaved to ${outPath}`);
-})();
+})().catch(e => {
+  console.error('FATAL:', e);
+  process.exit(1);
+});
