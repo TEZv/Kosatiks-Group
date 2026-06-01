@@ -346,6 +346,32 @@
             background: rgba(255, 200, 100, 0.9);
             box-shadow: 0 0 10px rgba(255, 200, 100, 0.6);
         }
+        .current-question {
+            background: rgba(255, 200, 100, 0.08);
+            border: 1px solid rgba(255, 200, 100, 0.3);
+            border-radius: 0.8rem;
+            padding: 0.9rem 1rem;
+            font-size: 0.95rem;
+            color: rgba(255, 245, 220, 0.98);
+            line-height: 1.5;
+            text-align: left;
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+        .answers-label {
+            font-size: 0.65rem;
+            color: rgba(0, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0.6rem 0 0.4rem;
+            text-align: left;
+        }
+        .answers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 0.4rem;
+        }
         .questions-loading {
             text-align: center;
             padding: 1.5rem 0;
@@ -455,10 +481,11 @@
     <div class="modal-card">
         <h3 data-i18n="oracleOfSphere">🌀 Оракул сфери</h3>
         <div class="modal-sphere-name" id="modalSphere"></div>
-        <div class="modal-hint" id="modalHint" data-i18n="modalHint">Обери питання, яке тебе торкнулось:</div>
-        <div class="questions-list" id="questionsList"></div>
+        <div class="current-question" id="currentQuestion"></div>
+        <div class="answers-label" data-i18n="answersLabel">Як вона могла б відреагувати?</div>
+        <div class="answers-list" id="answersList"></div>
         <div class="modal-actions">
-            <button id="modalRerollBtn" data-i18n="otherThree">🎲 Інші 3</button>
+            <button id="modalRerollBtn" data-i18n="otherQ">🎲 Інше питання</button>
             <button id="modalCloseBtn" data-i18n="close">Закрити</button>
             <button id="modalCopyBtn" data-i18n="copy">📋 Копіювати</button>
         </div>
@@ -550,8 +577,8 @@
             lastQuestion: "Останнє",
             resultPlaceholder: "🌀 оберіть сферу або натисніть SPIN",
             oracleOfSphere: "🌀 Оракул сфери",
-            modalHint: "Обери питання, яке тебе торкнулось:",
-            otherThree: "🎲 Інші 3",
+            answersLabel: "Як вона могла б відреагувати?",
+            otherQ: "🎲 Інше питання",
             close: "Закрити",
             copy: "📋 Копіювати",
             copied: "✅ скопійовано",
@@ -576,8 +603,8 @@
             lastQuestion: "Recent",
             resultPlaceholder: "🌀 choose a sphere or press SPIN",
             oracleOfSphere: "🌀 Sphere Oracle",
-            modalHint: "Pick the question that resonates with you:",
-            otherThree: "🎲 Other 3",
+            answersLabel: "How could she respond?",
+            otherQ: "🎲 Other question",
             close: "Close",
             copy: "📋 Copy",
             copied: "✅ copied",
@@ -613,7 +640,11 @@
     const ctx = canvas.getContext("2d");
     const modal = document.getElementById("modal");
     const modalSphere = document.getElementById("modalSphere");
-    const questionsList = document.getElementById("questionsList");
+    const currentQuestion = document.getElementById("currentQuestion");
+    const answersList = document.getElementById("answersList");
+    let currentItemPool = [];
+    let currentItem = null;
+    let lastAnswer = "";
     let W, H, cx, cy, R, rw;
     let angleOffset = 0;
     let hoverIdx = -1, activeIdx = -1;
@@ -852,24 +883,39 @@
     function showModalLoading(sphereName) {
         const s = SPHERES[currentLang][lastSphereIdx];
         modalSphere.innerHTML = `${s.emoji} ${s.name}`;
-        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].loadingQ}</div>`;
+        currentQuestion.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].loadingQ}</div>`;
+        answersList.innerHTML = "";
         modal.classList.add("active");
     }
 
-    function renderQuestions(questions) {
-        questionsList.innerHTML = "";
-        questions.forEach((q, i) => {
-            const item = document.createElement("div");
-            item.className = "question-item";
-            item.textContent = q;
-            item.onclick = () => {
-                document.querySelectorAll(".question-item").forEach(el => el.classList.remove("selected"));
-                item.classList.add("selected");
-                lastQuestion = q;
+    function renderCurrentItem(item) {
+        currentItem = item;
+        if (!item) {
+            currentQuestion.textContent = "—";
+            answersList.innerHTML = "";
+            return;
+        }
+        currentQuestion.textContent = item.q;
+        answersList.innerHTML = "";
+        item.a.forEach((answer, i) => {
+            const el = document.createElement("div");
+            el.className = "question-item";
+            const letter = String.fromCharCode(65 + i);
+            el.innerHTML = `<span style="opacity:0.5;margin-right:0.4rem;">${letter}.</span>${answer}`;
+            el.onclick = () => {
+                document.querySelectorAll(".answers-list .question-item").forEach(x => x.classList.remove("selected"));
+                el.classList.add("selected");
+                lastAnswer = answer;
+                lastQuestion = `${item.q}\n→ ${answer}`;
             };
-            questionsList.appendChild(item);
+            answersList.appendChild(el);
         });
-        lastQuestion = questions[0];
+        if (item.a.length > 0) {
+            const first = answersList.querySelector(".question-item");
+            if (first) first.classList.add("selected");
+            lastAnswer = item.a[0];
+            lastQuestion = `${item.q}\n→ ${item.a[0]}`;
+        }
     }
 
     async function onSpinComplete(idx) {
@@ -880,8 +926,10 @@
         document.body.style.background = `radial-gradient(circle at 30% 20%, ${bg}22, #010308)`;
         setTimeout(() => { document.body.style.background = ""; }, 1200);
         showModalLoading(s.short);
-        const questions = await generateQuestions(s.short, s.name);
-        renderQuestions(questions);
+        currentItemPool = await generateQuestions(s.short, s.name);
+        if (currentItemPool.length > 0) {
+            renderCurrentItem(currentItemPool[0]);
+        }
         activeIdx = -1;
         spinning = false;
         lastSpinTime = Date.now();
@@ -929,13 +977,17 @@
         if (cache && cache[currentLang] && cache[currentLang][sphereFull]) {
             const entry = cache[currentLang][sphereFull];
             if (Array.isArray(entry) && entry.length >= 1) {
-                const shuffled = [...entry].sort(() => Math.random() - 0.5);
-                return shuffled.slice(0, 3);
+                const first = entry[0];
+                if (typeof first === "object" && first.q && Array.isArray(first.a)) {
+                    const shuffled = [...entry].sort(() => Math.random() - 0.5);
+                    return shuffled.slice(0, 3);
+                }
+                return [{ q: entry[0], a: ["—", "—", "—"] }];
             }
-            return [entry];
         }
         const fb = FALLBACK_QUESTIONS[currentLang];
-        return [fb[Math.floor(Math.random() * fb.length)]];
+        const q = fb[Math.floor(Math.random() * fb.length)];
+        return [{ q, a: ["Відчути", "Проаналізувати", "Відпустити"] }];
     }
 
     let cachedQuestions = null;
@@ -1024,13 +1076,23 @@
     });
 
     document.getElementById("modalCloseBtn").onclick = () => {
-        if (lastQuestion && lastSphereIdx !== -1) {
+        if (currentItem && lastSphereIdx !== -1) {
             const s = SPHERES[currentLang][lastSphereIdx];
-            historyList.unshift(`${s.emoji} ${s.short} · ${lastQuestion.substring(0, 50)}...`);
+            const summary = `${s.emoji} ${s.short} · ${currentItem.q.substring(0, 35)}... → ${lastAnswer.substring(0, 20)}`;
+            historyList.unshift(summary);
             if (historyList.length > 6) historyList.pop();
             document.getElementById("historyLog").innerHTML = historyList.map(h => `<div class="history-item">📜 ${h}</div>`).join("");
         }
         modal.classList.remove("active");
+    };
+    document.getElementById("modalCopyBtn").onclick = () => {
+        if (currentItem && lastSphereIdx !== -1) {
+            const s = SPHERES[currentLang][lastSphereIdx];
+            const text = `${s.emoji} ${s.name}\n\n💭 ${currentItem.q}\n\n→ ${lastAnswer}`;
+            navigator.clipboard.writeText(text);
+            document.getElementById("modalCopyBtn").textContent = I18N[currentLang].copied;
+            setTimeout(() => { document.getElementById("modalCopyBtn").textContent = I18N[currentLang].copy; }, 1500);
+        }
     };
     document.getElementById("modalCopyBtn").onclick = () => {
         if (lastQuestion && lastSphereIdx !== -1) {
@@ -1040,12 +1102,23 @@
             setTimeout(() => { document.getElementById("modalCopyBtn").textContent = I18N[currentLang].copy; }, 1500);
         }
     };
-    document.getElementById("modalRerollBtn").onclick = async () => {
-        if (lastSphereIdx === -1) return;
-        const s = SPHERES[currentLang][lastSphereIdx];
-        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].pickingOther}</div>`;
-        const questions = await generateQuestions(s.short, s.name);
-        renderQuestions(questions);
+    document.getElementById("modalRerollBtn").onclick = () => {
+        if (lastSphereIdx === -1 || currentItemPool.length === 0) return;
+        let next;
+        if (currentItemPool.length > 1) {
+            const others = currentItemPool.filter(it => it !== currentItem);
+            next = others[Math.floor(Math.random() * others.length)];
+        } else {
+            const s = SPHERES[currentLang][lastSphereIdx];
+            currentQuestion.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].pickingOther}</div>`;
+            answersList.innerHTML = "";
+            generateQuestions(s.short, s.name).then(pool => {
+                currentItemPool = pool;
+                renderCurrentItem(pool[0]);
+            });
+            return;
+        }
+        renderCurrentItem(next);
     };
     window.onclick = (e) => { if (e.target === modal) modal.classList.remove("active"); };
 

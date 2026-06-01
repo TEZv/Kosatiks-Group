@@ -33,8 +33,60 @@ const SPHERES = {
 };
 
 const PROMPTS = {
-  ua: (sphere) => `Ти — мудрий оракул. Напиши 3 різні глибокі, провокаційні, ситуативні питання для роздумів (максимум 20 слів кожне) для сфери життя "${sphere}". Питання мають спонукати до саморефлексії. Кожне питання — окремий рядок, без нумерації та лапок.`,
-  en: (sphere) => `You are a wise oracle. Write 3 different deep, provocative, situational questions for reflection (max 20 words each) for the life sphere "${sphere}". Each question should encourage self-reflection. Each question on a new line, no numbering, no quotes.`
+  ua: (sphere) => `Ти — мудрий оракул для жінки- підприємиці, яка шукає глибокої саморефлексії.
+
+Сфера: "${sphere}"
+
+Створи РІВНО 3 ситуативні питання, кожне з яких містить конкретну життєву ситуацію (час, місце, дію, емоцію), де відсутнє "ти/ви" — пиши від 3-ї особи "вона/жінка/людина". Максимум 18 слів на питання.
+
+ДЛЯ КОЖНОГО питання створи РІВНО 3 варіанти відповідей — короткі психологічні реакції (5-10 слів кожна), що показують різні стратегії: уникнення, контроль, прийняття, чи створення нового.
+
+Формат строго (без зайвих символів, без нумерації, без лапок):
+Q1: питання
+A1: відповідь 1
+A1: відповідь 2
+A1: відповідь 3
+Q2: питання
+A2: відповідь 1
+A2: відповідь 2
+A2: відповідь 3
+Q3: питання
+A3: відповідь 1
+A3: відповідь 2
+A3: відповідь 3
+
+Приклад для сфери "Кар'єра":
+Q1: Після третього проваленого пітчу вона сидить в машині на парковці
+A1: Аналізує свої помилки в нотатках
+A1: Дзвонить подрузі, щоб виговоритись
+A1: Їде в спортзал, щоб випустити емоції`,
+  en: (sphere) => `You are a wise oracle for a woman entrepreneur seeking deep self-reflection.
+
+Sphere: "${sphere}"
+
+Create EXACTLY 3 situational questions, each containing a concrete life situation (time, place, action, emotion), written in 3rd person ("she/woman/person") — never use "you". Maximum 18 words per question.
+
+For EACH question, create EXACTLY 3 answer variants — short psychological reactions (5-10 words each) showing different strategies: avoidance, control, acceptance, or creating something new.
+
+Format strictly (no extra symbols, no numbering, no quotes):
+Q1: question
+A1: answer 1
+A1: answer 2
+A1: answer 3
+Q2: question
+A2: answer 1
+A2: answer 2
+A2: answer 3
+Q3: question
+A3: answer 1
+A3: answer 2
+A3: answer 3
+
+Example for "Career":
+Q1: After her third rejected pitch, she sits alone in the car at the parking lot
+A1: Analyzes her mistakes in detailed notes
+A1: Calls her best friend to vent
+A1: Drives to the gym to release the tension`
 };
 
 async function generate(lang, sphere) {
@@ -44,7 +96,7 @@ async function generate(lang, sphere) {
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 0.9, max_tokens: 200 })
+    body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 1.1, max_tokens: 700 })
   });
   const data = await res.json();
   if (!res.ok) {
@@ -56,8 +108,29 @@ async function generate(lang, sphere) {
     console.error(`  Empty response: ${JSON.stringify(data).substring(0, 300)}`);
     throw new Error('Empty response from Groq');
   }
-  const lines = text.split(/\n+/).map(l => l.replace(/^[\d\.\-\)\(\*\u2022]+\s*/, '').replace(/^["']|["']$/g, '').trim()).filter(l => l.length > 5);
-  return lines.slice(0, 3);
+  return parseResponse(text);
+}
+
+function parseResponse(text) {
+  const result = [];
+  let current = null;
+  for (const raw of text.split(/\n+/)) {
+    const line = raw.replace(/^["']|["']$/g, '').trim();
+    if (!line) continue;
+    const qm = line.match(/^Q\d+[:\.\)]\s*(.+)$/i);
+    const am = line.match(/^A\d+[:\.\)]\s*(.+)$/i);
+    if (qm) {
+      if (current) result.push(current);
+      current = { q: qm[1].trim(), a: [] };
+    } else if (am && current) {
+      current.a.push(am[1].trim());
+    }
+  }
+  if (current) result.push(current);
+  return result
+    .filter(item => item.q && item.a.length >= 2)
+    .map(item => ({ q: item.q, a: item.a.slice(0, 3) }))
+    .slice(0, 3);
 }
 
 (async () => {
@@ -74,14 +147,15 @@ async function generate(lang, sphere) {
   for (const lang of ['ua', 'en']) {
     for (const sphere of SPHERES[lang]) {
       try {
-        const qs = await generate(lang, sphere);
-        output[lang][sphere] = qs;
-        console.log(`\u2713 ${lang}: ${sphere} (${qs.length} variants)`);
+        const items = await generate(lang, sphere);
+        if (items.length === 0) throw new Error('No valid items parsed');
+        output[lang][sphere] = items;
+        console.log(`\u2713 ${lang}: ${sphere} (${items.length} q x ${items[0].a.length} a)`);
       } catch (e) {
         console.error(`\u2717 ${lang}: ${sphere} \u2014 ${e.message}`);
         output[lang][sphere] = null;
       }
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 800));
     }
   }
   const outPath = path.join(__dirname, '..', 'k-life-os', 'questions.json');
