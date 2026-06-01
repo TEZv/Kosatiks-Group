@@ -54,6 +54,7 @@
             overflow-y: auto;
             scrollbar-width: thin;
             scrollbar-color: rgba(0, 255, 255, 0.3) transparent;
+            position: relative;
         }
         .sidebar::-webkit-scrollbar { width: 4px; }
         .sidebar::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.3); border-radius: 2px; }
@@ -169,12 +170,13 @@
             background: rgba(20, 30, 50, 0.6);
             backdrop-filter: blur(8px);
             border-radius: 0.6rem; 
-            padding: 0.4rem 0.2rem; 
+            padding: 0.5rem 0.2rem; 
             text-align: center;
             transition: all 0.25s ease;
-            border: 1px solid rgba(0, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 2px solid var(--sphere-color, rgba(0, 255, 255, 0.3));
             color: #bde;
-            cursor: pointer;
+            cursor: default;
             position: relative;
             overflow: hidden;
         }
@@ -182,15 +184,15 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1), transparent 70%);
+            background: radial-gradient(circle at center, var(--sphere-color, rgba(0, 255, 255, 0.15)), transparent 70%);
             opacity: 0;
-            transition: opacity 0.25s;
+            transition: opacity 0.3s;
         }
-        .sphere-card:hover::before { opacity: 1; }
+        .sphere-card:hover::before { opacity: 0.4; }
         .sphere-card:hover { 
-            border-color: rgba(0, 255, 255, 0.4); 
+            border-color: var(--sphere-color, rgba(0, 255, 255, 0.4));
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.15);
+            box-shadow: 0 4px 20px color-mix(in srgb, var(--sphere-color, cyan) 30%, transparent);
         }
         .sphere-card.selected {
             background: linear-gradient(135deg, rgba(255, 170, 50, 0.3), rgba(200, 100, 20, 0.25));
@@ -259,6 +261,42 @@
             50% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.25); }
         }
         .sidebar { animation: pulse-glow 4s ease-in-out infinite; }
+        
+        .sidebar-orb {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, rgba(100, 100, 255, 0.1) 40%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(8px);
+            animation: float-orb 6s ease-in-out infinite;
+        }
+        @keyframes float-orb {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            50% { transform: translate(-10px, 10px) scale(1.1); opacity: 1; }
+        }
+        .api-status {
+            font-size: 0.6rem;
+            color: rgba(0, 255, 255, 0.5);
+            margin-top: 0.4rem;
+            text-align: center;
+        }
+        .api-status.live {
+            color: rgba(100, 255, 150, 0.8);
+        }
+        .api-status.live::before {
+            content: '●';
+            color: #4ade80;
+            margin-right: 0.3rem;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
         .modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
@@ -270,8 +308,8 @@
             background: linear-gradient(135deg, rgba(15, 25, 40, 0.95), rgba(10, 15, 30, 0.98));
             border-radius: 1.5rem; 
             padding: 1.5rem; 
-            max-width: 420px; 
-            width: 90%;
+            max-width: 480px; 
+            width: 92%;
             border: 1px solid rgba(0, 255, 255, 0.3); 
             box-shadow: 
                 0 0 40px rgba(0, 255, 255, 0.2),
@@ -279,6 +317,8 @@
             text-align: center; 
             transform: scale(0.9); 
             transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .modal.active .modal-card { transform: scale(1); }
         .modal-card h3 { 
@@ -291,16 +331,80 @@
         .modal-sphere-name { 
             font-size: 1.1rem; 
             color: rgba(255, 200, 100, 0.95); 
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             font-weight: 600;
         }
-        .modal-question { 
-            font-size: 1rem; 
-            color: rgba(255, 240, 220, 0.95); 
-            margin: 1rem 0; 
-            line-height: 1.6;
-            padding: 0 0.5rem;
+        .modal-hint {
+            font-size: 0.7rem;
+            color: rgba(0, 255, 255, 0.5);
+            margin-bottom: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.02em;
         }
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 0.5rem 0 1rem;
+        }
+        .question-item {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            border-radius: 0.8rem;
+            padding: 0.7rem 0.9rem;
+            font-size: 0.9rem;
+            color: rgba(255, 240, 220, 0.95);
+            line-height: 1.45;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .question-item::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: rgba(0, 255, 255, 0.3);
+            transition: background 0.2s;
+        }
+        .question-item:hover {
+            background: rgba(0, 255, 255, 0.12);
+            border-color: rgba(0, 255, 255, 0.4);
+            transform: translateX(2px);
+        }
+        .question-item:hover::before {
+            background: rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+        .question-item.selected {
+            background: linear-gradient(135deg, rgba(255, 170, 50, 0.2), rgba(200, 100, 20, 0.15));
+            border-color: rgba(255, 200, 100, 0.6);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 170, 50, 0.2);
+        }
+        .question-item.selected::before {
+            background: rgba(255, 200, 100, 0.9);
+            box-shadow: 0 0 10px rgba(255, 200, 100, 0.6);
+        }
+        .questions-loading {
+            text-align: center;
+            padding: 1.5rem 0;
+            color: rgba(0, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+        .questions-loading .spinner {
+            display: inline-block;
+            width: 14px; height: 14px;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            border-top-color: rgba(0, 255, 255, 0.9);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .modal-actions { display: flex; gap: 0.6rem; justify-content: center; margin-top: 1.2rem; flex-wrap: wrap; }
         .modal-actions button { 
             background: rgba(0, 255, 255, 0.1); 
@@ -316,6 +420,16 @@
             color: #fff;
             border-color: rgba(0, 255, 255, 0.6);
             transform: translateY(-1px);
+        }
+        #modalRerollBtn {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.25), rgba(100, 200, 255, 0.18)) !important;
+            border-color: rgba(0, 255, 255, 0.5) !important;
+            color: #fff !important;
+            font-weight: 600;
+        }
+        #modalRerollBtn:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.35), rgba(100, 200, 255, 0.28)) !important;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
         }
         @media (max-width: 900px) {
             .main-layout { flex-direction: column; }
@@ -335,6 +449,7 @@
         </div>
     </div>
     <div class="sidebar">
+        <div class="sidebar-orb"></div>
         <div class="sidebar-section">
             <div class="lang-switch">
                 <button class="lang-btn active" data-lang="ua">🇺🇦 UA</button>
@@ -343,21 +458,23 @@
         </div>
         
         <div class="sidebar-section">
-            <div class="sidebar-label">API Key</div>
+            <div class="sidebar-label">API Key · Groq</div>
             <div class="api-settings">
                 <input type="text" id="groqKeyInput" placeholder="gsk_..." autocomplete="off">
                 <button id="saveKeyBtn">💾</button>
             </div>
+            <div class="api-status" id="apiStatus"></div>
         </div>
         
         <div class="sidebar-section">
-            <div class="sidebar-label">Сфери</div>
+            <div class="sidebar-label">Сфери життя</div>
             <div class="cards-grid" id="cardsGrid"></div>
         </div>
         
-        <button id="spinBtn" class="btn-primary">🎲 SPIN</button>
+        <button id="spinBtn" class="btn-primary">🎲 SPIN · обери сферу</button>
         
         <div class="sidebar-section">
+            <div class="sidebar-label">Останнє</div>
             <div id="resultMsg">🌀 оберіть сферу або натисніть SPIN</div>
             <div class="history" id="historyLog"></div>
         </div>
@@ -370,10 +487,11 @@
     <div class="modal-card">
         <h3>🌀 Оракул сфери</h3>
         <div class="modal-sphere-name" id="modalSphere"></div>
-        <div class="modal-question" id="modalQuestion"></div>
+        <div class="modal-hint" id="modalHint">Обери питання, яке тебе торкнулось:</div>
+        <div class="questions-list" id="questionsList"></div>
         <div class="modal-actions">
+            <button id="modalRerollBtn">🎲 Інші 3</button>
             <button id="modalCloseBtn">Закрити</button>
-            <button id="modalSaveBtn">💾 Зберегти</button>
             <button id="modalCopyBtn">📋 Копіювати</button>
         </div>
     </div>
@@ -458,6 +576,9 @@
 
     const canvas = document.getElementById("ringCanvas");
     const ctx = canvas.getContext("2d");
+    const modal = document.getElementById("modal");
+    const modalSphere = document.getElementById("modalSphere");
+    const questionsList = document.getElementById("questionsList");
     let W, H, cx, cy, R, rw;
     let angleOffset = 0;
     let hoverIdx = -1, activeIdx = -1;
@@ -687,18 +808,39 @@
         });
     }
 
+    function showModalLoading(sphereName) {
+        const s = SPHERES[currentLang][lastSphereIdx];
+        modalSphere.innerHTML = `${s.emoji} ${s.name}`;
+        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${currentLang === "ua" ? "Генерую питання через Groq..." : "Generating via Groq..."}</div>`;
+        modal.classList.add("active");
+    }
+
+    function renderQuestions(questions) {
+        questionsList.innerHTML = "";
+        questions.forEach((q, i) => {
+            const item = document.createElement("div");
+            item.className = "question-item";
+            item.textContent = q;
+            item.onclick = () => {
+                document.querySelectorAll(".question-item").forEach(el => el.classList.remove("selected"));
+                item.classList.add("selected");
+                lastQuestion = q;
+            };
+            questionsList.appendChild(item);
+        });
+        lastQuestion = questions[0];
+    }
+
     async function onSpinComplete(idx) {
         const s = SPHERES[currentLang][idx];
-        const q = await generateQuestion(s.short);
         lastSphereIdx = idx;
-        lastQuestion = q;
-        modalSphere.innerHTML = `${s.emoji} ${s.name}`;
-        modalQuestion.innerHTML = q;
-        modal.classList.add("active");
         highlightCard(idx);
         const bg = COLORS[idx];
         document.body.style.background = `radial-gradient(circle at 30% 20%, ${bg}22, #010308)`;
         setTimeout(() => { document.body.style.background = ""; }, 1200);
+        showModalLoading(s.short);
+        const questions = await generateQuestions(s.short, s.name);
+        renderQuestions(questions);
         activeIdx = -1;
         spinning = false;
         lastSpinTime = Date.now();
@@ -741,12 +883,53 @@
         };
     }
 
-    async function generateQuestion(sphereName) {
-        const q = await loadQuestions();
-        if (q && q[currentLang] && q[currentLang][sphereName]) {
-            return q[currentLang][sphereName];
+    async function generateQuestions(sphereShort, sphereFull) {
+        if (groqApiKey && groqApiKey.startsWith("gsk_")) {
+            try {
+                const live = await groqLiveGenerate(sphereFull);
+                if (live && live.length > 0) return live;
+            } catch (e) {
+                console.warn("Groq live failed, falling back to cache:", e.message);
+            }
         }
-        return FALLBACK_QUESTIONS[currentLang][Math.floor(Math.random() * FALLBACK_QUESTIONS[currentLang].length)];
+        const cache = await loadQuestions();
+        if (cache && cache[currentLang] && cache[currentLang][sphereFull]) {
+            const entry = cache[currentLang][sphereFull];
+            if (Array.isArray(entry)) {
+                const shuffled = [...entry].sort(() => Math.random() - 0.5);
+                return shuffled.slice(0, 3);
+            }
+            return [entry];
+        }
+        const fb = FALLBACK_QUESTIONS[currentLang];
+        return [fb[Math.floor(Math.random() * fb.length)]];
+    }
+
+    async function groqLiveGenerate(sphereFull) {
+        const prompt = currentLang === "ua"
+            ? `Ти — мудрий оракул. Напиши 3 різні глибокі, провокаційні, ситуативні питання для роздумів (максимум 20 слів кожне) для сфери життя "${sphereFull}". Кожне питання — окремий рядок, без нумерації, без лапок.`
+            : `You are a wise oracle. Write 3 different deep, provocative, situational questions for reflection (max 20 words each) for the life sphere "${sphereFull}". Each question on a new line, no numbering, no quotes.`;
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${groqApiKey}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "meta-llama/llama-4-scout-17b-16e-instruct",
+                messages: [{ role: "user", content: prompt }],
+                temperature: 0.9,
+                max_tokens: 200
+            })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const text = data.choices?.[0]?.message?.content?.trim() || "";
+        if (!text) throw new Error("Empty response");
+        return text.split(/\n+/)
+            .map(l => l.replace(/^[\d\.\-\)\(\*\u2022]+\s*/, "").replace(/^["']|["']$/g, "").trim())
+            .filter(l => l.length > 5)
+            .slice(0, 3);
     }
 
     let cachedQuestions = null;
@@ -784,10 +967,22 @@
         SPHERES[currentLang].forEach((s, i) => {
             const card = document.createElement("div");
             card.className = "sphere-card";
+            const color = COLORS[i];
+            card.style.setProperty("--sphere-color", color);
             card.innerHTML = `<span class="card-emoji">${s.emoji}</span><span class="card-name">${s.short}</span>`;
-            card.onclick = () => spinToTarget(i);
             grid.appendChild(card);
         });
+    }
+
+    function updateApiStatus() {
+        const status = document.getElementById("apiStatus");
+        if (groqApiKey && groqApiKey.startsWith("gsk_")) {
+            status.className = "api-status live";
+            status.textContent = currentLang === "ua" ? "Groq Live API активний" : "Groq Live API active";
+        } else {
+            status.className = "api-status";
+            status.textContent = currentLang === "ua" ? "кешовані питання" : "cached questions";
+        }
     }
 
     function formatCooldown(ms) {
@@ -830,8 +1025,10 @@
         localStorage.setItem("groq_api_key", groqApiKey);
         document.getElementById("resultMsg").textContent = "🔑 збережено";
         setTimeout(() => document.getElementById("resultMsg").textContent = "🌀 оберіть сферу або натисніть SPIN", 1500);
+        updateApiStatus();
     };
     if (groqApiKey) document.getElementById("groqKeyInput").value = groqApiKey;
+    updateApiStatus();
 
     document.querySelectorAll(".lang-btn").forEach(btn => {
         btn.onclick = () => {
@@ -839,18 +1036,18 @@
             document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
             buildCards();
             document.getElementById("resultMsg").textContent = "🌀 оберіть сферу або натисніть SPIN";
+            updateApiStatus();
         };
     });
 
-    document.getElementById("modalCloseBtn").onclick = () => modal.classList.remove("active");
-    document.getElementById("modalSaveBtn").onclick = () => {
+    document.getElementById("modalCloseBtn").onclick = () => {
         if (lastQuestion && lastSphereIdx !== -1) {
             const s = SPHERES[currentLang][lastSphereIdx];
-            historyList.unshift(`${s.emoji} ${s.short} · ${lastQuestion.substring(0, 40)}...`);
+            historyList.unshift(`${s.emoji} ${s.short} · ${lastQuestion.substring(0, 50)}...`);
             if (historyList.length > 6) historyList.pop();
-            document.getElementById("historyLog").innerHTML = historyList.map(h => `<div>📜 ${h}</div>`).join("");
-            modal.classList.remove("active");
+            document.getElementById("historyLog").innerHTML = historyList.map(h => `<div class="history-item">📜 ${h}</div>`).join("");
         }
+        modal.classList.remove("active");
     };
     document.getElementById("modalCopyBtn").onclick = () => {
         if (lastQuestion && lastSphereIdx !== -1) {
@@ -859,6 +1056,13 @@
             document.getElementById("modalCopyBtn").textContent = "✅ скопійовано";
             setTimeout(() => document.getElementById("modalCopyBtn").textContent = "📋 Копіювати", 1500);
         }
+    };
+    document.getElementById("modalRerollBtn").onclick = async () => {
+        if (lastSphereIdx === -1) return;
+        const s = SPHERES[currentLang][lastSphereIdx];
+        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${currentLang === "ua" ? "Генерую нові..." : "Generating new..."}</div>`;
+        const questions = await generateQuestions(s.short, s.name);
+        renderQuestions(questions);
     };
     window.onclick = (e) => { if (e.target === modal) modal.classList.remove("active"); };
 

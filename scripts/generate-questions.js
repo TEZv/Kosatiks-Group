@@ -33,8 +33,8 @@ const SPHERES = {
 };
 
 const PROMPTS = {
-  ua: (sphere) => `Ти — мудрий оракул. Напиши одне глибоке, провокаційне, ситуативне питання для роздумів (максимум 20 слів) для сфери життя "${sphere}". Питання має спонукати до саморефлексії. Не використовуй лапки.`,
-  en: (sphere) => `You are a wise oracle. Write one deep, provocative, situational question for reflection (max 20 words) for the life sphere "${sphere}". The question should encourage self-reflection. No quotes.`
+  ua: (sphere) => `Ти — мудрий оракул. Напиши 3 різні глибокі, провокаційні, ситуативні питання для роздумів (максимум 20 слів кожне) для сфери життя "${sphere}". Питання мають спонукати до саморефлексії. Кожне питання — окремий рядок, без нумерації та лапок.`,
+  en: (sphere) => `You are a wise oracle. Write 3 different deep, provocative, situational questions for reflection (max 20 words each) for the life sphere "${sphere}". Each question should encourage self-reflection. Each question on a new line, no numbering, no quotes.`
 };
 
 async function generate(lang, sphere) {
@@ -44,19 +44,20 @@ async function generate(lang, sphere) {
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 0.9, max_tokens: 80 })
+    body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 0.9, max_tokens: 200 })
   });
   const data = await res.json();
   if (!res.ok) {
     console.error(`  HTTP ${res.status}: ${JSON.stringify(data).substring(0, 200)}`);
     throw new Error(`HTTP ${res.status}`);
   }
-  const text = data.choices?.[0]?.message?.content?.trim().replace(/^["']|["']$/g, '') || '';
+  const text = data.choices?.[0]?.message?.content?.trim() || '';
   if (!text) {
     console.error(`  Empty response: ${JSON.stringify(data).substring(0, 300)}`);
     throw new Error('Empty response from Groq');
   }
-  return text;
+  const lines = text.split(/\n+/).map(l => l.replace(/^[\d\.\-\)\(\*\u2022]+\s*/, '').replace(/^["']|["']$/g, '').trim()).filter(l => l.length > 5);
+  return lines.slice(0, 3);
 }
 
 (async () => {
@@ -73,9 +74,9 @@ async function generate(lang, sphere) {
   for (const lang of ['ua', 'en']) {
     for (const sphere of SPHERES[lang]) {
       try {
-        const q = await generate(lang, sphere);
-        output[lang][sphere] = q;
-        console.log(`\u2713 ${lang}: ${sphere}`);
+        const qs = await generate(lang, sphere);
+        output[lang][sphere] = qs;
+        console.log(`\u2713 ${lang}: ${sphere} (${qs.length} variants)`);
       } catch (e) {
         console.error(`\u2717 ${lang}: ${sphere} \u2014 ${e.message}`);
         output[lang][sphere] = null;
