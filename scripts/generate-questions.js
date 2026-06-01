@@ -163,7 +163,7 @@ function parseResponse(text) {
     process.exit(1);
   }
   console.log(`API key loaded: ${key.substring(0, 8)}...`);
-  
+
   const outPath = path.join(__dirname, '..', 'k-life-os', 'questions.json');
   let existing = { ua: {}, en: {} };
   if (fs.existsSync(outPath)) {
@@ -175,30 +175,53 @@ function parseResponse(text) {
     }
   }
 
-  const output = { generatedAt: new Date().toISOString(), ua: {}, en: {} };
-  let totalAdded = 0, totalKept = 0;
+  const now = new Date();
+  const kyivMs = now.getTime() + 2 * 60 * 60 * 1000;
+  const today = new Date(kyivMs).toISOString().slice(0, 10);
+  const yesterdayDate = new Date(kyivMs - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  console.log(`\nDaily run for ${today} (yesterday buffer: ${yesterdayDate})`);
+
+  const output = { generatedAt: now.toISOString(), day: today, ua: {}, en: {} };
+  let totalAdded = 0, totalKept = 0, totalDropped = 0, totalSkipped = 0;
   for (const lang of ['ua', 'en']) {
     for (const sphere of SPHERES[lang]) {
       const prevItems = Array.isArray(existing?.[lang]?.[sphere]) ? existing[lang][sphere] : [];
-      const prevKey = new Set(prevItems.map(it => `${it.q}|${(it.a || []).join('|')}`));
+      const todayItems = prevItems.filter(it => it._day === today);
+      const yesterdayItems = prevItems.filter(it => it._day === yesterdayDate);
+
+      if (todayItems.length >= 3) {
+        output[lang][sphere] = todayItems;
+        totalKept += todayItems.length;
+        totalSkipped++;
+        const dropped = prevItems.length - todayItems.length;
+        totalDropped += dropped;
+        console.log(`\u2713 ${lang}: ${sphere} (today complete: ${todayItems.length}, dropped ${dropped})`);
+        await new Promise(r => setTimeout(r, 200));
+        continue;
+      }
+
+      const bufferKey = new Set(yesterdayItems.map(it => `${it.q}|${(it.a || []).join('|')}`));
       try {
         const newItems = await generate(lang, sphere);
         if (newItems.length === 0) throw new Error('No valid items parsed');
-        const fresh = newItems.filter(it => !prevKey.has(`${it.q}|${(it.a || []).join('|')}`));
-        const merged = [...prevItems, ...fresh];
+        const stamped = newItems.map(it => ({ ...it, _day: today }));
+        const fresh = stamped.filter(it => !bufferKey.has(`${it.q}|${(it.a || []).join('|')}`));
+        const merged = [...yesterdayItems, ...fresh];
         output[lang][sphere] = merged;
-        const added = merged.length - prevItems.length;
+        const added = merged.length - yesterdayItems.length;
+        const dropped = Math.max(0, prevItems.length - merged.length);
         totalAdded += added;
-        totalKept += prevItems.length;
-        console.log(`\u2713 ${lang}: ${sphere} (kept ${prevItems.length} + added ${added} = ${merged.length})`);
+        totalKept += yesterdayItems.length;
+        totalDropped += dropped;
+        console.log(`\u2713 ${lang}: ${sphere} (yesterday buffer ${yesterdayItems.length} + today added ${added}, dropped ${dropped})`);
       } catch (e) {
         console.error(`\u2717 ${lang}: ${sphere} \u2014 ${e.message}`);
-        output[lang][sphere] = prevItems.length > 0 ? prevItems : null;
+        output[lang][sphere] = yesterdayItems.length > 0 ? yesterdayItems : (todayItems.length > 0 ? todayItems : null);
       }
       await new Promise(r => setTimeout(r, 800));
     }
   }
-  console.log(`\nTotal: kept ${totalKept}, added ${totalAdded}`);
+  console.log(`\nTotal: kept ${totalKept}, added ${totalAdded}, dropped ${totalDropped}, skipped-regen ${totalSkipped}`);
   fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`\nSaved to ${outPath}`);
 })().catch(e => {
