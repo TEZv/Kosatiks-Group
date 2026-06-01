@@ -987,7 +987,10 @@
         }
         const fb = FALLBACK_QUESTIONS[currentLang];
         const q = fb[Math.floor(Math.random() * fb.length)];
-        return [{ q, a: ["Відчути", "Проаналізувати", "Відпустити"] }];
+        const fallbackAnswers = currentLang === "ua"
+            ? ["Відчути", "Проаналізувати", "Відпустити"]
+            : ["Feel it", "Analyze it", "Let it go"];
+        return [{ q, a: fallbackAnswers }];
     }
 
     let cachedQuestions = null;
