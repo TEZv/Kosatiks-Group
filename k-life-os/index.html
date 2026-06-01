@@ -279,12 +279,48 @@
             overflow-y: auto;
         }
         .modal.active .modal-card { transform: scale(1); }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
         .modal-card h3 { 
             color: rgba(0, 255, 255, 0.9); 
-            margin-bottom: 0.8rem; 
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             letter-spacing: 0.05em;
+            margin: 0;
+        }
+        .modal-lang-switch {
+            display: flex;
+            gap: 0.2rem;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 1rem;
+            padding: 0.15rem;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        .modal-lang-btn {
+            background: transparent;
+            border: none;
+            color: rgba(0, 255, 255, 0.5);
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            flex: none;
+        }
+        .modal-lang-btn:hover {
+            color: rgba(0, 255, 255, 0.8);
+        }
+        .modal-lang-btn.active {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.3), rgba(100, 200, 255, 0.2));
+            color: #fff;
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
         }
         .modal-sphere-name { 
             font-size: 1.1rem; 
@@ -479,7 +515,13 @@
 
 <div id="modal" class="modal">
     <div class="modal-card">
-        <h3 data-i18n="oracleOfSphere">🌀 Оракул сфери</h3>
+        <div class="modal-header">
+            <h3 data-i18n="oracleOfSphere">🌀 Оракул сфери</h3>
+            <div class="modal-lang-switch">
+                <button class="modal-lang-btn active" data-lang="ua">UA</button>
+                <button class="modal-lang-btn" data-lang="en">EN</button>
+            </div>
+        </div>
         <div class="modal-sphere-name" id="modalSphere"></div>
         <div class="current-question" id="currentQuestion"></div>
         <div class="answers-label" data-i18n="answersLabel">Як вона могла б відреагувати?</div>
@@ -885,6 +927,7 @@
         modalSphere.innerHTML = `${s.emoji} ${s.name}`;
         currentQuestion.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].loadingQ}</div>`;
         answersList.innerHTML = "";
+        document.querySelectorAll(".modal-lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
         modal.classList.add("active");
     }
 
@@ -1066,16 +1109,34 @@
         setTimeout(() => document.getElementById("resultMsg").textContent = I18N[currentLang].resultPlaceholder, 1500);
     };
 
-    document.querySelectorAll(".lang-btn").forEach(btn => {
-        btn.onclick = () => {
-            currentLang = btn.dataset.lang;
-            document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
-            buildCards();
-            applyI18n();
-            if (!lastSpinTime) {
-                document.getElementById("resultMsg").textContent = I18N[currentLang].resultPlaceholder;
+    async function setLanguage(lang) {
+        if (lang !== "ua" && lang !== "en") return;
+        currentLang = lang;
+        document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
+        document.querySelectorAll(".modal-lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
+        buildCards();
+        applyI18n();
+        if (!lastSpinTime) {
+            document.getElementById("resultMsg").textContent = I18N[currentLang].resultPlaceholder;
+        }
+        if (modal.classList.contains("active") && lastSphereIdx !== -1) {
+            const s = SPHERES[currentLang][lastSphereIdx];
+            modalSphere.innerHTML = `${s.emoji} ${s.name}`;
+            currentQuestion.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].loadingQ}</div>`;
+            answersList.innerHTML = "";
+            const pool = await generateQuestions(s.short, s.name);
+            if (pool && pool.length > 0) {
+                currentItemPool = pool;
+                renderCurrentItem(pool[0]);
             }
-        };
+        }
+    }
+
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.onclick = () => setLanguage(btn.dataset.lang);
+    });
+    document.querySelectorAll(".modal-lang-btn").forEach(btn => {
+        btn.onclick = () => setLanguage(btn.dataset.lang);
     });
 
     document.getElementById("modalCloseBtn").onclick = () => {
