@@ -6,22 +6,25 @@
     <title>🌀 Мінливий оракул · Кільце Сфер</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+        html, body { height: 100%; }
         body {
             background: radial-gradient(circle at 30% 20%, #0a0f1c, #010308);
             font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         .main-layout {
             display: flex;
             flex-wrap: wrap;
             min-height: 100vh;
             padding: 1rem;
-            gap: 1.5rem;
+            gap: 1rem;
+            align-items: stretch;
         }
         .ring-container {
-            flex: 2;
-            min-width: 320px;
+            flex: 2 1 500px;
+            min-width: 300px;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -30,28 +33,31 @@
         }
         canvas {
             width: 100%;
-            max-width: 650px;
+            max-width: min(650px, 70vh);
+            max-height: 70vh;
             height: auto;
+            aspect-ratio: 1 / 1;
             background: transparent;
             cursor: pointer;
         }
         .sidebar {
-            flex: 1;
-            min-width: 280px;
-            max-width: 340px;
+            flex: 1 1 280px;
+            min-width: 260px;
+            max-width: 360px;
             background: linear-gradient(180deg, rgba(15, 20, 40, 0.9) 0%, rgba(8, 12, 25, 0.95) 100%);
             backdrop-filter: blur(20px);
             border-radius: 1.5rem;
-            padding: 1.2rem;
+            padding: 1rem;
             border: 1px solid rgba(0, 255, 255, 0.25);
             box-shadow: 
                 0 0 30px rgba(0, 255, 255, 0.15),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
-            max-height: 92vh;
+            gap: 0.5rem;
+            max-height: calc(100vh - 2rem);
             overflow-y: auto;
+            overflow-x: hidden;
             scrollbar-width: thin;
             scrollbar-color: rgba(0, 255, 255, 0.3) transparent;
             position: relative;
@@ -62,8 +68,8 @@
         
         .sidebar-section {
             background: rgba(0, 255, 255, 0.03);
-            border-radius: 1rem;
-            padding: 0.6rem;
+            border-radius: 0.8rem;
+            padding: 0.5rem;
             border: 1px solid rgba(0, 255, 255, 0.1);
         }
         .sidebar-label {
@@ -161,8 +167,7 @@
         .cards-grid {
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
-            gap: 0.35rem;
-            max-height: 280px;
+            gap: 0.3rem;
             overflow-y: auto;
             padding: 0.2rem;
         }
@@ -431,11 +436,38 @@
             background: linear-gradient(135deg, rgba(0, 255, 255, 0.35), rgba(100, 200, 255, 0.28)) !important;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
         }
+        @media (max-width: 1100px) {
+            .main-layout { padding: 0.75rem; gap: 0.75rem; }
+            canvas { max-width: min(550px, 60vh); }
+        }
         @media (max-width: 900px) {
-            .main-layout { flex-direction: column; }
-            .sidebar { max-height: none; max-width: 100%; }
-            canvas { max-width: 90vw; }
-            .cards-grid { grid-template-columns: repeat(4, 1fr); max-height: none; }
+            .main-layout { flex-direction: column; padding: 0.5rem; gap: 0.5rem; }
+            .sidebar { 
+                max-width: 100%; 
+                max-height: none;
+                flex: 1 1 auto;
+            }
+            .ring-container { flex: 1 1 auto; min-height: auto; }
+            canvas { max-width: min(500px, 80vw); max-height: 60vh; }
+            .cards-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .main-layout { padding: 0.4rem; }
+            canvas { max-width: 95vw; max-height: 55vh; }
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+            .sidebar { padding: 0.7rem; }
+        }
+        @media (max-height: 700px) {
+            .sidebar { 
+                max-height: calc(100vh - 1rem);
+                padding: 0.7rem;
+            }
+            canvas { max-width: min(500px, 55vh); }
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-height: 600px) {
+            canvas { max-width: min(400px, 50vh); }
+            .ring-container { gap: 0.3rem; }
         }
     </style>
 </head>
@@ -612,10 +644,16 @@
 
     function resize() {
         const container = canvas.parentElement;
-        W = Math.min(container.clientWidth, 650);
+        const containerW = container.clientWidth;
+        const vh = window.innerHeight;
+        const maxW = Math.min(containerW, 650);
+        const maxH = vh * 0.65;
+        W = Math.min(maxW, maxH);
         H = W;
         canvas.width = W;
         canvas.height = H;
+        canvas.style.maxWidth = W + "px";
+        canvas.style.maxHeight = W + "px";
         cx = W / 2;
         cy = H / 2;
         R = W * 0.33;
