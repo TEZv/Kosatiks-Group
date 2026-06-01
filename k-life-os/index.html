@@ -954,7 +954,7 @@
         highlightCard(targetIdx);
 
         const step = (Math.PI * 2) / 12;
-        const targetAngle = -(targetIdx * step + step / 2);
+        const targetAngle = -Math.PI / 2 - targetIdx * step - step / 2;
 
         let cur = angleOffset % (Math.PI * 2);
         let tgt = targetAngle % (Math.PI * 2);
