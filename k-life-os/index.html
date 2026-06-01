@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" id="htmlLang">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🌀 Мінливий оракул · Кільце Сфер</title>
+    <title id="pageTitle">🌀 Мінливий оракул · Кільце Сфер</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         html, body { height: 100%; }
@@ -421,8 +421,8 @@
     <div class="ring-container">
         <canvas id="ringCanvas" width="600" height="600"></canvas>
         <div class="controls">
-            <button id="randomBtn">✨ випадкова сфера</button>
-            <button id="moodBtn">🎨 новий настрій</button>
+            <button id="randomBtn" data-i18n="randomSphere">✨ випадкова сфера</button>
+            <button id="moodBtn" data-i18n="newMood">🎨 новий настрій</button>
         </div>
     </div>
     <div class="sidebar">
@@ -435,15 +435,15 @@
         </div>
         
         <div class="sidebar-section">
-            <div class="sidebar-label">Сфери життя</div>
+            <div class="sidebar-label" data-i18n="lifeSpheres">Сфери життя</div>
             <div class="cards-grid" id="cardsGrid"></div>
         </div>
         
-        <button id="spinBtn" class="btn-primary">🎲 SPIN · обери сферу</button>
+        <button id="spinBtn" class="btn-primary" data-i18n="spinChoose">🎲 SPIN · обери сферу</button>
         
         <div class="sidebar-section">
-            <div class="sidebar-label">Останнє</div>
-            <div id="resultMsg">🌀 оберіть сферу або натисніть SPIN</div>
+            <div class="sidebar-label" data-i18n="lastQuestion">Останнє</div>
+            <div id="resultMsg" data-i18n-default="resultPlaceholder">🌀 оберіть сферу або натисніть SPIN</div>
             <div class="history" id="historyLog"></div>
         </div>
         
@@ -453,14 +453,14 @@
 
 <div id="modal" class="modal">
     <div class="modal-card">
-        <h3>🌀 Оракул сфери</h3>
+        <h3 data-i18n="oracleOfSphere">🌀 Оракул сфери</h3>
         <div class="modal-sphere-name" id="modalSphere"></div>
-        <div class="modal-hint" id="modalHint">Обери питання, яке тебе торкнулось:</div>
+        <div class="modal-hint" id="modalHint" data-i18n="modalHint">Обери питання, яке тебе торкнулось:</div>
         <div class="questions-list" id="questionsList"></div>
         <div class="modal-actions">
-            <button id="modalRerollBtn">🎲 Інші 3</button>
-            <button id="modalCloseBtn">Закрити</button>
-            <button id="modalCopyBtn">📋 Копіювати</button>
+            <button id="modalRerollBtn" data-i18n="otherThree">🎲 Інші 3</button>
+            <button id="modalCloseBtn" data-i18n="close">Закрити</button>
+            <button id="modalCopyBtn" data-i18n="copy">📋 Копіювати</button>
         </div>
     </div>
 </div>
@@ -541,6 +541,74 @@
     let spinning = false, lastSpinTime = 0;
     const SPIN_COOLDOWN = 3600000;
 
+    const I18N = {
+        ua: {
+            randomSphere: "✨ випадкова сфера",
+            newMood: "🎨 новий настрій",
+            lifeSpheres: "Сфери життя",
+            spinChoose: "🎲 SPIN · обери сферу",
+            lastQuestion: "Останнє",
+            resultPlaceholder: "🌀 оберіть сферу або натисніть SPIN",
+            oracleOfSphere: "🌀 Оракул сфери",
+            modalHint: "Обери питання, яке тебе торкнулось:",
+            otherThree: "🎲 Інші 3",
+            close: "Закрити",
+            copy: "📋 Копіювати",
+            copied: "✅ скопійовано",
+            nextIn1h: "✅ наступний через 1 годину",
+            waitMin: (m) => `⏳ зачекайте ${m} хв`,
+            loadingQ: "Завантажую питання...",
+            pickingOther: "Обираю інші...",
+            cooldownPrefix: "⏳ наступний через",
+            moodPrefix: "🎨 настрій:",
+            pageTitle: "🌀 Мінливий оракул · Кільце Сфер",
+            formatHms: (h, m, s) => {
+                if (h > 0) return `${h}г ${m}хв ${s}с`;
+                if (m > 0) return `${m}хв ${s}с`;
+                return `${s}с`;
+            }
+        },
+        en: {
+            randomSphere: "✨ random sphere",
+            newMood: "🎨 new mood",
+            lifeSpheres: "Life Spheres",
+            spinChoose: "🎲 SPIN · choose a sphere",
+            lastQuestion: "Recent",
+            resultPlaceholder: "🌀 choose a sphere or press SPIN",
+            oracleOfSphere: "🌀 Sphere Oracle",
+            modalHint: "Pick the question that resonates with you:",
+            otherThree: "🎲 Other 3",
+            close: "Close",
+            copy: "📋 Copy",
+            copied: "✅ copied",
+            nextIn1h: "✅ next in 1 hour",
+            waitMin: (m) => `⏳ wait ${m} min`,
+            loadingQ: "Loading questions...",
+            pickingOther: "Picking others...",
+            cooldownPrefix: "⏳ next in",
+            moodPrefix: "🎨 mood:",
+            pageTitle: "🌀 Shifting Oracle · Sphere Ring",
+            formatHms: (h, m, s) => {
+                if (h > 0) return `${h}h ${m}m ${s}s`;
+                if (m > 0) return `${m}m ${s}s`;
+                return `${s}s`;
+            }
+        }
+    };
+
+    function applyI18n() {
+        const dict = I18N[currentLang];
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+            const key = el.dataset.i18n;
+            if (dict[key]) el.innerHTML = dict[key];
+        });
+        const def = document.querySelector("[data-i18n-default]");
+        if (def) def.innerHTML = dict.resultPlaceholder;
+        document.title = dict.pageTitle;
+        const htmlEl = document.getElementById("htmlLang");
+        if (htmlEl) htmlEl.lang = currentLang === "ua" ? "uk" : "en";
+    }
+
     const canvas = document.getElementById("ringCanvas");
     const ctx = canvas.getContext("2d");
     const modal = document.getElementById("modal");
@@ -555,12 +623,12 @@
     let eyePulse = 0;
 
     const THEMES = [
-        { name: "космічна туманність", g1: "#0a0f1c", g2: "#010308" },
-        { name: "неонова сітка", neon: true },
-        { name: "місячне сяйво", g1: "#1a2a3a", g2: "#02040c" },
-        { name: "вогняні хвилі", g1: "#2a1a0a", g2: "#010008" },
-        { name: "кришталева печера", g1: "#203040", g2: "#020b1a" },
-        { name: "магічне коло", g1: "#1e1a3a", g2: "#030108" }
+        { name: { ua: "космічна туманність", en: "cosmic nebula" }, g1: "#0a0f1c", g2: "#010308" },
+        { name: { ua: "неонова сітка", en: "neon grid" }, neon: true },
+        { name: { ua: "місячне сяйво", en: "moonlight" }, g1: "#1a2a3a", g2: "#02040c" },
+        { name: { ua: "вогняні хвилі", en: "fire waves" }, g1: "#2a1a0a", g2: "#010008" },
+        { name: { ua: "кришталева печера", en: "crystal cave" }, g1: "#203040", g2: "#020b1a" },
+        { name: { ua: "магічне коло", en: "magic circle" }, g1: "#1e1a3a", g2: "#030108" }
     ];
     let currentTheme = 0;
 
@@ -784,7 +852,7 @@
     function showModalLoading(sphereName) {
         const s = SPHERES[currentLang][lastSphereIdx];
         modalSphere.innerHTML = `${s.emoji} ${s.name}`;
-        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${currentLang === "ua" ? "Завантажую питання..." : "Loading questions..."}</div>`;
+        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].loadingQ}</div>`;
         modal.classList.add("active");
     }
 
@@ -819,7 +887,7 @@
         lastSpinTime = Date.now();
         document.getElementById("spinBtn").disabled = false;
         document.getElementById("randomBtn").disabled = false;
-        timerHint.textContent = currentLang === "ua" ? "✅ наступний через 1 годину" : "✅ next in 1 hour";
+        timerHint.textContent = I18N[currentLang].nextIn1h;
         setTimeout(() => { if (!spinning) timerHint.textContent = ""; }, 5000);
     }
 
@@ -828,7 +896,7 @@
         const now = Date.now();
         if (lastSpinTime && (now - lastSpinTime) < SPIN_COOLDOWN) {
             const left = Math.round((SPIN_COOLDOWN - (now - lastSpinTime)) / 60000);
-            timerHint.textContent = currentLang === "ua" ? `⏳ зачекайте ${left} хв` : `⏳ wait ${left} min`;
+            timerHint.textContent = I18N[currentLang].waitMin(left);
             return;
         }
         spinning = true;
@@ -916,18 +984,14 @@
         const h = Math.floor(ms / 3600000);
         const m = Math.floor((ms % 3600000) / 60000);
         const s = Math.floor((ms % 60000) / 1000);
-        if (h > 0) return `${h}г ${m}хв ${s}с`;
-        if (m > 0) return `${m}хв ${s}с`;
-        return `${s}с`;
+        return I18N[currentLang].formatHms(h, m, s);
     }
 
     function updateTimer() {
         if (!lastSpinTime) return;
         const left = SPIN_COOLDOWN - (Date.now() - lastSpinTime);
         if (left > 0) {
-            timerHint.textContent = currentLang === "ua"
-                ? `⏳ наступний через ${formatCooldown(left)}`
-                : `⏳ next in ${formatCooldown(left)}`;
+            timerHint.textContent = `${I18N[currentLang].cooldownPrefix} ${formatCooldown(left)}`;
         } else {
             timerHint.textContent = "";
         }
@@ -942,9 +1006,9 @@
     };
     document.getElementById("moodBtn").onclick = () => {
         currentTheme = (currentTheme + 1) % THEMES.length;
-        const m = THEMES[currentTheme].name;
-        document.getElementById("resultMsg").textContent = `🎨 настрій: ${m}`;
-        setTimeout(() => document.getElementById("resultMsg").textContent = "🌀 оберіть сферу або натисніть SPIN", 1500);
+        const m = THEMES[currentTheme].name[currentLang];
+        document.getElementById("resultMsg").textContent = `${I18N[currentLang].moodPrefix} ${m}`;
+        setTimeout(() => document.getElementById("resultMsg").textContent = I18N[currentLang].resultPlaceholder, 1500);
     };
 
     document.querySelectorAll(".lang-btn").forEach(btn => {
@@ -952,7 +1016,10 @@
             currentLang = btn.dataset.lang;
             document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
             buildCards();
-            document.getElementById("resultMsg").textContent = "🌀 оберіть сферу або натисніть SPIN";
+            applyI18n();
+            if (!lastSpinTime) {
+                document.getElementById("resultMsg").textContent = I18N[currentLang].resultPlaceholder;
+            }
         };
     });
 
@@ -969,14 +1036,14 @@
         if (lastQuestion && lastSphereIdx !== -1) {
             const s = SPHERES[currentLang][lastSphereIdx];
             navigator.clipboard.writeText(`${s.emoji} ${s.name}\n💭 ${lastQuestion}`);
-            document.getElementById("modalCopyBtn").textContent = "✅ скопійовано";
-            setTimeout(() => document.getElementById("modalCopyBtn").textContent = "📋 Копіювати", 1500);
+            document.getElementById("modalCopyBtn").textContent = I18N[currentLang].copied;
+            setTimeout(() => { document.getElementById("modalCopyBtn").textContent = I18N[currentLang].copy; }, 1500);
         }
     };
     document.getElementById("modalRerollBtn").onclick = async () => {
         if (lastSphereIdx === -1) return;
         const s = SPHERES[currentLang][lastSphereIdx];
-        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${currentLang === "ua" ? "Обираю інші..." : "Picking others..."}</div>`;
+        questionsList.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].pickingOther}</div>`;
         const questions = await generateQuestions(s.short, s.name);
         renderQuestions(questions);
     };
@@ -985,6 +1052,7 @@
     window.addEventListener("resize", resize);
     resize();
     animate();
+    applyI18n();
     buildCards();
 })();
 </script>
