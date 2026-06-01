@@ -686,7 +686,9 @@
     const answersList = document.getElementById("answersList");
     let currentItemPool = [];
     let currentItem = null;
+    let currentItemIdx = 0;
     let lastAnswer = "";
+    let seenThisSession = { ua: {}, en: {} };
     let W, H, cx, cy, R, rw;
     let angleOffset = 0;
     let hoverIdx = -1, activeIdx = -1;
@@ -969,9 +971,15 @@
         document.body.style.background = `radial-gradient(circle at 30% 20%, ${bg}22, #010308)`;
         setTimeout(() => { document.body.style.background = ""; }, 1200);
         showModalLoading(s.short);
-        currentItemPool = await generateQuestions(s.short, s.name);
-        if (currentItemPool.length > 0) {
-            renderCurrentItem(currentItemPool[0]);
+        const fullPool = await generateQuestions(s.short, s.name);
+        currentItemPool = fullPool;
+        const unseenIdxs = getUnseenIndices(fullPool);
+        if (unseenIdxs.length > 0) {
+            currentItemIdx = unseenIdxs[Math.floor(Math.random() * unseenIdxs.length)];
+            renderCurrentItem(fullPool[currentItemIdx]);
+        } else if (fullPool.length > 0) {
+            currentItemIdx = 0;
+            renderCurrentItem(fullPool[0]);
         }
         activeIdx = -1;
         spinning = false;
@@ -1022,10 +1030,9 @@
             if (Array.isArray(entry) && entry.length >= 1) {
                 const first = entry[0];
                 if (typeof first === "object" && first.q && Array.isArray(first.a)) {
-                    const shuffled = [...entry].sort(() => Math.random() - 0.5);
-                    return shuffled.slice(0, 3);
+                    return entry.map((item, idx) => ({ ...item, _idx: idx }));
                 }
-                return [{ q: entry[0], a: ["—", "—", "—"] }];
+                return [{ ...entry[0], a: entry[0].a || ["—", "—", "—"], _idx: 0 }];
             }
         }
         const fb = FALLBACK_QUESTIONS[currentLang];
@@ -1033,7 +1040,19 @@
         const fallbackAnswers = currentLang === "ua"
             ? ["Відчути", "Проаналізувати", "Відпустити"]
             : ["Feel it", "Analyze it", "Let it go"];
-        return [{ q, a: fallbackAnswers }];
+        return [{ q, a: fallbackAnswers, _idx: -1 }];
+    }
+
+    function getUnseenIndices(pool) {
+        const seen = seenThisSession[currentLang] || {};
+        const allSeen = pool.every(it => (seen[it._idx] || 0) > 0);
+        if (allSeen) {
+            seenThisSession[currentLang] = {};
+            return pool.map((_, i) => i);
+        }
+        return pool
+            .map((it, i) => (seen[it._idx] || 0) > 0 ? -1 : i)
+            .filter(i => i !== -1);
     }
 
     let cachedQuestions = null;
@@ -1124,10 +1143,13 @@
             modalSphere.innerHTML = `${s.emoji} ${s.name}`;
             currentQuestion.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].loadingQ}</div>`;
             answersList.innerHTML = "";
-            const pool = await generateQuestions(s.short, s.name);
-            if (pool && pool.length > 0) {
-                currentItemPool = pool;
-                renderCurrentItem(pool[0]);
+            const fullPool = await generateQuestions(s.short, s.name);
+            currentItemPool = fullPool;
+            if (currentItemIdx < fullPool.length) {
+                renderCurrentItem(fullPool[currentItemIdx]);
+            } else if (fullPool.length > 0) {
+                currentItemIdx = 0;
+                renderCurrentItem(fullPool[0]);
             }
         }
     }
@@ -1168,21 +1190,30 @@
     };
     document.getElementById("modalRerollBtn").onclick = () => {
         if (lastSphereIdx === -1 || currentItemPool.length === 0) return;
-        let next;
-        if (currentItemPool.length > 1) {
-            const others = currentItemPool.filter(it => it !== currentItem);
-            next = others[Math.floor(Math.random() * others.length)];
+        if (currentItem && currentItem._idx >= 0) {
+            if (!seenThisSession[currentLang]) seenThisSession[currentLang] = {};
+            seenThisSession[currentLang][currentItem._idx] = Date.now();
+        }
+        const unseenIdxs = getUnseenIndices(currentItemPool);
+        if (unseenIdxs.length > 0) {
+            currentItemIdx = unseenIdxs[Math.floor(Math.random() * unseenIdxs.length)];
+            renderCurrentItem(currentItemPool[currentItemIdx]);
         } else {
             const s = SPHERES[currentLang][lastSphereIdx];
             currentQuestion.innerHTML = `<div class="questions-loading"><span class="spinner"></span>${I18N[currentLang].pickingOther}</div>`;
             answersList.innerHTML = "";
             generateQuestions(s.short, s.name).then(pool => {
                 currentItemPool = pool;
-                renderCurrentItem(pool[0]);
+                const freshIdxs = getUnseenIndices(pool);
+                if (freshIdxs.length > 0) {
+                    currentItemIdx = freshIdxs[Math.floor(Math.random() * freshIdxs.length)];
+                    renderCurrentItem(pool[currentItemIdx]);
+                } else if (pool.length > 0) {
+                    currentItemIdx = 0;
+                    renderCurrentItem(pool[0]);
+                }
             });
-            return;
         }
-        renderCurrentItem(next);
     };
     window.onclick = (e) => { if (e.target === modal) modal.classList.remove("active"); };
 

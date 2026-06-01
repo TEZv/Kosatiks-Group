@@ -164,22 +164,41 @@ function parseResponse(text) {
   }
   console.log(`API key loaded: ${key.substring(0, 8)}...`);
   
+  const outPath = path.join(__dirname, '..', 'k-life-os', 'questions.json');
+  let existing = { ua: {}, en: {} };
+  if (fs.existsSync(outPath)) {
+    try {
+      existing = JSON.parse(fs.readFileSync(outPath, 'utf8'));
+      console.log(`Loaded existing questions.json (${existing.generatedAt || 'unknown'})`);
+    } catch (e) {
+      console.warn('Could not parse existing questions.json:', e.message);
+    }
+  }
+
   const output = { generatedAt: new Date().toISOString(), ua: {}, en: {} };
+  let totalAdded = 0, totalKept = 0;
   for (const lang of ['ua', 'en']) {
     for (const sphere of SPHERES[lang]) {
+      const prevItems = Array.isArray(existing?.[lang]?.[sphere]) ? existing[lang][sphere] : [];
+      const prevKey = new Set(prevItems.map(it => `${it.q}|${(it.a || []).join('|')}`));
       try {
-        const items = await generate(lang, sphere);
-        if (items.length === 0) throw new Error('No valid items parsed');
-        output[lang][sphere] = items;
-        console.log(`\u2713 ${lang}: ${sphere} (${items.length} q x ${items[0].a.length} a)`);
+        const newItems = await generate(lang, sphere);
+        if (newItems.length === 0) throw new Error('No valid items parsed');
+        const fresh = newItems.filter(it => !prevKey.has(`${it.q}|${(it.a || []).join('|')}`));
+        const merged = [...prevItems, ...fresh];
+        output[lang][sphere] = merged;
+        const added = merged.length - prevItems.length;
+        totalAdded += added;
+        totalKept += prevItems.length;
+        console.log(`\u2713 ${lang}: ${sphere} (kept ${prevItems.length} + added ${added} = ${merged.length})`);
       } catch (e) {
         console.error(`\u2717 ${lang}: ${sphere} \u2014 ${e.message}`);
-        output[lang][sphere] = null;
+        output[lang][sphere] = prevItems.length > 0 ? prevItems : null;
       }
       await new Promise(r => setTimeout(r, 800));
     }
   }
-  const outPath = path.join(__dirname, '..', 'k-life-os', 'questions.json');
+  console.log(`\nTotal: kept ${totalKept}, added ${totalAdded}`);
   fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
   console.log(`\nSaved to ${outPath}`);
 })().catch(e => {

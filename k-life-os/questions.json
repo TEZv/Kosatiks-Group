@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-01T10:22:17.322Z",
+  "generatedAt": "2026-06-01T12:55:35.780Z",
   "ua": {
     "Творчість або Самовираження": [
       {
@@ -24,6 +24,30 @@
           "Повертається додому, щоб подивитись відео-уроки",
           "Роздумує над своїми ідеями під час прогулянки",
           "Фотографує цікаві деталі для майбутніх робіт"
+        ]
+      },
+      {
+        "q": "Вона стоїть біля мольберта з нерозпочатою картиною",
+        "a": [
+          "Відкладає пензлі, дивиться телевізор",
+          "Чітко планує кожен наступний мазок",
+          "Закриває очі, дозволяє інтуїції малювати"
+        ]
+      },
+      {
+        "q": "Жінка тримає в руках гитару на темній сцені",
+        "a": [
+          "Грає знайомі акорди, щоб зігрітися",
+          "Виконує нову імпровізацію під мік",
+          "Залишає гитару, тікає зі сцени"
+        ]
+      },
+      {
+        "q": "Людина сидить за письмовим столом з аркушем паперу",
+        "a": [
+          "Пише щось під диктовку внутрішнього критика",
+          "Робить план майбутнього тексту",
+          "Малює ілюстрації замість тексту, фантазує"
         ]
       }
     ],
@@ -51,6 +75,30 @@
           "Готує корисний обід і займається спортом",
           "Бере вихідний і планує відпочинок на вихідні"
         ]
+      },
+      {
+        "q": "Вона прокидається о 6:00 з тривогою після робочого дня в офісі",
+        "a": [
+          "Переглядає соцмережі, щоб відволіктись",
+          "Робить план на наступний день",
+          "Практикує медитацію та дихальні вправи"
+        ]
+      },
+      {
+        "q": "Жінка відчуває себе виснаженою після довгої робочої поїздки додому",
+        "a": [
+          "Відразу починає робити домашні справи",
+          "Встановлює межі й відпочиває цілий вечір",
+          "Готує корисну їжу та займається йогою"
+        ]
+      },
+      {
+        "q": "Людина згадує про важку розмову із співробітником на нараді раніше",
+        "a": [
+          "Намагається забути та ігнорувати ситуацію",
+          "Аналізує розмову та готує рішення",
+          "Пише листа із зізнанням та вибаченнями"
+        ]
       }
     ],
     "Домашнє життя або Ведення господарства": [
@@ -76,6 +124,30 @@
           "Розгублюється і викидає підгорілу їжу",
           "Захоплюється і починає готувати інше блюдо",
           "Сміється і пропонує сім'ї піццу на винос"
+        ]
+      },
+      {
+        "q": "Жінка стоїть біля раковини з горами брудного посуду після вечері",
+        "a": [
+          "Залишає все як є, піде дивитись серіал",
+          "Розпочинає мити посуд із злості та роздратування",
+          "Викликає чоловіка допомогти їй впоратись із цим"
+        ]
+      },
+      {
+        "q": "Вона виявила, що дитина зробила безлад у всій кімнаті",
+        "a": [
+          "Прибирає все сама, щоб не нервувати дитину",
+          "Вимагає від дитини негайно прибрати іграшки",
+          "Сміється та пропонує дитині зібрати іграшки разом"
+        ]
+      },
+      {
+        "q": "Увечері вона виявила протікаючий кран на кухні",
+        "a": [
+          "Подзвонила знайомому сантехніку і вирішила проблему",
+          "Знала що це тимчасово і так зійде",
+          "Вирішила зробити капітальний ремонт всієї кухні"
         ]
       }
     ],
@@ -103,6 +175,30 @@
           "Аналізує свої витрати і створює новий бюджет",
           "Розглядає можливість пошуку нової роботи чи підробітку"
         ]
+      },
+      {
+        "q": "Вона виявила нестачу коштів на рахунку в кінці місяця",
+        "a": [
+          "Відкладає проблему, сподіваючись, що вона вирішиться сама",
+          "Робить детальний аналіз витрат і створює жорсткий бюджет",
+          "Розглядає можливість взяття кредиту для покриття нестачі"
+        ]
+      },
+      {
+        "q": "Вона отримала несподіваний великий рахунок від клієнта",
+        "a": [
+          "Відмовляється від замовлення, щоб уникнути проблем",
+          "Веде переговори з клієнтом про розстрочку платежу",
+          "Інвестує в новий інструмент для підвищення ефективності роботи"
+        ]
+      },
+      {
+        "q": "Вона не може повернути кредит своїй компанії",
+        "a": [
+          "Ігнорує проблему, сподіваючись, що про неї забудуть",
+          "Розробляє план погашення кредиту з конкретними термінами",
+          "Залучає інвестора для реструктуризації боргу і розвитку бізнесу"
+        ]
       }
     ],
     "Батьківство або Сім'я": [
@@ -128,6 +224,30 @@
           "Відразу підхоплюється і біжить до дитини уві сні",
           "Розуміє свій рівень втоми і просить допомоги",
           "Глибоко дихає і радіє новому дню зі своїм малюком"
+        ]
+      },
+      {
+        "q": "Жінка чекає на першого малюка і відчуває тривогу вдома",
+        "a": [
+          "Перевіряє інформацію про виховання дітей в інтернеті",
+          "Записується на курси для вагітних для підготовки",
+          "Практикує медитацію для заспокоєння"
+        ]
+      },
+      {
+        "q": "Вона виховує підлітка і відчуває втому щоранку",
+        "a": [
+          "Відкладає будильник і спить далі",
+          "Планує свій день і розпорядок сім'ї",
+          "Розмовляє з чоловіком про розподіл обов'язків"
+        ]
+      },
+      {
+        "q": "Вона вирішила всиновити дитину і очікує рішення суду",
+        "a": [
+          "Занята роботою і відволікається від думок",
+          "Контролює процес через опікунську організацію",
+          "Відвідує сім'ї з усиновленими дітьми для знайомства"
         ]
       }
     ],
@@ -155,6 +275,30 @@
           "Контролює дихання і планує дії",
           "Відкриває нові хобі для зменшення тривоги"
         ]
+      },
+      {
+        "q": "Вона вийшла на прогулянку в ліс під час відпустки",
+        "a": [
+          "Спочатку прибирала маршрут, щоб уникнути комах",
+          "Вирішила піднятись на вершину, щоб перевірити свої сили",
+          "Зупинилась і слухала співи птахів із задоволенням"
+        ]
+      },
+      {
+        "q": "Жінка відкладає книгу після робочого дня вдома",
+        "a": [
+          "Закриває її і дивиться серіал, щоб відволіктись",
+          "Робить замітки про прочитане, щоб краще запам'ятати",
+          "Вирішує прочитати ще сторінку, щоб дізнатись більше"
+        ]
+      },
+      {
+        "q": "Під час відпустки на морі людина відчуває нудьгу",
+        "a": [
+          "Біжить на пляж, щоб зайнятись серфінгом",
+          "Планує культурну програму, щоб подивитись нові місця",
+          "Залишається в номері і планує майбутні проекти"
+        ]
       }
     ],
     "Спільнота або Соціальні зв'язки": [
@@ -180,6 +324,30 @@
           "Ігнорує запрошення, щоб уникнути непотрібних контактів",
           "Відразу приймає рішення про зустріч і планує конкретні дії",
           "Відповідає відкрито і пропонує новий формат спілкування"
+        ]
+      },
+      {
+        "q": "Вона відвідує ділову вечерю зі своїми колегами в ресторані",
+        "a": [
+          "Контролює кожне слово, щоб не зіпсувати репутацію",
+          "Активно слухає інших, щоб уникнути незручних питань",
+          "Ділиться своїми ідеями, щоб завоювати нових партнерів"
+        ]
+      },
+      {
+        "q": "Вона створює нову спільноту для жінок-підприємців онлайн",
+        "a": [
+          "Намагається контролювати кожен пост учасників",
+          "Відкрито приймає критику та пропозиції від учасників",
+          "Використовує можливість для самопрезентації"
+        ]
+      },
+      {
+        "q": "Вона відчуває нестерпний біль після виключення з бізнес-групи",
+        "a": [
+          "Пише гнівні повідомлення колишнім учасникам групи",
+          "Використовує біль як можливість для самоаналізу",
+          "Відвідує заходи групи конкурентів, щоб знайти нових друзів"
         ]
       }
     ],
@@ -207,6 +375,30 @@
           "Знаходить онлайн-тренування і займається вдома",
           "Планує щотижневий огляд зі своїм тренером"
         ]
+      },
+      {
+        "q": "Вона прокидається о 6:00 з болем у спині після нічного сну",
+        "a": [
+          "Відразу перевіряє телефон і починає працювати",
+          "Робить коротку розминку і планує свій день",
+          "Дає собі годину на розслаблення і медитацію"
+        ]
+      },
+      {
+        "q": "Вона стоїть перед холодильником у вихідний день",
+        "a": [
+          "Шукає щось швидке і легке для перекусу",
+          "Готує корисний сніданок за збалансованим рецептом",
+          "Дозволяє собі трохи того, чого хочеться"
+        ]
+      },
+      {
+        "q": "Вона сидить у спортзалі під час групового заняття",
+        "a": [
+          "Відволікається на свій телефон і думки про роботу",
+          "Зосереджується на техніці виконання вправ і диханні",
+          "Спілкується з іншими учасниками і отримує задоволення"
+        ]
       }
     ],
     "Кар'єра або Освіта": [
@@ -232,6 +424,30 @@
           "Змінює техніку та підключається знову швидко",
           "Відправляє повідомлення адміністратору для вирішення проблеми",
           "Використовує це як можливість для творчого рішення проблеми"
+        ]
+      },
+      {
+        "q": "Жінка відчуває вигорання на своїй роботі після місяця без відпустки.",
+        "a": [
+          "Починає ігнорувати повідомлення та працювати ще більше.",
+          "Бере вихідний та планує відновлення сил.",
+          "Розглядає зміну робочого графіка або умов."
+        ]
+      },
+      {
+        "q": "Вона отримала несподіване підвищення на своїй посаді керівника відділу.",
+        "a": [
+          "Відразу починає змінювати все, щоб довести свою спроможність.",
+          "Розуміє відповідальність і планує стратегію розвитку відділу.",
+          "Відчуває сумнів щодо своїх можливостей та просить наставника."
+        ]
+      },
+      {
+        "q": "Людина втратила роботу через скорочення штату в компанії.",
+        "a": [
+          "Розглядає тільки негативні сторони та впадає у відчай.",
+          "Активно починає шукати нові вакансії та мережувати контакти.",
+          "Використовує цей час для розвитку нових навичок та навчання."
         ]
       }
     ],
@@ -259,6 +475,30 @@
           "Намагаєтся змінити стратегію пошуку інвесторів",
           "Розглядає альтернативні джерела фінансування проекту"
         ]
+      },
+      {
+        "q": "Жінка стоїть серед смітників на своїй території після чергового рейду",
+        "a": [
+          "Сховалась би від людей, щоб не бачити наслідки",
+          "Заблокувала б місце сміття для оперативної ліквідації",
+          "Відкрила б громадський простір для всіх бажаючих"
+        ]
+      },
+      {
+        "q": "Вона зрозуміла, що обсяги її збору коштів скоротилися",
+        "a": [
+          "Відкинула б звітність та змінила би напрям діяльності",
+          "Проаналізувала б витрати та звітувала б в офіційних каналах",
+          "Ініціювала б кампанію з інноваційними підходами"
+        ]
+      },
+      {
+        "q": "Людину викликали в регіональний офіс через підозри щодо діяльності",
+        "a": [
+          "Відмовилась би від запрошення під приводом іншої зустрічі",
+          "Підготувала б звітність згідно з вимогами законодавства",
+          "Попросила б перевірку діяльності незалежними експертами"
+        ]
       }
     ],
     "Особисті стосунки": [
@@ -285,6 +525,30 @@
           "Планує примирення через спільний обід",
           "Розмовляє із лісом, щоб заспокоїтись"
         ]
+      },
+      {
+        "q": "Жінка сидить на кухні ввечері, очі в сльозах після сварки з чоловіком",
+        "a": [
+          "Розбирається в собі, чому так реагує",
+          "Дзвонить подрузі, щоб поговорити про це",
+          "Пише листа чоловікові, щоб висловитись"
+        ]
+      },
+      {
+        "q": "Вона йде додому після зустрічі з колишнім, відчуваючи тривогу",
+        "a": [
+          "Прискорює крок, щоб зігрітися і відволіктися",
+          "Планує конкретні кроки для нової безпеки",
+          "Виконує глибоке дихання і йде в парк"
+        ]
+      },
+      {
+        "q": "Жінка перебуває на самоті після розставання, відчуваючи спустошення",
+        "a": [
+          "Виконує домашні справи, щоб відволіктись від думок",
+          "Контролює свій час і планує нові зустрічі",
+          "Дозволяє собі прожити і відпустити емоції"
+        ]
       }
     ],
     "Духовність": [
@@ -310,6 +574,30 @@
           "Виконує ритуал на швидкості, боячись спізнитися",
           "Планує деталі дня відповідно до практики",
           "Відпускає очікування, залишаючи місце для інтуїції"
+        ]
+      },
+      {
+        "q": "Вона відчуває тривогу під час ранкової медитації вдома",
+        "a": [
+          "Відволікається на соціальні мережі",
+          "Контролює дихання і зосереджується",
+          "Записує свої думки у щоденник"
+        ]
+      },
+      {
+        "q": "Жінка перебуває на самоті у лісі під час відпустки",
+        "a": [
+          "Спішить повернутися додому",
+          "Планує свій бізнес на найближчі місяці",
+          "Відчуває подяку за можливість усамітнення"
+        ]
+      },
+      {
+        "q": "Під час сходу сонця людина стоїть на вершині гори",
+        "a": [
+          "Відразу починає спускатися вниз",
+          "Зосереджується на своїй цілі",
+          "Відкриває нові можливості для зростання"
         ]
       }
     ]
@@ -339,6 +627,30 @@
           "Forces herself to write something, no matter how bad it is",
           "Starts freewriting, allowing herself to explore new ideas freely"
         ]
+      },
+      {
+        "q": "She stands before a blank canvas in her studio, feeling anxious",
+        "a": [
+          "Chooses a familiar technique to avoid uncertainty",
+          "Plans every brushstroke to control the outcome",
+          "Dips her brush in bold, vibrant colors"
+        ]
+      },
+      {
+        "q": "Her art exhibition is cancelled due to venue issues suddenly",
+        "a": [
+          "Blames the venue and writes an angry email",
+          "Reroutes her energy into social media promotions",
+          "Sees it as chance to explore new exhibition spaces"
+        ]
+      },
+      {
+        "q": "While teaching a workshop, she feels uncertain about her methods",
+        "a": [
+          "Follows the planned curriculum rigidly to maintain control",
+          "Opens up to her students about her doubts and fears",
+          "Improvises and adapts her teaching approach spontaneously"
+        ]
       }
     ],
     "Personal Development or Self-Care": [
@@ -364,6 +676,30 @@
           "Avoids thinking about her shortcomings and watches TV",
           "Creates a detailed plan to tackle her weaknesses",
           "Writes a journal entry to explore new possibilities"
+        ]
+      },
+      {
+        "q": "She wakes up late on a Sunday morning, feeling anxious about the upcoming week",
+        "a": [
+          "Quickly checks work emails to get a head start",
+          "Meditates for 10 minutes to calm her mind",
+          "Writes in her journal to process her emotions"
+        ]
+      },
+      {
+        "q": "After a stressful meeting, she walks alone in the rainy city streets",
+        "a": [
+          "Speeds up her pace to get to a nearby café",
+          "Tries to control her breathing and calm her body",
+          "Allows herself to feel the rain and release tears"
+        ]
+      },
+      {
+        "q": "She spends a solo evening at home, feeling disconnected from her passions",
+        "a": [
+          "Scrolls through social media to distract herself",
+          "Plans a rigid self-care routine for the next day",
+          "Starts brainstorming a new creative project idea"
         ]
       }
     ],
@@ -391,6 +727,30 @@
           "Takes a few deep breaths, adjusts her schedule calmly",
           "Calls her partner to share morning responsibilities"
         ]
+      },
+      {
+        "q": "She discovers her partner has left dirty dishes for her to clean on a Sunday morning",
+        "a": [
+          "Folds her arms, walks away, and lets it be",
+          "Immediately confronts her partner about the mess",
+          "Creates a humorous note to lighten the mood"
+        ]
+      },
+      {
+        "q": "Her 5-year-old child refuses to put away toys, causing a huge mess in the living room",
+        "a": [
+          "Forces the child to clean up, using a firm tone",
+          "Sighs, sits down, and starts cleaning up herself",
+          "Turns cleaning into a fun game with music and rewards"
+        ]
+      },
+      {
+        "q": "She returns home from a long day to find her home messy and disorganized",
+        "a": [
+          "Quickly grabs her phone to call a cleaning service",
+          "Takes a deep breath, puts on gloves, and starts organizing",
+          "Writes in her journal about feeling overwhelmed and seeks inspiration"
+        ]
       }
     ],
     "Finance": [
@@ -416,6 +776,30 @@
           "Panics and considers selling all her investments hastily",
           "Coolly rebalances her portfolio to mitigate losses",
           "Sees it as an opportunity to learn and diversify her assets"
+        ]
+      },
+      {
+        "q": "She stares at her empty bank account on a Monday morning",
+        "a": [
+          "Avoids thinking about it, checks her phone for distractions",
+          "Creates a strict budget to regain control immediately",
+          "Accepts the current state, focuses on long-term goals"
+        ]
+      },
+      {
+        "q": "The woman receives an unexpected tax penalty notice at her desk",
+        "a": [
+          "Panics, calls her accountant to shift the responsibility",
+          "Systematically reviews her financial records to identify errors",
+          "Sees it as an opportunity to review and improve her financial systems"
+        ]
+      },
+      {
+        "q": "She negotiates a loan with a skeptical investor in a conference room",
+        "a": [
+          "Feels defensive, tries to justify her business plan excessively",
+          "Listens actively, adapts her pitch to address concerns",
+          "Proposes a creative alternative, a hybrid funding model"
         ]
       }
     ],
@@ -443,6 +827,30 @@
           "Creates a schedule to manage tasks and regain control",
           "Asks a friend to watch the kids for a few hours, taking a break"
         ]
+      },
+      {
+        "q": "She misses her child's school play to meet a tight business deadline at the office",
+        "a": [
+          "Justifies the decision, focusing on future opportunities",
+          "Immediately schedules a video call with her child",
+          "Reflects on her priorities, considering a schedule change"
+        ]
+      },
+      {
+        "q": "Her mother constantly questions her entrepreneurial path during a family dinner",
+        "a": [
+          "Defensively explains her choices, listing achievements",
+          "Avoids the topic, changing the subject quickly",
+          "Listens actively, seeking common ground"
+        ]
+      },
+      {
+        "q": "She struggles to balance work and helping her teenager with homework at home",
+        "a": [
+          "Takes over the homework, ensuring it's done perfectly",
+          "Sets clear boundaries, designating specific work hours",
+          "Creates a collaborative learning space, guiding gently"
+        ]
       }
     ],
     "Recreation and Hobbies": [
@@ -468,6 +876,30 @@
           "Suppresses the idea to stay in her comfort zone",
           "Rushing back home to jot down her ideas",
           "Allows herself to explore and jot down notes"
+        ]
+      },
+      {
+        "q": "On her day off, she sits idle at home, surrounded by unwashed dishes and laundry",
+        "a": [
+          "Ignores the mess and escapes into a book",
+          "Creates a strict cleaning schedule to regain control",
+          "Listens to music and starts spontaneous decluttering"
+        ]
+      },
+      {
+        "q": "At the crowded outdoor festival, she gets separated from her friends during a concert",
+        "a": [
+          "Panics and frantically searches for her group",
+          "Takes charge and approaches event staff for help",
+          "Seizes the moment to explore new music and meet strangers"
+        ]
+      },
+      {
+        "q": "After a cycling accident, she can't participate in her favorite weekly bike ride",
+        "a": [
+          "Focuses on watching cycling videos to cope",
+          "Plans an intense physical therapy to regain strength",
+          "Explores alternative outdoor activities like kayaking or hiking"
         ]
       }
     ],
@@ -495,6 +927,30 @@
           "Creates a new post with a fresh perspective",
           "Accepts the silence, focusing on offline actions"
         ]
+      },
+      {
+        "q": "At a charity gala, she stands alone with a drink, feeling overwhelmed by the crowd",
+        "a": [
+          "Quickly scans the room for an escape route",
+          "Takes charge by organizing a new networking session",
+          "Listens to a stranger's story with genuine interest"
+        ]
+      },
+      {
+        "q": "Her volunteer group plans an event on a day she promised her family",
+        "a": [
+          "Politely declines, feeling guilty and anxious",
+          "Negotiates a new event date with the group",
+          "Invites her family to join the volunteer event"
+        ]
+      },
+      {
+        "q": "A friend cancels their monthly book club meeting at the last minute",
+        "a": [
+          "Cancels her plans, feeling frustrated and disengaged",
+          "Takes charge by rescheduling with a new theme",
+          "Suggests an impromptu walking and discussion session"
+        ]
       }
     ],
     "Physical Health": [
@@ -520,6 +976,30 @@
           "Pushes through pain, forcing her to finish the route",
           "Listens to her body, taking a rest day instead",
           "Modifies her jogging route to make it more enjoyable"
+        ]
+      },
+      {
+        "q": "She wakes up late on a Monday morning with a throbbing headache",
+        "a": [
+          "Reaches for her phone to check work emails immediately",
+          "Takes two ibuprofen and heads back to bed",
+          "Gets up and starts making a healthy breakfast"
+        ]
+      },
+      {
+        "q": "During her lunch break, she notices her energy levels are extremely low",
+        "a": [
+          "Orders a sugary snack to quickly boost her mood",
+          "Takes a short walk outside to get some fresh air",
+          "Starts planning a new workout routine for the evening"
+        ]
+      },
+      {
+        "q": "After a long day, she feels exhausted and disheveled in her small apartment",
+        "a": [
+          "Collapses onto the couch to watch mindless TV",
+          "Creates a relaxing bath with essential oils and Epsom salts",
+          "Declutters her living room to create a peaceful atmosphere"
         ]
       }
     ],
@@ -547,6 +1027,30 @@
           "Has a calm conversation to understand the reason and finds a solution",
           "Reflects on her own management style and considers adjustments"
         ]
+      },
+      {
+        "q": "She stands at the podium, facing her empty classroom on the first day of her online course",
+        "a": [
+          "Feels anxious and checks her phone for notifications",
+          "Takes a deep breath and starts speaking confidently",
+          "Writes a heartfelt apology email to her students"
+        ]
+      },
+      {
+        "q": "Her business partner suddenly quits, leaving her with a looming project deadline in two weeks",
+        "a": [
+          "Panics and tries to micromanage the entire project",
+          "Takes a step back to re-evaluate the project's scope",
+          "Calls a meeting with her team to brainstorm solutions"
+        ]
+      },
+      {
+        "q": "She receives an email rejecting her scholarship application for a master's degree",
+        "a": [
+          "Immediately starts researching alternative funding options",
+          "Feels defeated and puts off dealing with the rejection",
+          "Writes a reflective journal entry on what she learned"
+        ]
       }
     ],
     "Environmental or Charitable Causes": [
@@ -572,6 +1076,30 @@
           "Politely declines, explaining her current financial limits",
           "Offers alternative forms of support, like her expertise",
           "Makes a smaller donation and encourages others to match"
+        ]
+      },
+      {
+        "q": "At a climate change rally, she confronts her eco-guilt-ridden past actions",
+        "a": [
+          "Shifts focus to current efforts to compensate for past mistakes",
+          "Beats herself up over past environmental ignorance and denial",
+          "Vows to create a new sustainable lifestyle and educate others"
+        ]
+      },
+      {
+        "q": "Her charity event faces a last-minute venue cancellation on a Friday",
+        "a": [
+          "Frantically searches for a new venue to salvage the event",
+          "Decides to cancel the event and reschedule for another time",
+          "Quickly organizes a spontaneous alternative event in a public space"
+        ]
+      },
+      {
+        "q": "A major donor withdraws funding from her conservation project suddenly",
+        "a": [
+          "Tries to negotiate with the donor to reconsider their decision",
+          "Accepts the loss and redirects focus to finding new donors",
+          "Sees an opportunity to revamp and diversify her funding strategy"
         ]
       }
     ],
@@ -599,6 +1127,30 @@
           "Takes charge and plans a future reunion or activity",
           "Opens up and shares her newfound passions and interests"
         ]
+      },
+      {
+        "q": "She sits alone on the couch after her boyfriend's harsh words at dinner",
+        "a": [
+          "Changes the subject to avoid confrontation",
+          "Rehearses a sharp comeback in her mind",
+          "Allows herself to feel the pain and sadness"
+        ]
+      },
+      {
+        "q": "Her best friend calls after a painful breakup, asking for a late-night walk",
+        "a": [
+          "Declines, planning a solo Netflix night instead",
+          "Insists on meeting immediately to take charge",
+          "Agrees, sensing an opportunity for deep sharing"
+        ]
+      },
+      {
+        "q": "She meets her partner's family for the first time, feeling anxious at the dinner table",
+        "a": [
+          "Overprepares stories to control the conversation",
+          "Plans a quick exit to escape the pressure",
+          "Listens and observes, open to new connections"
+        ]
       }
     ],
     "Spirituality": [
@@ -624,6 +1176,30 @@
           "Pushes her body to fit into the pose perfectly",
           "Modifies the pose to a more comfortable version",
           "Listens to her body's limitations and practices self-care"
+        ]
+      },
+      {
+        "q": "During her morning meditation, she feels restless and distracted",
+        "a": [
+          "Tries to force her mind to focus on breath",
+          "Gives up and checks her phone for messages",
+          "Allows the restlessness to arise without judgment"
+        ]
+      },
+      {
+        "q": "After a heated argument with her business partner, she walks alone in nature",
+        "a": [
+          "Tries to rationalize her partner's perspective and her own",
+          "Plans a strategic exit from the partnership",
+          "Listens to the sounds of nature to calm down"
+        ]
+      },
+      {
+        "q": "On her birthday, she reflects on her spiritual journey so far",
+        "a": [
+          "Creates a vision board for her future goals",
+          "Feels anxious about not meeting her expectations",
+          "Accepts her growth and celebrates her progress"
         ]
       }
     ]
