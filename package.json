@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "description": "K Life OS — Sphere oracle with real-time AI-generated questions",
+  "scripts": {
+    "build": "echo 'Static site, no build needed'",
+    "dev": "echo 'Use Vercel dev or any static server'"
+  },
   "engines": {
     "node": "20.x"
   }
