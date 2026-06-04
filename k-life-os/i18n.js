@@ -89,6 +89,12 @@ export const UI = {
     ],
     contentNote:
       "Цитати й топіки зараз українською (канон Anteros). Англомовна бібліотека — у наступному оновленні.",
+    providerQuick: "Швидко",
+    providerQuickTitle: "Швидко · безкоштовно, миттєво (Groq)",
+    providerDeep: "Глибоко",
+    providerDeepTitle: "Глибоко · філософська глибина (M3 · MiniMax-M3)",
+    providerDeepUnavailableTitle:
+      "Глибоко недоступне — потрібен M3_API_KEY / OPENROUTER_API_KEY на сервері",
     weekLabel: (w, y) => `Тиждень ${w}, ${y}`,
     copyHeader: "[K Life OS] — маршрут",
     copyPrimary: "Головна сфера",
@@ -177,6 +183,12 @@ export const UI = {
     ],
     contentNote:
       "UI is English. Quotes and topics are shown from the Ukrainian canon (Anteros) until EN vault is generated.",
+    providerQuick: "Quick",
+    providerQuickTitle: "Quick · free, instant (Groq)",
+    providerDeep: "Deep",
+    providerDeepTitle: "Deep · philosophical depth (M3 · MiniMax-M3)",
+    providerDeepUnavailableTitle:
+      "Deep unavailable — M3_API_KEY / OPENROUTER_API_KEY required on the server",
     weekLabel: (w, y) => `Week ${w}, ${y}`,
     copyHeader: "[K Life OS] — route",
     copyPrimary: "Primary sphere",

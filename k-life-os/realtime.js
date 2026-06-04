@@ -17,6 +17,33 @@
   const ENDPOINT = '/api/question';
   let m3Available = false; // updated after first response
 
+  // ---- Inline i18n (self-contained: realtime.js is a non-module IIFE) ----
+  // Mirrors the keys added to i18n.js so the provider toggle speaks UA/EN
+  // without needing to import the module.
+  const LABELS = {
+    ua: {
+      quick: 'Швидко',
+      quickTitle: 'Швидко · безкоштовно, миттєво (Groq)',
+      deep: 'Глибоко',
+      deepTitle: 'Глибоко · філософська глибина (M3 · MiniMax-M3)',
+      deepUnavailable: 'Глибоко недоступне — потрібен M3_API_KEY / OPENROUTER_API_KEY на сервері',
+      deepBackendOpenRouter: 'Глибоко через OpenRouter (дешевше)',
+      deepBackendDirect: 'Глибоко через MiniMax direct',
+    },
+    en: {
+      quick: 'Quick',
+      quickTitle: 'Quick · free, instant (Groq)',
+      deep: 'Deep',
+      deepTitle: 'Deep · philosophical depth (M3 · MiniMax-M3)',
+      deepUnavailable: 'Deep unavailable — M3_API_KEY / OPENROUTER_API_KEY required on the server',
+      deepBackendOpenRouter: 'Deep via OpenRouter (cheaper)',
+      deepBackendDirect: 'Deep via MiniMax direct',
+    },
+  };
+  function L() {
+    return document.documentElement.lang === 'en' ? LABELS.en : LABELS.ua;
+  }
+
   // ---- PIN gate ----
   function ensurePinGate() {
     let overlay = document.getElementById('pinGate');
@@ -150,17 +177,18 @@
     }
     const tog = document.getElementById('providerToggle');
     if (tog) {
+      const lab = L();
       tog.querySelectorAll('[data-provider]').forEach(b => {
         const isM3 = b.dataset.provider === 'm3';
         if (isM3) {
           if (!m3Available) {
             b.disabled = true;
-            b.title = 'M3_API_KEY / OPENROUTER_API_KEY не налаштовано на сервері';
+            b.title = lab.deepUnavailable;
           } else {
             b.disabled = false;
             b.title = usedProvider === 'openrouter'
-              ? 'M3 через OpenRouter (дешевше)'
-              : 'M3 через MiniMax direct';
+              ? lab.deepBackendOpenRouter
+              : lab.deepBackendDirect;
           }
         } else {
           b.disabled = false;
@@ -173,12 +201,13 @@
     if (document.getElementById('providerToggle')) return;
     const modalHeader = document.querySelector('.modal-header');
     if (!modalHeader) return;
+    const lab = L();
     const tog = document.createElement('div');
     tog.id = 'providerToggle';
     tog.className = 'provider-toggle';
     tog.innerHTML = `
-      <button class="provider-btn active" data-provider="groq" title="Groq (безкоштовно)">Groq</button>
-      <button class="provider-btn" data-provider="m3" title="M3 (потребує M3_API_KEY)" disabled>M3</button>
+      <button class="provider-btn active" data-provider="groq" title="${lab.quickTitle}">${lab.quick}</button>
+      <button class="provider-btn" data-provider="m3" title="${lab.deepTitle}" disabled>${lab.deep}</button>
     `;
     modalHeader.appendChild(tog);
     tog.querySelectorAll('[data-provider]').forEach(b => {
