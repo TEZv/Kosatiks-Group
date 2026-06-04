@@ -759,6 +759,123 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /* === v2.1: Theme switcher + share + confetti === */
+
+    /* Theme palettes (data-theme on body) */
+    body[data-theme="cosmic"] {
+      --c-bg-1: #050a18; --c-bg-2: #0a1530; --c-bg-3: #1a0a25;
+      --c-accent: #00e5ff; --c-accent-2: #ff6bd9; --c-accent-3: #ffd86b;
+    }
+    body[data-theme="fire"] {
+      --c-bg-1: #1a0a05; --c-bg-2: #2a1505; --c-bg-3: #2a0a05;
+      --c-accent: #ff8c00; --c-accent-2: #ff3d3d; --c-accent-3: #ffd700;
+    }
+    body[data-theme="ice"] {
+      --c-bg-1: #0a1a25; --c-bg-2: #152a3a; --c-bg-3: #051a20;
+      --c-accent: #7fdfff; --c-accent-2: #b8e8ff; --c-accent-3: #ffffff;
+    }
+    body[data-theme="forest"] {
+      --c-bg-1: #0a1a0a; --c-bg-2: #152a15; --c-bg-3: #0a2510;
+      --c-accent: #6bff8c; --c-accent-2: #ffd86b; --c-accent-3: #ff6bd9;
+    }
+    body[data-theme="aurora"] {
+      --c-bg-1: #0a0a25; --c-bg-2: #150a2a; --c-bg-3: #1a0525;
+      --c-accent: #b06bff; --c-accent-2: #6bd9ff; --c-accent-3: #ff6bd9;
+    }
+
+    /* Theme switcher dock (bottom-left, mobile: hidden or compact) */
+    .theme-dock {
+      position: fixed; bottom: 1.5rem; left: 1.5rem;
+      z-index: 100;
+      display: flex; gap: 0.4rem;
+      padding: 0.5rem;
+      border-radius: 2rem;
+    }
+    .theme-btn {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      padding: 0;
+    }
+    .theme-btn:hover { transform: scale(1.15); }
+    .theme-btn.active { border-color: var(--c-text); box-shadow: 0 0 12px var(--c-accent); }
+    .theme-btn[data-set-theme="cosmic"] { background: linear-gradient(135deg, #00e5ff, #ff6bd9); }
+    .theme-btn[data-set-theme="fire"] { background: linear-gradient(135deg, #ff8c00, #ff3d3d); }
+    .theme-btn[data-set-theme="ice"] { background: linear-gradient(135deg, #7fdfff, #ffffff); }
+    .theme-btn[data-set-theme="forest"] { background: linear-gradient(135deg, #6bff8c, #ffd86b); }
+    .theme-btn[data-set-theme="aurora"] { background: linear-gradient(135deg, #b06bff, #6bd9ff); }
+    .theme-btn::after {
+      content: attr(data-set-theme);
+      position: absolute; bottom: -1.4rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.6rem; color: var(--c-text-dim); text-transform: uppercase;
+      opacity: 0; transition: opacity 0.2s; pointer-events: none;
+      white-space: nowrap;
+    }
+    .theme-btn:hover::after { opacity: 1; }
+    @media (max-width: 768px) {
+      .theme-dock { bottom: 0.6rem; left: 0.6rem; padding: 0.3rem; }
+      .theme-btn { width: 24px; height: 24px; }
+    }
+
+    /* Share buttons in modal */
+    .share-row {
+      display: flex; gap: 0.4rem; flex-wrap: wrap;
+      margin-top: 0.8rem; padding-top: 0.8rem;
+      border-top: 1px solid rgba(0, 229, 255, 0.12);
+    }
+    .share-btn {
+      flex: 1 1 auto; min-width: 80px;
+      padding: 0.5rem 0.7rem;
+      background: rgba(0, 229, 255, 0.06);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 0.6rem;
+      color: var(--c-text-dim);
+      font-size: 0.72rem; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+      font-family: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+    }
+    .share-btn:hover {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--c-text);
+      transform: translateY(-1px);
+    }
+    .share-btn.copied { background: rgba(107, 255, 140, 0.15); color: #6bff8c; border-color: rgba(107, 255, 140, 0.3); }
+
+    /* Confetti */
+    .confetti-piece {
+      position: fixed; width: 8px; height: 14px;
+      pointer-events: none; z-index: 200;
+      animation: confettiFall 2.5s linear forwards;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* Sphere tooltip on hover */
+    .sphere-card { position: relative; }
+    .sphere-tooltip {
+      position: absolute; bottom: calc(100% + 0.4rem); left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8, 12, 25, 0.95);
+      border: 1px solid var(--glass-border);
+      border-radius: 0.6rem;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.7rem; color: var(--c-text);
+      white-space: nowrap; max-width: 200px;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 50;
+    }
+    .sphere-card:hover .sphere-tooltip { opacity: 1; }
+    @media (max-width: 768px) {
+      .sphere-tooltip { display: none; }
+    }
     </style>
 </head>
 <body>
@@ -809,6 +926,12 @@
         <div class="current-question" id="currentQuestion"></div>
         <div class="answers-label" data-i18n="answersLabel">Як вона могла б відреагувати?</div>
         <div class="answers-list" id="answersList"></div>
+        <div class="share-row" id="shareRow">
+          <button class="share-btn" data-share="copy">📋 Копіювати</button>
+          <button class="share-btn" data-share="twitter">𝕏 Twitter</button>
+          <button class="share-btn" data-share="threads">@ Threads</button>
+          <button class="share-btn" data-share="instagram">📷 Stories</button>
+        </div>
         <div class="modal-actions">
             <button id="modalRerollBtn" data-i18n="otherQ">🎲 Інше питання</button>
             <button id="modalCloseBtn" data-i18n="close">Закрити</button>
@@ -1558,6 +1681,15 @@
   <div class="onboard-step"><span class="onboard-num">4</span>Натисніть на KOSATIK для нової поради 🌀</div>
 </div>
 
+<!-- Theme switcher dock -->
+<div class="theme-dock glass" id="themeDock">
+  <button class="theme-btn active" data-set-theme="cosmic" aria-label="Cosmic"></button>
+  <button class="theme-btn" data-set-theme="fire" aria-label="Fire"></button>
+  <button class="theme-btn" data-set-theme="ice" aria-label="Ice"></button>
+  <button class="theme-btn" data-set-theme="forest" aria-label="Forest"></button>
+  <button class="theme-btn" data-set-theme="aurora" aria-label="Aurora"></button>
+</div>
+
 <!-- KOSATIK behavior + onboarding -->
 <script>
 (function () {
@@ -1631,6 +1763,62 @@
     document.head.appendChild(s);
   }
 
+  // Share buttons in modal
+  function getCurrentQuestionText() {
+    const q = document.getElementById('currentQuestion');
+    const ans = document.querySelector('.answers-list .question-item.selected');
+    if (!q) return '';
+    let text = q.textContent.trim();
+    if (ans) text += '\n→ ' + ans.textContent.replace(/^[A-D]\.\s*/, '').trim();
+    return text;
+  }
+  document.querySelectorAll('.share-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = getCurrentQuestionText();
+      if (!text || text.length < 5) return;
+      const sphere = document.getElementById('modalSphere')?.textContent || '';
+      const fullText = `${text}\n\n${sphere}\n— k-life-os.kosatiks-group.pp.ua`;
+
+      const kind = btn.dataset.share;
+      if (kind === 'copy') {
+        try {
+          await navigator.clipboard.writeText(fullText);
+          btn.classList.add('copied');
+          btn.textContent = '✓ Скопійовано';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.textContent = '📋 Копіювати';
+          }, 2000);
+        } catch (e) {
+          // fallback
+          const ta = document.createElement('textarea');
+          ta.value = fullText;
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); } catch {}
+          ta.remove();
+        }
+      } else if (kind === 'twitter') {
+        const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(fullText);
+        window.open(url, '_blank', 'width=550,height=420');
+      } else if (kind === 'threads') {
+        const url = 'https://www.threads.net/intent/post?text=' + encodeURIComponent(fullText);
+        window.open(url, '_blank', 'width=550,height=550');
+      } else if (kind === 'instagram') {
+        // IG has no web intent; copy + show instruction
+        try {
+          await navigator.clipboard.writeText(fullText);
+          btn.classList.add('copied');
+          btn.textContent = '✓ Скопійовано для Stories';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.textContent = '📷 Stories';
+          }, 2500);
+        } catch {}
+      }
+    });
+  });
+
   // When PIN passed, animate card
   const origShowGate = window.KLifeRealtime && window.KLifeRealtime.showPinGate;
   const pinCard = document.querySelector('.pin-gate-card');
@@ -1642,6 +1830,61 @@
       }
     });
     observer.observe(pinCard, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // Theme switcher
+  const THEME_KEY = 'klife_theme';
+  function applyTheme(t) {
+    document.body.setAttribute('data-theme', t);
+    document.querySelectorAll('.theme-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.setTheme === t);
+    });
+  }
+  const savedTheme = localStorage.getItem(THEME_KEY) || 'cosmic';
+  applyTheme(savedTheme);
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = btn.dataset.setTheme;
+      applyTheme(t);
+      localStorage.setItem(THEME_KEY, t);
+    });
+  });
+
+  // Confetti on success (when currentQuestion is filled with real text, not spinner)
+  const questionObserver = new MutationObserver((muts) => {
+    for (const m of muts) {
+      if (m.type === 'childList' || m.type === 'characterData') {
+        const el = document.getElementById('currentQuestion');
+        if (el && el.textContent && el.textContent.trim().length > 5
+            && !el.querySelector('.spinner')
+            && !el.querySelector('.questions-loading')) {
+          // burst confetti once
+          if (!el.dataset.confettied) {
+            el.dataset.confettied = '1';
+            burstConfetti();
+            setTimeout(() => { el.dataset.confettied = ''; }, 8000);
+          }
+        }
+      }
+    }
+  });
+  const cq = document.getElementById('currentQuestion');
+  if (cq) questionObserver.observe(cq, { childList: true, characterData: true, subtree: true });
+
+  function burstConfetti() {
+    const colors = ['#00e5ff', '#ff6bd9', '#ffd86b', '#6bff8c', '#b06bff'];
+    for (let i = 0; i < 40; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.top = '-20px';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = Math.random() * 0.3 + 's';
+      piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 4000);
+    }
   }
 })();
 </script>
