@@ -207,8 +207,15 @@ export default async function handler(req, res) {
       return res.status(429).json({ error: 'rate_limit', retryAfter: rl.retryAfter });
     }
 
-    // Parse body
-    const body = (req.body && typeof req.body === 'object') ? req.body : {};
+    // Parse body (Vercel may give string or object depending on runtime)
+    let body = {};
+    if (req.body) {
+      if (typeof req.body === 'string') {
+        try { body = JSON.parse(req.body); } catch { body = {}; }
+      } else if (typeof req.body === 'object') {
+        body = req.body;
+      }
+    }
     const pin = body.pin || '';
     const sphere = body.sphere || '';
     const lang = body.lang === 'en' ? 'en' : 'ua';
