@@ -1,0 +1,9 @@
+{
+  "name": "kosatiks-group",
+  "version": "1.0.0",
+  "private": true,
+  "description": "K Life OS — Sphere oracle with real-time AI-generated questions",
+  "engines": {
+    "node": "20.x"
+  }
+}
