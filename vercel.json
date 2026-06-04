@@ -1,6 +1,5 @@
 {
-  "installCommand": "",
-  "buildCommand": "",
+  "buildCommand": "echo 'no build needed'",
   "functions": {
     "api/*.js": {
       "maxDuration": 30,
