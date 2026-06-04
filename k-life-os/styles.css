@@ -961,3 +961,68 @@ body.immersive .glass {
   letter-spacing: 0.02em;
   font-weight: 500;
 }
+
+/* === Book reference line (always visible below prompt) === */
+.riddle-book-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: 500 0.72rem/1.2 Inter, "Segoe UI", Roboto, sans-serif;
+  color: rgba(26, 10, 58, 0.6);
+  letter-spacing: 0.04em;
+  padding-top: 0.55rem;
+  border-top: 1px dashed rgba(141, 124, 255, 0.28);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.riddle-book-line:hover {
+  color: rgba(255, 45, 146, 0.85) !important;
+}
+
+.riddle-book-line.is-revealed {
+  color: rgba(107, 255, 140, 0.85) !important;
+  cursor: default;
+}
+
+.riddle-book-line > span[aria-hidden] {
+  font-size: 0.85rem;
+}
+
+/* === "?" hint button (between input and submit) === */
+.riddle-hint-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  align-self: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  color: #00e5ff !important;
+  border: 1.5px solid rgba(0, 229, 255, 0.45);
+  cursor: pointer;
+  font: 700 1.1rem/1 Georgia, "Times New Roman", serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.18);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s, opacity 0.2s;
+  margin-right: 0.3rem;
+}
+
+.riddle-hint-btn:hover:not(:disabled) {
+  background: rgba(0, 229, 255, 0.18) !important;
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.5);
+  transform: scale(1.05);
+}
+
+.riddle-hint-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.riddle-hint-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  color: #6bff8c !important;
+  border-color: rgba(107, 255, 140, 0.5);
+  box-shadow: 0 0 12px rgba(107, 255, 140, 0.25);
+}

@@ -423,14 +423,27 @@
           </div>
         </div>
         <div class="riddle-prompt-block"
-             style="position:relative;margin:0;padding:1.5rem 1.4rem 1.4rem 1.4rem;background:linear-gradient(180deg,#fff5dc 0%,#ffeec7 100%);border-radius:0;border-bottom:1px solid rgba(255,213,106,0.5);box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);">
+             style="position:relative;margin:0;padding:1.5rem 1.4rem 1.0rem 1.4rem;background:linear-gradient(180deg,#fff5dc 0%,#ffeec7 100%);border-radius:0;border-bottom:1px solid rgba(255,213,106,0.5);box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);">
           <p class="riddle-prompt" id="riddlePrompt"
-             style="font-family:Georgia,serif;font-size:1.15rem;line-height:1.6;color:#1a0a3a;margin:0;font-style:italic;white-space:pre-wrap;letter-spacing:0.005em;font-weight:500;"></p>
+             style="font-family:Georgia,serif;font-size:1.15rem;line-height:1.6;color:#1a0a3a;margin:0 0 0.7rem 0;font-style:italic;white-space:pre-wrap;letter-spacing:0.005em;font-weight:500;"></p>
+          <div class="riddle-book-line" id="riddleBookLine"
+               style="display:flex;align-items:center;gap:0.4rem;font:500 0.72rem/1.2 Inter,sans-serif;color:rgba(26,10,58,0.55);letter-spacing:0.04em;padding-top:0.5rem;border-top:1px dashed rgba(141,124,255,0.25);cursor:pointer;transition:color 0.2s;"
+               onmouseover="this.style.color='rgba(255,45,146,0.85)'"
+               onmouseout="this.style.color='rgba(26,10,58,0.55)'"
+               title="Click to reveal hint">
+            <span aria-hidden="true" style="font-size:0.85rem;">📖</span>
+            <span id="riddleBookRef"></span>
+            <span style="margin-left:auto;opacity:0.6;font-size:0.7rem;">· <span id="riddleBookHintLabel">підказка</span></span>
+          </div>
         </div>
         <div class="riddle-input-row"
              style="display:flex;gap:0.5rem;align-items:stretch;margin:0;padding:1.2rem 1.4rem 0.8rem 1.4rem;">
           <input type="text" id="riddleInput" class="riddle-input" placeholder="" autocomplete="off" maxlength="64"
                  style="flex:1;padding:0.95rem 1.1rem;font-size:0.98rem;background:rgba(0,0,0,0.45);border:1.5px solid rgba(0,229,255,0.35);border-radius:12px;color:#ffffff;font-family:inherit;outline:none;" />
+          <button id="riddleHintBtn" class="riddle-hint-btn" type="button" aria-label="Підказка"
+                  style="flex-shrink:0;width:44px;height:44px;align-self:center;border-radius:50%;background:rgba(0,0,0,0.45);color:#00e5ff;border:1.5px solid rgba(0,229,255,0.45);cursor:pointer;font:700 1.1rem/1 Georgia,serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,229,255,0.15);transition:all 0.2s;margin-right:0.3rem;"
+                  onmouseover="this.style.background='rgba(0,229,255,0.18)';this.style.boxShadow='0 0 18px rgba(0,229,255,0.45)';"
+                  onmouseout="this.style.background='rgba(0,0,0,0.45)';this.style.boxShadow='0 0 12px rgba(0,229,255,0.15)';">?</button>
           <button id="riddleSubmit" class="riddle-submit" type="button" aria-label="Відповісти"
                   style="flex-shrink:0;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#00e5ff 0%,#ff2d92 50%,#ffd56a 100%);background-size:200% 200%;color:#ffffff;border:none;cursor:pointer;font:700 1.6rem/1 Inter,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(255,255,255,0.15),0 6px 20px rgba(0,229,255,0.4),0 0 30px rgba(255,45,146,0.3);text-shadow:0 1px 2px rgba(0,0,0,0.5);">→</button>
         </div>
@@ -508,6 +521,10 @@
     const submit = overlay.querySelector('#riddleSubmit');
     const input = overlay.querySelector('#riddleInput');
     const langSwitch = overlay.querySelector('#riddleLangSwitch');
+    const hintBtn = overlay.querySelector('#riddleHintBtn');
+    const bookLine = overlay.querySelector('#riddleBookLine');
+    const bookRef = overlay.querySelector('#riddleBookRef');
+    const bookHintLabel = overlay.querySelector('#riddleBookHintLabel');
     setRiddleFeedback('', false);
     input.value = '';
     input.disabled = false;
@@ -522,6 +539,35 @@
     fillRiddleLabels(overlay, currentLang);
     renderRiddleLevel(overlay, level);
     renderRiddleLangSwitch(overlay, currentLang);
+
+    // Hint state (per modal open — resets when the next riddle is opened).
+    let hintRevealed = false;
+    let currentHintText = '';
+    function revealHint() {
+      if (hintRevealed) return;
+      hintRevealed = true;
+      const lab = Lfor(currentLang);
+      const header = lab.riddleHintRevealed || '✓ Hint revealed';
+      setRiddleFeedback(`${header} · ${currentHintText}`, false);
+      if (hintBtn) {
+        hintBtn.disabled = true;
+        hintBtn.style.opacity = '0.35';
+        hintBtn.style.cursor = 'default';
+        hintBtn.textContent = '✓';
+      }
+      if (bookLine) bookLine.style.color = 'rgba(107,255,140,0.8)';
+    }
+    if (hintBtn) {
+      hintBtn.disabled = false;
+      hintBtn.style.opacity = '1';
+      hintBtn.style.cursor = 'pointer';
+      hintBtn.textContent = '?';
+      hintBtn.onclick = revealHint;
+    }
+    if (bookLine) {
+      bookLine.onclick = revealHint;
+      bookLine.style.color = 'rgba(26,10,58,0.55)';
+    }
 
     let attempts = 0;
 
@@ -545,12 +591,30 @@
         promptEl.textContent = data.prompt;
         // Footer: just the book title. Level is shown on the badge; the
         // "week N · 3 у ротації" dev-speak is gone.
-        const lab = L();
+        const lab = Lfor(currentLang);
         const bookLabel = lab.riddleBook ? lab.riddleBook(data.title || '') : (data.title || '');
         footBook.textContent = bookLabel;
+        // Book reference line (just book+chapter, not the concept part of hint)
+        if (bookRef && data.hint) {
+          const parts = data.hint.split('·').map((s) => s.trim());
+          currentHintText = data.hint;
+          bookRef.textContent = (data.title || '') + (parts.length > 1 ? ' · ' + parts.slice(1).join(' · ') : '');
+        }
+        if (bookHintLabel) {
+          bookHintLabel.textContent = lab.riddleHint || 'підказка';
+        }
+        // Reset hint state on (re)load
+        hintRevealed = false;
+        if (hintBtn) {
+          hintBtn.disabled = false;
+          hintBtn.style.opacity = '1';
+          hintBtn.style.cursor = 'pointer';
+          hintBtn.textContent = '?';
+        }
+        if (bookLine) bookLine.style.color = 'rgba(26,10,58,0.55)';
         input.focus();
       } catch (e) {
-        promptEl.textContent = (L().riddleLoadError || 'Failed to load the riddle.');
+        promptEl.textContent = (Lfor(currentLang).riddleLoadError || 'Failed to load the riddle.');
         submit.disabled = true;
         input.disabled = true;
       }
@@ -591,9 +655,14 @@
           };
         } else {
           attempts += 1;
-          const lab = L();
+          const lab = Lfor(currentLang);
+          // After 1 wrong try: auto-reveal the hint (free, once per riddle).
+          // The user can still keep guessing up to RIDDLE_MAX_ATTEMPTS.
+          if (attempts === 1 && data.hint && !hintRevealed) {
+            revealHint();
+          }
           if (attempts >= RIDDLE_MAX_ATTEMPTS) {
-            // Show hint, lock further input, change button to "close".
+            // Show final out-of-tries state, lock further input, button → "close".
             const hint = (lab.riddleOutOfTries || 'Out of tries.') + (data.hint ? ' ' + data.hint : '');
             setRiddleFeedback(hint, true);
             input.disabled = true;
