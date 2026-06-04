@@ -413,7 +413,7 @@
           <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова"
                style="display:inline-flex;gap:2px;padding:3px;background:rgba(0,0,0,0.35);border:1px solid rgba(0,229,255,0.3);border-radius:999px;flex-shrink:0;">
             <button class="riddle-lang-btn" data-lang="ua" type="button" aria-pressed="true"
-                    style="font:700 0.7rem/1 Inter,sans-serif;letter-spacing:0.08em;padding:0.4rem 0.75rem;background:linear-gradient(135deg,#ff2d92 0%,#ff6bb5 100%);color:#ffffff;border:none;border-radius:999px;cursor:default;box-shadow:0 0 12px rgba(255,45,146,0.6);">UA</button>
+                    style="font:700 0.7rem/1 Inter,sans-serif;letter-spacing:0.08em;padding:0.4rem 0.75rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">UA</button>
             <button class="riddle-lang-btn" data-lang="en" type="button" aria-pressed="false"
                     style="font:700 0.7rem/1 Inter,sans-serif;letter-spacing:0.08em;padding:0.4rem 0.75rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">EN</button>
           </div>

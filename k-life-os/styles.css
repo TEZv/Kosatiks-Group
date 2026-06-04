@@ -756,8 +756,8 @@ body.immersive .glass {
 }
 
 .riddle-lang-btn.active {
-  background: linear-gradient(135deg, #ff2d92 0%, #ff6bb5 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #ff2d92 0%, #ff6bb5 100%) !important;
+  color: #ffffff !important;
   cursor: default;
   box-shadow: 0 0 12px rgba(255, 45, 146, 0.6);
 }
