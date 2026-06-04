@@ -128,8 +128,9 @@
   }
 
   async function probeM3Availability() {
-    // Server tries M3-class providers (m3 direct → openrouter). 503 means
-    // neither is configured. On success, response.provider tells us which.
+    // Server tries M3-class providers (m3 direct → openrouter). Only 200
+    // counts as "available" — a stale M3_API_KEY would return 500, which
+    // we must NOT interpret as "M3 works".
     let usedProvider = null;
     try {
       const res = await fetch(ENDPOINT, {
@@ -137,7 +138,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pin: getPin(), sphere: 'Творчість або Самовираження', lang: 'ua', provider: 'm3' })
       });
-      m3Available = res.status !== 503;
+      m3Available = res.ok;
       if (m3Available) {
         try {
           const data = await res.json();
