@@ -17,8 +17,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Generate questions via Groq
+      - name: Generate questions via M3 (Groq fallback)
         env:
+          LLM_PROVIDER: m3
+          M3_API_KEY: ${{ secrets.M3_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: node scripts/generate-questions.js
 

@@ -89,47 +89,96 @@ A1: Calls her best friend to vent
 A1: Drives to the gym to release the tension`
 };
 
-async function generate(lang, sphere) {
-  const key = process.env.GROQ_API_KEY;
-  if (!key) throw new Error('GROQ_API_KEY not set');
-  const prompt = PROMPTS[lang](sphere);
-  const maxRetries = 3;
-  let lastErr;
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: 'meta-llama/llama-4-scout-17b-16e-instruct', messages: [{ role: 'user', content: prompt }], temperature: 1.1, max_tokens: 700 })
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        const errMsg = `HTTP ${res.status}: ${JSON.stringify(data).substring(0, 200)}`;
-        if (res.status === 429 || res.status >= 500) {
-          console.warn(`  attempt ${attempt}/${maxRetries} (${errMsg}) — retrying...`);
-          await new Promise(r => setTimeout(r, 2000 * attempt));
-          lastErr = new Error(errMsg);
-          continue;
-        }
-        throw new Error(errMsg);
+// === Provider abstraction: M3 (primary) + Groq (fallback) ===
+const PROVIDERS = {
+  m3: {
+    name: 'M3',
+    url: 'https://api.MiniMax.chat/v1/text/chatcompletion_v2',
+    model: 'M3',
+    envKey: 'M3_API_KEY',
+    headers: (key) => ({
+      'Authorization': `Bearer ${key}`,
+      'Content-Type': 'application/json'
+    }),
+    body: (model, prompt, maxTokens, temperature) => ({
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      temperature,
+      max_tokens: maxTokens
+    }),
+    extract: (data) => {
+      // M3 may return errors via base_resp
+      if (data.base_resp && data.base_resp.status_code !== undefined && data.base_resp.status_code !== 0) {
+        throw new Error(`M3 error ${data.base_resp.status_code}: ${data.base_resp.status_msg || 'unknown'}`);
       }
-      const text = data.choices?.[0]?.message?.content?.trim() || '';
-      if (!text) {
-        console.error(`  Empty response: ${JSON.stringify(data).substring(0, 300)}`);
-        throw new Error('Empty response from Groq');
-      }
-      return parseResponse(text);
-    } catch (e) {
-      lastErr = e;
-      if (attempt < maxRetries && (e.message.includes('fetch') || e.message.includes('network'))) {
-        console.warn(`  attempt ${attempt}/${maxRetries} (${e.message}) — retrying...`);
-        await new Promise(r => setTimeout(r, 2000 * attempt));
-        continue;
-      }
-      throw e;
+      return data.choices?.[0]?.message?.content?.trim() || '';
     }
+  },
+  groq: {
+    name: 'Groq',
+    url: 'https://api.groq.com/openai/v1/chat/completions',
+    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+    envKey: 'GROQ_API_KEY',
+    headers: (key) => ({
+      'Authorization': `Bearer ${key}`,
+      'Content-Type': 'application/json'
+    }),
+    body: (model, prompt, maxTokens, temperature) => ({
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      temperature,
+      max_tokens: maxTokens
+    }),
+    extract: (data) => data.choices?.[0]?.message?.content?.trim() || ''
   }
-  throw lastErr;
+};
+
+async function callProvider(provider, prompt) {
+  const key = process.env[provider.envKey];
+  if (!key) throw new Error(`${provider.envKey} not set`);
+  const res = await fetch(provider.url, {
+    method: 'POST',
+    headers: provider.headers(key),
+    body: JSON.stringify(provider.body(provider.model, prompt, 700, 1.1))
+  });
+  if (!res.ok) {
+    const errBody = await res.text();
+    throw new Error(`HTTP ${res.status}: ${errBody.substring(0, 200)}`);
+  }
+  const data = await res.json();
+  return provider.extract(data);
+}
+
+async function generate(lang, sphere) {
+  const prompt = PROMPTS[lang](sphere);
+  const primary = (process.env.LLM_PROVIDER || 'm3').toLowerCase();
+  const fallback = primary === 'm3' ? 'groq' : 'm3';
+  const order = [primary, fallback];
+
+  let lastErr;
+  for (const name of order) {
+    const provider = PROVIDERS[name];
+    if (!process.env[provider.envKey]) {
+      console.warn(`  [${provider.name}] API key not set, skipping`);
+      continue;
+    }
+    const maxRetries = 2;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const text = await callProvider(provider, prompt);
+        if (text) return { text, provider: provider.name };
+        throw new Error('Empty response from provider');
+      } catch (e) {
+        lastErr = e;
+        if (attempt < maxRetries) {
+          console.warn(`  [${provider.name}] attempt ${attempt}/${maxRetries} (${e.message}) — retrying...`);
+          await new Promise(r => setTimeout(r, 2000 * attempt));
+        }
+      }
+    }
+    console.warn(`  [${provider.name}] all retries failed: ${lastErr?.message}`);
+  }
+  throw lastErr || new Error('No provider succeeded');
 }
 
 function parseResponse(text) {
@@ -155,14 +204,16 @@ function parseResponse(text) {
 }
 
 (async () => {
-  const key = process.env.GROQ_API_KEY;
-  if (!key) {
-    console.error('ERROR: GROQ_API_KEY environment variable is not set!');
-    console.error('Go to GitHub repo → Settings → Secrets → Actions → New repository secret');
-    console.error('Name: GROQ_API_KEY, Value: gsk_...');
+  const primary = (process.env.LLM_PROVIDER || 'm3').toLowerCase();
+  const providersAvailable = Object.keys(PROVIDERS).filter(n => process.env[PROVIDERS[n].envKey]);
+  if (providersAvailable.length === 0) {
+    console.error('ERROR: No API keys set! Add M3_API_KEY and/or GROQ_API_KEY to GitHub Secrets.');
+    console.error('Repo → Settings → Secrets and variables → Actions → New repository secret');
+    console.error('Primary: M3_API_KEY, Fallback: GROQ_API_KEY');
     process.exit(1);
   }
-  console.log(`API key loaded: ${key.substring(0, 8)}...`);
+  console.log(`Primary provider: ${primary}`);
+  console.log(`Available providers: ${providersAvailable.join(', ')}`);
 
   const outPath = path.join(__dirname, '..', 'k-life-os', 'questions.json');
   let existing = { ua: {}, en: {} };
@@ -181,7 +232,7 @@ function parseResponse(text) {
   const yesterdayDate = new Date(kyivMs - 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
   console.log(`\nDaily run for ${today} (yesterday buffer: ${yesterdayDate})`);
 
-  const output = { generatedAt: now.toISOString(), day: today, ua: {}, en: {} };
+  const output = { generatedAt: now.toISOString(), day: today, provider: primary, ua: {}, en: {} };
   let totalAdded = 0, totalKept = 0, totalDropped = 0, totalSkipped = 0;
   for (const lang of ['ua', 'en']) {
     for (const sphere of SPHERES[lang]) {
@@ -195,16 +246,17 @@ function parseResponse(text) {
         totalSkipped++;
         const dropped = prevItems.length - todayItems.length;
         totalDropped += dropped;
-        console.log(`\u2713 ${lang}: ${sphere} (today complete: ${todayItems.length}, dropped ${dropped})`);
+        console.log(`✓ ${lang}: ${sphere} (today complete: ${todayItems.length}, dropped ${dropped})`);
         await new Promise(r => setTimeout(r, 200));
         continue;
       }
 
       const bufferKey = new Set(yesterdayItems.map(it => `${it.q}|${(it.a || []).join('|')}`));
       try {
-        const newItems = await generate(lang, sphere);
+        const result = await generate(lang, sphere);
+        const newItems = parseResponse(result.text);
         if (newItems.length === 0) throw new Error('No valid items parsed');
-        const stamped = newItems.map(it => ({ ...it, _day: today }));
+        const stamped = newItems.map(it => ({ ...it, _day: today, _provider: result.provider }));
         const fresh = stamped.filter(it => !bufferKey.has(`${it.q}|${(it.a || []).join('|')}`));
         const merged = [...yesterdayItems, ...fresh];
         output[lang][sphere] = merged;
@@ -213,9 +265,9 @@ function parseResponse(text) {
         totalAdded += added;
         totalKept += yesterdayItems.length;
         totalDropped += dropped;
-        console.log(`\u2713 ${lang}: ${sphere} (yesterday buffer ${yesterdayItems.length} + today added ${added}, dropped ${dropped})`);
+        console.log(`✓ ${lang}: ${sphere} via ${result.provider} (yesterday buffer ${yesterdayItems.length} + today added ${added}, dropped ${dropped})`);
       } catch (e) {
-        console.error(`\u2717 ${lang}: ${sphere} \u2014 ${e.message}`);
+        console.error(`✗ ${lang}: ${sphere} — ${e.message}`);
         output[lang][sphere] = yesterdayItems.length > 0 ? yesterdayItems : (todayItems.length > 0 ? todayItems : null);
       }
       await new Promise(r => setTimeout(r, 800));
