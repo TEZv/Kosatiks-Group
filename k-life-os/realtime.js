@@ -33,6 +33,10 @@
     if (HAS_I18N) return I18N.UI[lang()] || I18N.UI.ua || {};
     return {};
   }
+  function Lfor(l) {
+    if (HAS_I18N) return I18N.UI[l] || I18N.UI.ua || {};
+    return {};
+  }
 
   // ---- PIN gate ----
   function ensurePinGate() {
@@ -445,8 +449,8 @@
     return overlay;
   }
 
-  function fillRiddleLabels(overlay) {
-    const lab = L();
+  function fillRiddleLabels(overlay, langCode) {
+    const lab = langCode ? Lfor(langCode) : L();
     const setText = (sel, key) => {
       const el = overlay.querySelector(sel);
       if (el && lab[key]) el.textContent = lab[key];
@@ -499,8 +503,6 @@
 
   async function openRiddle(level) {
     const overlay = ensureRiddleOverlay();
-    fillRiddleLabels(overlay);
-    renderRiddleLevel(overlay, level);
     const promptEl = overlay.querySelector('#riddlePrompt');
     const footBook = overlay.querySelector('#riddleFootBook');
     const submit = overlay.querySelector('#riddleSubmit');
@@ -517,6 +519,8 @@
     // user can flip UA/EN inside the modal without changing the rest of
     // the page. Persists within the session, resets on reload.
     let currentLang = lang() === 'en' ? 'en' : 'ua';
+    fillRiddleLabels(overlay, currentLang);
+    renderRiddleLevel(overlay, level);
     renderRiddleLangSwitch(overlay, currentLang);
 
     let attempts = 0;
@@ -621,6 +625,7 @@
           if (target === currentLang) return;
           currentLang = target;
           renderRiddleLangSwitch(overlay, currentLang);
+          fillRiddleLabels(overlay, currentLang);
           setRiddleFeedback('', false);
           input.value = '';
           input.disabled = false;
