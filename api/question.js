@@ -1,11 +1,6 @@
-// Vercel Function: /api/question (Node.js runtime, Express-style req/res)
+// Vercel Function: /api/question (Node.js runtime, req/res)
 //
 // POST { pin, sphere, lang, provider? }
-//   pin      — required, must match Vercel env PIN
-//   sphere   — required
-//   lang     — "ua" | "en" (default "ua")
-//   provider — "groq" | "m3"
-//
 // Required env: GROQ_API_KEY, PIN
 // Optional:     M3_API_KEY
 
@@ -97,7 +92,7 @@ const PROVIDERS = {
       temperature: 1.1,
       max_tokens: 700
     }),
-    extract: (data) => data.choices?.[0]?.message?.content?.trim() || ''
+    extract: (data) => (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || ''
   },
   m3: {
     name: 'M3',
@@ -112,15 +107,14 @@ const PROVIDERS = {
     }),
     extract: (data) => {
       if (data.base_resp && data.base_resp.status_code !== undefined && data.base_resp.status_code !== 0) {
-        throw new Error(`M3 ${data.base_resp.status_code}: ${data.base_resp.status_msg || 'unknown'}`);
+        throw new Error('M3 ' + data.base_resp.status_code + ': ' + (data.base_resp.status_msg || 'unknown'));
       }
-      return data.choices?.[0]?.message?.content?.trim() || '';
+      return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
     }
   }
 };
 
-// In-memory rate limit (per-instance)
-const RATE_LIMIT_MS = 60_000;
+const RATE_LIMIT_MS = 60000;
 const rateLimitMap = new Map();
 
 function checkRateLimit(ip) {
@@ -130,11 +124,6 @@ function checkRateLimit(ip) {
     return { allowed: false, retryAfter: Math.ceil((RATE_LIMIT_MS - (now - last)) / 1000) };
   }
   rateLimitMap.set(ip, now);
-  if (rateLimitMap.size > 500) {
-    for (const [k, v] of rateLimitMap) {
-      if (now - v > RATE_LIMIT_MS * 5) rateLimitMap.delete(k);
-    }
-  }
   return { allowed: true };
 }
 
@@ -151,19 +140,19 @@ function verifyPin(pin) {
 
 async function callProvider(provider, prompt) {
   const key = process.env[provider.envKey];
-  if (!key) throw new Error(`${provider.envKey} not set`);
+  if (!key) throw new Error(provider.envKey + ' not set');
   const res = await fetch(provider.url, {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
+    headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
     body: JSON.stringify(provider.body(provider.model, prompt))
   });
   if (!res.ok) {
     const errBody = await res.text();
-    throw new Error(`HTTP ${res.status}: ${errBody.substring(0, 200)}`);
+    throw new Error('HTTP ' + res.status + ': ' + errBody.substring(0, 200));
   }
   const data = await res.json();
   const text = provider.extract(data);
-  if (!text) throw new Error('Empty response from provider');
+  if (!text) throw new Error('Empty response');
   return text;
 }
 
@@ -189,101 +178,92 @@ function parseResponse(text) {
     .slice(0, 3);
 }
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type'
-};
+function setCors(res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Content-Type', 'application/json');
+}
 
 export default async function handler(req, res) {
-  // CORS preflight
-  if (req.method === 'OPTIONS') {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    return res.status(204).end();
-  }
-  if (req.method !== 'POST') {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    return res.status(405).json({ error: 'method_not_allowed' });
-  }
+  try {
+    setCors(res);
 
-  // Identify client
-  const xff = req.headers['x-forwarded-for'] || '';
-  const ip = (typeof xff === 'string' ? xff.split(',')[0].trim() : '') ||
-             req.headers['x-real-ip'] ||
-             'unknown';
-
-  // Rate limit
-  const rl = checkRateLimit(ip);
-  if (!rl.allowed) {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    res.setHeader('Retry-After', String(rl.retryAfter));
-    return res.status(429).json({ error: 'rate_limit', retryAfter: rl.retryAfter });
-  }
-
-  // Parse body (Vercel auto-parses JSON if Content-Type is application/json)
-  const body = req.body && typeof req.body === 'object' ? req.body : {};
-  const { pin, sphere, lang: langIn, provider: providerIn } = body;
-
-  // PIN
-  if (!verifyPin(pin || '')) {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    return res.status(401).json({ error: 'invalid_pin' });
-  }
-
-  // Validate sphere
-  const lang = (langIn === 'en') ? 'en' : 'ua';
-  const sphereList = SPHERES[lang];
-  if (!sphere || !sphereList.includes(sphere)) {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    return res.status(400).json({ error: 'invalid_sphere', valid: sphereList });
-  }
-
-  // Resolve provider order
-  const requested = (providerIn || 'groq').toLowerCase();
-  const order = [];
-  if (PROVIDERS[requested] && process.env[PROVIDERS[requested].envKey]) {
-    order.push(requested);
-  }
-  const other = requested === 'm3' ? 'groq' : 'm3';
-  if (PROVIDERS[other] && process.env[PROVIDERS[other].envKey]) {
-    order.push(other);
-  }
-  if (order.length === 0) {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    return res.status(503).json({ error: 'no_provider_configured' });
-  }
-
-  // Try providers
-  let text, used;
-  let lastErr;
-  for (const name of order) {
-    const provider = PROVIDERS[name];
-    try {
-      text = await callProvider(provider, PROMPTS[lang](sphere));
-      used = name;
-      break;
-    } catch (e) {
-      lastErr = e;
+    if (req.method === 'OPTIONS') {
+      return res.status(204).end();
     }
-  }
+    if (req.method !== 'POST') {
+      return res.status(405).json({ error: 'method_not_allowed' });
+    }
 
-  if (!text) {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    return res.status(500).json({ error: 'generation_failed', message: lastErr?.message });
-  }
+    // Identify client
+    const xff = req.headers['x-forwarded-for'] || '';
+    const ip = (typeof xff === 'string' ? xff.split(',')[0].trim() : '') || 'unknown';
 
-  const items = parseResponse(text);
-  if (items.length === 0) {
-    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-    return res.status(500).json({ error: 'parse_failed', raw: text.substring(0, 200) });
-  }
+    // Rate limit
+    const rl = checkRateLimit(ip);
+    if (!rl.allowed) {
+      res.setHeader('Retry-After', String(rl.retryAfter));
+      return res.status(429).json({ error: 'rate_limit', retryAfter: rl.retryAfter });
+    }
 
-  Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
-  return res.status(200).json({
-    ok: true,
-    provider: used,
-    sphere,
-    lang,
-    items
-  });
+    // Parse body
+    const body = (req.body && typeof req.body === 'object') ? req.body : {};
+    const pin = body.pin || '';
+    const sphere = body.sphere || '';
+    const lang = body.lang === 'en' ? 'en' : 'ua';
+    const requested = (body.provider || 'groq').toLowerCase();
+
+    // PIN
+    if (!verifyPin(pin)) {
+      return res.status(401).json({ error: 'invalid_pin' });
+    }
+
+    // Validate sphere
+    const sphereList = SPHERES[lang];
+    if (!sphereList.includes(sphere)) {
+      return res.status(400).json({ error: 'invalid_sphere', valid: sphereList });
+    }
+
+    // Provider order
+    const order = [];
+    if (PROVIDERS[requested] && process.env[PROVIDERS[requested].envKey]) order.push(requested);
+    const other = requested === 'm3' ? 'groq' : 'm3';
+    if (PROVIDERS[other] && process.env[PROVIDERS[other].envKey]) order.push(other);
+
+    if (order.length === 0) {
+      return res.status(503).json({ error: 'no_provider_configured' });
+    }
+
+    // Try providers
+    let text, used, lastErr;
+    for (const name of order) {
+      try {
+        text = await callProvider(PROVIDERS[name], PROMPTS[lang](sphere));
+        used = name;
+        break;
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+
+    if (!text) {
+      return res.status(500).json({ error: 'generation_failed', message: lastErr && lastErr.message });
+    }
+
+    const items = parseResponse(text);
+    if (items.length === 0) {
+      return res.status(500).json({ error: 'parse_failed', raw: text.substring(0, 200) });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      provider: used,
+      sphere,
+      lang,
+      items
+    });
+  } catch (e) {
+    return res.status(500).json({ error: 'unhandled', message: e && e.message ? e.message : 'unknown' });
+  }
 }
