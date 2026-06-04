@@ -128,7 +128,9 @@
   }
 
   async function probeM3Availability() {
-    // try M3 once to see if the server has the key
+    // Server tries M3-class providers (m3 direct → openrouter). 503 means
+    // neither is configured. On success, response.provider tells us which.
+    let usedProvider = null;
     try {
       const res = await fetch(ENDPOINT, {
         method: 'POST',
@@ -136,6 +138,12 @@
         body: JSON.stringify({ pin: getPin(), sphere: 'Творчість або Самовираження', lang: 'ua', provider: 'm3' })
       });
       m3Available = res.status !== 503;
+      if (m3Available) {
+        try {
+          const data = await res.json();
+          usedProvider = data.provider;
+        } catch {}
+      }
     } catch {
       m3Available = false;
     }
@@ -143,9 +151,16 @@
     if (tog) {
       tog.querySelectorAll('[data-provider]').forEach(b => {
         const isM3 = b.dataset.provider === 'm3';
-        if (isM3 && !m3Available) {
-          b.disabled = true;
-          b.title = 'M3_API_KEY не налаштовано на сервері';
+        if (isM3) {
+          if (!m3Available) {
+            b.disabled = true;
+            b.title = 'M3_API_KEY / OPENROUTER_API_KEY не налаштовано на сервері';
+          } else {
+            b.disabled = false;
+            b.title = usedProvider === 'openrouter'
+              ? 'M3 через OpenRouter (дешевше)'
+              : 'M3 через MiniMax direct';
+          }
         } else {
           b.disabled = false;
         }

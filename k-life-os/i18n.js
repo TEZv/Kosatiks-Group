@@ -73,6 +73,20 @@ export const UI = {
     kosatikDefault: "Бекстейдж-режим увімкнено.",
     kosatikLogic:
       "Логіка Kosatik: м’яка іронія + чесний фокус. Це режим, де ми не героїзуємо хаос, а шукаємо маленький реальний крок.",
+    kosatikLines: [
+      "Обрала м’який крок — тепер захищай фокус.",
+      "Питання вже є. Тепер обери, чи з ним щось робити.",
+      "Не героїзуй хаос. Зроби маленьке.",
+      "Ти не мусиш бути натхненною. Достатньо бути чесною.",
+      "Один реальний крок важливіший за десять ідей у голові.",
+      "Фокус — це не талант, а звичка.",
+      "Спокій — це не відсутність хаосу, а навичка не рятувати всіх одразу.",
+      "Сьогодні можна не все. Можна одне — і влучити.",
+      "Не чекай натхнення. Використай 15 хвилин.",
+      "Слухай себе так само уважно, як слухаєш клієнтів.",
+      "Ти вже знаєш, що робити. Просто ще не вирішила.",
+      "Сміливість — не кричати голосніше, а обирати тихіше.",
+    ],
     contentNote:
       "Цитати й топіки зараз українською (канон Anteros). Англомовна бібліотека — у наступному оновленні.",
     weekLabel: (w, y) => `Тиждень ${w}, ${y}`,
@@ -147,6 +161,20 @@ export const UI = {
     kosatikDefault: "Backstage mode on.",
     kosatikLogic:
       "Kosatik logic: gentle irony + honest focus. This mode avoids chaos-glorification and looks for one real action.",
+    kosatikLines: [
+      "Picked a gentle step? Now protect the focus.",
+      "The question is already there. Choose what to do with it.",
+      "Don't glorify chaos. Make it small.",
+      "You don't have to be inspired. Just honest.",
+      "One real step matters more than ten ideas in your head.",
+      "Focus is a habit, not a talent.",
+      "Calm isn't the absence of chaos — it's the skill of not rescuing everyone at once.",
+      "Today, one thing done right beats ten done halfway.",
+      "Don't wait for inspiration. Use 15 minutes.",
+      "Listen to yourself as carefully as you listen to clients.",
+      "You already know what to do. You just haven't decided yet.",
+      "Courage isn't shouting louder. It's choosing quieter.",
+    ],
     contentNote:
       "UI is English. Quotes and topics are shown from the Ukrainian canon (Anteros) until EN vault is generated.",
     weekLabel: (w, y) => `Week ${w}, ${y}`,

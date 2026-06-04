@@ -229,10 +229,13 @@ function spinWeek() {
 }
 
 function showKosatikQuip() {
-  let line = window.KLifeVault.getKosatikLine(Math.random);
-  if (document.documentElement.lang === "en" && containsCyrillic(line)) {
-    line = "Kosatik whisper: choose one honest micro-action and protect your focus.";
-  }
+  const lines = t("kosatikLines");
+  const fallback = document.documentElement.lang === "en"
+    ? "Kosatik whisper: choose one honest micro-action and protect your focus."
+    : "Обери м’який крок і захищай фокус.";
+  const line = Array.isArray(lines) && lines.length
+    ? lines[Math.floor(Math.random() * lines.length)]
+    : fallback;
   kosatikLine.textContent = line;
   kosatikLine.classList.remove("hidden");
   kosatikQuip.textContent = line;

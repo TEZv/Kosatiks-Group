@@ -111,8 +111,30 @@ const PROVIDERS = {
       }
       return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
     }
+  },
+  openrouter: {
+    name: 'OpenRouter (M3)',
+    url: 'https://openrouter.ai/api/v1/chat/completions',
+    model: 'minimax/minimax-m3',
+    envKey: 'OPENROUTER_API_KEY',
+    body: (model, prompt) => ({
+      model,
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 1.1,
+      max_tokens: 700
+    }),
+    extraHeaders: () => ({
+      'HTTP-Referer': 'https://k-life-os.kosatiks-group.pp.ua',
+      'X-Title': 'K Life OS'
+    }),
+    extract: (data) => (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || ''
   }
 };
+
+// M3-class providers: any provider that gives access to M3 model.
+// When client requests 'm3', we try these in order (direct API first, then OpenRouter).
+const M3_CLASS = ['m3', 'openrouter'];
+const ALL_PROVIDERS = ['groq', 'm3', 'openrouter'];
 
 const RATE_LIMIT_MS = 60000;
 const rateLimitMap = new Map();
@@ -141,9 +163,14 @@ function verifyPin(pin) {
 async function callProvider(provider, prompt) {
   const key = process.env[provider.envKey];
   if (!key) throw new Error(provider.envKey + ' not set');
+  const headers = {
+    'Authorization': 'Bearer ' + key,
+    'Content-Type': 'application/json',
+    ...(typeof provider.extraHeaders === 'function' ? provider.extraHeaders() : {})
+  };
   const res = await fetch(provider.url, {
     method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(provider.body(provider.model, prompt))
   });
   if (!res.ok) {
@@ -232,14 +259,27 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'invalid_sphere', valid: sphereList });
     }
 
-    // Provider order
+    // Provider order.
+    // When client requests 'm3' (or 'openrouter'), only M3-class providers
+    // are tried — never fall back to groq, otherwise the M3 toggle probe
+    // would always succeed via groq and the button would never disable.
     const order = [];
-    if (PROVIDERS[requested] && process.env[PROVIDERS[requested].envKey]) order.push(requested);
-    const other = requested === 'm3' ? 'groq' : 'm3';
-    if (PROVIDERS[other] && process.env[PROVIDERS[other].envKey]) order.push(other);
-
-    if (order.length === 0) {
-      return res.status(503).json({ error: 'no_provider_configured' });
+    const isM3Class = requested === 'm3' || requested === 'openrouter';
+    if (isM3Class) {
+      for (const p of M3_CLASS) {
+        if (PROVIDERS[p] && process.env[PROVIDERS[p].envKey]) order.push(p);
+      }
+      if (order.length === 0) {
+        return res.status(503).json({ error: 'no_m3_provider' });
+      }
+    } else {
+      if (PROVIDERS.groq && process.env.GROQ_API_KEY) order.push('groq');
+      for (const p of M3_CLASS) {
+        if (PROVIDERS[p] && process.env[PROVIDERS[p].envKey]) order.push(p);
+      }
+      if (order.length === 0) {
+        return res.status(503).json({ error: 'no_provider_configured' });
+      }
     }
 
     // Try providers
