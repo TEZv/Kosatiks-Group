@@ -400,29 +400,28 @@
     overlay.innerHTML = `
       <div class="pin-gate-card riddle-card" role="dialog" aria-labelledby="riddleTitle" aria-describedby="riddlePrompt">
         <div class="riddle-header">
-          <div class="riddle-header-main">
-            <span class="riddle-emoji" id="riddleEmoji" aria-hidden="true">🎯</span>
-            <div>
-              <h2 class="riddle-title" id="riddleTitle">Відлуння</h2>
-              <p class="riddle-subtitle" id="riddleSubtitle">Anteros · канон</p>
-            </div>
+          <div class="riddle-level-badge" id="riddleLevelBadge" data-level="1" aria-hidden="true">1</div>
+          <div class="riddle-header-text">
+            <h2 class="riddle-title" id="riddleTitle">Відлуння</h2>
+            <p class="riddle-subtitle" id="riddleSubtitle">Anteros · канон</p>
           </div>
           <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова">
             <button class="riddle-lang-btn" data-lang="ua" type="button" aria-pressed="true">UA</button>
             <button class="riddle-lang-btn" data-lang="en" type="button" aria-pressed="false">EN</button>
           </div>
         </div>
-        <div class="riddle-progress" id="riddleProgress" aria-hidden="true">
-          <span class="riddle-dot" data-level="1"></span>
-          <span class="riddle-dot" data-level="2"></span>
-          <span class="riddle-dot" data-level="3"></span>
+        <div class="riddle-prompt-block">
+          <p class="riddle-prompt" id="riddlePrompt"></p>
         </div>
-        <p class="riddle-prompt" id="riddlePrompt"></p>
-        <input type="text" id="riddleInput" class="riddle-input" placeholder="" autocomplete="off" maxlength="64" />
-        <button id="riddleSubmit" class="riddle-submit">Відповісти</button>
+        <div class="riddle-input-row">
+          <input type="text" id="riddleInput" class="riddle-input" placeholder="" autocomplete="off" maxlength="64" />
+          <button id="riddleSubmit" class="riddle-submit" type="button" aria-label="Відповісти">→</button>
+        </div>
         <div id="riddleFeedback" class="riddle-feedback"></div>
-        <div class="riddle-foot" id="riddleFoot" aria-live="polite"></div>
-        <button id="riddleSkip" class="riddle-skip" type="button">Пропустити · 7 днів</button>
+        <div class="riddle-foot" id="riddleFoot" aria-live="polite">
+          <span class="riddle-foot-icon" aria-hidden="true">📖</span>
+          <span class="riddle-foot-book" id="riddleFootBook"></span>
+        </div>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -435,26 +434,23 @@
       const el = overlay.querySelector(sel);
       if (el && lab[key]) el.textContent = lab[key];
     };
-    setText('#riddleEmoji', 'riddleEmoji');
     setText('#riddleTitle', 'riddleTitle');
     setText('#riddleSubtitle', 'riddleSubtitle');
-    setText('#riddleSubmit', 'riddleSubmit');
-    setText('#riddleSkip', 'riddleSkip');
     const input = overlay.querySelector('#riddleInput');
     if (input && lab.riddlePlaceholder) input.placeholder = lab.riddlePlaceholder;
+    const submit = overlay.querySelector('#riddleSubmit');
+    if (submit && lab.riddleSubmit) submit.setAttribute('aria-label', lab.riddleSubmit);
     const langSwitch = overlay.querySelector('#riddleLangSwitch');
     if (langSwitch && lab.riddleLangLabel) langSwitch.setAttribute('aria-label', lab.riddleLangLabel);
   }
 
-  // Render the 3 progress dots: solved = green, current = teal, unsolved = dim.
-  function renderRiddleProgress(overlay, level) {
-    const state = riddleRead();
-    const dots = overlay.querySelectorAll('.riddle-dot');
-    dots.forEach((dot) => {
-      const i = Number(dot.dataset.level) - 1;
-      dot.classList.toggle('solved', !!state.solved[i]);
-      dot.classList.toggle('active', Number(dot.dataset.level) === level);
-    });
+  // Sync the level badge to the current level.
+  function renderRiddleLevel(overlay, level) {
+    const badge = overlay.querySelector('#riddleLevelBadge');
+    if (badge) {
+      badge.dataset.level = String(level);
+      badge.textContent = String(level);
+    }
   }
 
   // Sync the UA/EN switcher to the current riddle language.
@@ -487,18 +483,18 @@
   async function openRiddle(level) {
     const overlay = ensureRiddleOverlay();
     fillRiddleLabels(overlay);
-    renderRiddleProgress(overlay, level);
+    renderRiddleLevel(overlay, level);
     const promptEl = overlay.querySelector('#riddlePrompt');
-    const footEl = overlay.querySelector('#riddleFoot');
+    const footBook = overlay.querySelector('#riddleFootBook');
     const submit = overlay.querySelector('#riddleSubmit');
     const input = overlay.querySelector('#riddleInput');
-    const skip = overlay.querySelector('#riddleSkip');
     const langSwitch = overlay.querySelector('#riddleLangSwitch');
     setRiddleFeedback('', false);
     input.value = '';
     input.disabled = false;
     submit.disabled = false;
-    submit.textContent = (L().riddleSubmit || 'Answer');
+    submit.textContent = '→';
+    submit.classList.remove('is-next');
 
     // Per-riddle language state. Defaults to the page language, but the
     // user can flip UA/EN inside the modal without changing the rest of
@@ -507,17 +503,17 @@
     renderRiddleLangSwitch(overlay, currentLang);
 
     let attempts = 0;
-    let hintShown = false;
 
     function close() {
       overlay.classList.add('hidden');
     }
-    function dismissForDays() {
-      localStorage.setItem(RIDDLE_SKIP_STORAGE, String(Date.now()));
-      close();
-    }
 
-    skip.onclick = dismissForDays;
+    function resetSubmit() {
+      submit.textContent = '→';
+      submit.classList.remove('is-next');
+      submit.onclick = submitAnswer;
+      submit.disabled = false;
+    }
 
     async function loadPrompt() {
       try {
@@ -526,17 +522,11 @@
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'unknown');
         promptEl.textContent = data.prompt;
-        // Footer: just the level marker + book title. Drop the dev-speak
-        // "week N · M in rotation" — it was leaking internal implementation
-        // details and confusing users.
+        // Footer: just the book title. Level is shown on the badge; the
+        // "week N · 3 у ротації" dev-speak is gone.
         const lab = L();
-        const levelLabel = lab.riddleEchoLevel
-          ? lab.riddleEchoLevel(level)
-          : `Echo ${level} / 3`;
         const bookLabel = lab.riddleBook ? lab.riddleBook(data.title || '') : (data.title || '');
-        footEl.innerHTML = bookLabel
-          ? `<span class="riddle-foot-level">${levelLabel}</span>${bookLabel}`
-          : `<span class="riddle-foot-level">${levelLabel}</span>`;
+        footBook.textContent = bookLabel;
         input.focus();
       } catch (e) {
         promptEl.textContent = (L().riddleLoadError || 'Failed to load the riddle.');
@@ -567,9 +557,10 @@
           }
           riddleWrite(state);
           const lab = L();
-          setRiddleFeedback((lab.riddleSolved || 'Solved.'), false);
-          renderRiddleProgress(overlay, level);
-          submit.textContent = (lab.riddleNext || 'Next →');
+          setRiddleFeedback((lab.riddleSolved || '✓ Solved.'), false);
+          // Submit becomes a green "next" arrow, click moves on
+          submit.textContent = '→';
+          submit.classList.add('is-next');
           submit.disabled = false;
           submit.onclick = () => {
             close();
@@ -585,9 +576,8 @@
             const hint = (lab.riddleOutOfTries || 'Out of tries.') + (data.hint ? ' ' + data.hint : '');
             setRiddleFeedback(hint, true);
             input.disabled = true;
-            submit.textContent = (lab.riddleClose || 'Close');
+            submit.textContent = '×';
             submit.onclick = close;
-            hintShown = true;
           } else {
             const left = RIDDLE_MAX_ATTEMPTS - attempts;
             const triesLeft = lab.riddleTriesLeft ? lab.riddleTriesLeft(left) : `Tries left: ${left}.`;
@@ -617,9 +607,7 @@
           setRiddleFeedback('', false);
           input.value = '';
           input.disabled = false;
-          submit.disabled = false;
-          submit.textContent = (L().riddleSubmit || 'Answer');
-          submit.onclick = submitAnswer;
+          resetSubmit();
           loadPrompt();
         };
       });

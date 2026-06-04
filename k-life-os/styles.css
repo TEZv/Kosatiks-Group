@@ -588,69 +588,104 @@ body.immersive .glass {
 
 /* ============================================================
    Riddle gate (Anteros echoes) — overlay + card
+   Creative redesign: warm palette, segmented blocks, no skip.
    ============================================================ */
 
 .riddle-card {
-  max-width: 480px;
+  max-width: 500px;
   text-align: left;
   position: relative;
+  padding: 1.6rem 1.5rem 1.4rem 1.5rem !important;
+  background:
+    linear-gradient(180deg, rgba(20, 18, 42, 0.96) 0%, rgba(10, 8, 24, 0.98) 100%) !important;
+  border: 1px solid transparent !important;
+  background-clip: padding-box !important;
 }
 
-/* Header: emoji + title block on the left, language switch on the right */
+/* Gradient border via pseudo-element (the only way to get a 1px gradient
+   border on a rounded card without doubling markup) */
+.riddle-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #ffd56a 0%, #ff8bd2 45%, #8be3ff 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* === Block 1: Header (level badge + title + lang switch) === */
 .riddle-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.3rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.1rem;
 }
 
-.riddle-header-main {
+.riddle-level-badge {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  min-width: 0;
+  justify-content: center;
+  font-family: Georgia, "Crimson Text", "Times New Roman", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a0f00;
+  background: linear-gradient(135deg, #ffd56a 0%, #ffb84a 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 213, 106, 0.4),
+    0 4px 16px rgba(255, 213, 106, 0.25);
+  flex-shrink: 0;
+  letter-spacing: 0;
 }
 
-.riddle-emoji {
-  font-size: 1.8rem;
-  line-height: 1;
-  filter: drop-shadow(0 0 6px rgba(139, 227, 255, 0.45));
+.riddle-header-text {
+  min-width: 0;
 }
 
 .riddle-title {
   margin: 0;
-  font-size: 1.45rem;
-  font-weight: 600;
-  color: #edf3ff;
-  letter-spacing: 0.02em;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff5dc;                         /* warm cream — high contrast */
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .riddle-subtitle {
-  margin: 0.15rem 0 0 0;
-  font-size: 0.72rem;
-  color: rgba(139, 227, 255, 0.7);
-  letter-spacing: 0.12em;
+  margin: 0.2rem 0 0 0;
+  font-size: 0.7rem;
+  color: rgba(255, 213, 106, 0.85);       /* gold */
+  letter-spacing: 0.18em;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
-/* Language switcher pill (UA | EN) */
 .riddle-lang-switch {
   display: inline-flex;
   gap: 2px;
-  padding: 2px;
-  background: rgba(139, 227, 255, 0.06);
-  border: 1px solid rgba(139, 227, 255, 0.2);
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 213, 106, 0.25);
   border-radius: 999px;
   flex-shrink: 0;
 }
 
 .riddle-lang-btn {
-  font: 600 0.7rem/1 Inter, "Segoe UI", Roboto, sans-serif;
-  letter-spacing: 0.05em;
-  padding: 0.3rem 0.7rem;
+  font: 700 0.7rem/1 Inter, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.7rem;
   background: transparent;
-  color: #b9c8e6;
+  color: #c5cce0;
   border: none;
   border-radius: 999px;
   cursor: pointer;
@@ -658,85 +693,103 @@ body.immersive .glass {
 }
 
 .riddle-lang-btn:hover:not(.active) {
-  color: #edf3ff;
+  color: #fff5dc;
 }
 
 .riddle-lang-btn.active {
-  background: #8be3ff;
-  color: #04111e;
+  background: linear-gradient(135deg, #ffd56a 0%, #ffb84a 100%);
+  color: #1a0f00;
   cursor: default;
 }
 
 .riddle-lang-btn:focus-visible {
-  outline: 2px solid #8be3ff;
+  outline: 2px solid #ffd56a;
   outline-offset: 2px;
 }
 
-/* 3 progress dots: ● ● ● (current + solved state) */
-.riddle-progress {
-  display: flex;
-  gap: 0.45rem;
-  justify-content: center;
-  margin: 0.3rem 0 1.1rem 0;
+/* === Block 2: Prompt (parchment-style, segmented from the chrome) === */
+.riddle-prompt-block {
+  position: relative;
+  margin: 0 0 1.2rem 0;
+  padding: 1.4rem 1.3rem 1.3rem 1.6rem;
+  background:
+    linear-gradient(180deg, rgba(255, 245, 220, 0.06) 0%, rgba(255, 230, 180, 0.03) 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 213, 106, 0.18);
 }
 
-.riddle-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(180, 200, 240, 0.22);
-  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+/* Decorative left bar (mimics a book chapter marker) */
+.riddle-prompt-block::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  background: linear-gradient(180deg, #ffd56a 0%, #ff8bd2 100%);
+  border-radius: 0 2px 2px 0;
 }
 
-.riddle-dot.active {
-  background: #8be3ff;
-  transform: scale(1.35);
-  box-shadow: 0 0 8px rgba(139, 227, 255, 0.55);
+.riddle-prompt-block::after {
+  content: "❝";
+  position: absolute;
+  top: -4px;
+  right: 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: rgba(255, 213, 106, 0.22);
+  pointer-events: none;
 }
 
-.riddle-dot.solved {
-  background: #6bff8c;
-  box-shadow: 0 0 6px rgba(107, 255, 140, 0.4);
-}
-
-/* The riddle prompt itself — must be readable on dark glass */
 .riddle-prompt {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: #edf3ff;             /* direct hex — survives any var() resolution issue */
-  margin: 0 0 1rem 0;
-  padding: 1.05rem 1.1rem;
-  background: rgba(8, 14, 32, 0.62);
-  border-left: 2px solid #8be3ff;
-  border-radius: 6px;
+  font-family: Georgia, "Crimson Text", "Times New Roman", serif;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  color: #fff5dc;                         /* warm cream — never dim */
+  margin: 0;
   font-style: italic;
   white-space: pre-wrap;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-/* Input — clean, focused state is teal */
+.riddle-prompt:empty::before {
+  content: "…";
+  color: rgba(255, 245, 220, 0.4);
+  font-style: normal;
+}
+
+/* === Block 3: Input + inline submit === */
+.riddle-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+  margin: 0 0 0.6rem 0;
+}
+
 .riddle-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
+  flex: 1;
+  padding: 0.85rem 1rem;
   font-size: 0.95rem;
-  background: rgba(8, 14, 32, 0.45);
-  border: 1px solid rgba(139, 227, 255, 0.22);
-  border-radius: 8px;
-  color: #edf3ff;
+  background: rgba(8, 14, 32, 0.55);
+  border: 1px solid rgba(255, 213, 106, 0.22);
+  border-radius: 10px;
+  color: #fff5dc;
   font-family: inherit;
-  margin-bottom: 0.7rem;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
 .riddle-input::placeholder {
-  color: rgba(185, 200, 230, 0.55);
+  color: rgba(197, 204, 224, 0.5);
+  font-style: italic;
 }
 
 .riddle-input:focus {
-  border-color: #8be3ff;
-  box-shadow: 0 0 0 3px rgba(139, 227, 255, 0.18);
-  background: rgba(8, 14, 32, 0.6);
+  border-color: #ffd56a;
+  box-shadow: 0 0 0 3px rgba(255, 213, 106, 0.15);
+  background: rgba(8, 14, 32, 0.7);
 }
 
 .riddle-input:disabled {
@@ -744,89 +797,86 @@ body.immersive .glass {
   cursor: not-allowed;
 }
 
-/* Submit — solid teal accent (NOT pink, NOT uppercase) */
 .riddle-submit {
-  width: 100%;
-  padding: 0.78rem 1rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  background: #8be3ff;
-  color: #04111e;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd56a 0%, #ffb84a 100%);
+  color: #1a0f00;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  font-family: inherit;
-  letter-spacing: 0.01em;
-  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  font: 700 1.4rem/1 Inter, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+  box-shadow: 0 4px 14px rgba(255, 213, 106, 0.3);
 }
 
 .riddle-submit:hover:not(:disabled) {
-  background: #a8edff;
-  box-shadow: 0 4px 16px rgba(139, 227, 255, 0.3);
+  transform: translateX(2px);
+  box-shadow: 0 6px 20px rgba(255, 213, 106, 0.45);
+  filter: brightness(1.05);
 }
 
 .riddle-submit:active:not(:disabled) {
-  transform: scale(0.99);
+  transform: translateX(2px) scale(0.96);
 }
 
 .riddle-submit:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: wait;
+  box-shadow: none;
 }
 
-/* Feedback line — replaces pin-gate-error for the riddle */
+/* When the riddle is solved and the button becomes "next" */
+.riddle-submit.is-next {
+  background: linear-gradient(135deg, #6bff8c 0%, #4ad975 100%);
+  box-shadow: 0 4px 14px rgba(107, 255, 140, 0.3);
+}
+
+/* === Feedback line === */
 .riddle-feedback {
   min-height: 1.3rem;
   text-align: center;
   font-size: 0.85rem;
-  margin: 0.5rem 0 0.3rem 0;
-  color: rgba(237, 243, 255, 0.7);
+  margin: 0 0 0.3rem 0;
+  color: rgba(255, 245, 220, 0.7);
+  font-weight: 500;
 }
 
 .riddle-feedback-ok {
   color: #6bff8c;
+  font-weight: 600;
 }
 
 .riddle-feedback-error {
   color: #ff8aa1;
-}
-
-/* Footer — just level + book title. NO "week 158 / 3 у ротації" dev-speak. */
-.riddle-foot {
-  text-align: center;
-  font-size: 0.78rem;
-  margin-top: 0.5rem;
-  color: rgba(185, 200, 230, 0.75);
-  letter-spacing: 0.01em;
-  line-height: 1.4;
-}
-
-.riddle-foot .riddle-foot-level {
-  color: #8be3ff;
   font-weight: 600;
-  margin-right: 0.4rem;
 }
 
-.riddle-skip {
-  display: block;
-  margin: 0.8rem auto 0 auto;
-  background: transparent;
-  border: none;
-  color: #b9c8e6;
+/* === Block 4: Book reference footnote === */
+.riddle-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   font-size: 0.78rem;
-  text-decoration: underline dotted;
-  text-underline-offset: 3px;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  opacity: 0.65;
-  transition: opacity 0.2s, color 0.2s;
+  margin-top: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 1px dashed rgba(255, 213, 106, 0.18);
+  color: rgba(255, 245, 220, 0.7);
+  font-style: italic;
 }
 
-.riddle-skip:hover {
-  opacity: 1;
-  color: #8be3ff;
+.riddle-foot-icon {
+  font-style: normal;
+  color: #ffd56a;
+  font-size: 0.95rem;
 }
 
-#riddleSubmit {
-  margin-top: 0.2rem;
+.riddle-foot-book {
+  color: rgba(255, 245, 220, 0.85);
+  letter-spacing: 0.02em;
 }
