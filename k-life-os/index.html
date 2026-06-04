@@ -7,7 +7,25 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title id="pageTitle">🌀 Мінливий оракул · Кільце Сфер</title>
-    <link rel="stylesheet" href="styles.css?v=4">
+    <script>
+    // Nuke any service worker or Cache API from previous sessions, in case
+    // the browser is holding on to an older shell. Safe to re-run.
+    (function() {
+      try {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(rs) {
+            rs.forEach(function(r) { r.unregister(); });
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(k) { caches.delete(k); });
+          });
+        }
+      } catch (e) {}
+    })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=5">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         html, body { height: 100%; }
@@ -1893,5 +1911,6 @@
   }
 })();
 </script>
+<div id="klife-build" style="position:fixed;bottom:8px;right:12px;z-index:9999;font:600 0.7rem/1 ui-monospace,Menlo,Consolas,monospace;color:rgba(255,213,106,0.55);pointer-events:none;user-select:none;text-shadow:0 1px 2px rgba(0,0,0,0.6);">v5 · 2026-06-05 · festive</div>
 </body>
 </html>
