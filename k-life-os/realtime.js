@@ -398,29 +398,46 @@
     overlay.id = 'riddleGate';
     overlay.className = 'pin-gate hidden';
     overlay.innerHTML = `
-      <div class="pin-gate-card riddle-card" role="dialog" aria-labelledby="riddleTitle" aria-describedby="riddlePrompt">
-        <div class="riddle-header">
-          <div class="riddle-level-badge" id="riddleLevelBadge" data-level="1" aria-hidden="true">1</div>
-          <div class="riddle-header-text">
-            <h2 class="riddle-title" id="riddleTitle">Відлуння</h2>
-            <p class="riddle-subtitle" id="riddleSubtitle">Anteros · канон</p>
+      <div class="pin-gate-card riddle-card" role="dialog" aria-labelledby="riddleTitle" aria-describedby="riddlePrompt"
+           style="max-width:520px;width:calc(100vw - 32px);text-align:left;background:linear-gradient(180deg, rgba(26,14,56,0.97) 0%, rgba(12,6,32,0.99) 100%);border:2px solid transparent;border-radius:18px;padding:0;box-shadow:0 24px 60px rgba(8,4,24,0.7),0 0 48px rgba(255,45,146,0.12);overflow:visible;color:#ffffff;">
+        <div class="riddle-header"
+             style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:0.9rem;margin:0;padding:1.4rem 1.4rem 1.2rem 1.4rem;background:linear-gradient(135deg, rgba(0,229,255,0.12) 0%, rgba(255,45,146,0.08) 100%);border-bottom:1px solid rgba(0,229,255,0.18);border-radius:18px 18px 0 0;">
+          <div class="riddle-level-badge" id="riddleLevelBadge" data-level="1" aria-hidden="true"
+               style="width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:1.7rem;font-weight:700;color:#0a0014;background:linear-gradient(135deg,#00e5ff 0%,#7e74ff 100%);box-shadow:0 0 0 1px rgba(255,255,255,0.45),0 0 24px rgba(0,229,255,0.55);flex-shrink:0;">1</div>
+          <div class="riddle-header-text" style="min-width:0;">
+            <h2 class="riddle-title" id="riddleTitle"
+                style="margin:0;font-size:1.5rem;font-weight:800;color:#ffffff;letter-spacing:0.01em;line-height:1.1;text-shadow:0 2px 8px rgba(0,229,255,0.4);">Відлуння</h2>
+            <p class="riddle-subtitle" id="riddleSubtitle"
+               style="margin:0.25rem 0 0 0;font-size:0.68rem;color:#00e5ff;letter-spacing:0.22em;text-transform:uppercase;font-weight:700;text-shadow:0 0 8px rgba(0,229,255,0.5);">Anteros · канон</p>
           </div>
-          <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова">
-            <button class="riddle-lang-btn" data-lang="ua" type="button" aria-pressed="true">UA</button>
-            <button class="riddle-lang-btn" data-lang="en" type="button" aria-pressed="false">EN</button>
+          <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова"
+               style="display:inline-flex;gap:2px;padding:3px;background:rgba(0,0,0,0.35);border:1px solid rgba(0,229,255,0.3);border-radius:999px;flex-shrink:0;">
+            <button class="riddle-lang-btn" data-lang="ua" type="button" aria-pressed="true"
+                    style="font:700 0.7rem/1 Inter,sans-serif;letter-spacing:0.08em;padding:0.4rem 0.75rem;background:linear-gradient(135deg,#ff2d92 0%,#ff6bb5 100%);color:#ffffff;border:none;border-radius:999px;cursor:default;box-shadow:0 0 12px rgba(255,45,146,0.6);">UA</button>
+            <button class="riddle-lang-btn" data-lang="en" type="button" aria-pressed="false"
+                    style="font:700 0.7rem/1 Inter,sans-serif;letter-spacing:0.08em;padding:0.4rem 0.75rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">EN</button>
           </div>
         </div>
-        <div class="riddle-prompt-block">
-          <p class="riddle-prompt" id="riddlePrompt"></p>
+        <div class="riddle-prompt-block"
+             style="position:relative;margin:0;padding:1.5rem 1.4rem 1.4rem 1.4rem;background:linear-gradient(180deg,#fff5dc 0%,#ffeec7 100%);border-radius:0;border-bottom:1px solid rgba(255,213,106,0.5);box-shadow:inset 0 0 0 1px rgba(0,0,0,0.04);">
+          <p class="riddle-prompt" id="riddlePrompt"
+             style="font-family:Georgia,serif;font-size:1.15rem;line-height:1.6;color:#1a0a3a;margin:0;font-style:italic;white-space:pre-wrap;letter-spacing:0.005em;font-weight:500;"></p>
         </div>
-        <div class="riddle-input-row">
-          <input type="text" id="riddleInput" class="riddle-input" placeholder="" autocomplete="off" maxlength="64" />
-          <button id="riddleSubmit" class="riddle-submit" type="button" aria-label="Відповісти">→</button>
+        <div class="riddle-input-row"
+             style="display:flex;gap:0.5rem;align-items:stretch;margin:0;padding:1.2rem 1.4rem 0.8rem 1.4rem;">
+          <input type="text" id="riddleInput" class="riddle-input" placeholder="" autocomplete="off" maxlength="64"
+                 style="flex:1;padding:0.95rem 1.1rem;font-size:0.98rem;background:rgba(0,0,0,0.45);border:1.5px solid rgba(0,229,255,0.35);border-radius:12px;color:#ffffff;font-family:inherit;outline:none;" />
+          <button id="riddleSubmit" class="riddle-submit" type="button" aria-label="Відповісти"
+                  style="flex-shrink:0;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#00e5ff 0%,#ff2d92 50%,#ffd56a 100%);background-size:200% 200%;color:#ffffff;border:none;cursor:pointer;font:700 1.6rem/1 Inter,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(255,255,255,0.15),0 6px 20px rgba(0,229,255,0.4),0 0 30px rgba(255,45,146,0.3);text-shadow:0 1px 2px rgba(0,0,0,0.5);">→</button>
         </div>
-        <div id="riddleFeedback" class="riddle-feedback"></div>
-        <div class="riddle-foot" id="riddleFoot" aria-live="polite">
-          <span class="riddle-foot-icon" aria-hidden="true">📖</span>
-          <span class="riddle-foot-book" id="riddleFootBook"></span>
+        <div id="riddleFeedback" class="riddle-feedback"
+             style="min-height:1.4rem;text-align:center;font-size:0.88rem;margin:0;padding:0 1.4rem;color:rgba(255,255,255,0.75);font-weight:600;"></div>
+        <div class="riddle-foot" id="riddleFoot" aria-live="polite"
+             style="display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.82rem;margin:0.4rem 0 0 0;padding:0.9rem 1.4rem 1.3rem 1.4rem;border-top:1px dashed rgba(255,45,146,0.35);color:rgba(255,255,255,0.7);font-style:italic;background:linear-gradient(180deg, rgba(255,45,146,0.06) 0%, transparent 100%);border-radius:0 0 18px 18px;">
+          <span class="riddle-foot-icon" aria-hidden="true"
+                style="font-style:normal;color:#ff2d92;font-size:1rem;text-shadow:0 0 8px rgba(255,45,146,0.6);">📖</span>
+          <span class="riddle-foot-book" id="riddleFootBook"
+                style="color:rgba(255,255,255,0.9);letter-spacing:0.02em;font-weight:500;"></span>
         </div>
       </div>
     `;
