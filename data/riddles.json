@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "updated": "2026-06-04",
+  "intro": {
+    "ua": "Три відлуння. Той, хто їх почує, отримає Kosatik-позначку.",
+    "en": "Three echoes. Those who hear them receive a Kosatik mark."
+  },
+  "levels": {
+    "1": {
+      "title": { "ua": "Відлуння I · Перша поява", "en": "Echo I · First Appearance" },
+      "ua": {
+        "id": "l1-ua-01",
+        "prompt": "У четвертій книзі я приходжу раніше за того, хто мене несе. Я можу бути внутрішньо величезним, поки залишаюсь зовні тонким. Мене чують раніше, ніж торкаються. Що я?",
+        "hint": "Vėlė · Розділ 1 · Kyiv"
+      },
+      "en": {
+        "id": "l1-en-01",
+        "prompt": "In the fourth book I arrive before the one who carries me. I can be internally enormous while remaining externally thin. I am heard before I am touched. What am I?",
+        "hint": "Vėlė · Chapter 1 · Kyiv"
+      }
+    },
+    "2": {
+      "title": { "ua": "Відлуння II · Невидимий тиск", "en": "Echo II · The Unseen Pressure" },
+      "ua": {
+        "id": "l2-ua-01",
+        "prompt": "Я не можу витримати всередині себе зв'язок, занадто точний без мого посередництва. Моя ворожнеча — не театр. Без своєї осі я не зникаю, але стаю тоншим, тихішим, самотнішим. Хто я?",
+        "hint": "Публічний шар містики. Відповідь — одне знакомісце."
+      },
+      "en": {
+        "id": "l2-en-01",
+        "prompt": "I cannot tolerate within myself a bond too exact, too autonomous, too proportioned without my mediation. My hostility is principled, not theatrical. Without my axis I do not vanish, but become thinner, quieter, lonelier. Who am I?",
+        "hint": "The public mystery layer. One character."
+      }
+    },
+    "3": {
+      "title": { "ua": "Відлуння III · Перша асиметрія", "en": "Echo III · The First Asymmetry" },
+      "ua": {
+        "id": "l3-ua-01",
+        "prompt": "Я не вибух. Я не удар. Я — найлегший порушник спокою з усіх можливих світів. Колись мене назвали першою онтологічною силою повноти, що перестала збігатися із собою. Що я?",
+        "hint": "Šviesa · Розділ 1 · початок світу"
+      },
+      "en": {
+        "id": "l3-en-01",
+        "prompt": "I am not an explosion. I am not an impact. I am the gentlest disturbance in all possible worlds. Once I was named the first ontological pressure of fullness ceasing to coincide with itself. What am I?",
+        "hint": "Šviesa · Chapter 1 · the beginning of the world"
+      }
+    }
+  },
+  "answers": {
+    "1": {
+      "ua": ["голос", "voice"],
+      "en": ["voice"]
+    },
+    "2": {
+      "ua": ["а.", "a.", "a"],
+      "en": ["a.", "a"]
+    },
+    "3": {
+      "ua": ["незбіг", "дисонанс", "mismatch", "dissonance", "non-coincidence", "asymmetry", "асиметрія"],
+      "en": ["mismatch", "dissonance", "non-coincidence", "asymmetry", "незбіг"]
+    }
+  }
+}
