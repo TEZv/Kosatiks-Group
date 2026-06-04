@@ -476,6 +476,116 @@
                 padding: 0.7rem;
             }
         }
+    /* === Real-time additions: PIN gate, provider toggle, close X, hint === */
+    .pin-gate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(2, 5, 12, 0.92);
+      backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+      transition: opacity 0.25s ease;
+    }
+    .pin-gate.hidden { opacity: 0; pointer-events: none; }
+    .pin-gate-card {
+      background: linear-gradient(180deg, rgba(15, 20, 40, 0.95) 0%, rgba(8, 12, 25, 0.98) 100%);
+      border: 1px solid rgba(0, 255, 255, 0.35);
+      border-radius: 1.5rem;
+      padding: 2.5rem 2rem;
+      max-width: 360px; width: 100%;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(0, 255, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .pin-gate-emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+    .pin-gate-title {
+      font-size: 1.4rem; color: #d8f8ff; margin: 0 0 0.3rem;
+      font-weight: 600; letter-spacing: 0.05em;
+    }
+    .pin-gate-subtitle {
+      font-size: 0.78rem; color: rgba(0, 255, 255, 0.6);
+      text-transform: uppercase; letter-spacing: 0.1em; margin: 0 0 1.5rem;
+    }
+    .pin-gate-input {
+      width: 100%; padding: 0.85rem 1rem; font-size: 1.1rem;
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: 0.8rem; color: #d8f8ff;
+      font-family: inherit; text-align: center; letter-spacing: 0.3em;
+      margin-bottom: 0.8rem; transition: border-color 0.2s;
+    }
+    .pin-gate-input:focus {
+      outline: none; border-color: rgba(0, 255, 255, 0.7);
+      box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+    }
+    .pin-gate-submit {
+      width: 100%; padding: 0.85rem; font-size: 0.95rem;
+      background: rgba(0, 255, 255, 0.15);
+      border: 1px solid rgba(0, 255, 255, 0.4);
+      border-radius: 0.8rem; color: #d8f8ff;
+      font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .pin-gate-submit:hover:not(:disabled) {
+      background: rgba(0, 255, 255, 0.25); transform: translateY(-1px);
+    }
+    .pin-gate-submit:disabled { opacity: 0.6; cursor: wait; }
+    .pin-gate-error {
+      min-height: 1.2rem; margin-top: 0.8rem;
+      font-size: 0.78rem; color: #ff6b9d;
+    }
+    .pin-gate-foot {
+      margin-top: 1.2rem; font-size: 0.68rem;
+      color: rgba(0, 255, 255, 0.4);
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    .provider-toggle {
+      display: flex; gap: 0.3rem; margin-top: 0.5rem;
+    }
+    .provider-btn {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      color: rgba(216, 248, 255, 0.5);
+      padding: 0.25rem 0.6rem; border-radius: 0.5rem;
+      font-size: 0.7rem; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: all 0.15s;
+    }
+    .provider-btn.active {
+      background: rgba(0, 255, 255, 0.2);
+      border-color: rgba(0, 255, 255, 0.6);
+      color: #d8f8ff;
+    }
+    .provider-btn:disabled {
+      opacity: 0.4; cursor: not-allowed;
+    }
+    .provider-btn:not(:disabled):hover {
+      background: rgba(0, 255, 255, 0.15);
+    }
+
+    .modal-close-x {
+      position: absolute; top: 0.6rem; right: 0.8rem;
+      background: transparent; border: none;
+      color: rgba(216, 248, 255, 0.6);
+      font-size: 1.8rem; line-height: 1;
+      cursor: pointer; padding: 0.2rem 0.5rem;
+      transition: color 0.15s, transform 0.15s;
+      font-family: inherit;
+    }
+    .modal-close-x:hover {
+      color: #d8f8ff; transform: scale(1.15);
+    }
+
+    .modal-hint-inline {
+      margin-top: 1.2rem; padding: 0.8rem 1rem;
+      background: rgba(0, 255, 255, 0.04);
+      border-left: 2px solid rgba(0, 255, 255, 0.4);
+      border-radius: 0 0.5rem 0.5rem 0;
+      font-size: 0.75rem; color: rgba(216, 248, 255, 0.7);
+      line-height: 1.5;
+    }
+    .modal-hint-inline b { color: rgba(216, 248, 255, 0.95); }
+
+    .modal-header { position: relative; }
     </style>
 </head>
 <body>
@@ -1224,5 +1334,6 @@
     buildCards();
 })();
 </script>
+<script src="realtime.js" defer></script>
 </body>
 </html>
