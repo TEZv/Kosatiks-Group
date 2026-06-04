@@ -365,14 +365,15 @@
   function riddleRead() {
     try {
       const raw = localStorage.getItem(RIDDLE_STORAGE);
-      if (!raw) return { solved: [false, false, false] };
+      if (!raw) return { solved: [false, false, false], solvedRiddles: [] };
       const parsed = JSON.parse(raw);
       if (!Array.isArray(parsed.solved) || parsed.solved.length !== 3) {
-        return { solved: [false, false, false] };
+        return { solved: [false, false, false], solvedRiddles: [] };
       }
+      if (!Array.isArray(parsed.solvedRiddles)) parsed.solvedRiddles = [];
       return parsed;
     } catch {
-      return { solved: [false, false, false] };
+      return { solved: [false, false, false], solvedRiddles: [] };
     }
   }
 
@@ -488,7 +489,10 @@
         if (!data.ok) throw new Error(data.error || 'unknown');
         promptEl.textContent = data.prompt;
         const lab = L();
-        footEl.textContent = `${lab.riddleEchoLevel(level)} · ${data.title || ''}`.trim();
+        const meta = data.weekIndex !== undefined
+          ? `${lab.riddleEchoLevel(level)} · ${data.title || ''} · ${lab.riddleWeek(data.weekIndex, data.rotationSize || 1)}`
+          : `${lab.riddleEchoLevel(level)} · ${data.title || ''}`;
+        footEl.textContent = meta.trim();
         input.focus();
       } catch (e) {
         promptEl.textContent = L().riddleLoadError;
@@ -515,6 +519,9 @@
         if (data.ok) {
           const state = riddleRead();
           state.solved[level - 1] = true;
+          if (data.riddleId && !state.solvedRiddles.includes(data.riddleId)) {
+            state.solvedRiddles.push(data.riddleId);
+          }
           riddleWrite(state);
           const lab = L();
           setRiddleFeedback(lab.riddleSolved, false);
@@ -593,6 +600,7 @@
     riddleNetworkError: 'Мережева помилка — спробуй пізніше.',
     riddleLoadError: 'Не вдалося завантажити загадку.',
     riddleEchoLevel: (n) => `Відлуння ${n} / 3`,
+    riddleWeek: (w, n) => `тиждень ${w + 1} · ${n} у ротації`,
   });
   Object.assign(LABELS.en, {
     riddleTitle: 'Echo',
@@ -610,5 +618,6 @@
     riddleNetworkError: 'Network error — try again later.',
     riddleLoadError: 'Failed to load the riddle.',
     riddleEchoLevel: (n) => `Echo ${n} / 3`,
+    riddleWeek: (w, n) => `week ${w + 1} · ${n} in rotation`,
   });
 })();

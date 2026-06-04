@@ -2,134 +2,16 @@
 //
 // POST { pin, sphere, lang, provider? }
 // Required env: GROQ_API_KEY, PIN
-// Optional:     M3_API_KEY
+// Optional:     M3_API_KEY, OPENROUTER_API_KEY
+//
+// Config sources (server-only):
+//   - api/_spheres.js   — list of sphere names per language
+//   - api/_providers.js — LLM provider definitions (groq, m3, openrouter)
+//   - api/_prompts.js   — LLM prompt templates per language
 
-const SPHERES = {
-  ua: [
-    "Творчість або Самовираження",
-    "Особистий розвиток або Турбота про себе",
-    "Домашнє життя або Ведення господарства",
-    "Фінанси",
-    "Батьківство або Сім'я",
-    "Відпочинок і Хобі",
-    "Спільнота або Соціальні зв'язки",
-    "Фізичне здоров'я",
-    "Кар'єра або Освіта",
-    "Екологія або Благодійність",
-    "Особисті стосунки",
-    "Духовність"
-  ],
-  en: [
-    "Creativity or Self-Expression",
-    "Personal Development or Self-Care",
-    "Domestic Life or Household Management",
-    "Finance",
-    "Parenting or Family",
-    "Recreation and Hobbies",
-    "Community Involvement or Social Connection",
-    "Physical Health",
-    "Career or Education",
-    "Environmental or Charitable Causes",
-    "Personal Relationship",
-    "Spirituality"
-  ]
-};
-
-const PROMPTS = {
-  ua: (sphere) => `Ти — мудрий оракул для жінки-підприємиці, яка шукає глибокої саморефлексії.
-
-Сфера: "${sphere}"
-
-Створи РІВНО 3 ситуативні питання, кожне з яких містить конкретну життєву ситуацію (час, місце, дію, емоцію), де відсутнє "ти/ви" — пиши від 3-ї особи "вона/жінка/людина". Максимум 18 слів на питання.
-
-ДЛЯ КОЖНОГО питання створи РІВНО 3 варіанти відповідей — короткі психологічні реакції (5-10 слів кожна), що показують різні стратегії: уникнення, контроль, прийняття, чи створення нового.
-
-Формат строго (без зайвих символів, без нумерації, без лапок):
-Q1: питання
-A1: відповідь 1
-A1: відповідь 2
-A1: відповідь 3
-Q2: питання
-A2: відповідь 1
-A2: відповідь 2
-A2: відповідь 3
-Q3: питання
-A3: відповідь 1
-A3: відповідь 2
-A3: відповідь 3`,
-  en: (sphere) => `You are a wise oracle for a woman entrepreneur seeking deep self-reflection.
-
-Sphere: "${sphere}"
-
-Create EXACTLY 3 situational questions, each containing a concrete life situation (time, place, action, emotion), written in 3rd person ("she/woman/person") — never use "you". Maximum 18 words per question.
-
-For EACH question, create EXACTLY 3 answer variants — short psychological reactions (5-10 words each) showing different strategies: avoidance, control, acceptance, or creating something new.
-
-Format strictly (no extra symbols, no numbering, no quotes):
-Q1: question
-A1: answer 1
-A1: answer 2
-A1: answer 3
-Q2: question
-A2: answer 1
-A2: answer 2
-A2: answer 3
-Q3: question
-A3: answer 1
-A3: answer 2
-A3: answer 3`
-};
-
-const PROVIDERS = {
-  groq: {
-    name: 'Groq',
-    url: 'https://api.groq.com/openai/v1/chat/completions',
-    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-    envKey: 'GROQ_API_KEY',
-    body: (model, prompt) => ({
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 1.1,
-      max_tokens: 700
-    }),
-    extract: (data) => (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || ''
-  },
-  m3: {
-    name: 'M3',
-    url: 'https://api.MiniMax.chat/v1/text/chatcompletion_v2',
-    model: 'M3',
-    envKey: 'M3_API_KEY',
-    body: (model, prompt) => ({
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 1.1,
-      max_tokens: 700
-    }),
-    extract: (data) => {
-      if (data.base_resp && data.base_resp.status_code !== undefined && data.base_resp.status_code !== 0) {
-        throw new Error('M3 ' + data.base_resp.status_code + ': ' + (data.base_resp.status_msg || 'unknown'));
-      }
-      return (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
-    }
-  },
-  openrouter: {
-    name: 'OpenRouter (M3)',
-    url: 'https://openrouter.ai/api/v1/chat/completions',
-    model: 'minimax/minimax-m3',
-    envKey: 'OPENROUTER_API_KEY',
-    body: (model, prompt) => ({
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 1.1,
-      max_tokens: 700
-    }),
-    extraHeaders: () => ({
-      'HTTP-Referer': 'https://k-life-os.kosatiks-group.pp.ua',
-      'X-Title': 'K Life OS'
-    }),
-    extract: (data) => (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || ''
-  }
-};
+const SPHERES = require('./_spheres');
+const PROVIDERS = require('./_providers');
+const PROMPTS = require('./_prompts');
 
 // M3-class providers: any provider that gives access to M3 model.
 // When client requests 'm3', we try these in order (direct API first, then OpenRouter).
@@ -212,7 +94,7 @@ function setCors(res) {
   res.setHeader('Content-Type', 'application/json');
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
     setCors(res);
 
