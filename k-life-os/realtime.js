@@ -17,31 +17,21 @@
   const ENDPOINT = '/api/question';
   let m3Available = false; // updated after first response
 
-  // ---- Inline i18n (self-contained: realtime.js is a non-module IIFE) ----
-  // Mirrors the keys added to i18n.js so the provider toggle speaks UA/EN
-  // without needing to import the module.
-  const LABELS = {
-    ua: {
-      quick: 'Швидко',
-      quickTitle: 'Швидко · безкоштовно, миттєво (Groq)',
-      deep: 'Глибоко',
-      deepTitle: 'Глибоко · філософська глибина (M3 · MiniMax-M3)',
-      deepUnavailable: 'Глибоко недоступне — потрібен M3_API_KEY / OPENROUTER_API_KEY на сервері',
-      deepBackendOpenRouter: 'Глибоко через OpenRouter (дешевше)',
-      deepBackendDirect: 'Глибоко через MiniMax direct',
-    },
-    en: {
-      quick: 'Quick',
-      quickTitle: 'Quick · free, instant (Groq)',
-      deep: 'Deep',
-      deepTitle: 'Deep · philosophical depth (M3 · MiniMax-M3)',
-      deepUnavailable: 'Deep unavailable — M3_API_KEY / OPENROUTER_API_KEY required on the server',
-      deepBackendOpenRouter: 'Deep via OpenRouter (cheaper)',
-      deepBackendDirect: 'Deep via MiniMax direct',
-    },
-  };
+  // ---- i18n: read from window.__klifeI18n (set by i18n.js, loaded first) ----
+  // i18n.js is the single source of truth for every localized string used
+  // here. No more inline LABELS object. If i18n.js somehow fails to load
+  // (e.g. CSP or a deploy glitch), the page will show key names instead of
+  // strings — a clear signal, not a silent fallback to stale text.
+  const I18N = window.__klifeI18n;
+  const HAS_I18N = !!I18N;
+  function lang() {
+    if (HAS_I18N) return I18N.getLang();
+    const html = document.documentElement.lang;
+    return html === 'en' ? 'en' : 'ua';
+  }
   function L() {
-    return document.documentElement.lang === 'en' ? LABELS.en : LABELS.ua;
+    if (HAS_I18N) return I18N.UI[lang()] || I18N.UI.ua || {};
+    return {};
   }
 
   // ---- PIN gate ----
@@ -409,15 +399,30 @@
     overlay.className = 'pin-gate hidden';
     overlay.innerHTML = `
       <div class="pin-gate-card riddle-card" role="dialog" aria-labelledby="riddleTitle" aria-describedby="riddlePrompt">
-        <div class="pin-gate-emoji" id="riddleEmoji">🎯</div>
-        <h2 class="pin-gate-title" id="riddleTitle">Відлуння</h2>
-        <p class="pin-gate-subtitle" id="riddleSubtitle">Anteros · канон</p>
+        <div class="riddle-header">
+          <div class="riddle-header-main">
+            <span class="riddle-emoji" id="riddleEmoji" aria-hidden="true">🎯</span>
+            <div>
+              <h2 class="riddle-title" id="riddleTitle">Відлуння</h2>
+              <p class="riddle-subtitle" id="riddleSubtitle">Anteros · канон</p>
+            </div>
+          </div>
+          <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова">
+            <button class="riddle-lang-btn" data-lang="ua" type="button" aria-pressed="true">UA</button>
+            <button class="riddle-lang-btn" data-lang="en" type="button" aria-pressed="false">EN</button>
+          </div>
+        </div>
+        <div class="riddle-progress" id="riddleProgress" aria-hidden="true">
+          <span class="riddle-dot" data-level="1"></span>
+          <span class="riddle-dot" data-level="2"></span>
+          <span class="riddle-dot" data-level="3"></span>
+        </div>
         <p class="riddle-prompt" id="riddlePrompt"></p>
-        <input type="text" id="riddleInput" class="pin-gate-input" placeholder="" autocomplete="off" maxlength="64" />
-        <button id="riddleSubmit" class="pin-gate-submit">Відповісти</button>
-        <div id="riddleFeedback" class="pin-gate-error"></div>
-        <div class="pin-gate-foot" id="riddleFoot"></div>
-        <button id="riddleSkip" class="riddle-skip" type="button">Пропустити · нагадати через 7 днів</button>
+        <input type="text" id="riddleInput" class="riddle-input" placeholder="" autocomplete="off" maxlength="64" />
+        <button id="riddleSubmit" class="riddle-submit">Відповісти</button>
+        <div id="riddleFeedback" class="riddle-feedback"></div>
+        <div class="riddle-foot" id="riddleFoot" aria-live="polite"></div>
+        <button id="riddleSkip" class="riddle-skip" type="button">Пропустити · 7 днів</button>
       </div>
     `;
     document.body.appendChild(overlay);
@@ -426,16 +431,41 @@
 
   function fillRiddleLabels(overlay) {
     const lab = L();
-    const title = overlay.querySelector('#riddleTitle');
-    const subtitle = overlay.querySelector('#riddleSubtitle');
-    const submit = overlay.querySelector('#riddleSubmit');
+    const setText = (sel, key) => {
+      const el = overlay.querySelector(sel);
+      if (el && lab[key]) el.textContent = lab[key];
+    };
+    setText('#riddleEmoji', 'riddleEmoji');
+    setText('#riddleTitle', 'riddleTitle');
+    setText('#riddleSubtitle', 'riddleSubtitle');
+    setText('#riddleSubmit', 'riddleSubmit');
+    setText('#riddleSkip', 'riddleSkip');
     const input = overlay.querySelector('#riddleInput');
-    const skip = overlay.querySelector('#riddleSkip');
-    if (title) title.textContent = lab.riddleTitle;
-    if (subtitle) subtitle.textContent = lab.riddleSubtitle;
-    if (submit) submit.textContent = lab.riddleSubmit;
-    if (input) input.placeholder = lab.riddlePlaceholder;
-    if (skip) skip.textContent = lab.riddleSkip;
+    if (input && lab.riddlePlaceholder) input.placeholder = lab.riddlePlaceholder;
+    const langSwitch = overlay.querySelector('#riddleLangSwitch');
+    if (langSwitch && lab.riddleLangLabel) langSwitch.setAttribute('aria-label', lab.riddleLangLabel);
+  }
+
+  // Render the 3 progress dots: solved = green, current = teal, unsolved = dim.
+  function renderRiddleProgress(overlay, level) {
+    const state = riddleRead();
+    const dots = overlay.querySelectorAll('.riddle-dot');
+    dots.forEach((dot) => {
+      const i = Number(dot.dataset.level) - 1;
+      dot.classList.toggle('solved', !!state.solved[i]);
+      dot.classList.toggle('active', Number(dot.dataset.level) === level);
+    });
+  }
+
+  // Sync the UA/EN switcher to the current riddle language.
+  function renderRiddleLangSwitch(overlay, currentLang) {
+    const switchEl = overlay.querySelector('#riddleLangSwitch');
+    if (!switchEl) return;
+    switchEl.querySelectorAll('.riddle-lang-btn').forEach((b) => {
+      const active = b.dataset.lang === currentLang;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-pressed', String(active));
+    });
   }
 
   function setRiddleFeedback(text, isError) {
@@ -457,15 +487,24 @@
   async function openRiddle(level) {
     const overlay = ensureRiddleOverlay();
     fillRiddleLabels(overlay);
+    renderRiddleProgress(overlay, level);
     const promptEl = overlay.querySelector('#riddlePrompt');
     const footEl = overlay.querySelector('#riddleFoot');
     const submit = overlay.querySelector('#riddleSubmit');
     const input = overlay.querySelector('#riddleInput');
     const skip = overlay.querySelector('#riddleSkip');
+    const langSwitch = overlay.querySelector('#riddleLangSwitch');
     setRiddleFeedback('', false);
     input.value = '';
     input.disabled = false;
     submit.disabled = false;
+    submit.textContent = (L().riddleSubmit || 'Answer');
+
+    // Per-riddle language state. Defaults to the page language, but the
+    // user can flip UA/EN inside the modal without changing the rest of
+    // the page. Persists within the session, resets on reload.
+    let currentLang = lang() === 'en' ? 'en' : 'ua';
+    renderRiddleLangSwitch(overlay, currentLang);
 
     let attempts = 0;
     let hintShown = false;
@@ -482,20 +521,25 @@
 
     async function loadPrompt() {
       try {
-        const lang = document.documentElement.lang === 'en' ? 'en' : 'ua';
-        const res = await fetch(`${RIDDLE_ENDPOINT}?level=${level}&lang=${lang}`);
+        const res = await fetch(`${RIDDLE_ENDPOINT}?level=${level}&lang=${currentLang}`);
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'unknown');
         promptEl.textContent = data.prompt;
+        // Footer: just the level marker + book title. Drop the dev-speak
+        // "week N · M in rotation" — it was leaking internal implementation
+        // details and confusing users.
         const lab = L();
-        const meta = data.weekIndex !== undefined
-          ? `${lab.riddleEchoLevel(level)} · ${data.title || ''} · ${lab.riddleWeek(data.weekIndex, data.rotationSize || 1)}`
-          : `${lab.riddleEchoLevel(level)} · ${data.title || ''}`;
-        footEl.textContent = meta.trim();
+        const levelLabel = lab.riddleEchoLevel
+          ? lab.riddleEchoLevel(level)
+          : `Echo ${level} / 3`;
+        const bookLabel = lab.riddleBook ? lab.riddleBook(data.title || '') : (data.title || '');
+        footEl.innerHTML = bookLabel
+          ? `<span class="riddle-foot-level">${levelLabel}</span>${bookLabel}`
+          : `<span class="riddle-foot-level">${levelLabel}</span>`;
         input.focus();
       } catch (e) {
-        promptEl.textContent = L().riddleLoadError;
+        promptEl.textContent = (L().riddleLoadError || 'Failed to load the riddle.');
         submit.disabled = true;
         input.disabled = true;
       }
@@ -504,16 +548,15 @@
     async function submitAnswer() {
       const ans = input.value;
       if (!ans.trim()) {
-        setRiddleFeedback(L().riddleEmpty, true);
+        setRiddleFeedback((L().riddleEmpty || 'Type an answer'), true);
         return;
       }
       submit.disabled = true;
       try {
-        const lang = document.documentElement.lang === 'en' ? 'en' : 'ua';
         const res = await fetch(RIDDLE_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ level, answer: ans, lang })
+          body: JSON.stringify({ level, answer: ans, lang: currentLang })
         });
         const data = await res.json();
         if (data.ok) {
@@ -524,8 +567,9 @@
           }
           riddleWrite(state);
           const lab = L();
-          setRiddleFeedback(lab.riddleSolved, false);
-          submit.textContent = lab.riddleNext;
+          setRiddleFeedback((lab.riddleSolved || 'Solved.'), false);
+          renderRiddleProgress(overlay, level);
+          submit.textContent = (lab.riddleNext || 'Next →');
           submit.disabled = false;
           submit.onclick = () => {
             close();
@@ -538,25 +582,48 @@
           const lab = L();
           if (attempts >= RIDDLE_MAX_ATTEMPTS) {
             // Show hint, lock further input, change button to "close".
-            setRiddleFeedback(`${lab.riddleOutOfTries} ${data.hint || ''}`.trim(), true);
+            const hint = (lab.riddleOutOfTries || 'Out of tries.') + (data.hint ? ' ' + data.hint : '');
+            setRiddleFeedback(hint, true);
             input.disabled = true;
-            submit.textContent = lab.riddleClose;
+            submit.textContent = (lab.riddleClose || 'Close');
             submit.onclick = close;
             hintShown = true;
           } else {
             const left = RIDDLE_MAX_ATTEMPTS - attempts;
-            setRiddleFeedback(`${lab.riddleWrong} ${lab.riddleTriesLeft(left)}`, true);
+            const triesLeft = lab.riddleTriesLeft ? lab.riddleTriesLeft(left) : `Tries left: ${left}.`;
+            setRiddleFeedback(`${lab.riddleWrong || '✗ Not quite.'} ${triesLeft}`, true);
             submit.disabled = false;
           }
         }
       } catch (e) {
-        setRiddleFeedback(L().riddleNetworkError, true);
+        setRiddleFeedback((L().riddleNetworkError || 'Network error.'), true);
         submit.disabled = false;
       }
     }
 
     submit.onclick = submitAnswer;
     input.onkeydown = (e) => { if (e.key === 'Enter') submitAnswer(); };
+
+    // Language switcher: flip currentLang, update button states, refetch
+    // the prompt in the new language. Solving state (localStorage) is
+    // language-agnostic, so toggling doesn't lose progress.
+    if (langSwitch) {
+      langSwitch.querySelectorAll('.riddle-lang-btn').forEach((btn) => {
+        btn.onclick = () => {
+          const target = btn.dataset.lang;
+          if (target === currentLang) return;
+          currentLang = target;
+          renderRiddleLangSwitch(overlay, currentLang);
+          setRiddleFeedback('', false);
+          input.value = '';
+          input.disabled = false;
+          submit.disabled = false;
+          submit.textContent = (L().riddleSubmit || 'Answer');
+          submit.onclick = submitAnswer;
+          loadPrompt();
+        };
+      });
+    }
 
     overlay.classList.remove('hidden');
     setTimeout(() => input.focus(), 100);
@@ -581,43 +648,4 @@
   } else {
     setTimeout(initRiddles, 0);
   }
-
-  // ---- Inline i18n labels (extended for riddles) ----
-  // Append into the same LABELS object defined above so existing L() works.
-  Object.assign(LABELS.ua, {
-    riddleTitle: 'Відлуння',
-    riddleSubtitle: 'Anteros · канон',
-    riddleSubmit: 'Відповісти',
-    riddleNext: 'Далі →',
-    riddleClose: 'Закрити',
-    riddlePlaceholder: 'одне слово чи знак',
-    riddleSkip: 'Пропустити · нагадати через 7 днів',
-    riddleSolved: '✓ Почуто. Перехід далі…',
-    riddleEmpty: 'Введи відповідь',
-    riddleWrong: '✗ Не зовсім.',
-    riddleOutOfTries: 'Спроби вичерпано. Підказка:',
-    riddleTriesLeft: (n) => `Залишилось спроб: ${n}.`,
-    riddleNetworkError: 'Мережева помилка — спробуй пізніше.',
-    riddleLoadError: 'Не вдалося завантажити загадку.',
-    riddleEchoLevel: (n) => `Відлуння ${n} / 3`,
-    riddleWeek: (w, n) => `тиждень ${w + 1} · ${n} у ротації`,
-  });
-  Object.assign(LABELS.en, {
-    riddleTitle: 'Echo',
-    riddleSubtitle: 'Anteros · canon',
-    riddleSubmit: 'Answer',
-    riddleNext: 'Next →',
-    riddleClose: 'Close',
-    riddlePlaceholder: 'one word or mark',
-    riddleSkip: 'Skip · remind me in 7 days',
-    riddleSolved: '✓ Heard. Moving on…',
-    riddleEmpty: 'Type an answer',
-    riddleWrong: '✗ Not quite.',
-    riddleOutOfTries: 'Out of tries. Hint:',
-    riddleTriesLeft: (n) => `Tries left: ${n}.`,
-    riddleNetworkError: 'Network error — try again later.',
-    riddleLoadError: 'Failed to load the riddle.',
-    riddleEchoLevel: (n) => `Echo ${n} / 3`,
-    riddleWeek: (w, n) => `week ${w + 1} · ${n} in rotation`,
-  });
 })();

@@ -591,59 +591,242 @@ body.immersive .glass {
    ============================================================ */
 
 .riddle-card {
-  max-width: 460px;
+  max-width: 480px;
   text-align: left;
+  position: relative;
 }
 
-.riddle-prompt {
-  font-size: 1.05rem;
-  line-height: 1.55;
-  color: var(--text);
-  margin: 0.8rem 0 0.6rem 0;
-  padding: 0.9rem 1rem;
-  background: rgba(8, 14, 32, 0.55);
-  border-left: 2px solid var(--accent);
-  border-radius: 6px;
-  font-style: italic;
-  white-space: pre-wrap;
+/* Header: emoji + title block on the left, language switch on the right */
+.riddle-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.3rem;
 }
 
-#riddleFoot {
-  text-align: center;
-  font-size: 0.78rem;
-  margin-top: 0.4rem;
-  opacity: 0.7;
+.riddle-header-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.riddle-emoji {
+  font-size: 1.8rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(139, 227, 255, 0.45));
+}
+
+.riddle-title {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #edf3ff;
   letter-spacing: 0.02em;
 }
 
+.riddle-subtitle {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.72rem;
+  color: rgba(139, 227, 255, 0.7);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Language switcher pill (UA | EN) */
+.riddle-lang-switch {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: rgba(139, 227, 255, 0.06);
+  border: 1px solid rgba(139, 227, 255, 0.2);
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.riddle-lang-btn {
+  font: 600 0.7rem/1 Inter, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.7rem;
+  background: transparent;
+  color: #b9c8e6;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.riddle-lang-btn:hover:not(.active) {
+  color: #edf3ff;
+}
+
+.riddle-lang-btn.active {
+  background: #8be3ff;
+  color: #04111e;
+  cursor: default;
+}
+
+.riddle-lang-btn:focus-visible {
+  outline: 2px solid #8be3ff;
+  outline-offset: 2px;
+}
+
+/* 3 progress dots: ● ● ● (current + solved state) */
+.riddle-progress {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: center;
+  margin: 0.3rem 0 1.1rem 0;
+}
+
+.riddle-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(180, 200, 240, 0.22);
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.riddle-dot.active {
+  background: #8be3ff;
+  transform: scale(1.35);
+  box-shadow: 0 0 8px rgba(139, 227, 255, 0.55);
+}
+
+.riddle-dot.solved {
+  background: #6bff8c;
+  box-shadow: 0 0 6px rgba(107, 255, 140, 0.4);
+}
+
+/* The riddle prompt itself — must be readable on dark glass */
+.riddle-prompt {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #edf3ff;             /* direct hex — survives any var() resolution issue */
+  margin: 0 0 1rem 0;
+  padding: 1.05rem 1.1rem;
+  background: rgba(8, 14, 32, 0.62);
+  border-left: 2px solid #8be3ff;
+  border-radius: 6px;
+  font-style: italic;
+  white-space: pre-wrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Input — clean, focused state is teal */
+.riddle-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  background: rgba(8, 14, 32, 0.45);
+  border: 1px solid rgba(139, 227, 255, 0.22);
+  border-radius: 8px;
+  color: #edf3ff;
+  font-family: inherit;
+  margin-bottom: 0.7rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.riddle-input::placeholder {
+  color: rgba(185, 200, 230, 0.55);
+}
+
+.riddle-input:focus {
+  border-color: #8be3ff;
+  box-shadow: 0 0 0 3px rgba(139, 227, 255, 0.18);
+  background: rgba(8, 14, 32, 0.6);
+}
+
+.riddle-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Submit — solid teal accent (NOT pink, NOT uppercase) */
+.riddle-submit {
+  width: 100%;
+  padding: 0.78rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: #8be3ff;
+  color: #04111e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+.riddle-submit:hover:not(:disabled) {
+  background: #a8edff;
+  box-shadow: 0 4px 16px rgba(139, 227, 255, 0.3);
+}
+
+.riddle-submit:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.riddle-submit:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* Feedback line — replaces pin-gate-error for the riddle */
+.riddle-feedback {
+  min-height: 1.3rem;
+  text-align: center;
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0.3rem 0;
+  color: rgba(237, 243, 255, 0.7);
+}
+
 .riddle-feedback-ok {
-  color: #6bff8c !important;
+  color: #6bff8c;
 }
 
 .riddle-feedback-error {
-  color: #ff8aa1 !important;
+  color: #ff8aa1;
+}
+
+/* Footer — just level + book title. NO "week 158 / 3 у ротації" dev-speak. */
+.riddle-foot {
+  text-align: center;
+  font-size: 0.78rem;
+  margin-top: 0.5rem;
+  color: rgba(185, 200, 230, 0.75);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+
+.riddle-foot .riddle-foot-level {
+  color: #8be3ff;
+  font-weight: 600;
+  margin-right: 0.4rem;
 }
 
 .riddle-skip {
   display: block;
-  margin: 0.9rem auto 0 auto;
+  margin: 0.8rem auto 0 auto;
   background: transparent;
   border: none;
-  color: var(--text-soft);
+  color: #b9c8e6;
   font-size: 0.78rem;
   text-decoration: underline dotted;
   text-underline-offset: 3px;
   cursor: pointer;
-  padding: 0.2rem 0.4rem;
+  padding: 0.25rem 0.5rem;
   opacity: 0.65;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, color 0.2s;
 }
 
 .riddle-skip:hover {
   opacity: 1;
-  color: var(--accent);
+  color: #8be3ff;
 }
 
 #riddleSubmit {
-  margin-top: 0.4rem;
+  margin-top: 0.2rem;
 }

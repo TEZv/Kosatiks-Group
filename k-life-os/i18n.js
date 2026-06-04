@@ -1,8 +1,13 @@
-/** UI + sphere labels (phase 1). Quotes/topics stay UK until vault EN build (phase 2). */
+/** UI + sphere labels (phase 1). Quotes/topics stay UK until vault EN build (phase 2).
+ *  Loaded as a regular defer script so classic scripts (realtime.js) can read
+ *  the localized strings from window.__klifeI18n without going through the
+ *  ES module graph. UA/EN parity lives in one place — no more inline LABELS
+ *  duplicated in realtime.js.
+ */
 
 const STORAGE_KEY = "k-life-os-game-lang";
 
-export const SPHERE_NAMES = {
+const SPHERE_NAMES = {
   ua: {
     1: "Творчість або самовираження",
     2: "Особистий розвиток або догляд за собою",
@@ -33,7 +38,7 @@ export const SPHERE_NAMES = {
   },
 };
 
-export const UI = {
+const UI = {
   ua: {
     pageTitle: "[K Life OS] — Куди мене занесе?",
     metaDescription:
@@ -90,11 +95,18 @@ export const UI = {
     contentNote:
       "Цитати й топіки зараз українською (канон Anteros). Англомовна бібліотека — у наступному оновленні.",
     providerQuick: "Швидко",
+    quick: "Швидко",
     providerQuickTitle: "Швидко · безкоштовно, миттєво (Groq)",
+    quickTitle: "Швидко · безкоштовно, миттєво (Groq)",
     providerDeep: "Глибоко",
+    deep: "Глибоко",
     providerDeepTitle: "Глибоко · філософська глибина (M3 · MiniMax-M3)",
+    deepTitle: "Глибоко · філософська глибина (M3 · MiniMax-M3)",
     providerDeepUnavailableTitle:
       "Глибоко недоступне — потрібен M3_API_KEY / OPENROUTER_API_KEY на сервері",
+    deepUnavailable: "Глибоко недоступне — потрібен M3_API_KEY / OPENROUTER_API_KEY на сервері",
+    deepBackendOpenRouter: "Глибоко через OpenRouter (дешевше)",
+    deepBackendDirect: "Глибоко через MiniMax direct",
     weekLabel: (w, y) => `Тиждень ${w}, ${y}`,
     copyHeader: "[K Life OS] — маршрут",
     copyPrimary: "Головна сфера",
@@ -127,6 +139,25 @@ export const UI = {
     errVaultBroken: "Vault пошкоджений або pako не розпаковує",
     errUnknown: "Невідома помилка старту.",
     errPrefix: "Помилка",
+    // ---- Riddle / "Echoes" gate (Anteros canon) ----
+    riddleEmoji: "🎯",
+    riddleTitle: "Відлуння",
+    riddleSubtitle: "Anteros · канон",
+    riddleSubmit: "Відповісти",
+    riddleNext: "Далі →",
+    riddleClose: "Закрити",
+    riddlePlaceholder: "одне слово чи знак",
+    riddleSkip: "Пропустити · 7 днів",
+    riddleSolved: "✓ Почуто. Перехід далі…",
+    riddleEmpty: "Введи відповідь",
+    riddleWrong: "✗ Не зовсім.",
+    riddleOutOfTries: "Спроби вичерпано. Підказка:",
+    riddleTriesLeft: (n) => `Залишилось спроб: ${n}.`,
+    riddleNetworkError: "Мережева помилка — спробуй пізніше.",
+    riddleLoadError: "Не вдалося завантажити загадку.",
+    riddleEchoLevel: (n) => `Відлуння ${n} / 3`,
+    riddleBook: (title) => (title ? `📖 ${title}` : ""),
+    riddleLangLabel: "Мова",
   },
   en: {
     pageTitle: "[K Life OS] — Where will it take me?",
@@ -184,11 +215,18 @@ export const UI = {
     contentNote:
       "UI is English. Quotes and topics are shown from the Ukrainian canon (Anteros) until EN vault is generated.",
     providerQuick: "Quick",
+    quick: "Quick",
     providerQuickTitle: "Quick · free, instant (Groq)",
+    quickTitle: "Quick · free, instant (Groq)",
     providerDeep: "Deep",
+    deep: "Deep",
     providerDeepTitle: "Deep · philosophical depth (M3 · MiniMax-M3)",
+    deepTitle: "Deep · philosophical depth (M3 · MiniMax-M3)",
     providerDeepUnavailableTitle:
       "Deep unavailable — M3_API_KEY / OPENROUTER_API_KEY required on the server",
+    deepUnavailable: "Deep unavailable — M3_API_KEY / OPENROUTER_API_KEY required on the server",
+    deepBackendOpenRouter: "Deep via OpenRouter (cheaper)",
+    deepBackendDirect: "Deep via MiniMax direct",
     weekLabel: (w, y) => `Week ${w}, ${y}`,
     copyHeader: "[K Life OS] — route",
     copyPrimary: "Primary sphere",
@@ -221,33 +259,67 @@ export const UI = {
     errVaultBroken: "Vault corrupt or pako failed to decompress",
     errUnknown: "Unknown startup error.",
     errPrefix: "Error",
+    // ---- Riddle / "Echoes" gate (Anteros canon) ----
+    riddleEmoji: "🎯",
+    riddleTitle: "Echo",
+    riddleSubtitle: "Anteros · canon",
+    riddleSubmit: "Answer",
+    riddleNext: "Next →",
+    riddleClose: "Close",
+    riddlePlaceholder: "one word or mark",
+    riddleSkip: "Skip · 7 days",
+    riddleSolved: "✓ Heard. Moving on…",
+    riddleEmpty: "Type an answer",
+    riddleWrong: "✗ Not quite.",
+    riddleOutOfTries: "Out of tries. Hint:",
+    riddleTriesLeft: (n) => `Tries left: ${n}.`,
+    riddleNetworkError: "Network error — try again later.",
+    riddleLoadError: "Failed to load the riddle.",
+    riddleEchoLevel: (n) => `Echo ${n} / 3`,
+    riddleBook: (title) => (title ? `📖 ${title}` : ""),
+    riddleLangLabel: "Language",
   },
 };
 
-export function getLang() {
+function getLang() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved === "en" || saved === "ua") return saved;
   const html = document.documentElement.lang;
   return html === "en" ? "en" : "ua";
 }
 
-export function setLang(lang) {
+function setLang(lang) {
   localStorage.setItem(STORAGE_KEY, lang);
   document.documentElement.lang = lang;
 }
 
-export function t(key) {
+function t(key, ...args) {
   const lang = getLang();
-  return UI[lang][key] ?? UI.ua[key] ?? key;
+  const v = UI[lang][key] ?? UI.ua[key] ?? key;
+  return typeof v === "function" ? v(...args) : v;
 }
 
-export function sphereDisplayName(sphere) {
+function sphereDisplayName(sphere) {
   const lang = getLang();
   return SPHERE_NAMES[lang][sphere.id] || sphere.name;
 }
 
-export function formatWeekLabel(seed) {
+function formatWeekLabel(seed) {
   const w = seed % 100;
   const y = Math.floor(seed / 100);
   return t("weekLabel")(w, y);
+}
+
+// Expose a single namespace so classic scripts (realtime.js) and any future
+// ES module can pull strings from the same source of truth.
+if (typeof window !== "undefined") {
+  window.__klifeI18n = {
+    UI,
+    SPHERE_NAMES,
+    t,
+    getLang,
+    setLang,
+    sphereDisplayName,
+    formatWeekLabel,
+  };
 }
