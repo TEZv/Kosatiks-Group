@@ -1,6 +1,12 @@
 {
   "installCommand": "",
   "buildCommand": "",
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30,
+      "memory": 128
+    }
+  },
   "rewrites": [
     {
       "source": "/",
