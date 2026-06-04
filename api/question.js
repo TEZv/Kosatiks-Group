@@ -1,17 +1,13 @@
-// Vercel Function: /api/question
-// Real-time question generation via Groq (M3 fallback if M3_API_KEY set)
+// Vercel Function: /api/question (Node.js runtime, Express-style req/res)
 //
 // POST { pin, sphere, lang, provider? }
 //   pin      — required, must match Vercel env PIN
-//   sphere   — required, e.g. "Творчість або Самовираження"
+//   sphere   — required
 //   lang     — "ua" | "en" (default "ua")
-//   provider — "groq" | "m3" (default: first available)
+//   provider — "groq" | "m3"
 //
-// Required env vars:
-//   GROQ_API_KEY   — Groq API key
-//   PIN            — Access PIN (set in Vercel env, never commit)
-// Optional:
-//   M3_API_KEY   — M3 API key (enables M3 provider + toggle in UI)
+// Required env: GROQ_API_KEY, PIN
+// Optional:     M3_API_KEY
 
 const SPHERES = {
   ua: [
@@ -123,7 +119,7 @@ const PROVIDERS = {
   }
 };
 
-// In-memory rate limit (per-instance, ~1 min). For production use Upstash/KV.
+// In-memory rate limit (per-instance)
 const RATE_LIMIT_MS = 60_000;
 const rateLimitMap = new Map();
 
@@ -134,7 +130,6 @@ function checkRateLimit(ip) {
     return { allowed: false, retryAfter: Math.ceil((RATE_LIMIT_MS - (now - last)) / 1000) };
   }
   rateLimitMap.set(ip, now);
-  // Cleanup old entries to prevent memory leak
   if (rateLimitMap.size > 500) {
     for (const [k, v] of rateLimitMap) {
       if (now - v > RATE_LIMIT_MS * 5) rateLimitMap.delete(k);
@@ -146,8 +141,7 @@ function checkRateLimit(ip) {
 function verifyPin(pin) {
   const expected = process.env.PIN;
   if (!expected) return false;
-  // constant-time-ish comparison
-  if (pin.length !== expected.length) return false;
+  if (!pin || pin.length !== expected.length) return false;
   let diff = 0;
   for (let i = 0; i < pin.length; i++) {
     diff |= pin.charCodeAt(i) ^ expected.charCodeAt(i);
@@ -198,52 +192,50 @@ function parseResponse(text) {
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-  'Content-Type': 'application/json'
+  'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-export default async function handler(request) {
-  if (request.method === 'OPTIONS') {
-    return new Response(null, { status: 204, headers: CORS });
+export default async function handler(req, res) {
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(204).end();
   }
-  if (request.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'method_not_allowed' }), { status: 405, headers: CORS });
+  if (req.method !== 'POST') {
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(405).json({ error: 'method_not_allowed' });
   }
 
-  // Identify client (Vercel provides x-forwarded-for; first IP in chain)
-  const ip = (request.headers.get('x-forwarded-for') || '').split(',')[0].trim() ||
-             request.headers.get('x-real-ip') ||
+  // Identify client
+  const xff = req.headers['x-forwarded-for'] || '';
+  const ip = (typeof xff === 'string' ? xff.split(',')[0].trim() : '') ||
+             req.headers['x-real-ip'] ||
              'unknown';
 
   // Rate limit
   const rl = checkRateLimit(ip);
   if (!rl.allowed) {
-    return new Response(JSON.stringify({ error: 'rate_limit', retryAfter: rl.retryAfter }), {
-      status: 429,
-      headers: { ...CORS, 'Retry-After': String(rl.retryAfter) }
-    });
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    res.setHeader('Retry-After', String(rl.retryAfter));
+    return res.status(429).json({ error: 'rate_limit', retryAfter: rl.retryAfter });
   }
 
-  // Parse body
-  let body;
-  try {
-    body = await request.json();
-  } catch {
-    return new Response(JSON.stringify({ error: 'invalid_json' }), { status: 400, headers: CORS });
-  }
-
+  // Parse body (Vercel auto-parses JSON if Content-Type is application/json)
+  const body = req.body && typeof req.body === 'object' ? req.body : {};
   const { pin, sphere, lang: langIn, provider: providerIn } = body;
 
   // PIN
   if (!verifyPin(pin || '')) {
-    return new Response(JSON.stringify({ error: 'invalid_pin' }), { status: 401, headers: CORS });
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(401).json({ error: 'invalid_pin' });
   }
 
   // Validate sphere
   const lang = (langIn === 'en') ? 'en' : 'ua';
-  const sphereList = SPHERS_OK(lang);
+  const sphereList = SPHERES[lang];
   if (!sphere || !sphereList.includes(sphere)) {
-    return new Response(JSON.stringify({ error: 'invalid_sphere', valid: sphereList }), { status: 400, headers: CORS });
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(400).json({ error: 'invalid_sphere', valid: sphereList });
   }
 
   // Resolve provider order
@@ -257,10 +249,11 @@ export default async function handler(request) {
     order.push(other);
   }
   if (order.length === 0) {
-    return new Response(JSON.stringify({ error: 'no_provider_configured' }), { status: 503, headers: CORS });
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(503).json({ error: 'no_provider_configured' });
   }
 
-  // Try providers in order
+  // Try providers
   let text, used;
   let lastErr;
   for (const name of order) {
@@ -275,25 +268,22 @@ export default async function handler(request) {
   }
 
   if (!text) {
-    return new Response(JSON.stringify({ error: 'generation_failed', message: lastErr?.message }), {
-      status: 500, headers: CORS
-    });
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(500).json({ error: 'generation_failed', message: lastErr?.message });
   }
 
   const items = parseResponse(text);
   if (items.length === 0) {
-    return new Response(JSON.stringify({ error: 'parse_failed', raw: text.substring(0, 200) }), {
-      status: 500, headers: CORS
-    });
+    Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+    return res.status(500).json({ error: 'parse_failed', raw: text.substring(0, 200) });
   }
 
-  return new Response(JSON.stringify({
+  Object.entries(CORS).forEach(([k, v]) => res.setHeader(k, v));
+  return res.status(200).json({
     ok: true,
     provider: used,
     sphere,
     lang,
     items
-  }), { status: 200, headers: CORS });
+  });
 }
-
-function SPHERS_OK(lang) { return SPHERES[lang]; }
