@@ -417,9 +417,9 @@
           <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова"
                style="display:inline-flex;gap:2px;padding:3px;background:rgba(0,0,0,0.35);border:1px solid rgba(0,229,255,0.3);border-radius:999px;flex-shrink:0;">
             <button class="riddle-lang-btn" data-lang="ua" type="button" aria-pressed="true"
-                    style="font:700 0.7rem/1 Inter,sans-serif;letter-spacing:0.08em;padding:0.4rem 0.75rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">UA</button>
+                    style="font:700 0.78rem/1 Inter,sans-serif;letter-spacing:0.04em;padding:0.42rem 0.78rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">укр</button>
             <button class="riddle-lang-btn" data-lang="en" type="button" aria-pressed="false"
-                    style="font:700 0.7rem/1 Inter,sans-serif;letter-spacing:0.08em;padding:0.4rem 0.75rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">EN</button>
+                    style="font:700 0.78rem/1 Inter,sans-serif;letter-spacing:0.04em;padding:0.42rem 0.78rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">англ</button>
           </div>
         </div>
         <div class="riddle-prompt-block"

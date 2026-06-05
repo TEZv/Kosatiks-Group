@@ -25,7 +25,7 @@
       } catch (e) {}
     })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=8">
+    <link rel="stylesheet" href="styles.css?v=9">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         html, body { height: 100%; }
@@ -905,16 +905,16 @@
     <div class="ring-container">
         <canvas id="ringCanvas" width="600" height="600"></canvas>
         <div class="controls">
-            <button id="randomBtn" data-i18n="randomSphere">✨ випадкова сфера</button>
-            <button id="moodBtn" data-i18n="newMood">🎨 новий настрій</button>
+            <button id="randomBtn" data-i18n="randomSphere">✨ Випадкова сфера</button>
+            <button id="moodBtn" data-i18n="newMood">🎨 Новий настрій</button>
         </div>
     </div>
     <div class="sidebar">
         <div class="sidebar-orb"></div>
         <div class="sidebar-section">
             <div class="lang-switch">
-                <button class="lang-btn active" data-lang="ua">🇺🇦 UA</button>
-                <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
+                <button class="lang-btn active" data-lang="ua">укр</button>
+                <button class="lang-btn" data-lang="en">англ</button>
             </div>
         </div>
         
@@ -923,11 +923,11 @@
             <div class="cards-grid" id="cardsGrid"></div>
         </div>
         
-        <button id="spinBtn" class="btn-primary" data-i18n="spinChoose">🎲 SPIN · обери сферу</button>
+        <button id="spinBtn" class="btn-primary" data-i18n="spinChoose">🎲 SPIN · Обери сферу</button>
         
         <div class="sidebar-section">
             <div class="sidebar-label" data-i18n="lastQuestion">Останнє</div>
-            <div id="resultMsg" data-i18n-default="resultPlaceholder">🌀 оберіть сферу або натисніть SPIN</div>
+            <div id="resultMsg" data-i18n-default="resultPlaceholder">🌀 Оберіть сферу або натисніть SPIN</div>
             <div class="history" id="historyLog"></div>
         </div>
         
@@ -940,8 +940,8 @@
         <div class="modal-header">
             <h3 data-i18n="oracleOfSphere">🌀 Оракул сфери</h3>
             <div class="modal-lang-switch">
-                <button class="modal-lang-btn active" data-lang="ua">UA</button>
-                <button class="modal-lang-btn" data-lang="en">EN</button>
+                <button class="modal-lang-btn active" data-lang="ua">укр</button>
+                <button class="modal-lang-btn" data-lang="en">англ</button>
             </div>
         </div>
         <div class="modal-sphere-name" id="modalSphere"></div>
@@ -1040,25 +1040,36 @@
 
     const I18N = {
         ua: {
-            randomSphere: "✨ випадкова сфера",
-            newMood: "🎨 новий настрій",
+            randomSphere: "✨ Випадкова сфера",
+            newMood: "🎨 Новий настрій",
             lifeSpheres: "Сфери життя",
-            spinChoose: "🎲 SPIN · обери сферу",
+            spinChoose: "🎲 SPIN · Обери сферу",
             lastQuestion: "Останнє",
-            resultPlaceholder: "🌀 оберіть сферу або натисніть SPIN",
+            resultPlaceholder: "🌀 Оберіть сферу або натисніть SPIN",
             oracleOfSphere: "🌀 Оракул сфери",
             answersLabel: "Як вона могла б відреагувати?",
             otherQ: "🎲 Інше питання",
             close: "Закрити",
             copy: "📋 Копіювати",
-            copied: "✅ скопійовано",
-            nextIn1h: "✅ наступний через 1 годину",
+            copied: "✅ Скопійовано",
+            nextIn1h: "✅ Наступний через 1 годину",
             waitMin: (m) => `⏳ зачекайте ${m} хв`,
             loadingQ: "Завантажую питання...",
             pickingOther: "Обираю інші...",
-            cooldownPrefix: "⏳ наступний через",
-            moodPrefix: "🎨 настрій:",
+            cooldownPrefix: "⏳ Наступний через",
+            moodPrefix: "🎨 Настрій:",
             pageTitle: "🌀 Мінливий оракул · Кільце Сфер",
+            // KOSATIK click phrases — moved out of hardcoded array so they
+            // follow the page language instead of being Ukrainian-only.
+            kosatikClickPhrases: [
+                '🌀 Спробуй сферу, яку зазвичай уникаєш',
+                '🌊 Питання вже хвилюється всередині',
+                '🐋 Слухай не відповідь, а що відгукнулось',
+                '✨ Коло обертається — ти вже обрала',
+                '🌙 Відповідь часто там, де менше контролю',
+                '🔮 Довіряй першому варіанту',
+                '🪞 Питання — це дзеркало, не іспит'
+            ],
             formatHms: (h, m, s) => {
                 if (h > 0) return `${h}г ${m}хв ${s}с`;
                 if (m > 0) return `${m}хв ${s}с`;
@@ -1066,25 +1077,34 @@
             }
         },
         en: {
-            randomSphere: "✨ random sphere",
-            newMood: "🎨 new mood",
+            randomSphere: "✨ Random sphere",
+            newMood: "🎨 New mood",
             lifeSpheres: "Life Spheres",
-            spinChoose: "🎲 SPIN · choose a sphere",
+            spinChoose: "🎲 SPIN · Choose a sphere",
             lastQuestion: "Recent",
-            resultPlaceholder: "🌀 choose a sphere or press SPIN",
+            resultPlaceholder: "🌀 Choose a sphere or press SPIN",
             oracleOfSphere: "🌀 Sphere Oracle",
             answersLabel: "How could she respond?",
             otherQ: "🎲 Other question",
             close: "Close",
             copy: "📋 Copy",
-            copied: "✅ copied",
-            nextIn1h: "✅ next in 1 hour",
+            copied: "✅ Copied",
+            nextIn1h: "✅ Next in 1 hour",
             waitMin: (m) => `⏳ wait ${m} min`,
             loadingQ: "Loading questions...",
             pickingOther: "Picking others...",
-            cooldownPrefix: "⏳ next in",
-            moodPrefix: "🎨 mood:",
+            cooldownPrefix: "⏳ Next in",
+            moodPrefix: "🎨 Mood:",
             pageTitle: "🌀 Shifting Oracle · Sphere Ring",
+            kosatikClickPhrases: [
+                '🌀 Try the sphere you usually avoid',
+                '🌊 The question is already stirring inside',
+                '🐋 Listen to what resonated, not the answer',
+                '✨ The wheel is spinning — you already chose',
+                '🌙 Answers live where there is less control',
+                '🔮 Trust the first option',
+                '🪞 A question is a mirror, not a test'
+            ],
             formatHms: (h, m, s) => {
                 if (h > 0) return `${h}h ${m}m ${s}s`;
                 if (m > 0) return `${m}m ${s}s`;
@@ -1652,8 +1672,8 @@
     buildCards();
 })();
 </script>
-    <script src="i18n.js?v=8" defer></script>
-    <script src="realtime.js?v=8" defer></script>
+    <script src="i18n.js?v=9" defer></script>
+    <script src="realtime.js?v=9" defer></script>
 
 <!-- KOSATIK mascot (v2 redesign) -->
 <svg class="kosatik" id="kosatikMascot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="KOSATIK mascot" role="img">
@@ -1752,18 +1772,11 @@
   if (spinBtn) spinBtn.addEventListener('click', triggerSpinAnim);
   if (randomBtn) randomBtn.addEventListener('click', triggerSpinAnim);
 
-  // KOSATIK click = random encouraging phrase
-  const phrases = [
-    '🌀 Спробуй сферу, яку зазвичай уникаєш',
-    '🌊 Питання вже хвилюється всередині',
-    '🐋 Слухай не відповідь, а що відгукнулось',
-    '✨ Коло обертається — ти вже обрала',
-    '🌙 Відповідь часто там, де менше контролю',
-    '🔮 Довіряй першому варіанту',
-    '🪞 Питання — це дзеркало, не іспит'
-  ];
+  // KOSATIK click = random encouraging phrase (follows page language)
   if (kosatik) {
     kosatik.addEventListener('click', () => {
+      const phrases = (I18N[currentLang] && I18N[currentLang].kosatikClickPhrases) || [];
+      if (phrases.length === 0) return;
       const ph = phrases[Math.floor(Math.random() * phrases.length)];
       // mini tooltip
       const tip = document.createElement('div');
@@ -1911,6 +1924,6 @@
   }
 })();
 </script>
-<div id="klife-build" style="position:fixed;bottom:8px;right:12px;z-index:9999;font:600 0.7rem/1 ui-monospace,Menlo,Consolas,monospace;color:rgba(255,213,106,0.55);pointer-events:none;user-select:none;text-shadow:0 1px 2px rgba(0,0,0,0.6);">v8 · 2026-06-05 · no-flicker</div>
+<div id="klife-build" style="position:fixed;bottom:8px;right:12px;z-index:9999;font:600 0.7rem/1 ui-monospace,Menlo,Consolas,monospace;color:rgba(255,213,106,0.55);pointer-events:none;user-select:none;text-shadow:0 1px 2px rgba(0,0,0,0.6);">v9 · 2026-06-05 · capitalize</div>
 </body>
 </html>
