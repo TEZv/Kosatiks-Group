@@ -17,7 +17,11 @@
 
 const RIDDLES = {
   1: {
-    // book name (authorial Lithuanian spelling, kept as private authorial intent)
+    // INVARIANT: `title` is the authorial book name and MUST be identical in
+    // `ua` and `en` — never translate. Lithuanian/Greek names (Vėlė, Anteros,
+    // Šviesa, Dausos) stay verbatim in both languages so readers can Google
+    // them. Only `series` (UA: "Відлуння I/II/III" / EN: "Echo I/II/III") and
+    // `chapter` (UA: "Розділ" / EN: "Chapter") change with language.
     title: { ua: 'Vėlė', en: 'Vėlė' },
     series: { ua: 'Відлуння I', en: 'Echo I' },
     intro: {

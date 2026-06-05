@@ -464,18 +464,29 @@
 
   function fillRiddleLabels(overlay, langCode) {
     const lab = langCode ? Lfor(langCode) : L();
-    const setText = (sel, key) => {
+    // Title and subtitle are data-driven (book name + series) and are set
+    // exclusively by loadPrompt() from the server response. We deliberately
+    // do NOT set i18n defaults here — doing so caused a brief flicker of
+    // "Відлуння"/"Echo" through the modal on every language switch, before
+    // the async fetch resolved and replaced the values with data.title
+    // (which is identical in both languages for authorial book names:
+    // Vėlė, Anteros, Šviesa · Dausos — all kept verbatim so readers can
+    // Google what they mean). The modal HTML hardcodes a "·" placeholder,
+    // so on initial open the user sees "·" → book name; on lang switch
+    // they see previous data → new data, with no default flicker.
+    const setAttr = (sel, attr, key) => {
       const el = overlay.querySelector(sel);
-      if (el && lab[key]) el.textContent = lab[key];
+      if (el && lab[key]) el.setAttribute(attr, lab[key]);
     };
-    setText('#riddleTitle', 'riddleTitle');
-    setText('#riddleSubtitle', 'riddleSubtitle');
+    // Language-specific UI: placeholder, aria-labels, and the small "підказка"
+    // / "Hint" label next to the book-ref line.
     const input = overlay.querySelector('#riddleInput');
     if (input && lab.riddlePlaceholder) input.placeholder = lab.riddlePlaceholder;
-    const submit = overlay.querySelector('#riddleSubmit');
-    if (submit && lab.riddleSubmit) submit.setAttribute('aria-label', lab.riddleSubmit);
-    const langSwitch = overlay.querySelector('#riddleLangSwitch');
-    if (langSwitch && lab.riddleLangLabel) langSwitch.setAttribute('aria-label', lab.riddleLangLabel);
+    setAttr('#riddleSubmit', 'aria-label', 'riddleSubmit');
+    setAttr('#riddleLangSwitch', 'aria-label', 'riddleLangLabel');
+    setAttr('#riddleHintBtn', 'aria-label', 'riddleHint');
+    const bookHintLabel = overlay.querySelector('#riddleBookHintLabel');
+    if (bookHintLabel && lab.riddleHint) bookHintLabel.textContent = lab.riddleHint;
   }
 
   // Sync the level badge to the current level.

@@ -141,6 +141,12 @@ const UI = {
     errPrefix: "Помилка",
     // ---- Riddle / "Echoes" gate (Anteros canon) ----
     riddleEmoji: "◈",
+    // riddleTitle / riddleSubtitle: kept as historical fallbacks only.
+    // The modal title is data-driven (book name — Vėlė, Anteros, Šviesa · Dausos
+    // — identical in both languages, never translated) and the subtitle is
+    // composed as `data.series + ' · ' + canon` (e.g. "Відлуння I · Anteros · канон").
+    // Both are populated exclusively by loadPrompt() so the modal never
+    // flickers through these defaults on language switch.
     riddleTitle: "Відлуння",
     riddleSubtitle: "Anteros · канон",
     riddleSubmit: "Відповісти",
@@ -264,6 +270,11 @@ const UI = {
     errPrefix: "Error",
     // ---- Riddle / "Echoes" gate (Anteros canon) ----
     riddleEmoji: "◈",
+    // See note in UI.ua: riddleTitle / riddleSubtitle are historical
+    // fallbacks only. The modal is data-driven so it doesn't flicker
+    // through these on language switch. Book names stay verbatim in both
+    // languages for authorial intent (readers can Google Vėlė, Anteros,
+    // Šviesa, Dausos to find out what they mean).
     riddleTitle: "Echo",
     riddleSubtitle: "Anteros · canon",
     riddleSubmit: "Answer",
