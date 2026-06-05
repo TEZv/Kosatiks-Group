@@ -410,9 +410,9 @@
                style="width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:1.7rem;font-weight:700;color:#0a0014;background:linear-gradient(135deg,#00e5ff 0%,#7e74ff 100%);box-shadow:0 0 0 1px rgba(255,255,255,0.45),0 0 24px rgba(0,229,255,0.55);flex-shrink:0;">1</div>
           <div class="riddle-header-text" style="min-width:0;">
             <h2 class="riddle-title" id="riddleTitle"
-                style="margin:0;font-size:1.5rem;font-weight:800;color:#ffffff;letter-spacing:0.01em;line-height:1.1;text-shadow:0 2px 8px rgba(0,229,255,0.4);">Відлуння</h2>
+                style="margin:0;font-size:1.5rem;font-weight:800;color:#ffffff;letter-spacing:0.01em;line-height:1.1;text-shadow:0 2px 8px rgba(0,229,255,0.4);">·</h2>
             <p class="riddle-subtitle" id="riddleSubtitle"
-               style="margin:0.25rem 0 0 0;font-size:0.68rem;color:#00e5ff;letter-spacing:0.22em;text-transform:uppercase;font-weight:700;text-shadow:0 0 8px rgba(0,229,255,0.5);">Anteros · канон</p>
+               style="margin:0.25rem 0 0 0;font-size:0.68rem;color:#00e5ff;letter-spacing:0.22em;text-transform:uppercase;font-weight:700;text-shadow:0 0 8px rgba(0,229,255,0.5);">·</p>
           </div>
           <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова"
                style="display:inline-flex;gap:2px;padding:3px;background:rgba(0,0,0,0.35);border:1px solid rgba(0,229,255,0.3);border-radius:999px;flex-shrink:0;">
@@ -589,17 +589,26 @@
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'unknown');
         promptEl.textContent = data.prompt;
-        // Footer: just the book title. Level is shown on the badge; the
-        // "week N · 3 у ротації" dev-speak is gone.
         const lab = Lfor(currentLang);
-        const bookLabel = lab.riddleBook ? lab.riddleBook(data.title || '') : (data.title || '');
-        footBook.textContent = bookLabel;
-        // Book reference line (just book+chapter, not the concept part of hint)
-        if (bookRef && data.hint) {
-          const parts = data.hint.split('·').map((s) => s.trim());
-          currentHintText = data.hint;
-          bookRef.textContent = (data.title || '') + (parts.length > 1 ? ' · ' + parts.slice(1).join(' · ') : '');
+        // Modal title = book name (Vėlė, Anteros, Šviesa · Dausos).
+        // Modal subtitle = riddle series label + canon marker.
+        const titleEl = overlay.querySelector('#riddleTitle');
+        const subtitleEl = overlay.querySelector('#riddleSubtitle');
+        if (titleEl) titleEl.textContent = data.title || '·';
+        if (subtitleEl) {
+          const canon = currentLang === 'en' ? 'Anteros · canon' : 'Anteros · канон';
+          subtitleEl.textContent = (data.series || '') + ' · ' + canon;
         }
+        // Footer: poetic intro for this level (e.g. "What arrives before
+        // the one who carries it.") — gives the riddle its flavor.
+        footBook.textContent = data.intro || '';
+        // Book reference line = the always-visible book + chapter reference.
+        // Lithuanian/authorial names stay verbatim; rest follows prompt lang.
+        if (bookRef) {
+          bookRef.textContent = data.chapter || '';
+        }
+        // The full hint (composed when revealed) = chapter + ' · ' + hint.
+        currentHintText = (data.chapter || '') + (data.hint ? ' · ' + data.hint : '');
         if (bookHintLabel) {
           bookHintLabel.textContent = lab.riddleHint || 'підказка';
         }

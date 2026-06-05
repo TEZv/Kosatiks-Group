@@ -17,10 +17,9 @@
 
 const RIDDLES = {
   1: {
-    title: {
-      ua: 'Відлуння I · Перша поява',
-      en: 'Echo I · First Appearance'
-    },
+    // book name (authorial Lithuanian spelling, kept as private authorial intent)
+    title: { ua: 'Vėlė', en: 'Vėlė' },
+    series: { ua: 'Відлуння I', en: 'Echo I' },
     intro: {
       ua: 'Те, що приходить раніше за того, хто його несе.',
       en: 'What arrives before the one who carries it.'
@@ -30,45 +29,49 @@ const RIDDLES = {
         ua: {
           id: 'l1-ua-01',
           prompt: 'У четвертій книзі я приходжу раніше за того, хто мене несе. Я можу бути внутрішньо величезним, поки залишаюсь зовні тонким. Мене чують раніше, ніж торкаються. Що я?',
-          hint: 'Vėlė · Розділ 1 · Kyiv'
+          chapter: 'Vėlė · Розділ 1 · Київ',
+          hint: 'те, що чують раніше, ніж торкаються'
         },
         en: {
           id: 'l1-en-01',
           prompt: 'In the fourth book I arrive before the one who carries me. I can be internally enormous while remaining externally thin. I am heard before I am touched. What am I?',
-          hint: 'Vėlė · Chapter 1 · Kyiv'
+          chapter: 'Vėlė · Chapter 1 · Kyiv',
+          hint: 'heard before touched'
         }
       },
       {
         ua: {
           id: 'l1-ua-02',
           prompt: 'Дівчина в четвертій книзі прокидається в місті під тінню війни. Це місто — не тло, а інструмент. Один з його чотирьох інструментів починається на "з". Що це?',
-          hint: 'Vėlė · Розділ 1 · delay / interception / amplification / unfinished arrival'
+          chapter: 'Vėlė · Розділ 1',
+          hint: 'затримка · перехоплення · підсилення · незавершене прибуття'
         },
         en: {
           id: 'l1-en-02',
           prompt: 'The woman in the fourth book wakes in a city under war-shadow. The city is an instrument, not a backdrop. One of its four instruments starts with "d". What is it?',
-          hint: 'Vėlė · Chapter 1 · delay / interception / amplification / unfinished arrival'
+          chapter: 'Vėlė · Chapter 1',
+          hint: 'delay · interception · amplification · unfinished arrival'
         }
       },
       {
         ua: {
           id: 'l1-ua-03',
           prompt: 'Дівчина в четвертій книзі прокидається в місті під тінню війни. Назви це місто одним словом.',
-          hint: 'Vėlė · Розділ 1'
+          chapter: 'Vėlė · Розділ 1',
+          hint: 'місто, назване в одному слові'
         },
         en: {
           id: 'l1-en-03',
           prompt: 'The woman in the fourth book wakes in a city under war-shadow. Name the city in one word.',
-          hint: 'Vėlė · Chapter 1'
+          chapter: 'Vėlė · Chapter 1',
+          hint: 'the city, named in one word'
         }
       }
     ]
   },
   2: {
-    title: {
-      ua: 'Відлуння II · Невидимий тиск',
-      en: 'Echo II · The Unseen Pressure'
-    },
+    title: { ua: 'Anteros', en: 'Anteros' },
+    series: { ua: 'Відлуння II', en: 'Echo II' },
     intro: {
       ua: 'Хто ти — ворог, союзник, чи система?',
       en: 'Who are you — enemy, ally, or system?'
@@ -78,45 +81,49 @@ const RIDDLES = {
         ua: {
           id: 'l2-ua-01',
           prompt: 'Я не можу витримати всередині себе зв\'язок, занадто точний без мого посередництва. Моя ворожнеча — не театр. Без своєї осі я не зникаю, але стаю тоншим, тихішим, самотнішим. Хто я?',
-          hint: 'Публічний шар містики. Відповідь — одне знакомісце.'
+          chapter: 'Anteros · Серія 1',
+          hint: 'публічний шар містики · відповідь — одне знакомісце'
         },
         en: {
           id: 'l2-en-01',
           prompt: 'I cannot tolerate within myself a bond too exact, too autonomous, too proportioned without my mediation. My hostility is principled, not theatrical. Without my axis I do not vanish, but become thinner, quieter, lonelier. Who am I?',
-          hint: 'The public mystery layer. One character.'
+          chapter: 'Anteros · Series 1',
+          hint: 'the public mystery layer · one character'
         }
       },
       {
         ua: {
           id: 'l2-ua-02',
           prompt: 'Я не мстива, не холодна. Я люблю. Чого я боюся — то це того, що взаємність вимагатиме від любові стати конкретною, відповідальною, обмеженою, парною, зобов\'язаною. Хто я?',
-          hint: 'Серія 1 · Anteros · протилежність А.'
+          chapter: 'Anteros · Серія 1',
+          hint: 'протилежність А.'
         },
         en: {
           id: 'l2-en-02',
           prompt: 'I am not cold, not merely narcissistic. I love. What I fear is what reciprocity asks love to become: concrete, answerable, bounded, pair-shaped, obligated. Who am I?',
-          hint: 'Series 1 · Anteros · counterpart of A.'
+          chapter: 'Anteros · Series 1',
+          hint: 'counterpart of A.'
         }
       },
       {
         ua: {
           id: 'l2-ua-03',
           prompt: 'Я не зникаю без своєї осі, але стаю тоншим, тихішим, самотнішим. Моя найглибша жестикуляція — прохання: поміть мене, не дайте мені зникнути поруч із тим, на що я відповідаю. Хто я?',
-          hint: 'Серія 1 · Anteros · ім\'я відповіді'
+          chapter: 'Anteros · Серія 1',
+          hint: 'ім\'я того, хто відповідає'
         },
         en: {
           id: 'l2-en-03',
           prompt: 'I do not vanish without my axis, but become thinner, quieter, lonelier. My deepest gesture is petition: notice me, do not let me disappear beside what I answer. Who am I?',
-          hint: 'Series 1 · Anteros · the answerer'
+          chapter: 'Anteros · Series 1',
+          hint: 'name of the one who answers'
         }
       }
     ]
   },
   3: {
-    title: {
-      ua: 'Відлуння III · Перша асиметрія',
-      en: 'Echo III · The First Asymmetry'
-    },
+    title: { ua: 'Šviesa · Dausos', en: 'Šviesa · Dausos' },
+    series: { ua: 'Відлуння III', en: 'Echo III' },
     intro: {
       ua: 'Те, що починає світ, не вибухом.',
       en: 'What begins the world, not by explosion.'
@@ -126,36 +133,42 @@ const RIDDLES = {
         ua: {
           id: 'l3-ua-01',
           prompt: 'Я не вибух. Я не удар. Я — найлегший порушник спокою з усіх можливих світів. Колись мене назвали першою онтологічною силою повноти, що перестала збігатися із собою. Що я?',
-          hint: 'Šviesa · Розділ 1 · початок світу'
+          chapter: 'Šviesa · Розділ 1',
+          hint: 'початок світу, не вибух'
         },
         en: {
           id: 'l3-en-01',
           prompt: 'I am not an explosion. I am not an impact. I am the gentlest disturbance in all possible worlds. Once I was named the first ontological pressure of fullness ceasing to coincide with itself. What am I?',
-          hint: 'Šviesa · Chapter 1 · the beginning of the world'
+          chapter: 'Šviesa · Chapter 1',
+          hint: 'the beginning of the world, not by explosion'
         }
       },
       {
         ua: {
           id: 'l3-ua-02',
           prompt: 'Я не приватна власність. Я стаю дисциплінованим спільним надбанням значущості. Я — форма справедливості між часовими шарами "я". Що я?',
-          hint: 'Dausos · Розділ 1 · між шарами'
+          chapter: 'Dausos · Розділ 1',
+          hint: 'між шарами "я"'
         },
         en: {
           id: 'l3-en-02',
           prompt: 'I do not become private property. I become a disciplined commons of significance. I am a form of justice between temporal layers of the self. What am I?',
-          hint: 'Dausos · Chapter 1 · between the layers'
+          chapter: 'Dausos · Chapter 1',
+          hint: 'between the layers of "I"'
         }
       },
       {
         ua: {
           id: 'l3-ua-03',
           prompt: 'Я — не один з об\'єктів усередині серії. Я — закон правдивої координації між багатьма її світами. Я не повертаюсь до попередньої форми. Що я?',
-          hint: 'Dausos · Розділ 2 · що залишається'
+          chapter: 'Dausos · Розділ 2',
+          hint: 'що залишається після першої форми'
         },
         en: {
           id: 'l3-en-03',
           prompt: 'I am not one more object inside the series. I am the law of truthful coordination across its many worlds. I do not return to my first proportion. What am I?',
-          hint: 'Dausos · Chapter 2 · what remains'
+          chapter: 'Dausos · Chapter 2',
+          hint: 'what remains after the first proportion'
         }
       }
     ]
@@ -220,13 +233,16 @@ function getItem(level, lang, weekIdx) {
   if (!lvl) return null;
   const item = lvl.items[weekIdx % lvl.items.length];
   const localized = item[lang] || item.ua;
+  const get = (obj) => (obj && (obj[lang] || obj.ua)) || '';
   return {
     id: localized.id,
     level: Number(level),
-    title: (lvl.title && (lvl.title[lang] || lvl.title.ua)) || '',
+    title: get(lvl.title),     // book name (Vėlė, Anteros, Šviesa · Dausos)
+    series: get(lvl.series),   // riddle series label (Відлуння I/II/III)
+    chapter: localized.chapter || '',  // book + chapter (always-visible book ref)
+    hint: localized.hint || '',        // additional concepts (revealed on demand)
     prompt: localized.prompt,
-    hint: localized.hint,
-    intro: (lvl.intro && (lvl.intro[lang] || lvl.intro.ua)) || '',
+    intro: get(lvl.intro),
     weekIndex: weekIdx,
     rotationSize: lvl.items.length
   };
@@ -298,13 +314,20 @@ module.exports = async function handler(req, res) {
 
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
+      // On a wrong answer, the client gets the full hint composed of
+      // chapter (book + chapter) + additional concepts. Lithuanian/authorial
+      // names stay verbatim; everything else follows the prompt's language.
+      const fullHint = ok ? undefined : (
+        (item && (item.chapter || '')) +
+        (item && item.hint ? ' · ' + item.hint : '')
+      );
       return res.end(JSON.stringify({
         ok,
         level,
         riddleId,
         // Always echo the canonical current riddle so the client can sync state
         currentRiddle: item,
-        hint: ok ? undefined : (item && item.hint)
+        hint: fullHint
       }));
     }
 
