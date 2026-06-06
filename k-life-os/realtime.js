@@ -290,7 +290,7 @@
         probeM3Availability();
         return;
       }
-      showAuthorReject(data.message || lab.authorRejectTitle);
+      showAuthorReject(data.message || lab.authorNotAuthor);
     } catch (e) {
       showAuthorReject(lab.riddleNetworkError || 'Network error');
     }
