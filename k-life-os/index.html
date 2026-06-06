@@ -1579,6 +1579,10 @@
     async function setLanguage(lang) {
         if (lang !== "ua" && lang !== "en") return;
         currentLang = lang;
+        // Use i18n's setLang to dispatch 'klife:langchange' event for realtime.js listeners
+        if (window.__klifeI18n && window.__klifeI18n.setLang) {
+            window.__klifeI18n.setLang(lang);
+        }
         document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
         document.querySelectorAll(".modal-lang-btn").forEach(b => b.classList.toggle("active", b.dataset.lang === currentLang));
         buildCards();
