@@ -64,6 +64,20 @@
   }
 
   // ---- PIN gate ----
+  function fillPinLabels(overlay) {
+    const lab = L();
+    const title = overlay.querySelector('.pin-gate-title');
+    if (title && lab.pinTitle) title.textContent = lab.pinTitle;
+    const subtitle = overlay.querySelector('.pin-gate-subtitle');
+    if (subtitle && lab.pinSubtitle) subtitle.textContent = lab.pinSubtitle;
+    const submit = overlay.querySelector('#pinGateSubmit');
+    if (submit && lab.pinSubmit) submit.textContent = lab.pinSubmit;
+    const foot = overlay.querySelector('.pin-gate-foot');
+    if (foot && lab.pinFoot) foot.textContent = lab.pinFoot;
+    const input = overlay.querySelector('#pinGateInput');
+    if (input && lab.riddlePlaceholder) input.placeholder = lab.riddlePlaceholder;
+  }
+
   function ensurePinGate() {
     let overlay = document.getElementById('pinGate');
     if (overlay) return overlay;
@@ -74,28 +88,30 @@
     overlay.innerHTML = `
       <div class="pin-gate-card">
         <div class="pin-gate-emoji">🌀</div>
-        <h2 class="pin-gate-title">Кільце Сфер</h2>
-        <p class="pin-gate-subtitle">Приватний доступ · Введи PIN</p>
+        <h2 class="pin-gate-title"></h2>
+        <p class="pin-gate-subtitle"></p>
         <input type="password" id="pinGateInput" class="pin-gate-input" placeholder="••••" autocomplete="off" maxlength="32" />
-        <button id="pinGateSubmit" class="pin-gate-submit">Увійти</button>
+        <button id="pinGateSubmit" class="pin-gate-submit"></button>
         <div id="pinGateError" class="pin-gate-error"></div>
-        <div class="pin-gate-foot">🔒 Ліміти захищені · Запити кешуються на 1 хв</div>
+        <div class="pin-gate-foot"></div>
       </div>
     `;
     document.body.appendChild(overlay);
+    fillPinLabels(overlay);
 
     const input = overlay.querySelector('#pinGateInput');
     const submit = overlay.querySelector('#pinGateSubmit');
     const error = overlay.querySelector('#pinGateError');
 
     async function trySubmit() {
+      const lab = L();
       const pin = input.value.trim();
       if (!pin) {
-        error.textContent = 'Введи PIN';
+        error.textContent = lab.pinErrorEmpty || 'Enter PIN';
         return;
       }
       submit.disabled = true;
-      submit.textContent = 'Перевіряю…';
+      submit.textContent = lab.pinSubtitle?.includes('·') ? 'Перевіряю…' : 'Checking…';
       error.textContent = '';
       try {
         const res = await fetch(ENDPOINT, {
@@ -104,19 +120,20 @@
           body: JSON.stringify({ pin, sphere: 'Творчість або Самовираження', lang: 'ua', provider: 'groq' })
         });
         if (res.status === 401) {
-          error.textContent = 'Невірний PIN';
+          error.textContent = lab.pinErrorWrong || 'Wrong PIN';
           input.value = '';
           input.focus();
           return;
         }
         if (res.status === 429) {
           const data = await res.json().catch(() => ({}));
-          error.textContent = `Зачекай ${data.retryAfter || 60}с (rate limit)`;
+          const n = data.retryAfter || 60;
+          error.textContent = (lab.pinErrorRateLimit || 'Wait {n}s (rate limit)').replace('{n}', n);
           return;
         }
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
-          error.textContent = data.message || `Помилка: HTTP ${res.status}`;
+          error.textContent = data.message || (lab.pinErrorGeneric || 'Error: HTTP {status}').replace('{status}', res.status);
           return;
         }
         // success
@@ -219,6 +236,7 @@
           sessionStorage.removeItem(STORAGE_PIN);
           renderAuthorBar();
           bootGoogleButton();
+          initRiddles();
         };
       }
       return;
@@ -666,18 +684,18 @@
                title="Click to reveal hint">
             <span aria-hidden="true" style="font-size:0.85rem;">📖</span>
             <span id="riddleBookRef"></span>
-            <span style="margin-left:auto;opacity:0.6;font-size:0.7rem;">· <span id="riddleBookHintLabel">підказка</span></span>
+            <span style="margin-left:auto;opacity:0.6;font-size:0.7rem;">· <span id="riddleBookHintLabel"></span></span>
           </div>
         </div>
         <div class="riddle-input-row"
              style="display:flex;gap:0.5rem;align-items:stretch;margin:0;padding:1.2rem 1.4rem 0.8rem 1.4rem;">
           <input type="text" id="riddleInput" class="riddle-input" placeholder="" autocomplete="off" maxlength="64"
                  style="flex:1;padding:0.95rem 1.1rem;font-size:0.98rem;background:rgba(0,0,0,0.45);border:1.5px solid rgba(0,229,255,0.35);border-radius:12px;color:#ffffff;font-family:inherit;outline:none;" />
-          <button id="riddleHintBtn" class="riddle-hint-btn" type="button" aria-label="Підказка"
+          <button id="riddleHintBtn" class="riddle-hint-btn" type="button" aria-label=""
                   style="flex-shrink:0;width:44px;height:44px;align-self:center;border-radius:50%;background:rgba(0,0,0,0.45);color:#00e5ff;border:1.5px solid rgba(0,229,255,0.45);cursor:pointer;font:700 1.1rem/1 Georgia,serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,229,255,0.15);transition:all 0.2s;margin-right:0.3rem;"
                   onmouseover="this.style.background='rgba(0,229,255,0.18)';this.style.boxShadow='0 0 18px rgba(0,229,255,0.45)';"
                   onmouseout="this.style.background='rgba(0,0,0,0.45)';this.style.boxShadow='0 0 12px rgba(0,229,255,0.15)';">?</button>
-          <button id="riddleSubmit" class="riddle-submit" type="button" aria-label="Відповісти"
+          <button id="riddleSubmit" class="riddle-submit" type="button" aria-label=""
                   style="flex-shrink:0;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#00e5ff 0%,#ff2d92 50%,#ffd56a 100%);background-size:200% 200%;color:#ffffff;border:none;cursor:pointer;font:700 1.6rem/1 Inter,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(255,255,255,0.15),0 6px 20px rgba(0,229,255,0.4),0 0 30px rgba(255,45,146,0.3);text-shadow:0 1px 2px rgba(0,0,0,0.5);">→</button>
         </div>
         <div id="riddleFeedback" class="riddle-feedback"
@@ -1421,9 +1439,11 @@
     ensureDailyWhisper();
   }
 
-  // Re-render author bar on language change (i18n dispatches 'klife:langchange')
+  // Re-render author bar & PIN gate on language change (i18n dispatches 'klife:langchange')
   window.addEventListener('klife:langchange', () => {
     if (typeof renderAuthorBar === 'function') renderAuthorBar();
+    const pinGate = document.getElementById('pinGate');
+    if (pinGate && typeof fillPinLabels === 'function') fillPinLabels(pinGate);
   });
 
   // ---- Init: also kick off the riddle gate (no conflict with PIN) ----

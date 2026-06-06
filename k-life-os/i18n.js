@@ -139,6 +139,15 @@ const UI = {
     errVaultBroken: "Vault пошкоджений або pako не розпаковує",
     errUnknown: "Невідома помилка старту.",
     errPrefix: "Помилка",
+    // ---- PIN gate ----
+    pinTitle: "Кільце Сфер",
+    pinSubtitle: "Приватний доступ · Введи PIN",
+    pinSubmit: "Увійти",
+    pinErrorEmpty: "Введи PIN",
+    pinErrorWrong: "Невірний PIN",
+    pinErrorRateLimit: "Зачекай {n}с (rate limit)",
+    pinErrorGeneric: "Помилка: HTTP {status}",
+    pinFoot: "🔒 Ліміти захищені · Запити кешуються на 1 хв",
     // ---- Riddle / "Echoes" gate (Anteros canon) ----
     riddleEmoji: "◈",
     // riddleTitle / riddleSubtitle: kept as historical fallbacks only.
@@ -299,6 +308,15 @@ const UI = {
     errVaultBroken: "Vault corrupt or pako failed to decompress",
     errUnknown: "Unknown startup error.",
     errPrefix: "Error",
+    // ---- PIN gate ----
+    pinTitle: "Sphere Ring",
+    pinSubtitle: "Private access · Enter PIN",
+    pinSubmit: "Enter",
+    pinErrorEmpty: "Enter PIN",
+    pinErrorWrong: "Wrong PIN",
+    pinErrorRateLimit: "Wait {n}s (rate limit)",
+    pinErrorGeneric: "Error: HTTP {status}",
+    pinFoot: "🔒 Limits protected · Requests cached for 1 min",
     // ---- Riddle / "Echoes" gate (Anteros canon) ----
     riddleEmoji: "◈",
     // See note in UI.ua: riddleTitle / riddleSubtitle are historical
