@@ -370,6 +370,9 @@ function getLang() {
 function setLang(lang) {
   localStorage.setItem(STORAGE_KEY, lang);
   document.documentElement.lang = lang;
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('klife:langchange', { detail: { lang } }));
+  }
 }
 
 function t(key, ...args) {

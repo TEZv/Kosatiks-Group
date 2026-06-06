@@ -1417,6 +1417,11 @@
     ensureDailyWhisper();
   }
 
+  // Re-render author bar on language change (i18n dispatches 'klife:langchange')
+  window.addEventListener('klife:langchange', () => {
+    if (typeof renderAuthorBar === 'function') renderAuthorBar();
+  });
+
   // ---- Init: also kick off the riddle gate (no conflict with PIN) ----
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => { initRiddles(); initWidgets(); });
