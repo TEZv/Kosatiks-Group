@@ -184,7 +184,7 @@
       overlay.querySelector('#authorRejectClose').onclick = () => overlay.classList.add('hidden');
     }
     overlay.querySelector('#authorRejectText').textContent =
-      message || lab.authorRejectTitle || 'Not the author';
+      message || lab.authorNotAuthor || 'Not the author';
     overlay.classList.remove('hidden');
   }
 
@@ -224,7 +224,7 @@
       return;
     }
     bar.innerHTML = `
-      <span class="author-bar-label">${lab.authorBtn || 'Author?'}</span>
+      <span class="author-bar-label">${lab.authorLabel || 'Author?'}</span>
       <div id="googleSignInBtn"></div>`;
     bootGoogleButton();
   }
