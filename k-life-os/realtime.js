@@ -402,8 +402,10 @@
 
   function riddleShouldShow() {
     if (new URLSearchParams(location.search).get('noriddle') === '1') return false;
-    const state = riddleRead();
-    if (state.solved.every(Boolean)) return false;
+    // Re-engagement: even if all riddles are solved, the modal still appears
+    // on every page load (cycles weekly) so users can re-read and re-engage.
+    // The skip-storage gate (7 days) only applies if the user explicitly
+    // hit "skip" before — solving a riddle never locks the gate.
     const skipRaw = localStorage.getItem(RIDDLE_SKIP_STORAGE);
     if (!skipRaw) return true;
     const skippedAt = Number(skipRaw);
@@ -418,6 +420,23 @@
       if (!state.solved[i]) return i + 1;
     }
     return null;
+  }
+
+  // Weekly-rotating level (1, 2, 3, 1, 2, 3, ...). Used as fallback
+  // when all riddles are solved — gives re-engagement with the
+  // canon's weekly "echo" cycle.
+  function weeklyActiveLevel() {
+    const weekIdx = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
+    return (weekIdx % 3) + 1;
+  }
+
+  // Pick the level to show in the modal:
+  //   - If any level is unsolved, show the first unsolved (encourages completion)
+  //   - If all are solved, show the current weekly level (re-engagement)
+  function pickActiveLevel() {
+    const u = firstUnsolved();
+    if (u) return u;
+    return weeklyActiveLevel();
   }
 
   function ensureRiddleOverlay() {
@@ -442,9 +461,9 @@
           <div class="riddle-lang-switch" id="riddleLangSwitch" role="group" aria-label="Мова"
                style="display:inline-flex;gap:2px;padding:3px;background:rgba(0,0,0,0.35);border:1px solid rgba(0,229,255,0.3);border-radius:999px;flex-shrink:0;">
             <button class="riddle-lang-btn" data-lang="ua" type="button" aria-pressed="true"
-                    style="font:700 0.78rem/1 Inter,sans-serif;letter-spacing:0.04em;padding:0.42rem 0.78rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">укр</button>
+                    style="font:700 0.78rem/1 Inter,sans-serif;letter-spacing:0.06em;padding:0.42rem 0.85rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">UA</button>
             <button class="riddle-lang-btn" data-lang="en" type="button" aria-pressed="false"
-                    style="font:700 0.78rem/1 Inter,sans-serif;letter-spacing:0.04em;padding:0.42rem 0.78rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">англ</button>
+                    style="font:700 0.78rem/1 Inter,sans-serif;letter-spacing:0.06em;padding:0.42rem 0.85rem;background:transparent;color:#a3b1d6;border:none;border-radius:999px;cursor:pointer;">EN</button>
           </div>
         </div>
         <div class="riddle-prompt-block"
@@ -483,6 +502,10 @@
                 style="font-style:normal;color:#ff2d92;font-size:1rem;text-shadow:0 0 8px rgba(255,45,146,0.6);">📖</span>
           <span class="riddle-foot-book" id="riddleFootBook"
                 style="color:rgba(255,255,255,0.9);letter-spacing:0.02em;font-weight:500;"></span>
+          <button id="riddleFootDl" type="button" aria-label="Save as image"
+                  style="display:none;margin-left:auto;padding:0.45rem 0.85rem;background:rgba(0,229,255,0.12);color:#00e5ff;border:1px solid rgba(0,229,255,0.4);border-radius:999px;font:700 0.72rem/1 Inter,sans-serif;letter-spacing:0.05em;cursor:pointer;text-transform:uppercase;transition:all 0.2s;flex-shrink:0;"
+                  onmouseover="this.style.background='rgba(0,229,255,0.22)';this.style.boxShadow='0 0 12px rgba(0,229,255,0.35)';"
+                  onmouseout="this.style.background='rgba(0,229,255,0.12)';this.style.boxShadow='none';">↓ Save</button>
         </div>
       </div>
     `;
@@ -563,9 +586,163 @@
   function showEchoBadge() {
     const state = riddleRead();
     if (state.solved.every(Boolean)) {
-      // No-op for now — visual badge would be a future enhancement.
+      // v10.2: render the completion modal (badge window). It celebrates the
+      // weekly cycle (close / replay / download PNG) without "unlocking" a
+      // hub — the user is sent back to K Life OS, not a new area.
+      showCompletionModal();
       window.dispatchEvent(new CustomEvent('klife:riddles-complete', { detail: state }));
     }
+  }
+
+  // ---- v10.2: download helpers (PNG via html2canvas CDN) ----
+  async function downloadElementAsPng(element, filename) {
+    if (!window.html2canvas) throw new Error('html2canvas-not-loaded');
+    const canvas = await window.html2canvas(element, {
+      backgroundColor: '#0a0014',
+      scale: 2,
+      logging: false,
+      useCORS: true
+    });
+    await new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (!blob) return reject(new Error('toBlob-failed'));
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        resolve();
+      }, 'image/png');
+    });
+  }
+
+  // Local counter: tracks how many times the user downloaded a riddle/badge
+  // (separated from the public solve counter, as requested in v10.2).
+  function bumpDownloadLocal(riddleKey) {
+    try {
+      const raw = localStorage.getItem('klife-riddle-dl') || '{}';
+      const map = JSON.parse(raw);
+      map[riddleKey] = (map[riddleKey] || 0) + 1;
+      localStorage.setItem('klife-riddle-dl', JSON.stringify(map));
+    } catch (e) { /* localStorage may be disabled — silently skip */ }
+  }
+
+  // ---- v10.2: completion modal (badge window) ----
+  // Shown when all 3 riddles are solved. Title: "Відлуння I — пройдено" /
+  // "Echo I — completed". Subtitle: "Тиждень N · Anteros · канон". Actions:
+  // Download badge as PNG, replay the current weekly level, or close.
+  // Does NOT unlock a "main hub" — the user returns to K Life OS as usual.
+  function showCompletionModal() {
+    const existing = document.getElementById('completionGate');
+    if (existing) existing.remove();
+
+    const lab = L();
+    const state = riddleRead();
+    const weekIdx = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000)) + 1;
+    const seriesLevel = ((weekIdx - 1) % 3) + 1;
+    const titleText = lab.riddleCompletionTitle
+      ? lab.riddleCompletionTitle(seriesLevel)
+      : (lang() === 'en' ? `Echo ${seriesLevel} — completed` : `Відлуння ${seriesLevel} — пройдено`);
+    const subText = lab.riddleCompletionSubtitle
+      ? lab.riddleCompletionSubtitle(weekIdx)
+      : (lang() === 'en' ? `Week ${weekIdx} · Anteros · canon` : `Тиждень ${weekIdx} · Anteros · канон`);
+    const bodyText = lab.riddleCompletionBody || '';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'completionGate';
+    overlay.className = 'pin-gate';
+    overlay.innerHTML = `
+      <div class="pin-gate-card completion-card" id="completionCard" role="dialog" aria-labelledby="completionTitle"
+           style="max-width:520px;width:calc(100vw - 32px);text-align:center;background:linear-gradient(180deg, rgba(26,14,56,0.98) 0%, rgba(12,6,32,1) 100%);border:2px solid rgba(255,213,106,0.4);border-radius:18px;padding:0;box-shadow:0 24px 60px rgba(8,4,24,0.7),0 0 64px rgba(255,213,106,0.18);overflow:hidden;color:#ffffff;">
+        <div class="completion-header"
+             style="padding:2.2rem 1.4rem 1.2rem 1.4rem;background:radial-gradient(circle at 50% 30%, rgba(255,213,106,0.18) 0%, transparent 70%);">
+          <div class="completion-icon" aria-hidden="true"
+               style="font-size:3rem;color:#ffd56a;text-shadow:0 0 24px rgba(255,213,106,0.6);line-height:1;margin-bottom:0.4rem;">◈</div>
+          <h2 class="completion-title" id="completionTitle"
+              style="margin:0;font-family:Georgia,serif;font-size:1.6rem;font-weight:800;color:#ffffff;letter-spacing:0.02em;line-height:1.15;text-shadow:0 2px 8px rgba(255,213,106,0.4);"></h2>
+          <p class="completion-subtitle" id="completionSubtitle"
+             style="margin:0.4rem 0 0 0;font-size:0.68rem;color:#ffd56a;letter-spacing:0.22em;text-transform:uppercase;font-weight:700;text-shadow:0 0 8px rgba(255,213,106,0.5);"></p>
+        </div>
+        <div class="completion-body"
+             style="padding:1.4rem 1.6rem 1.2rem 1.6rem;background:linear-gradient(180deg,#fff5dc 0%,#ffeec7 100%);color:#1a0a3a;">
+          <p style="margin:0;font-family:Georgia,serif;font-size:1.02rem;line-height:1.55;font-style:italic;letter-spacing:0.005em;">${bodyText}</p>
+          <div class="completion-list" id="completionList"
+               style="margin-top:1rem;padding-top:0.7rem;border-top:1px dashed rgba(141,124,255,0.3);font-family:Inter,sans-serif;font-size:0.74rem;color:rgba(26,10,58,0.65);text-align:left;letter-spacing:0.04em;"></div>
+        </div>
+        <div class="completion-actions" style="display:flex;flex-direction:column;gap:0.55rem;padding:1.1rem 1.4rem 1.5rem 1.4rem;">
+          <button id="completionDownload" type="button"
+                  style="font:700 0.85rem/1 Inter,sans-serif;letter-spacing:0.05em;padding:0.95rem 1.2rem;background:linear-gradient(135deg,#00e5ff 0%,#7e74ff 100%);color:#0a0014;border:none;border-radius:12px;cursor:pointer;text-transform:uppercase;box-shadow:0 0 24px rgba(0,229,255,0.35);"></button>
+          <button id="completionReplay" type="button"
+                  style="font:700 0.78rem/1 Inter,sans-serif;letter-spacing:0.05em;padding:0.72rem 1.2rem;background:transparent;color:#00e5ff;border:1.5px solid rgba(0,229,255,0.4);border-radius:12px;cursor:pointer;text-transform:uppercase;"></button>
+          <button id="completionClose" type="button"
+                  style="font:500 0.78rem/1 Inter,sans-serif;letter-spacing:0.04em;padding:0.55rem 1.2rem;background:transparent;color:rgba(255,255,255,0.6);border:none;cursor:pointer;"></button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.querySelector('#completionTitle').textContent = titleText;
+    overlay.querySelector('#completionSubtitle').textContent = subText;
+
+    // List of solved riddle IDs (parchment, left-aligned, gold dots).
+    const listEl = overlay.querySelector('#completionList');
+    if (state.solvedRiddles && state.solvedRiddles.length > 0) {
+      state.solvedRiddles.forEach((id) => {
+        const line = document.createElement('div');
+        line.className = 'completion-list-item';
+        line.style.cssText = 'padding:0.16rem 0;';
+        const dot = document.createElement('span');
+        dot.textContent = '◈  ';
+        dot.style.color = '#a07c2c';
+        const txt = document.createElement('span');
+        txt.textContent = id;
+        line.appendChild(dot);
+        line.appendChild(txt);
+        listEl.appendChild(line);
+      });
+    } else {
+      listEl.style.display = 'none';
+    }
+
+    // Download button (PNG) — captures the completion card.
+    const dlBtn = overlay.querySelector('#completionDownload');
+    dlBtn.textContent = '↓ ' + (lab.riddleDownload || 'Download image');
+    const dlKey = `badge-${seriesLevel}-w${weekIdx}`;
+    dlBtn.onclick = async (e) => {
+      e.preventDefault();
+      dlBtn.disabled = true;
+      const orig = dlBtn.textContent;
+      dlBtn.textContent = lab.riddleDownloading || 'Preparing…';
+      try {
+        await downloadElementAsPng(
+          overlay.querySelector('#completionCard'),
+          `klife-${dlKey}.png`
+        );
+        bumpDownloadLocal(dlKey);
+        dlBtn.textContent = '✓ ' + (lab.riddleDownloaded || 'Saved');
+      } catch (err) {
+        console.error('download failed:', err);
+        dlBtn.textContent = lab.riddleDownloadFailed || 'Failed';
+      }
+      setTimeout(() => { dlBtn.textContent = orig; dlBtn.disabled = false; }, 2400);
+    };
+
+    // Replay button — re-opens the current weekly level (re-engagement).
+    const replayBtn = overlay.querySelector('#completionReplay');
+    replayBtn.textContent = '↻ ' + (lab.riddleReplay || 'Play again');
+    replayBtn.onclick = () => {
+      overlay.remove();
+      setTimeout(() => openRiddle(pickActiveLevel()), 200);
+    };
+
+    // Close button — dismiss the badge, user stays on K Life OS.
+    const closeBtn = overlay.querySelector('#completionClose');
+    closeBtn.textContent = lab.riddleClose || 'Close';
+    closeBtn.onclick = () => overlay.remove();
   }
 
   async function openRiddle(level) {
@@ -669,11 +846,15 @@
           bookHintLabel.textContent = lab.riddleHint || 'підказка';
         }
         // External solve count (from Vercel KV or in-memory fallback)
+        // v10.2: always visible — shows "Be the first" / "Стань першим" when n=0
         const solveCountEl = overlay.querySelector('#riddleSolveCount');
         if (solveCountEl) {
           const n = Number(data.solveCount) || 0;
           if (n > 0 && lab.riddleSolveCount) {
             solveCountEl.innerHTML = lab.riddleSolveCount(n).replace(/(\d+)/, '<strong>$1</strong>');
+          } else if (lab.riddleSolveCountFirst) {
+            solveCountEl.innerHTML = lab.riddleSolveCountFirst;
+            solveCountEl.classList.add('riddle-solve-count-first');
           } else {
             solveCountEl.textContent = '';
           }
@@ -727,9 +908,15 @@
           submit.disabled = false;
           submit.onclick = () => {
             close();
-            const next = firstUnsolved();
-            if (next) setTimeout(() => openRiddle(next), 200);
-            else showEchoBadge();
+            // v10.2: if all 3 are now solved, surface the completion badge
+            // (don't auto-advance into another riddle loop).
+            const s2 = riddleRead();
+            if (s2.solved.every(Boolean)) {
+              setTimeout(() => showCompletionModal(), 200);
+            } else {
+              const next = pickActiveLevel();
+              setTimeout(() => openRiddle(next), 200);
+            }
           };
         } else if (verdict === 'deep') {
           const state = riddleRead();
@@ -746,15 +933,46 @@
             const n = Number(data.solveCount) || 0;
             solveCountEl.innerHTML = lab.riddleSolveCount(n).replace(/(\d+)/, '<strong>$1</strong>');
           }
+          // v10.2: reveal the per-riddle download button (PNG of the modal)
+          const footDl = overlay.querySelector('#riddleFootDl');
+          if (footDl) {
+            footDl.style.display = 'inline-flex';
+            footDl.textContent = '↓ ' + (lab.riddleDownload || 'Download image');
+            footDl.onclick = async (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              footDl.disabled = true;
+              const orig = footDl.textContent;
+              footDl.textContent = lab.riddleDownloading || 'Preparing…';
+              try {
+                await downloadElementAsPng(
+                  overlay.querySelector('.riddle-card'),
+                  `klife-riddle-${data.riddleId || ('l' + level)}-${currentLang}.png`
+                );
+                bumpDownloadLocal(data.riddleId || ('l' + level));
+                footDl.textContent = '✓ ' + (lab.riddleDownloaded || 'Saved');
+              } catch (err) {
+                console.error('riddle download failed:', err);
+                footDl.textContent = lab.riddleDownloadFailed || 'Failed';
+              }
+              setTimeout(() => { footDl.textContent = orig; footDl.disabled = false; }, 2400);
+            };
+          }
           // Submit becomes a green "next" arrow, click moves on
           submit.textContent = '→';
           submit.classList.add('is-next');
           submit.disabled = false;
           submit.onclick = () => {
             close();
-            const next = firstUnsolved();
-            if (next) setTimeout(() => openRiddle(next), 200);
-            else showEchoBadge();
+            // v10.2: if all 3 are now solved, surface the completion badge
+            // (don't auto-advance into another riddle loop).
+            const s2 = riddleRead();
+            if (s2.solved.every(Boolean)) {
+              setTimeout(() => showCompletionModal(), 200);
+            } else {
+              const next = pickActiveLevel();
+              setTimeout(() => openRiddle(next), 200);
+            }
           };
         } else if (verdict === 'surface') {
           // Closer but not yet — show red herring hint, don't count as wrong attempt
@@ -832,10 +1050,16 @@
       if (riddleRead().solved.every(Boolean)) showEchoBadge();
       return;
     }
-    const next = firstUnsolved();
-    if (next) {
-      // Small delay so the page finishes booting first.
-      setTimeout(() => openRiddle(next), 600);
+    const state = riddleRead();
+    if (state.solved.every(Boolean)) {
+      // v10.2: all 3 solved → show the completion modal (badge window).
+      // This is the re-engagement: the badge is a celebration, not a hub
+      // unlock. User can close, replay, or download the PNG.
+      setTimeout(() => showCompletionModal(), 600);
+    } else {
+      // v10.2: at least one unsolved → show the active level's riddle.
+      const lvl = pickActiveLevel();
+      setTimeout(() => openRiddle(lvl), 600);
     }
   }
 

@@ -1042,6 +1042,49 @@ body.immersive .glass {
   font-size: 0.78rem;
   text-shadow: 0 0 6px rgba(0, 229, 255, 0.3);
 }
+.riddle-solve-count.riddle-solve-count-first {
+  color: rgba(255, 213, 106, 0.6);
+  font-style: italic;
+  letter-spacing: 0.08em;
+}
+
+/* ---- v10.2: completion modal (badge window) — shown when all 3 riddles solved ---- */
+.completion-card {
+  position: relative;
+  overflow: hidden;
+}
+.completion-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 213, 106, 0.08) 0%, transparent 30%),
+    radial-gradient(circle at 82% 78%, rgba(0, 229, 255, 0.06) 0%, transparent 32%);
+  border-radius: inherit;
+}
+.completion-icon {
+  animation: klife-completion-pulse 3.2s ease-in-out infinite;
+}
+@keyframes klife-completion-pulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255, 213, 106, 0.4)); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(255, 213, 106, 0.75)); }
+}
+.completion-actions button {
+  transition: all 0.22s ease;
+}
+.completion-actions button:hover {
+  transform: translateY(-1px);
+}
+.completion-actions button:active {
+  transform: translateY(0);
+}
+@media (max-width: 480px) {
+  .completion-title { font-size: 1.35rem !important; }
+  .completion-icon { font-size: 2.4rem !important; }
+  .completion-body { padding: 1.1rem 1.1rem 0.9rem 1.1rem !important; }
+  .completion-actions { padding: 0.9rem 1.0rem 1.2rem 1.0rem !important; }
+}
 
 /* ---- Crystal ball (click-to-shake, fetches /api/prophecy) ---- */
 @keyframes klife-ball-idle {
