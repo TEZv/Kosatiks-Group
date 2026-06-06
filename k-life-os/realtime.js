@@ -63,6 +63,17 @@
     return {};
   }
 
+  /** Keep page i18n, author bar and riddle modal on the same language. */
+  function syncGlobalLang(next) {
+    if (next !== 'ua' && next !== 'en') return;
+    if (HAS_I18N && typeof I18N.setLang === 'function') {
+      if (I18N.getLang() !== next) I18N.setLang(next);
+      return;
+    }
+    document.documentElement.lang = next;
+    window.dispatchEvent(new CustomEvent('klife:langchange', { detail: { lang: next } }));
+  }
+
   // ---- PIN gate ----
   function fillPinLabels(overlay) {
     const lab = L();
@@ -111,7 +122,7 @@
         return;
       }
       submit.disabled = true;
-      submit.textContent = lab.pinSubtitle?.includes('·') ? 'Перевіряю…' : 'Checking…';
+      submit.textContent = lab.authorSigningIn || lab.pinSubmit || '…';
       error.textContent = '';
       try {
         const res = await fetch(ENDPOINT, {
@@ -146,10 +157,10 @@
         // also call /api/question?provider= to check if M3 is available
         probeM3Availability();
       } catch (e) {
-        error.textContent = 'Мережева помилка: ' + e.message;
+        error.textContent = (lab.riddleNetworkError || 'Network error') + ': ' + e.message;
       } finally {
         submit.disabled = false;
-        submit.textContent = 'Увійти';
+        submit.textContent = lab.pinSubmit || 'OK';
       }
     }
 
@@ -163,6 +174,7 @@
 
   function showPinGate() {
     const overlay = ensurePinGate();
+    fillPinLabels(overlay);
     overlay.classList.remove('hidden');
     const input = overlay.querySelector('#pinGateInput');
     setTimeout(() => input.focus(), 100);
@@ -265,25 +277,36 @@
   async function bootGoogleButton() {
     const host = document.getElementById('googleSignInBtn');
     if (!host || !googleClientId) return;
+    const locale = lang() === 'en' ? 'en' : 'uk';
     try {
       await loadGoogleScript();
+      if (window.google?.accounts?.id?.cancel) {
+        try { window.google.accounts.id.cancel(); } catch {}
+      }
       host.innerHTML = '';
       window.google.accounts.id.initialize({
         client_id: googleClientId,
         callback: onGoogleCredential,
         auto_select: false,
-        cancel_on_tap_outside: true
+        cancel_on_tap_outside: true,
+        locale
       });
       window.google.accounts.id.renderButton(host, {
         theme: 'outline',
         size: 'medium',
         text: 'signin_with',
         shape: 'pill',
-        locale: lang() === 'en' ? 'en' : 'uk'
+        locale
       });
     } catch (e) {
       console.warn('[author] Google button failed:', e);
-      host.textContent = L().authorSignIn || 'Google sign-in';
+      host.innerHTML = '';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'author-fallback-btn';
+      btn.textContent = L().authorSignIn || 'Google sign-in';
+      btn.onclick = () => window.google?.accounts?.id?.prompt?.();
+      host.appendChild(btn);
     }
   }
 
@@ -545,7 +568,9 @@
     showAuthorNeed,
     checkAuthorSession,
     getPreferredProvider,
-    setPreferredProvider
+    setPreferredProvider,
+    renderAuthorBar,
+    syncGlobalLang
   };
 
   if (document.readyState === 'loading') {
@@ -1254,6 +1279,11 @@
           const target = btn.dataset.lang;
           if (target === currentLang) return;
           currentLang = target;
+          if (typeof window.klifeSetLanguage === 'function') {
+            window.klifeSetLanguage(target);
+          } else {
+            syncGlobalLang(target);
+          }
           renderRiddleLangSwitch(overlay, currentLang);
           fillRiddleLabels(overlay, currentLang);
           setRiddleFeedback('', false);
@@ -1441,9 +1471,9 @@
 
   // Re-render author bar & PIN gate on language change (i18n dispatches 'klife:langchange')
   window.addEventListener('klife:langchange', () => {
-    if (typeof renderAuthorBar === 'function') renderAuthorBar();
+    renderAuthorBar();
     const pinGate = document.getElementById('pinGate');
-    if (pinGate && typeof fillPinLabels === 'function') fillPinLabels(pinGate);
+    if (pinGate) fillPinLabels(pinGate);
   });
 
   // ---- Init: also kick off the riddle gate (no conflict with PIN) ----
