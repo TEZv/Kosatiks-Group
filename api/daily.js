@@ -16,6 +16,7 @@
 
 const crypto = require('crypto');
 const kv = require('./_kv');
+const auth = require('./_auth');
 
 function currentDayIndex() {
   // Day index since epoch — daily micro-riddles rotate each calendar day.
@@ -139,19 +140,25 @@ function classifyDaily(riddleId, answer) {
   return { verdict: 'wrong', surfaceHint: item.surfaceHint || '' };
 }
 
-async function incrementSolveCount(riddleId) {
-  return await kv.incr(`klife:daily:solve:${riddleId}`);
+async function incrementSolveCount(riddleId, kind) {
+  const prefix = kind === 'internal' ? 'klife:daily:solve:internal:' : 'klife:daily:solve:';
+  return await kv.incr(`${prefix}${riddleId}`);
 }
 
-async function getSolveCount(riddleId) {
-  const n = await kv.get(`klife:daily:solve:${riddleId}`);
+async function getSolveCount(riddleId, kind) {
+  const prefix = kind === 'internal' ? 'klife:daily:solve:internal:' : 'klife:daily:solve:';
+  const n = await kv.get(`${prefix}${riddleId}`);
   return typeof n === 'number' ? n : (parseInt(n, 10) || 0);
+}
+
+async function incrementSkipCount(riddleId) {
+  return await kv.incr(`klife:daily:skip:${riddleId}`);
 }
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Author-Key');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -185,6 +192,9 @@ module.exports = async function handler(req, res) {
       const lang = body.lang === 'en' ? 'en' : 'ua';
       const answer = body.answer || '';
       const requestedId = body.riddleId || null;
+      const skipPinInput = body.skipPin || '';
+      const authorHeader = req.headers['x-author-key'] || req.headers['X-Author-Key'];
+      const isAuthor = auth.isAuthorKey(authorHeader);
       const item = getDaily(lang, currentDayIndex());
       const riddleId = requestedId || (item && item.id);
       if (!riddleId) {
@@ -192,12 +202,32 @@ module.exports = async function handler(req, res) {
         res.setHeader('Content-Type', 'application/json');
         return res.end(JSON.stringify({ ok: false, error: 'no_daily' }));
       }
+      if (auth.isSkipPin(skipPinInput)) {
+        const skipCount = await incrementSkipCount(riddleId);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({
+          ok: 'skipped',
+          riddleId,
+          currentRiddle: item,
+          solveCount: await getSolveCount(riddleId),
+          internalSolveCount: isAuthor ? await getSolveCount(riddleId, 'internal') : null,
+          skipCount
+        }));
+      }
       const { verdict, surfaceHint } = classifyDaily(riddleId, answer);
       let solveCount = null;
+      let internalSolveCount = null;
       if (verdict === 'deep') {
-        solveCount = await incrementSolveCount(riddleId);
+        if (isAuthor) {
+          internalSolveCount = await incrementSolveCount(riddleId, 'internal');
+          solveCount = await getSolveCount(riddleId);
+        } else {
+          solveCount = await incrementSolveCount(riddleId);
+        }
       } else {
         solveCount = await getSolveCount(riddleId);
+        if (isAuthor) internalSolveCount = await getSolveCount(riddleId, 'internal');
       }
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
@@ -206,7 +236,9 @@ module.exports = async function handler(req, res) {
         riddleId,
         currentRiddle: item,
         hint: verdict === 'deep' ? undefined : surfaceHint,
-        solveCount
+        solveCount,
+        internalSolveCount,
+        authorMode: isAuthor
       }));
     }
 

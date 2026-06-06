@@ -3,10 +3,10 @@
 // GET  /api/riddle?level=1&lang=ua   -> weekly active riddle for level
 // GET  /api/riddle?counts=1&riddleId=l1-ua-01&lang=ua
 //                                   -> { ok, riddleId, solveCount } from KV
-// POST /api/riddle { level, answer, lang, riddleId? }
-//                                   -> { ok: 'deep'|'surface'|'wrong', level,
-//                                         riddleId, currentRiddle, hint,
-//                                         fullHint, solveCount? }
+// POST /api/riddle { level, answer, lang, riddleId?, skipPin? }
+//                                   -> { ok: 'deep'|'surface'|'wrong'|'skipped',
+//                                         level, riddleId, currentRiddle, hint,
+//                                         solveCount, internalSolveCount, skipCount }
 //
 // Riddles live INLINE here (server-only) so they never enter the public
 // bundle. Active riddle rotates weekly so the audience encounters fresh
@@ -33,6 +33,7 @@
 
 const crypto = require('crypto');
 const kv = require('./_kv');
+const auth = require('./_auth');
 
 // ---- Riddle content (server-only) ----------------------------------------
 
@@ -102,6 +103,38 @@ const RIDDLES = {
           hint: 'the city, named in one word',
           redHerrings: ['Ukraine', 'country', 'east']
         }
+      },
+      {
+        ua: {
+          id: 'l1-ua-04',
+          prompt: 'Šviesa починається з того, чого не чутно. Литовською це одне слово. Що це?',
+          chapter: 'Šviesa · Розділ 1',
+          hint: 'перед першим звуком',
+          redHerrings: ['світло', 'промінь', 'light', 'ray']
+        },
+        en: {
+          id: 'l1-en-04',
+          prompt: 'Šviesa begins with what cannot be heard. In Lithuanian, one word. What is it?',
+          chapter: 'Šviesa · Chapter 1',
+          hint: 'before the first sound',
+          redHerrings: ['light', 'ray', 'світло', 'промінь']
+        }
+      },
+      {
+        ua: {
+          id: 'l1-ua-05',
+          prompt: 'Vėlė — ім\'я, що кличе те, чого вже нема. Це те, що не має тіла, але є. Литовською.',
+          chapter: 'Vėlė · Розділ 1',
+          hint: 'те, що маєш, але не торкаєшся',
+          redHerrings: ['душа', 'привид', 'soul', 'ghost']
+        },
+        en: {
+          id: 'l1-en-05',
+          prompt: 'Vėlė is the name for what has no body, but is. In Lithuanian, one word.',
+          chapter: 'Vėlė · Chapter 1',
+          hint: 'what you have but do not touch',
+          redHerrings: ['soul', 'ghost', 'душа', 'привид']
+        }
       }
     ]
   },
@@ -155,10 +188,42 @@ const RIDDLES = {
         },
         en: {
           id: 'l2-en-03',
-          prompt: 'I do not vanish without my axis, but become thinner, quieter, lonelier. My deepest gesture is petition: notice me, do not let me disappear beside what I answer. Who am I?',
-          chapter: 'Anteros · Series 1',
-          hint: 'name of the one who answers',
-          redHerrings: ['child', 'son', 'response', 'answer']
+          prompt: 'A. resists names. A. resists exactness. A. also resists one thing in Šviesa. What is the third thing A. resists?',
+          chapter: 'Aušra · Chapter 1',
+          hint: 'the third resistance of A.',
+          redHerrings: ['silence', 'stillness', 'тиша', 'спокій']
+        }
+      },
+      {
+        ua: {
+          id: 'l2-ua-04',
+          prompt: 'Eros дивиться на те, що є. Anteros — на те, чого нема. Хто я?',
+          chapter: 'Anteros · Книга 1',
+          hint: 'те, на що вказує А.',
+          redHerrings: ['кохання', 'потяг', 'love', 'tug']
+        },
+        en: {
+          id: 'l2-en-04',
+          prompt: 'Eros looks at what is. Anteros — at what is not. Who am I?',
+          chapter: 'Anteros · Book 1',
+          hint: 'what A. points to',
+          redHerrings: ['love', 'tug', 'кохання', 'потяг']
+        }
+      },
+      {
+        ua: {
+          id: 'l2-ua-05',
+          prompt: 'Я — перша асиметрія повноти. Šviesa мене не витримує. Литовською це одне слово. Що я?',
+          chapter: 'Anteros · Книга 1',
+          hint: 'між двома, що мають бути разом',
+          redHerrings: ['любов', 'кохання', 'love', 'tug']
+        },
+        en: {
+          id: 'l2-en-05',
+          prompt: 'I am the first asymmetry of fullness. Šviesa cannot endure me. In Lithuanian, one word. What am I?',
+          chapter: 'Anteros · Book 1',
+          hint: 'between two who must be together',
+          redHerrings: ['love', 'tug', 'любов', 'кохання']
         }
       }
     ]
@@ -217,6 +282,38 @@ const RIDDLES = {
           chapter: 'Dausos · Chapter 2',
           hint: 'what remains after the first proportion',
           redHerrings: ['answer', 'law', 'echo']
+        }
+      },
+      {
+        ua: {
+          id: 'l3-ua-04',
+          prompt: 'У Dausos мене пам\'ятають тоді, коли забувають. Литовською — одне слово. Що я?',
+          chapter: 'Dausos · Розділ 3',
+          hint: 'те, що губиться при називанні',
+          redHerrings: ['спомин', 'відгомін', 'memory', 'echo']
+        },
+        en: {
+          id: 'l3-en-04',
+          prompt: 'In Dausos I am remembered only when forgotten. In Lithuanian — one word. What am I?',
+          chapter: 'Dausos · Chapter 3',
+          hint: 'what is lost in the naming',
+          redHerrings: ['memory', 'echo', 'спомин', 'відгомін']
+        }
+      },
+      {
+        ua: {
+          id: 'l3-ua-05',
+          prompt: 'Šviesa кличе мене, але я приходжу у Vėlė. Литовською — одне слово. Що я?',
+          chapter: 'Šviesa · Розділ 4',
+          hint: 'те, що не сказано',
+          redHerrings: ['відповідь', 'розгадка', 'answer', 'solution']
+        },
+        en: {
+          id: 'l3-en-05',
+          prompt: 'Šviesa calls me, but I arrive in Vėlė. In Lithuanian — one word. What am I?',
+          chapter: 'Šviesa · Chapter 4',
+          hint: 'what is not said',
+          redHerrings: ['answer', 'solution', 'відповідь', 'розгадка']
         }
       }
     ]
@@ -299,6 +396,56 @@ const HASHED_ANSWERS = {
   'l3-en-03': {
     deep: ['686f746a95b6f836d7d70567c302c3f9ebb5ee0def3d1220ee9d4e9f34f5e131'],
     surface: ['0db52f4076c082518412afd3dd3576e2cb0c63703fd7fed5e23ade60efef31d9', '092c79e8f80e559e404bcf660c48f3522b67aba9ff1484b0367e1a4ddef7431d', '8f1f74adf65864c86d3d471ea8ca9e329d4282489edc156c99604264090774bf', 'f58940a313992e6838ac3fc1f2356916cf8b53c42920a3f59cabc510f1236ec9', '40b149bf4da1c2ad94b531e3ef41a48025b72ee1055a6e69ded73eaf625f2074']
+  },
+  // v10.1: 6 new riddles (L1-04/05, L2-04/05, L3-04/05) with canon-deep
+  // (Lithuanian) and surface (common) answer layers.
+  'l1-ua-04': {
+    deep: ['530ebf184d94867f44e4e3c98d796e6698652e37aa3148b66ac0cddcb56b0ea2', '60375cf20abc591333f5f5e6eb596080279b23f5586932da2e2d05ee12cd2d0d', '54d3880f6c82b83bcd51f86d979e228f08eb4cbbb05418dca1be6c86c2832c25', 'e6c18fdbe59783dfefef3595cd288bcb7ce912d36854b5e8faaef31235d9031b'],
+    surface: ['4cadd51462c6068081c4f20672559297fe594dd8579534b803ae8b45e775bec7', '265f550427038ad9782715a69a77cfb0fd33c51ab73d4c8ba9684759b8fef938', 'fc95cad4da251f0b294d3dc11a4abf487ff8fa3558add02e1e7457066d9d053e', '6210c0bf05396716df932f0729df69de0533933e5ad9871fd07b61811c4c28df']
+  },
+  'l1-en-04': {
+    deep: ['e6c18fdbe59783dfefef3595cd288bcb7ce912d36854b5e8faaef31235d9031b', '60375cf20abc591333f5f5e6eb596080279b23f5586932da2e2d05ee12cd2d0d', '008f0747f4e27c8462baa991a538025bcc2dd143e78422f1afbdfcd9e757a20f', 'fc95cad4da251f0b294d3dc11a4abf487ff8fa3558add02e1e7457066d9d053e'],
+    surface: ['2b4b2eadf7b2aece598d2f2ad4637361614a738a7cdf1a457d8b46db072184d5', 'c2e10c20bf46daf0ba03f725218b012544a3d0d3b37334eeb1d4d81e5406e478', '2e09d5210db8417757b0f875c276d0cb877b22514e9a3583d2d8d7445368a027', '6210c0bf05396716df932f0729df69de0533933e5ad9871fd07b61811c4c28df']
+  },
+  'l1-ua-05': {
+    deep: ['bcb9eee0f9a230a07246591467927f909964d00bf1fd527d84d8f9b618f029b0', '07257531f67dd502c09e9c583654f11b9b7196e1aefdda3464e4e6dbd12b929a', '3d1263ce10f8d8106159119d8b28c06ab93a38a21911a7ab3180bdd4360aaa22', 'd1918f93a4ada5b6777c00bb3f692215eff9aacbe6b6857e42ec82830383a248'],
+    surface: ['c29ae6a78463f9f21e022d63a0e79512ee32e68d06a60a20ff82c96efe5b4ca2', '5770493b3670f93e56295092b9a8bc504b2873de16c4316837e59f60eb6e8125', 'ead6ef03d61ee60c533d6d450c50a1e559a8a37f6b796a4094cd0dac6b744428', '0bb09d80600eec3eb9d7793a6f859bedde2a2d83899b70bd78e961ed674b32f4']
+  },
+  'l1-en-05': {
+    deep: ['07257531f67dd502c09e9c583654f11b9b7196e1aefdda3464e4e6dbd12b929a', 'bcb9eee0f9a230a07246591467927f909964d00bf1fd527d84d8f9b618f029b0', 'ae0facccf0a3723adefbdfe700c097b6c843dbfd06e5cd325602ec13b2361f8b', 'a68999add325ba9952ddf20a853ab998393e4488b8229c0fb7fc9dbc5be26ae8'],
+    surface: ['ead6ef03d61ee60c533d6d450c50a1e559a8a37f6b796a4094cd0dac6b744428', '0bb09d80600eec3eb9d7793a6f859bedde2a2d83899b70bd78e961ed674b32f4', '3d1263ce10f8d8106159119d8b28c06ab93a38a21911a7ab3180bdd4360aaa22', '5770493b3670f93e56295092b9a8bc504b2873de16c4316837e59f60eb6e8125']
+  },
+  'l2-ua-04': {
+    deep: ['823c4eb3e895adc925a755d89cea1c6c46954c999d23604e0091788b75496159', '823c4eb3e895adc925a755d89cea1c6c46954c999d23604e0091788b75496159', '24b17f91cfb0eca9125019378f6b6e87641927590af178fbff010090b190b187', 'abb190c293cddae4f7c2c7c7b2aa229554cdaf66138a82d2fff4c6691e03f213'],
+    surface: ['b3e1153dea52e265c6dd254c96bc3cdfb72994ec6380ce03bf258afb0b0868f2', '5e79cdd04fe7e4e57f1c6483446d04d995375953bce52512d024a3988574ea13', '6d0a272932351cd7ec0c7ebce6f47d670c698416ecc317dd89ee016fb0562bb8', '686f746a95b6f836d7d70567c302c3f9ebb5ee0def3d1220ee9d4e9f34f5e131']
+  },
+  'l2-en-04': {
+    deep: ['ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', '24b17f91cfb0eca9125019378f6b6e87641927590af178fbff010090b190b187', 'ae79db51521c7b09620120c74df02d7fe7fd2210eae835b43932fa067f25c0b4'],
+    surface: ['686f746a95b6f836d7d70567c302c3f9ebb5ee0def3d1220ee9d4e9f34f5e131', 'e6bbc6867045359448c8c73edf19c8a7f9b5dba5de1f7e6899214626cd5e03d8', 'b3e1153dea52e265c6dd254c96bc3cdfb72994ec6380ce03bf258afb0b0868f2', '5e79cdd04fe7e4e57f1c6483446d04d995375953bce52512d024a3988574ea13']
+  },
+  'l2-ua-05': {
+    deep: ['a8470f0a7a7f4b5db845bb2c5bf52a63a93b877966294402d38731471ab0f9b6', '9e3a6b183cc6a86ba86f42f5adedd863f48aa41d283c474a7abebfd9759e43c0', 'a8470f0a7a7f4b5db845bb2c5bf52a63a93b877966294402d38731471ab0f9b6', 'b6ae4c5a0614d0ff81916dd804985e5c62b59c61f01080f2a207ecc96f022fa3', 'd31f4d5cd0af85602b3eb53d3f4862410fe7b8d0a1556f67a1ad088bcbe0322f', 'f21dea74d898cfeaf836ecc99ad0331bade09711ff927365e91ada2ff4cb5caf'],
+    surface: ['6d0a272932351cd7ec0c7ebce6f47d670c698416ecc317dd89ee016fb0562bb8', 'b3e1153dea52e265c6dd254c96bc3cdfb72994ec6380ce03bf258afb0b0868f2', '686f746a95b6f836d7d70567c302c3f9ebb5ee0def3d1220ee9d4e9f34f5e131', 'e6bbc6867045359448c8c73edf19c8a7f9b5dba5de1f7e6899214626cd5e03d8']
+  },
+  'l2-en-05': {
+    deep: ['f21dea74d898cfeaf836ecc99ad0331bade09711ff927365e91ada2ff4cb5caf', 'b6ae4c5a0614d0ff81916dd804985e5c62b59c61f01080f2a207ecc96f022fa3', 'd31f4d5cd0af85602b3eb53d3f4862410fe7b8d0a1556f67a1ad088bcbe0322f', 'b38d9d168c3aedf156f4f249b81adaef4b738790510573f57b502cca0c35f16f'],
+    surface: ['686f746a95b6f836d7d70567c302c3f9ebb5ee0def3d1220ee9d4e9f34f5e131', 'e6bbc6867045359448c8c73edf19c8a7f9b5dba5de1f7e6899214626cd5e03d8', '6d0a272932351cd7ec0c7ebce6f47d670c698416ecc317dd89ee016fb0562bb8', 'b3e1153dea52e265c6dd254c96bc3cdfb72994ec6380ce03bf258afb0b0868f2']
+  },
+  'l3-ua-04': {
+    deep: ['2ebbbeeb43dddfcb6f142ee890d5a41e818687de651a403433f022f07badcea5', '2ebbbeeb43dddfcb6f142ee890d5a41e818687de651a403433f022f07badcea5', 'dce6664f9b871f0a329ba77fe64ff93a56094f029f2637fbb223d240fe22bda5', '2fb4c726daacc43a36ff4db0e4788df8999810528a79c661227d4640f7b18371', '82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89'],
+    surface: ['e9cecebc499e5ac0f24ee88b98ffcb0421ec50a818cb5dff9f31adad8054cb46', '3bb07a4487e23ba5d911461c696c6c64706a2d855c893cfe25c75cbfc14e6df9', 'c064fbca9d9de8dd9bb0624984403b28d0da807a69365d4f7fb09123ecb0c405', '092c79e8f80e559e404bcf660c48f3522b67aba9ff1484b0367e1a4ddef7431d']
+  },
+  'l3-en-04': {
+    deep: ['82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89', '2fb4c726daacc43a36ff4db0e4788df8999810528a79c661227d4640f7b18371', '88465a3277d40a412c39d2e23739ca1456bc97a51256a069910d7edcc80c1787'],
+    surface: ['c064fbca9d9de8dd9bb0624984403b28d0da807a69365d4f7fb09123ecb0c405', '092c79e8f80e559e404bcf660c48f3522b67aba9ff1484b0367e1a4ddef7431d', 'e9cecebc499e5ac0f24ee88b98ffcb0421ec50a818cb5dff9f31adad8054cb46', '3bb07a4487e23ba5d911461c696c6c64706a2d855c893cfe25c75cbfc14e6df9']
+  },
+  'l3-ua-05': {
+    deep: ['530ebf184d94867f44e4e3c98d796e6698652e37aa3148b66ac0cddcb56b0ea2', '60375cf20abc591333f5f5e6eb596080279b23f5586932da2e2d05ee12cd2d0d', '54d3880f6c82b83bcd51f86d979e228f08eb4cbbb05418dca1be6c86c2832c25', 'e6c18fdbe59783dfefef3595cd288bcb7ce912d36854b5e8faaef31235d9031b'],
+    surface: ['cd0c15c27bbb0a701209bc65b7f71efaefb16bc44b84fbd2a0dffc5dd5e077b6', '236046c0954b96c283fce8c17c85025f55c72fef8a7103f6904dd15c7e19d019', '0db52f4076c082518412afd3dd3576e2cb0c63703fd7fed5e23ade60efef31d9', '8270f2824111e04d9278c01a92b388147d9d02e0b50d946d25d00db375ff1282']
+  },
+  'l3-en-05': {
+    deep: ['e6c18fdbe59783dfefef3595cd288bcb7ce912d36854b5e8faaef31235d9031b', '60375cf20abc591333f5f5e6eb596080279b23f5586932da2e2d05ee12cd2d0d', 'fc95cad4da251f0b294d3dc11a4abf487ff8fa3558add02e1e7457066d9d053e'],
+    surface: ['0db52f4076c082518412afd3dd3576e2cb0c63703fd7fed5e23ade60efef31d9', '8270f2824111e04d9278c01a92b388147d9d02e0b50d946d25d00db375ff1282', 'cd0c15c27bbb0a701209bc65b7f71efaefb16bc44b84fbd2a0dffc5dd5e077b6', '236046c0954b96c283fce8c17c85025f55c72fef8a7103f6904dd15c7e19d019']
   }
 };
 
@@ -353,15 +500,23 @@ function classifyAnswer(riddleId, answer) {
   return 'wrong';
 }
 
-async function incrementSolveCount(riddleId) {
-  const key = `klife:riddle:solve:${riddleId}`;
+async function incrementSolveCount(riddleId, kind) {
+  // kind: 'public' (default) | 'internal' (creator/author)
+  const prefix = kind === 'internal' ? 'klife:riddle:solve:internal:' : 'klife:riddle:solve:';
+  const key = `${prefix}${riddleId}`;
   return await kv.incr(key);
 }
 
-async function getSolveCount(riddleId) {
-  const key = `klife:riddle:solve:${riddleId}`;
+async function getSolveCount(riddleId, kind) {
+  const prefix = kind === 'internal' ? 'klife:riddle:solve:internal:' : 'klife:riddle:solve:';
+  const key = `${prefix}${riddleId}`;
   const n = await kv.get(key);
   return typeof n === 'number' ? n : (parseInt(n, 10) || 0);
+}
+
+async function incrementSkipCount(riddleId) {
+  const key = `klife:riddle:skip:${riddleId}`;
+  return await kv.incr(key);
 }
 
 // ---- HTTP handler ---------------------------------------------------------
@@ -369,7 +524,7 @@ async function getSolveCount(riddleId) {
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Author-Key');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -437,6 +592,7 @@ module.exports = async function handler(req, res) {
       const lang = body.lang === 'en' ? 'en' : 'ua';
       const answer = body.answer || '';
       const requestedId = body.riddleId || null;
+      const skipPinInput = body.skipPin || '';
 
       if (!RIDDLES[level]) {
         res.statusCode = 400;
@@ -446,14 +602,45 @@ module.exports = async function handler(req, res) {
 
       const item = getItem(level, lang, currentWeekIndex());
       const riddleId = requestedId || item.id;
+
+      // Author/creator mode: header X-Author-Key -> internal counter.
+      // Constant-time compare against AUTHOR_KEY env var.
+      const authorHeader = req.headers['x-author-key'] || req.headers['X-Author-Key'];
+      const isAuthor = auth.isAuthorKey(authorHeader);
+
+      // Skip PIN: matches RIDDLE_SKIP_PIN -> verdict 'skipped' (no counter,
+      // no wrong attempts, but we still log it for stats).
+      if (auth.isSkipPin(skipPinInput)) {
+        const skipCount = await incrementSkipCount(riddleId);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        return res.end(JSON.stringify({
+          ok: 'skipped',
+          level,
+          riddleId,
+          currentRiddle: item,
+          solveCount: await getSolveCount(riddleId),
+          internalSolveCount: isAuthor ? await getSolveCount(riddleId, 'internal') : null,
+          skipCount
+        }));
+      }
+
       const verdict = classifyAnswer(riddleId, answer);
 
-      // On 'deep': increment KV counter. 'surface' and 'wrong' don't count.
+      // On 'deep': increment KV counter (public OR internal, not both).
+      // 'surface' and 'wrong' don't count.
       let solveCount = null;
+      let internalSolveCount = null;
       if (verdict === 'deep') {
-        solveCount = await incrementSolveCount(riddleId);
+        if (isAuthor) {
+          internalSolveCount = await incrementSolveCount(riddleId, 'internal');
+          solveCount = await getSolveCount(riddleId);
+        } else {
+          solveCount = await incrementSolveCount(riddleId);
+        }
       } else {
         solveCount = await getSolveCount(riddleId);
+        if (isAuthor) internalSolveCount = await getSolveCount(riddleId, 'internal');
       }
 
       // Build the hint payload. The "fullHint" is what the user sees
@@ -470,12 +657,14 @@ module.exports = async function handler(req, res) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       return res.end(JSON.stringify({
-        ok: verdict,                 // 'deep' | 'surface' | 'wrong' — backward compat: 'deep' was previously `true`, others were `false`
+        ok: verdict,                 // 'deep' | 'surface' | 'wrong'
         level,
         riddleId,
         currentRiddle: item,
         hint: fullHint,
-        solveCount
+        solveCount,
+        internalSolveCount,
+        authorMode: isAuthor
       }));
     }
 

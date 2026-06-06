@@ -176,6 +176,11 @@ const UI = {
     dailyWhisperHint: "Відкрий шепіт дня",
     dailySolved: "✓ Почуто.",
     dailyWrong: "✗ Ще трохи.",
+    riddleSkipped: "✓ Пропущено",
+    riddleSkipHint: "Маєш PIN — введи його як відповідь, щоб пройти далі",
+    riddleSkipPrompt: "Введи PIN щоб пропустити",
+    authorModeActive: "🔑 Автор-режим (твої розв'язки не рахуються в загальний лічильник)",
+    authorKeyPrompt: "Ключ автора (опційно)",
   },
   en: {
     pageTitle: "[K Life OS] — Where will it take me?",
@@ -313,6 +318,11 @@ const UI = {
     dailyWhisperHint: "Open today's whisper",
     dailySolved: "✓ Heard.",
     dailyWrong: "✗ A little more.",
+    riddleSkipped: "✓ Skipped",
+    riddleSkipHint: "Have a PIN? Type it as your answer to skip this riddle",
+    riddleSkipPrompt: "Enter PIN to skip",
+    authorModeActive: "🔑 Author mode (your solves don't count to public counter)",
+    authorKeyPrompt: "Author key (optional)",
   },
 };
 

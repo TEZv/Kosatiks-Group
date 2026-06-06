@@ -1,7 +1,7 @@
 // Vercel Function: /api/question (Node.js runtime, req/res)
 //
 // POST { pin, sphere, lang, provider? }
-// Required env: GROQ_API_KEY, PIN
+// Required env: GROQ_API_KEY, HUB_PIN (or PIN for backward compat)
 // Optional:     M3_API_KEY, OPENROUTER_API_KEY
 //
 // Config sources (server-only):
@@ -12,6 +12,7 @@
 const SPHERES = require('./_spheres');
 const PROVIDERS = require('./_providers');
 const PROMPTS = require('./_prompts');
+const auth = require('./_auth');
 
 // M3-class providers: any provider that gives access to M3 model.
 // When client requests 'm3', we try these in order (direct API first, then OpenRouter).
@@ -32,13 +33,12 @@ function checkRateLimit(ip) {
 }
 
 function verifyPin(pin) {
-  const expected = process.env.PIN;
-  if (!expected) return false;
-  if (!pin || pin.length !== expected.length) return false;
-  let diff = 0;
-  for (let i = 0; i < pin.length; i++) {
-    diff |= pin.charCodeAt(i) ^ expected.charCodeAt(i);
-  }
+  // v10.1: prefer HUB_PIN (new) → fall back to PIN (backward compat).
+  // The _auth helper does constant-time compare and is the canonical check.
+  if (auth.isHubPin(pin)) return true;
+  if (process.env.PIN && auth.constantTimeEqual(String(pin || ''), String(process.env.PIN))) return true;
+  return false;
+}
   return diff === 0;
 }
 

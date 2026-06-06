@@ -14,8 +14,33 @@
 
   const STORAGE_PIN = 'klife_pin';
   const STORAGE_PROVIDER = 'klife_provider';
+  const STORAGE_AUTHOR_KEY = 'klife_author_key';
   const ENDPOINT = '/api/question';
   let m3Available = false; // updated after first response
+
+  // ---- Author/creator key (v10.1) ----
+  // Oksana's author key separates her solves from public counter.
+  // Activated via ?author=KEY in the URL (stored in localStorage).
+  // Stored locally only; sent as X-Author-Key header to /api/* endpoints.
+  function getAuthorKey() {
+    return localStorage.getItem(STORAGE_AUTHOR_KEY) || '';
+  }
+  function setAuthorKey(key) {
+    if (key) localStorage.setItem(STORAGE_AUTHOR_KEY, key);
+    else localStorage.removeItem(STORAGE_AUTHOR_KEY);
+  }
+  // Activate from ?author=KEY on page load (only sets if not already set)
+  (function maybeActivateAuthorFromUrl() {
+    try {
+      const params = new URLSearchParams(location.search);
+      const k = params.get('author');
+      if (k) setAuthorKey(k);
+    } catch {}
+  })();
+  function authorHeaders() {
+    const k = getAuthorKey();
+    return k ? { 'X-Author-Key': k } : {};
+  }
 
   // ---- i18n: read from window.__klifeI18n (set by i18n.js, loaded first) ----
   // i18n.js is the single source of truth for every localized string used
@@ -450,6 +475,8 @@
         <div id="riddleFeedback" class="riddle-feedback"
              style="min-height:1.4rem;text-align:center;font-size:0.88rem;margin:0;padding:0 1.4rem;color:rgba(255,255,255,0.75);font-weight:600;"></div>
         <div id="riddleSolveCount" class="riddle-solve-count" aria-live="polite"></div>
+        <div id="riddleSkipHint" class="riddle-skip-hint" aria-live="polite"
+             style="text-align:center;font-size:0.68rem;color:rgba(255,213,106,0.5);margin:0.1rem 0 0.3rem 0;padding:0 1.4rem;letter-spacing:0.04em;font-style:italic;display:none;"></div>
         <div class="riddle-foot" id="riddleFoot" aria-live="polite"
              style="display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.82rem;margin:0.4rem 0 0 0;padding:0.9rem 1.4rem 1.3rem 1.4rem;border-top:1px dashed rgba(255,45,146,0.35);color:rgba(255,255,255,0.7);font-style:italic;background:linear-gradient(180deg, rgba(255,45,146,0.06) 0%, transparent 100%);border-radius:0 0 18px 18px;">
           <span class="riddle-foot-icon" aria-hidden="true"
@@ -488,6 +515,21 @@
     setAttr('#riddleHintBtn', 'aria-label', 'riddleHint');
     const bookHintLabel = overlay.querySelector('#riddleBookHintLabel');
     if (bookHintLabel && lab.riddleHint) bookHintLabel.textContent = lab.riddleHint;
+    // Skip hint: small "type the PIN as your answer to skip" tip
+    const skipHint = overlay.querySelector('#riddleSkipHint');
+    if (skipHint && lab.riddleSkipHint) {
+      skipHint.textContent = lab.riddleSkipHint;
+      skipHint.style.display = 'block';
+    }
+    // Author mode indicator (only shown when ?author=KEY was used)
+    if (getAuthorKey() && lab.authorModeActive) {
+      if (skipHint) {
+        const am = document.createElement('div');
+        am.style.cssText = 'text-align:center;font-size:0.68rem;color:rgba(255,213,106,0.7);margin:0.1rem 0 0.3rem 0;padding:0 1.4rem;letter-spacing:0.04em;';
+        am.textContent = lab.authorModeActive;
+        skipHint.after(am);
+      }
+    }
   }
 
   // Sync the level badge to the current level.
@@ -596,7 +638,9 @@
 
     async function loadPrompt() {
       try {
-        const res = await fetch(`${RIDDLE_ENDPOINT}?level=${level}&lang=${currentLang}`);
+        const res = await fetch(`${RIDDLE_ENDPOINT}?level=${level}&lang=${currentLang}`, {
+          headers: authorHeaders()
+        });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (!data.ok) throw new Error(data.error || 'unknown');
@@ -661,13 +705,33 @@
       try {
         const res = await fetch(RIDDLE_ENDPOINT, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', ...authorHeaders() },
           body: JSON.stringify({ level, answer: ans, lang: currentLang })
         });
         const data = await res.json();
-        // Multi-layer verdict: 'deep' (solved) | 'surface' (closer hint) | 'wrong'
+        // Multi-layer verdict: 'deep' | 'surface' | 'wrong' | 'skipped'
         const verdict = data.ok;
-        if (verdict === 'deep') {
+        if (verdict === 'skipped') {
+          // PIN was used to skip — mark as solved locally, no counter increment.
+          const state = riddleRead();
+          state.solved[level - 1] = true;
+          if (data.riddleId && !state.solvedRiddles.includes(data.riddleId)) {
+            state.solvedRiddles.push(data.riddleId);
+          }
+          riddleWrite(state);
+          const lab = L();
+          setRiddleFeedback((lab.riddleSkipped || '✓ Skipped.'), false);
+          // Submit becomes a green "next" arrow, click moves on
+          submit.textContent = '→';
+          submit.classList.add('is-next');
+          submit.disabled = false;
+          submit.onclick = () => {
+            close();
+            const next = firstUnsolved();
+            if (next) setTimeout(() => openRiddle(next), 200);
+            else showEchoBadge();
+          };
+        } else if (verdict === 'deep') {
           const state = riddleRead();
           state.solved[level - 1] = true;
           if (data.riddleId && !state.solvedRiddles.includes(data.riddleId)) {
@@ -862,7 +926,7 @@
       let currentRiddleId = null;
       closeBtn.onclick = () => popup.classList.remove('is-visible');
       try {
-        const res = await fetch(`/api/daily?lang=${lang()}`);
+        const res = await fetch(`/api/daily?lang=${lang()}`, { headers: authorHeaders() });
         const data = await res.json();
         if (data.ok) {
           promptEl2.textContent = data.prompt;
@@ -888,10 +952,17 @@
         try {
           const res = await fetch('/api/daily', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', ...authorHeaders() },
             body: JSON.stringify({ answer: ans, lang: lang(), riddleId: currentRiddleId })
           });
           const data = await res.json();
+          if (data.ok === 'skipped') {
+            feedbackEl.textContent = lab.riddleSkipped || '✓ Skipped.';
+            feedbackEl.className = 'daily-popup-feedback is-ok';
+            submitBtn.textContent = '✓';
+            inputEl.disabled = true;
+            return;
+          }
           if (data.ok === 'deep') {
             feedbackEl.textContent = lab.dailySolved || '✓ Heard.';
             feedbackEl.className = 'daily-popup-feedback is-ok';
