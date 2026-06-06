@@ -286,6 +286,10 @@
         sessionStorage.removeItem(STORAGE_PIN);
         const pinOverlay = document.getElementById('pinGate');
         if (pinOverlay) pinOverlay.classList.add('hidden');
+        const riddleOverlay = document.getElementById('riddleGate');
+        if (riddleOverlay) riddleOverlay.classList.add('hidden');
+        const completionOverlay = document.getElementById('completionGate');
+        if (completionOverlay) completionOverlay.classList.add('hidden');
         renderAuthorBar();
         probeM3Availability();
         return;
