@@ -34,6 +34,8 @@
 const crypto = require('crypto');
 const kv = require('./_kv');
 const auth = require('./_auth');
+const epoch = require('./_epoch');
+const limits = require('./_riddle_limits');
 
 // ---- Riddle content (server-only) ----------------------------------------
 
@@ -524,7 +526,7 @@ async function incrementSkipCount(riddleId) {
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Author-Key');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Author-Key, X-Riddle-Token');
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -573,12 +575,29 @@ module.exports = async function handler(req, res) {
       }
       const item = getItem(level, lang, currentWeekIndex());
       const solveCount = await getSolveCount(item.id);
+      const attemptState = await limits.getAttemptState(req, item.id);
+      const ep = epoch.resolveEpoch();
+      const letter = epoch.letterForWeek(ep.epochIndex, ep.weekInEpoch, lang);
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       return res.end(JSON.stringify({
         ok: true, ...item,
         solveCount,
-        solveCountPersistent: kv.isPersistent()
+        solveCountPersistent: kv.isPersistent(),
+        attemptsLeft: attemptState.attemptsLeft,
+        locked: attemptState.locked,
+        maxAttempts: attemptState.maxWrong,
+        epoch: {
+          start: epoch.EPOCH_START_ISO,
+          globalWeek: ep.globalWeek,
+          epochIndex: ep.epochIndex,
+          weekInEpoch: ep.weekInEpoch,
+          book: ep.epoch && ep.epoch.book,
+          preStart: ep.preStart,
+          letterIndex: ep.weekInEpoch,
+          letterOnDeep: letter ? letter.char : null,
+          sentenceStatus: letter ? letter.status : null
+        }
       }));
     }
 
@@ -606,7 +625,7 @@ module.exports = async function handler(req, res) {
       // Author/creator mode: header X-Author-Key -> internal counter.
       // Constant-time compare against AUTHOR_KEY env var.
       const authorHeader = req.headers['x-author-key'] || req.headers['X-Author-Key'];
-      const isAuthor = auth.isAuthorKey(authorHeader);
+      const isAuthor = auth.isAuthorSession(req) || auth.isAuthorKey(authorHeader);
 
       // Skip PIN: matches RIDDLE_SKIP_PIN -> verdict 'skipped' (no counter,
       // no wrong attempts, but we still log it for stats).
@@ -625,19 +644,46 @@ module.exports = async function handler(req, res) {
         }));
       }
 
+      if (!isAuthor) {
+        const pre = await limits.getAttemptState(req, riddleId);
+        if (pre.locked) {
+          const fullHint = (item && (item.chapter || '')) +
+            (item && item.hint ? ' · ' + item.hint : '');
+          res.statusCode = 429;
+          res.setHeader('Content-Type', 'application/json');
+          return res.end(JSON.stringify({
+            ok: 'locked',
+            level,
+            riddleId,
+            currentRiddle: item,
+            hint: fullHint,
+            attemptsLeft: 0,
+            locked: true,
+            maxAttempts: pre.maxWrong,
+            solveCount: await getSolveCount(riddleId)
+          }));
+        }
+      }
+
       const verdict = classifyAnswer(riddleId, answer);
 
       // On 'deep': increment KV counter (public OR internal, not both).
       // 'surface' and 'wrong' don't count.
       let solveCount = null;
       let internalSolveCount = null;
+      let attemptMeta = await limits.getAttemptState(req, riddleId);
       if (verdict === 'deep') {
+        if (!isAuthor) await limits.clearWrong(req, riddleId);
         if (isAuthor) {
           internalSolveCount = await incrementSolveCount(riddleId, 'internal');
           solveCount = await getSolveCount(riddleId);
         } else {
           solveCount = await incrementSolveCount(riddleId);
         }
+      } else if (verdict === 'wrong' && !isAuthor) {
+        attemptMeta = await limits.recordWrong(req, riddleId);
+        solveCount = await getSolveCount(riddleId);
+        if (isAuthor) internalSolveCount = await getSolveCount(riddleId, 'internal');
       } else {
         solveCount = await getSolveCount(riddleId);
         if (isAuthor) internalSolveCount = await getSolveCount(riddleId, 'internal');
@@ -654,6 +700,11 @@ module.exports = async function handler(req, res) {
           : '')
       );
 
+      const ep = epoch.resolveEpoch();
+      const letter = verdict === 'deep'
+        ? epoch.letterForWeek(ep.epochIndex, ep.weekInEpoch, lang)
+        : null;
+
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       return res.end(JSON.stringify({
@@ -664,7 +715,22 @@ module.exports = async function handler(req, res) {
         hint: fullHint,
         solveCount,
         internalSolveCount,
-        authorMode: isAuthor
+        authorMode: isAuthor,
+        attemptsLeft: attemptMeta.attemptsLeft,
+        locked: attemptMeta.locked,
+        maxAttempts: attemptMeta.maxWrong,
+        epoch: {
+          globalWeek: ep.globalWeek,
+          epochIndex: ep.epochIndex,
+          weekInEpoch: ep.weekInEpoch,
+          book: ep.epoch && ep.epoch.book,
+          letter: letter ? {
+            index: letter.index,
+            char: letter.char,
+            display: letter.display,
+            status: letter.status
+          } : null
+        }
       }));
     }
 

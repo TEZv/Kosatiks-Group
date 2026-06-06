@@ -13,6 +13,7 @@
 // returns simple equality. The interface is stable.
 
 const crypto = require('crypto');
+const session = require('./_session');
 
 function constantTimeEqual(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
@@ -52,6 +53,30 @@ function isAuthorKey(input) {
   return constantTimeEqual(String(input), expected);
 }
 
+function authorEmails() {
+  const raw = process.env.AUTHOR_EMAIL || '';
+  return raw.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+}
+
+function isAuthorEmail(email) {
+  const e = String(email || '').trim().toLowerCase();
+  if (!e) return false;
+  const list = authorEmails();
+  return list.length > 0 && list.includes(e);
+}
+
+function isAuthorSession(req) {
+  const s = session.readSession(req);
+  return !!(s && s.author && isAuthorEmail(s.email));
+}
+
+function canUseWheel(req, pin) {
+  if (isAuthorSession(req)) return true;
+  if (isHubPin(pin)) return true;
+  if (process.env.PIN && constantTimeEqual(String(pin || ''), String(process.env.PIN))) return true;
+  return false;
+}
+
 // Strip the answer of any leading/trailing whitespace before checking
 // against riddle answers; but for PINs we keep exact match (PIN = exact).
 function isSkipPinLoose(input) {
@@ -67,5 +92,9 @@ module.exports = {
   isSkipPin,
   isSkipPinLoose,
   isAuthorKey,
+  authorEmails,
+  isAuthorEmail,
+  isAuthorSession,
+  canUseWheel,
   constantTimeEqual
 };

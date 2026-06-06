@@ -159,6 +159,164 @@
     return sessionStorage.getItem(STORAGE_PIN) || '';
   }
 
+  // ---- Author Google session (wheel only) ----
+  let authorSessionActive = false;
+  let googleClientId = null;
+  let googleScriptLoading = null;
+
+  function hasWheelAccess() {
+    return authorSessionActive || hasPin();
+  }
+
+  function showAuthorReject(message) {
+    const lab = L();
+    let overlay = document.getElementById('authorReject');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'authorReject';
+      overlay.className = 'author-reject-overlay hidden';
+      overlay.innerHTML = `
+        <div class="author-reject-card">
+          <div id="authorRejectText"></div>
+          <button type="button" id="authorRejectClose">OK</button>
+        </div>`;
+      document.body.appendChild(overlay);
+      overlay.querySelector('#authorRejectClose').onclick = () => overlay.classList.add('hidden');
+    }
+    overlay.querySelector('#authorRejectText').textContent =
+      message || lab.authorRejectTitle || 'Not the author';
+    overlay.classList.remove('hidden');
+  }
+
+  function showAuthorNeed() {
+    const lab = L();
+    showAuthorReject(lab.authorNeedSignIn || 'Author sign-in required for the wheel.');
+    const bar = document.getElementById('authorBar');
+    if (bar) bar.classList.add('author-bar-pulse');
+    setTimeout(() => bar && bar.classList.remove('author-bar-pulse'), 2000);
+  }
+
+  function renderAuthorBar() {
+    let bar = document.getElementById('authorBar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'authorBar';
+      bar.className = 'author-bar';
+      document.body.appendChild(bar);
+    }
+    const lab = L();
+    if (authorSessionActive) {
+      bar.innerHTML = `
+        <span class="author-bar-ok">${lab.authorOk || '✓ Author'}</span>
+        <button type="button" class="author-bar-logout" id="authorLogoutBtn">${lab.authorLogout || 'Sign out'}</button>`;
+      const logout = bar.querySelector('#authorLogoutBtn');
+      if (logout) {
+        logout.onclick = async () => {
+          try {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+          } catch {}
+          authorSessionActive = false;
+          sessionStorage.removeItem(STORAGE_PIN);
+          renderAuthorBar();
+          bootGoogleButton();
+        };
+      }
+      return;
+    }
+    bar.innerHTML = `
+      <span class="author-bar-label">${lab.authorBtn || 'Author?'}</span>
+      <div id="googleSignInBtn"></div>`;
+    bootGoogleButton();
+  }
+
+  function loadGoogleScript() {
+    if (window.google && window.google.accounts) return Promise.resolve();
+    if (googleScriptLoading) return googleScriptLoading;
+    googleScriptLoading = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.async = true;
+      s.defer = true;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error('gsi_load_failed'));
+      document.head.appendChild(s);
+    });
+    return googleScriptLoading;
+  }
+
+  async function bootGoogleButton() {
+    const host = document.getElementById('googleSignInBtn');
+    if (!host || !googleClientId) return;
+    try {
+      await loadGoogleScript();
+      host.innerHTML = '';
+      window.google.accounts.id.initialize({
+        client_id: googleClientId,
+        callback: onGoogleCredential,
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+      window.google.accounts.id.renderButton(host, {
+        theme: 'outline',
+        size: 'medium',
+        text: 'signin_with',
+        shape: 'pill',
+        locale: lang() === 'en' ? 'en' : 'uk'
+      });
+    } catch (e) {
+      console.warn('[author] Google button failed:', e);
+      host.textContent = L().authorSignIn || 'Google sign-in';
+    }
+  }
+
+  async function onGoogleCredential(response) {
+    const cred = response && response.credential;
+    if (!cred) return;
+    const lab = L();
+    try {
+      const res = await fetch('/api/auth/google', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: cred, lang: lang() })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        authorSessionActive = true;
+        sessionStorage.removeItem(STORAGE_PIN);
+        const pinOverlay = document.getElementById('pinGate');
+        if (pinOverlay) pinOverlay.classList.add('hidden');
+        renderAuthorBar();
+        probeM3Availability();
+        return;
+      }
+      showAuthorReject(data.message || lab.authorRejectTitle);
+    } catch (e) {
+      showAuthorReject(lab.riddleNetworkError || 'Network error');
+    }
+  }
+
+  async function checkAuthorSession() {
+    try {
+      const res = await fetch('/api/auth/me', { credentials: 'include' });
+      if (!res.ok) return false;
+      const data = await res.json();
+      authorSessionActive = !!(data.ok && data.author);
+      return authorSessionActive;
+    } catch {
+      return false;
+    }
+  }
+
+  async function loadPublicConfig() {
+    try {
+      const res = await fetch('/api/config');
+      if (!res.ok) return;
+      const data = await res.json();
+      googleClientId = data.googleClientId || null;
+    } catch {}
+  }
+
   // ---- Provider toggle (in modal) ----
   function getPreferredProvider() {
     return localStorage.getItem(STORAGE_PROVIDER) || 'groq';
@@ -241,12 +399,13 @@
 
   // ---- Real-time question fetch ----
   async function fetchQuestions(sphere, lang) {
-    if (!hasPin()) {
-      showPinGate();
-      throw new Error('pin_required');
+    if (!hasWheelAccess()) {
+      showAuthorNeed();
+      throw new Error('author_required');
     }
     const res = await fetch(ENDPOINT, {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         pin: getPin(),
@@ -257,8 +416,9 @@
     });
     if (res.status === 401) {
       sessionStorage.removeItem(STORAGE_PIN);
-      showPinGate();
-      throw new Error('invalid_pin');
+      authorSessionActive = false;
+      showAuthorNeed();
+      throw new Error('unauthorized');
     }
     if (res.status === 429) {
       const data = await res.json().catch(() => ({}));
@@ -291,12 +451,11 @@
   }
 
   // ---- Init ----
-  function init() {
-    if (!hasPin()) {
-      showPinGate();
-    } else {
-      probeM3Availability();
-    }
+  async function init() {
+    await loadPublicConfig();
+    await checkAuthorSession();
+    renderAuthorBar();
+    if (hasWheelAccess()) probeM3Availability();
     // wait for the modal to be added by app.js
     const observer = new MutationObserver(() => {
       if (document.getElementById('modal')) {
@@ -336,9 +495,9 @@
         clearInterval(check);
         originalGenerate = window.generateQuestions;
         window.generateQuestions = async function (sphereShort, sphereFull) {
-          if (!hasPin()) {
-            showPinGate();
-            return [{ q: 'Введи PIN, щоб отримати питання', a: ['OK'], _idx: -1 }];
+          if (!hasWheelAccess()) {
+            showAuthorNeed();
+            return [{ q: (L().authorNeedSignIn || 'Author sign-in required.'), a: ['OK'], _idx: -1 }];
           }
           try {
             const lang = document.documentElement.lang === 'en' ? 'en' : 'ua';
@@ -358,8 +517,11 @@
   window.KLifeRealtime = {
     fetchQuestions,
     hasPin,
+    hasWheelAccess,
     getPin,
     showPinGate,
+    showAuthorNeed,
+    checkAuthorSession,
     getPreferredProvider,
     setPreferredProvider
   };
@@ -380,6 +542,29 @@
   const RIDDLE_SKIP_DAYS = 7;
   const RIDDLE_MAX_ATTEMPTS = 3;
   const RIDDLE_ENDPOINT = '/api/riddle';
+  const STORAGE_RIDDLE_TOKEN = 'klife_riddle_token';
+
+  function getRiddleToken() {
+    try {
+      let t = localStorage.getItem(STORAGE_RIDDLE_TOKEN);
+      if (!t) {
+        t = (typeof crypto !== 'undefined' && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : ('klife-' + Math.random().toString(36).slice(2) + Date.now().toString(36));
+        localStorage.setItem(STORAGE_RIDDLE_TOKEN, t);
+      }
+      return t;
+    } catch {
+      return '';
+    }
+  }
+
+  function riddleHeaders() {
+    const h = { ...authorHeaders() };
+    const t = getRiddleToken();
+    if (t) h['X-Riddle-Token'] = t;
+    return h;
+  }
 
   function riddleRead() {
     try {
@@ -800,7 +985,18 @@
       bookLine.style.color = 'rgba(26,10,58,0.55)';
     }
 
-    let attempts = 0;
+    let attemptsLeft = RIDDLE_MAX_ATTEMPTS;
+
+    function applyLockedState(hintText) {
+      const lab = Lfor(currentLang);
+      const hint = (lab.riddleOutOfTries || 'Out of tries.') + (hintText ? ' ' + hintText : '');
+      setRiddleFeedback(hint, true);
+      input.disabled = true;
+      submit.textContent = '×';
+      submit.onclick = close;
+      submit.disabled = false;
+      if (!hintRevealed && hintText) revealHint();
+    }
 
     function close() {
       overlay.classList.add('hidden');
@@ -816,7 +1012,7 @@
     async function loadPrompt() {
       try {
         const res = await fetch(`${RIDDLE_ENDPOINT}?level=${level}&lang=${currentLang}`, {
-          headers: authorHeaders()
+          headers: riddleHeaders()
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
@@ -868,7 +1064,15 @@
           hintBtn.textContent = '?';
         }
         if (bookLine) bookLine.style.color = 'rgba(26,10,58,0.55)';
-        input.focus();
+        if (typeof data.attemptsLeft === 'number') {
+          attemptsLeft = data.attemptsLeft;
+        }
+        if (data.locked) {
+          applyLockedState(currentHintText);
+        } else {
+          input.disabled = false;
+          input.focus();
+        }
       } catch (e) {
         promptEl.textContent = (Lfor(currentLang).riddleLoadError || 'Failed to load the riddle.');
         submit.disabled = true;
@@ -886,12 +1090,19 @@
       try {
         const res = await fetch(RIDDLE_ENDPOINT, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', ...authorHeaders() },
+          headers: { 'Content-Type': 'application/json', ...riddleHeaders() },
           body: JSON.stringify({ level, answer: ans, lang: currentLang })
         });
         const data = await res.json();
-        // Multi-layer verdict: 'deep' | 'surface' | 'wrong' | 'skipped'
+        // Multi-layer verdict: 'deep' | 'surface' | 'wrong' | 'skipped' | 'locked'
         const verdict = data.ok;
+        if (typeof data.attemptsLeft === 'number') {
+          attemptsLeft = data.attemptsLeft;
+        }
+        if (verdict === 'locked' || data.locked) {
+          applyLockedState(data.hint || currentHintText);
+          return;
+        }
         if (verdict === 'skipped') {
           // PIN was used to skip — mark as solved locally, no counter increment.
           const state = riddleRead();
@@ -989,24 +1200,16 @@
           }
           submit.disabled = false;
         } else {
-          // 'wrong' (or any unexpected verdict)
-          attempts += 1;
+          // 'wrong' (or any unexpected verdict) — limits enforced server-side
           const lab = Lfor(currentLang);
-          // After 1 wrong try: auto-reveal the hint (free, once per riddle).
-          // The user can still keep guessing up to RIDDLE_MAX_ATTEMPTS.
-          if (attempts === 1 && data.hint && !hintRevealed) {
+          const wrongCount = RIDDLE_MAX_ATTEMPTS - attemptsLeft;
+          if (wrongCount >= 1 && data.hint && !hintRevealed) {
             revealHint();
           }
-          if (attempts >= RIDDLE_MAX_ATTEMPTS) {
-            // Show final out-of-tries state, lock further input, button → "close".
-            const hint = (lab.riddleOutOfTries || 'Out of tries.') + (data.hint ? ' ' + data.hint : '');
-            setRiddleFeedback(hint, true);
-            input.disabled = true;
-            submit.textContent = '×';
-            submit.onclick = close;
+          if (data.locked || attemptsLeft <= 0) {
+            applyLockedState(data.hint || currentHintText);
           } else {
-            const left = RIDDLE_MAX_ATTEMPTS - attempts;
-            const triesLeft = lab.riddleTriesLeft ? lab.riddleTriesLeft(left) : `Tries left: ${left}.`;
+            const triesLeft = lab.riddleTriesLeft ? lab.riddleTriesLeft(attemptsLeft) : `Tries left: ${attemptsLeft}.`;
             setRiddleFeedback(`${lab.riddleWrong || '✗ Not quite.'} ${triesLeft}`, true);
             submit.disabled = false;
           }

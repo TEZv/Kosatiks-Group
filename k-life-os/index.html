@@ -25,7 +25,7 @@
       } catch (e) {}
     })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="stylesheet" href="styles.css?v=13">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         html, body { height: 100%; }
@@ -1672,9 +1672,9 @@
     buildCards();
 })();
 </script>
-    <script src="i18n.js?v=12" defer></script>
+    <script src="i18n.js?v=13" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
-    <script src="realtime.js?v=12" defer></script>
+    <script src="realtime.js?v=13" defer></script>
 
 <!-- KOSATIK mascot (v2 redesign) -->
 <svg class="kosatik" id="kosatikMascot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="KOSATIK mascot" role="img">
@@ -1745,7 +1745,7 @@
   // Show onboarding once per session, after PIN passed
   if (onboard && !sessionStorage.getItem('klife_onboarded')) {
     setTimeout(() => {
-      if (window.KLifeRealtime && window.KLifeRealtime.hasPin && window.KLifeRealtime.hasPin()) {
+      if (window.KLifeRealtime && window.KLifeRealtime.hasWheelAccess && window.KLifeRealtime.hasWheelAccess()) {
         onboard.classList.add('show');
       }
     }, 1500);
@@ -1925,6 +1925,6 @@
   }
 })();
 </script>
-<div id="klife-build" style="position:fixed;bottom:8px;right:12px;z-index:9999;font:600 0.7rem/1 ui-monospace,Menlo,Consolas,monospace;color:rgba(255,213,106,0.55);pointer-events:none;user-select:none;text-shadow:0 1px 2px rgba(0,0,0,0.6);">v10.2 · 2026-06-06 · re-engage+badge+download</div>
+<div id="klife-build" style="position:fixed;bottom:8px;right:12px;z-index:9999;font:600 0.7rem/1 ui-monospace,Menlo,Consolas,monospace;color:rgba(255,213,106,0.55);pointer-events:none;user-select:none;text-shadow:0 1px 2px rgba(0,0,0,0.6);">v10.3 · Google Auth + epoch + rate limit</div>
 </body>
 </html>

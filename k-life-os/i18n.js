@@ -191,6 +191,13 @@ const UI = {
     riddleSkipPrompt: "Введи PIN щоб пропустити",
     authorModeActive: "🔑 Автор-режим (твої розв'язки не рахуються в загальний лічильник)",
     authorKeyPrompt: "Ключ автора (опційно)",
+    authorBtn: "Author?",
+    authorOk: "✓ Автор · колесо відкрито",
+    authorSignIn: "Увійти як автор (Google)",
+    authorRejectTitle: "Не автор",
+    authorNeedSignIn: "Колесо лише для автора — натисни Author? знизу зліва.",
+    authorSigningIn: "Перевіряю…",
+    authorLogout: "Вийти",
   },
   en: {
     pageTitle: "[K Life OS] — Where will it take me?",
@@ -343,6 +350,13 @@ const UI = {
     riddleSkipPrompt: "Enter PIN to skip",
     authorModeActive: "🔑 Author mode (your solves don't count to public counter)",
     authorKeyPrompt: "Author key (optional)",
+    authorBtn: "Author?",
+    authorOk: "✓ Author · wheel unlocked",
+    authorSignIn: "Sign in as author (Google)",
+    authorRejectTitle: "Not the author",
+    authorNeedSignIn: "The wheel is author-only — tap Author? at the bottom left.",
+    authorSigningIn: "Checking…",
+    authorLogout: "Sign out",
   },
 };
 

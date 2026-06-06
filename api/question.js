@@ -32,14 +32,8 @@ function checkRateLimit(ip) {
   return { allowed: true };
 }
 
-function verifyPin(pin) {
-  // v10.1: prefer HUB_PIN (new) → fall back to PIN (backward compat).
-  // The _auth helper does constant-time compare and is the canonical check.
-  if (auth.isHubPin(pin)) return true;
-  if (process.env.PIN && auth.constantTimeEqual(String(pin || ''), String(process.env.PIN))) return true;
-  return false;
-}
-  return diff === 0;
+function verifyWheelAccess(req, pin) {
+  return auth.canUseWheel(req, pin);
 }
 
 async function callProvider(provider, prompt) {
@@ -90,7 +84,8 @@ function parseResponse(text) {
 function setCors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Cookie');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Content-Type', 'application/json');
 }
 
@@ -130,9 +125,9 @@ module.exports = async function handler(req, res) {
     const lang = body.lang === 'en' ? 'en' : 'ua';
     const requested = (body.provider || 'groq').toLowerCase();
 
-    // PIN
-    if (!verifyPin(pin)) {
-      return res.status(401).json({ error: 'invalid_pin' });
+    // Author Google session or legacy PIN (dev fallback).
+    if (!verifyWheelAccess(req, pin)) {
+      return res.status(401).json({ error: 'unauthorized', need: 'author_or_pin' });
     }
 
     // Validate sphere

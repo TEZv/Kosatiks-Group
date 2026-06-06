@@ -1286,3 +1286,75 @@ body.immersive .glass {
   .klife-daily-whisper { right: 14px; bottom: 150px; width: 40px; height: 40px; }
   .klife-daily-popup { right: 64px; bottom: 140px; max-width: calc(100vw - 80px); }
 }
+
+/* Author? bar — Google wheel access (bottom-left) */
+.author-bar {
+  position: fixed;
+  left: 12px;
+  bottom: 8px;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(10, 14, 28, 0.82);
+  border: 1px solid rgba(255, 107, 217, 0.35);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+}
+.author-bar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(255, 213, 106, 0.85);
+  cursor: default;
+}
+.author-bar-ok {
+  font-size: 0.72rem;
+  color: rgba(107, 255, 140, 0.9);
+  font-weight: 600;
+}
+.author-bar-logout {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.55);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0 0.2rem;
+}
+.author-reject-overlay.hidden {
+  display: none !important;
+}
+.author-reject-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  background: rgba(4, 6, 14, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.author-reject-card {
+  max-width: 360px;
+  padding: 1.25rem 1.4rem;
+  border-radius: 1rem;
+  background: linear-gradient(160deg, rgba(30, 12, 40, 0.95), rgba(12, 18, 36, 0.98));
+  border: 1px solid rgba(255, 107, 217, 0.4);
+  color: #f3e8ff;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.author-reject-card button {
+  margin-top: 1rem;
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  background: rgba(0, 229, 255, 0.12);
+  color: #e6f7ff;
+  cursor: pointer;
+}
