@@ -1026,3 +1026,220 @@ body.immersive .glass {
   border-color: rgba(107, 255, 140, 0.5);
   box-shadow: 0 0 12px rgba(107, 255, 140, 0.25);
 }
+
+/* ---- Solve count line (inside riddle modal) ---- */
+.riddle-solve-count {
+  text-align: center;
+  font: 500 0.7rem/1.2 Inter, sans-serif;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0.25rem 0 0.4rem 0;
+  padding: 0 1.4rem;
+}
+.riddle-solve-count strong {
+  color: rgba(0, 229, 255, 0.85);
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.3);
+}
+
+/* ---- Crystal ball (click-to-shake, fetches /api/prophecy) ---- */
+@keyframes klife-ball-idle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(0.5deg); }
+}
+@keyframes klife-ball-shake {
+  0% { transform: rotate(0deg) scale(1); }
+  20% { transform: rotate(-12deg) scale(1.08); }
+  40% { transform: rotate(10deg) scale(1.1); }
+  60% { transform: rotate(-8deg) scale(1.06); }
+  80% { transform: rotate(5deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+@keyframes klife-ball-aura {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.18); }
+}
+.klife-crystal-ball {
+  position: fixed;
+  right: 20px;
+  bottom: 110px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe7b5 0%, #ff5fa2 35%, #6e2bff 75%, #1a0440 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2),
+              0 8px 24px rgba(110, 43, 255, 0.55),
+              inset 0 0 18px rgba(255, 231, 181, 0.4);
+  cursor: pointer;
+  z-index: 9999;
+  animation: klife-ball-idle 4s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.klife-crystal-ball::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 95, 162, 0.5) 0%, transparent 70%);
+  z-index: -1;
+  animation: klife-ball-aura 3.5s ease-in-out infinite;
+}
+.klife-crystal-ball:hover {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4),
+              0 8px 32px rgba(255, 95, 162, 0.7),
+              inset 0 0 24px rgba(255, 231, 181, 0.6);
+}
+.klife-crystal-ball.is-shaking {
+  animation: klife-ball-shake 0.7s ease-in-out;
+}
+.klife-crystal-ball-tooltip {
+  position: absolute;
+  right: 64px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(12, 6, 32, 0.95);
+  border: 1px solid rgba(255, 95, 162, 0.4);
+  border-radius: 10px;
+  padding: 0.5rem 0.7rem;
+  font: 500 0.78rem/1.4 Inter, sans-serif;
+  color: #ffe7b5;
+  white-space: nowrap;
+  max-width: 240px;
+  white-space: normal;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.klife-crystal-ball-tooltip.is-visible {
+  opacity: 1;
+}
+
+/* ---- Daily whisper widget (click to reveal today's micro-riddle) ---- */
+.klife-daily-whisper {
+  position: fixed;
+  right: 20px;
+  bottom: 180px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.15) 0%, rgba(126, 116, 255, 0.25) 100%);
+  border: 1.5px solid rgba(0, 229, 255, 0.55);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
+  cursor: pointer;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.klife-daily-whisper:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.5);
+}
+.klife-daily-popup {
+  position: fixed;
+  right: 80px;
+  bottom: 165px;
+  background: linear-gradient(180deg, rgba(26, 14, 56, 0.97) 0%, rgba(12, 6, 32, 0.99) 100%);
+  border: 1.5px solid rgba(0, 229, 255, 0.4);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  font: 500 0.82rem/1.4 Inter, sans-serif;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 280px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  transform: translateX(8px);
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.25s;
+}
+.klife-daily-popup.is-visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+.klife-daily-popup .daily-popup-prompt {
+  font-style: italic;
+  color: #fff5dc;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.klife-daily-popup .daily-popup-input-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.klife-daily-popup input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  color: #fff;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  font: 500 0.82rem/1 Inter, sans-serif;
+  outline: none;
+}
+.klife-daily-popup input:focus {
+  border-color: rgba(0, 229, 255, 0.7);
+}
+.klife-daily-popup button {
+  background: linear-gradient(135deg, #00e5ff 0%, #ff2d92 100%);
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.klife-daily-popup .daily-popup-feedback {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.2rem;
+  min-height: 1.1em;
+}
+.klife-daily-popup .daily-popup-feedback.is-ok {
+  color: #6bff8c;
+}
+.klife-daily-popup .daily-popup-feedback.is-err {
+  color: #ff8aa6;
+}
+.klife-daily-popup .daily-popup-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 2px 6px;
+  line-height: 1;
+}
+.klife-daily-popup .daily-popup-close:hover {
+  color: #fff;
+}
+.klife-daily-popup .daily-popup-count {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.7rem;
+  color: rgba(0, 229, 255, 0.7);
+  letter-spacing: 0.04em;
+}
+@media (max-width: 600px) {
+  .klife-crystal-ball { right: 14px; bottom: 90px; width: 50px; height: 50px; font-size: 1.25rem; }
+  .klife-daily-whisper { right: 14px; bottom: 150px; width: 40px; height: 40px; }
+  .klife-daily-popup { right: 64px; bottom: 140px; max-width: calc(100vw - 80px); }
+}

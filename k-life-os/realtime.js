@@ -449,6 +449,7 @@
         </div>
         <div id="riddleFeedback" class="riddle-feedback"
              style="min-height:1.4rem;text-align:center;font-size:0.88rem;margin:0;padding:0 1.4rem;color:rgba(255,255,255,0.75);font-weight:600;"></div>
+        <div id="riddleSolveCount" class="riddle-solve-count" aria-live="polite"></div>
         <div class="riddle-foot" id="riddleFoot" aria-live="polite"
              style="display:flex;align-items:center;justify-content:center;gap:0.5rem;font-size:0.82rem;margin:0.4rem 0 0 0;padding:0.9rem 1.4rem 1.3rem 1.4rem;border-top:1px dashed rgba(255,45,146,0.35);color:rgba(255,255,255,0.7);font-style:italic;background:linear-gradient(180deg, rgba(255,45,146,0.06) 0%, transparent 100%);border-radius:0 0 18px 18px;">
           <span class="riddle-foot-icon" aria-hidden="true"
@@ -623,6 +624,16 @@
         if (bookHintLabel) {
           bookHintLabel.textContent = lab.riddleHint || 'підказка';
         }
+        // External solve count (from Vercel KV or in-memory fallback)
+        const solveCountEl = overlay.querySelector('#riddleSolveCount');
+        if (solveCountEl) {
+          const n = Number(data.solveCount) || 0;
+          if (n > 0 && lab.riddleSolveCount) {
+            solveCountEl.innerHTML = lab.riddleSolveCount(n).replace(/(\d+)/, '<strong>$1</strong>');
+          } else {
+            solveCountEl.textContent = '';
+          }
+        }
         // Reset hint state on (re)load
         hintRevealed = false;
         if (hintBtn) {
@@ -654,7 +665,9 @@
           body: JSON.stringify({ level, answer: ans, lang: currentLang })
         });
         const data = await res.json();
-        if (data.ok) {
+        // Multi-layer verdict: 'deep' (solved) | 'surface' (closer hint) | 'wrong'
+        const verdict = data.ok;
+        if (verdict === 'deep') {
           const state = riddleRead();
           state.solved[level - 1] = true;
           if (data.riddleId && !state.solvedRiddles.includes(data.riddleId)) {
@@ -663,6 +676,12 @@
           riddleWrite(state);
           const lab = L();
           setRiddleFeedback((lab.riddleSolved || '✓ Solved.'), false);
+          // Update solve count display
+          const solveCountEl = overlay.querySelector('#riddleSolveCount');
+          if (solveCountEl && lab.riddleSolveCount) {
+            const n = Number(data.solveCount) || 0;
+            solveCountEl.innerHTML = lab.riddleSolveCount(n).replace(/(\d+)/, '<strong>$1</strong>');
+          }
           // Submit becomes a green "next" arrow, click moves on
           submit.textContent = '→';
           submit.classList.add('is-next');
@@ -673,7 +692,22 @@
             if (next) setTimeout(() => openRiddle(next), 200);
             else showEchoBadge();
           };
+        } else if (verdict === 'surface') {
+          // Closer but not yet — show red herring hint, don't count as wrong attempt
+          const lab = Lfor(currentLang);
+          const closerHint = (lab.riddleCloser && lab.riddleCloser(data.hint)) || (data.hint || '');
+          setRiddleFeedback(closerHint, false);
+          // Update solve count display (others have solved it)
+          const solveCountEl = overlay.querySelector('#riddleSolveCount');
+          if (solveCountEl && lab.riddleSolveCount) {
+            const n = Number(data.solveCount) || 0;
+            if (n > 0) {
+              solveCountEl.innerHTML = lab.riddleSolveCount(n).replace(/(\d+)/, '<strong>$1</strong>');
+            }
+          }
+          submit.disabled = false;
         } else {
+          // 'wrong' (or any unexpected verdict)
           attempts += 1;
           const lab = Lfor(currentLang);
           // After 1 wrong try: auto-reveal the hint (free, once per riddle).
@@ -741,10 +775,154 @@
     }
   }
 
+  // ---- Crystal ball: click-to-shake, fetches /api/prophecy ----
+  function ensureCrystalBall() {
+    if (document.getElementById('klifeCrystalBall')) return;
+    const wrap = document.createElement('div');
+    wrap.id = 'klifeCrystalBall';
+    wrap.className = 'klife-crystal-ball';
+    wrap.setAttribute('role', 'button');
+    wrap.setAttribute('aria-label', 'crystal-ball');
+    wrap.innerHTML = '🔮<div class="klife-crystal-ball-tooltip" id="klifeCrystalBallTooltip"></div>';
+    document.body.appendChild(wrap);
+    wrap.addEventListener('click', async () => {
+      if (wrap.classList.contains('is-shaking')) return;
+      wrap.classList.add('is-shaking');
+      const tip = wrap.querySelector('#klifeCrystalBallTooltip');
+      const lab = L();
+      if (tip) {
+        tip.classList.add('is-visible');
+        tip.textContent = lab.crystalBallShake || 'Listening…';
+      }
+      try {
+        const res = await fetch(`/api/prophecy?lang=${lang()}`);
+        const data = await res.json();
+        if (data.ok && tip) {
+          tip.textContent = data.text;
+          setTimeout(() => tip.classList.remove('is-visible'), 6000);
+        }
+      } catch (e) {
+        if (tip) tip.textContent = lab.riddleNetworkError || 'Network error.';
+        setTimeout(() => tip.classList.remove('is-visible'), 4000);
+      }
+      setTimeout(() => wrap.classList.remove('is-shaking'), 700);
+    });
+    // Hover preview (desktop)
+    wrap.addEventListener('mouseenter', () => {
+      const tip = wrap.querySelector('#klifeCrystalBallTooltip');
+      const lab = L();
+      if (tip && !wrap.classList.contains('is-shaking')) {
+        tip.textContent = lab.crystalBallTooltip || 'Touch to hear a prophecy';
+        tip.classList.add('is-visible');
+      }
+    });
+    wrap.addEventListener('mouseleave', () => {
+      if (!wrap.classList.contains('is-shaking')) {
+        const tip = wrap.querySelector('#klifeCrystalBallTooltip');
+        if (tip) tip.classList.remove('is-visible');
+      }
+    });
+  }
+
+  // ---- Daily whisper: small widget, click to reveal today's micro-riddle ----
+  function ensureDailyWhisper() {
+    if (document.getElementById('klifeDailyWhisper')) return;
+    const wrap = document.createElement('div');
+    wrap.id = 'klifeDailyWhisper';
+    wrap.className = 'klife-daily-whisper';
+    wrap.setAttribute('role', 'button');
+    wrap.setAttribute('aria-label', 'daily-whisper');
+    wrap.innerHTML = '🌀';
+    document.body.appendChild(wrap);
+    let popup = null;
+    wrap.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (popup) {
+        popup.classList.toggle('is-visible');
+        return;
+      }
+      const lab = L();
+      popup = document.createElement('div');
+      popup.className = 'klife-daily-popup';
+      popup.innerHTML = `
+        <button class="daily-popup-close" type="button" aria-label="close">×</button>
+        <div class="daily-popup-prompt">…</div>
+        <div class="daily-popup-input-row">
+          <input type="text" maxlength="64" autocomplete="off" placeholder="${lab.riddlePlaceholder || ''}">
+          <button type="button">${lab.riddleSubmit || 'OK'}</button>
+        </div>
+        <div class="daily-popup-feedback"></div>
+      `;
+      document.body.appendChild(popup);
+      const closeBtn = popup.querySelector('.daily-popup-close');
+      const promptEl2 = popup.querySelector('.daily-popup-prompt');
+      const inputEl = popup.querySelector('input');
+      const submitBtn = popup.querySelector('.daily-popup-input-row button');
+      const feedbackEl = popup.querySelector('.daily-popup-feedback');
+      let currentRiddleId = null;
+      closeBtn.onclick = () => popup.classList.remove('is-visible');
+      try {
+        const res = await fetch(`/api/daily?lang=${lang()}`);
+        const data = await res.json();
+        if (data.ok) {
+          promptEl2.textContent = data.prompt;
+          currentRiddleId = data.id;
+          if (data.solveCount && data.solveCount > 0) {
+            const countLine = document.createElement('span');
+            countLine.className = 'daily-popup-count';
+            countLine.textContent = lab.riddleSolveCount ? lab.riddleSolveCount(data.solveCount) : '';
+            feedbackEl.after(countLine);
+          }
+        } else {
+          promptEl2.textContent = lab.riddleLoadError || 'Failed to load.';
+        }
+      } catch (e2) {
+        promptEl2.textContent = lab.riddleNetworkError || 'Network error.';
+      }
+      popup.classList.add('is-visible');
+      setTimeout(() => inputEl.focus(), 50);
+      async function sendDaily() {
+        const ans = inputEl.value;
+        if (!ans.trim()) return;
+        submitBtn.disabled = true;
+        try {
+          const res = await fetch('/api/daily', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ answer: ans, lang: lang(), riddleId: currentRiddleId })
+          });
+          const data = await res.json();
+          if (data.ok === 'deep') {
+            feedbackEl.textContent = lab.dailySolved || '✓ Heard.';
+            feedbackEl.className = 'daily-popup-feedback is-ok';
+            submitBtn.textContent = '✓';
+            inputEl.disabled = true;
+          } else {
+            feedbackEl.textContent = (data.hint || lab.dailyWrong || '✗');
+            feedbackEl.className = 'daily-popup-feedback is-err';
+            submitBtn.disabled = false;
+          }
+        } catch (e) {
+          feedbackEl.textContent = lab.riddleNetworkError || 'Network error.';
+          feedbackEl.className = 'daily-popup-feedback is-err';
+          submitBtn.disabled = false;
+        }
+      }
+      submitBtn.onclick = sendDaily;
+      inputEl.onkeydown = (ev) => { if (ev.key === 'Enter') sendDaily(); };
+    });
+  }
+
+  function initWidgets() {
+    if (new URLSearchParams(location.search).get('nowidgets') === '1') return;
+    ensureCrystalBall();
+    ensureDailyWhisper();
+  }
+
   // ---- Init: also kick off the riddle gate (no conflict with PIN) ----
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initRiddles);
+    document.addEventListener('DOMContentLoaded', () => { initRiddles(); initWidgets(); });
   } else {
-    setTimeout(initRiddles, 0);
+    setTimeout(() => { initRiddles(); initWidgets(); }, 0);
   }
 })();

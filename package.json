@@ -7,6 +7,9 @@
     "build": "echo 'Static site, no build needed'",
     "dev": "echo 'Use Vercel dev or any static server'"
   },
+  "dependencies": {
+    "@vercel/kv": "^2.0.0"
+  },
   "engines": {
     "node": "20.x"
   }
