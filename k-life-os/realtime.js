@@ -225,38 +225,90 @@
     setTimeout(() => bar && bar.classList.remove('author-bar-pulse'), 2000);
   }
 
-  function renderAuthorBar() {
+  function ensureAuthorBar() {
     let bar = document.getElementById('authorBar');
-    if (!bar) {
-      bar = document.createElement('div');
-      bar.id = 'authorBar';
-      bar.className = 'author-bar';
-      document.body.appendChild(bar);
+    if (bar) return bar;
+    bar = document.createElement('div');
+    bar.id = 'authorBar';
+    bar.className = 'author-bar';
+    bar.innerHTML = `
+      <span id="authorBarText" class="author-bar-label"></span>
+      <div id="authorBarGuest" class="author-bar-guest">
+        <button type="button" id="authorSignInLink" class="author-signin-link"></button>
+      </div>
+      <div id="authorBarAuthed" class="author-bar-authed" hidden>
+        <button type="button" id="authorLogoutBtn" class="author-bar-logout"></button>
+      </div>`;
+    document.body.appendChild(bar);
+    bar.querySelector('#authorSignInLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      showGoogleSignInPopup();
+    });
+    bar.querySelector('#authorLogoutBtn').addEventListener('click', async () => {
+      try {
+        await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+      } catch {}
+      authorSessionActive = false;
+      sessionStorage.removeItem(STORAGE_PIN);
+      updateAuthorBarUI();
+      initRiddles();
+    });
+    return bar;
+  }
+
+  /** Text-only updates — no innerHTML rebuild, bar height stays fixed. */
+  function updateAuthorBarUI() {
+    const bar = ensureAuthorBar();
+    const lab = L();
+    const text = bar.querySelector('#authorBarText');
+    const guest = bar.querySelector('#authorBarGuest');
+    const authed = bar.querySelector('#authorBarAuthed');
+    const signIn = bar.querySelector('#authorSignInLink');
+    const logout = bar.querySelector('#authorLogoutBtn');
+    if (authorSessionActive) {
+      text.className = 'author-bar-ok';
+      text.textContent = lab.authorOk || '✓ Author';
+      guest.hidden = true;
+      authed.hidden = false;
+      logout.textContent = lab.authorLogout || 'Sign out';
+    } else {
+      text.className = 'author-bar-label';
+      text.textContent = lab.authorLabel || 'Author?';
+      guest.hidden = false;
+      authed.hidden = true;
+      signIn.textContent = lab.authorSignIn || 'Google sign-in';
+    }
+  }
+
+  function renderAuthorBar() {
+    updateAuthorBarUI();
+  }
+
+  async function showGoogleSignInPopup() {
+    if (!googleClientId) return;
+    let overlay = document.getElementById('authorGooglePopup');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'authorGooglePopup';
+      overlay.className = 'author-reject-overlay hidden';
+      overlay.innerHTML = `
+        <div class="author-google-card">
+          <p id="authorGooglePopupTitle" class="author-google-title"></p>
+          <div id="googleSignInBtn" class="author-google-btn-slot"></div>
+          <button type="button" id="authorGooglePopupClose" class="author-google-close"></button>
+        </div>`;
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.add('hidden');
+      });
+      overlay.querySelector('#authorGooglePopupClose').onclick = () => overlay.classList.add('hidden');
     }
     const lab = L();
-    if (authorSessionActive) {
-      bar.innerHTML = `
-        <span class="author-bar-ok">${lab.authorOk || '✓ Author'}</span>
-        <button type="button" class="author-bar-logout" id="authorLogoutBtn">${lab.authorLogout || 'Sign out'}</button>`;
-      const logout = bar.querySelector('#authorLogoutBtn');
-      if (logout) {
-        logout.onclick = async () => {
-          try {
-            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
-          } catch {}
-          authorSessionActive = false;
-          sessionStorage.removeItem(STORAGE_PIN);
-          renderAuthorBar();
-          bootGoogleButton();
-          initRiddles();
-        };
-      }
-      return;
-    }
-    bar.innerHTML = `
-      <span class="author-bar-label">${lab.authorLabel || 'Author?'}</span>
-      <div id="googleSignInBtn"></div>`;
-    bootGoogleButton();
+    overlay.querySelector('#authorGooglePopupTitle').textContent =
+      lab.authorSignIn || 'Sign in with Google';
+    overlay.querySelector('#authorGooglePopupClose').textContent = 'OK';
+    overlay.classList.remove('hidden');
+    await bootGoogleButton();
   }
 
   function loadGoogleScript() {
@@ -300,13 +352,7 @@
       });
     } catch (e) {
       console.warn('[author] Google button failed:', e);
-      host.innerHTML = '';
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'author-fallback-btn';
-      btn.textContent = L().authorSignIn || 'Google sign-in';
-      btn.onclick = () => window.google?.accounts?.id?.prompt?.();
-      host.appendChild(btn);
+      host.textContent = L().authorSignIn || 'Google sign-in';
     }
   }
 
@@ -331,7 +377,9 @@
         if (riddleOverlay) riddleOverlay.classList.add('hidden');
         const completionOverlay = document.getElementById('completionGate');
         if (completionOverlay) completionOverlay.classList.add('hidden');
-        renderAuthorBar();
+        const popup = document.getElementById('authorGooglePopup');
+        if (popup) popup.classList.add('hidden');
+        updateAuthorBarUI();
         probeM3Availability();
         return;
       }
@@ -570,6 +618,7 @@
     getPreferredProvider,
     setPreferredProvider,
     renderAuthorBar,
+    updateAuthorBarUI,
     syncGlobalLang
   };
 
@@ -1471,9 +1520,15 @@
 
   // Re-render author bar & PIN gate on language change (i18n dispatches 'klife:langchange')
   window.addEventListener('klife:langchange', () => {
-    renderAuthorBar();
+    updateAuthorBarUI();
     const pinGate = document.getElementById('pinGate');
     if (pinGate) fillPinLabels(pinGate);
+    const googlePopup = document.getElementById('authorGooglePopup');
+    if (googlePopup && !googlePopup.classList.contains('hidden')) {
+      const lab = L();
+      const title = googlePopup.querySelector('#authorGooglePopupTitle');
+      if (title) title.textContent = lab.authorSignIn || 'Sign in with Google';
+    }
   });
 
   // ---- Init: also kick off the riddle gate (no conflict with PIN) ----
