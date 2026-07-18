@@ -1,39 +1,9 @@
 {
-  "generatedAt": "2026-07-17T22:42:17.280Z",
-  "day": "2026-07-18",
+  "generatedAt": "2026-07-18T22:42:24.924Z",
+  "day": "2026-07-19",
   "provider": "m3",
   "ua": {
     "Творчість або Самовираження": [
-      {
-        "q": "Жінка годинами стоїть біля мольберта, не починаючи малювати",
-        "a": [
-          "Відкидає пензли, дивиться серіал",
-          "Вирішує прочитати підручник з техніки малювання",
-          "Починає імпровізувати фарбами на полотні"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона отримала критику від замовника за свій дизайн",
-        "a": [
-          "Переробляє проект згідно з коментарями",
-          "Ігнорує критику, вважає свій варіант кращим",
-          "Використовує критику для створення нового стилю"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Під час творчого періоду вона відчуває внутрішню порожнечу",
-        "a": [
-          "Заповнює час пуговицями розваг у соцмережах",
-          "Виконує список обов’язкових справ для відволікання",
-          "Дозволяє собі відчувати й досліджувати цю порожнечу"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "Жінка відклала малярство після народження дитини і тепер відчуває внутрішню порожнечу",
         "a": [
@@ -67,36 +37,6 @@
     ],
     "Особистий розвиток або Турбота про себе": [
       {
-        "q": "Вона прокидається з тривогою о 3-й ночі, після важкого дня",
-        "a": [
-          "Лістає телефон, намагаючись розслабитися",
-          "Виконує швидку медитацію, щоб заспокоїти розум",
-          "Записує свої думки в щоденник"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона відчуває себе вигоравшою після робочого дня вдома",
-        "a": [
-          "Переглядає серіал, щоб відволіктися",
-          "Планує продуктивний вечір із завданнями",
-          "Готує собі корисний обід на завтра"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона відкладає важливе завдання через страх невдачі зараз",
-        "a": [
-          "Відразу починає робити іншу справу",
-          "Розбиває завдання на менші кроки",
-          "Просить підтримки у близьких людей"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "Вона прокидається о 6:00 з тривогою після нічних робіт",
         "a": [
           "Перевертається і намагається знову заснути",
@@ -128,36 +68,6 @@
       }
     ],
     "Домашнє життя або Ведення господарства": [
-      {
-        "q": "Вона прокидається пізно вранці з почуттям вини за невиконані домашні справи",
-        "a": [
-          "Відразу перевіряє соцмережі, щоб відволіктись",
-          "Складає жорсткий план прибирання на день",
-          "Дозволяє собі трохи розслабтися і випити кави"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона під час приготування вечері отримує несподіваний дзвінок від клієнта",
-        "a": [
-          "Відкладає телефон і закінчує готувати вечерю",
-          "Відповідає на дзвінок і вирішує питання клієнта",
-          "Просить клієнта передзвонити пізніше, бо щось горить"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона витрачає весь вечір на прибирання і відчуває себе виснаженою",
-        "a": [
-          "Намагається зробити ще більше справ завтра",
-          "Виконує всі справи згідно зі своїм планом",
-          "Рішуче вирішує делегувати деякі справи членам сім'ї"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "Жінка під час відпустки не може впоратися з дітьми вдома",
         "a": [
@@ -191,36 +101,6 @@
     ],
     "Фінанси": [
       {
-        "q": "Жінка виявила перевитрату бюджету на рекламні витрати в компанії",
-        "a": [
-          "Розглядає способи зменшення витрат без шкоди для бізнесу",
-          "Відкладає проблему, зосереджуючись на інших питаннях",
-          "Планує зустріч з маркетологом для перегляду стратегії"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона отримала відмову в кредиті для розвитку бізнесу від банку",
-        "a": [
-          "Вивчає інші фінансові інструменти для підтримки бізнесу",
-          "Відмовляється від ідеї кредиту, змінюючи бізнес-план",
-          "Шукає інвесторів для спільного фінансування проекту"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Під час підготовки до звітного періоду вона відчуває фінансову тривогу",
-        "a": [
-          "Складає детальний фінансовий план і діє за ним",
-          "Ігнорує стан справ, сподіваючись на аврал",
-          "Звертається до фінансового консультанта за порадою"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "Вона виявила перевитрати у бізнесі під час місячного звіту",
         "a": [
           "Розглядає можливість скоротити витрати на рекламу",
@@ -252,36 +132,6 @@
       }
     ],
     "Батьківство або Сім'я": [
-      {
-        "q": "Жінка стоїть біля дитячого майданчика, де її дитина посварилася з іншою",
-        "a": [
-          "Розбігається і починає бити на дітей",
-          "Спокійно підходить і починає розмову",
-          "Залишає дітей та йде до магазину"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона сидить на кухні під час сімейного вечеря",
-        "a": [
-          "Відволікається на телефон і ігнорує сім'ю",
-          "Контролює кожну дію членів сім'ї",
-          "Посміхається та підтримує розмову"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Жінка лежить без сну вночі через хвору дитину",
-        "a": [
-          "Горне до ліжка та нічого не робить",
-          "Встає та намагається контролювати лікування",
-          "Вмивається та піде до іншої кімнати медитувати"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "Жінка чекає на першого малюка і відчуває тривогу вдома",
         "a": [
@@ -315,36 +165,6 @@
     ],
     "Відпочинок і Хобі": [
       {
-        "q": "Вона відмінила вихід з друзями на концерт через втому після робочого тижня вдома на дивані",
-        "a": [
-          "Закриває очі і дрімає після важкого тижня",
-          "Бере книгу і планує що почитати на завтра",
-          "Бере телефон і повідомляє друзям про відміну"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Жінка відчуває нудьгу під час тривалої поїздки на автомобілі без музики",
-        "a": [
-          "Починає аналізувати свої робочі задачі на тижні",
-          "Включає аудіокнигу для особистісного розвитку",
-          "Зупиняється і робить швидку прогулянку лісом"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Людина вирішила не робити нічого під час відпустки вдома",
-        "a": [
-          "Починає перебирати в своїй шафі одяг",
-          "Планує свій щоденний розпорядок на відпуску",
-          "Вирішує помалювати і купити фарби і полотно"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "Вона вийшла на прогулянку в ліс під час відпустки",
         "a": [
           "Відволікається на соцімережі, щоб не думати про роботу",
@@ -376,36 +196,6 @@
       }
     ],
     "Спільнота або Соціальні зв'язки": [
-      {
-        "q": "Жінка відвідує благодійний вечір, але відчуває себе самотньою серед незнайомців",
-        "a": [
-          "Відразу виходить на свіже повітря",
-          "Розпочинає розмову з сусідом",
-          "Змінює обстановку, щоб знайти нових друзів"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Під час зустрічі з подругами жінка відчуває, що не може знайти спільну тему",
-        "a": [
-          "Змінює тему на іншу, більш безпечну",
-          "Активно слухає інших, щоб краще зрозуміти їх інтереси",
-          "Пропонує нові ідеї для майбутніх зустрічей"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Після переїзду в нове місто жінка відвідує місцеву спільноту, але відчуває невпевненість",
-        "a": [
-          "Виникає бажання повернутися до старого місця",
-          "Розпочинає брати активну участь у заходах спільноти",
-          "Знаходить менш вимогливу групу для початку знайомств"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "Жінка відвідує бізнес-зустрічу в кав'ярні з потенційними партнерами",
         "a": [
@@ -439,36 +229,6 @@
     ],
     "Фізичне здоров'я": [
       {
-        "q": "Вона прокидається з болем у спині після довгого робочого дня",
-        "a": [
-          "Приймає ліки і продовжує працювати",
-          "Робить короткий перерив на розтяжку",
-          "Переглядає свій розпорядок дня для змін"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона чекає результатів медогляду в лікарні",
-        "a": [
-          "Переглядає інформацію про можливі діагнози",
-          "Розмовляє з лікарем про додаткові обстеження",
-          "Практикує дихальні вправи для заспокоєння"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона відчуває постійну втому після тренувань",
-        "a": [
-          "Зменшує інтенсивність тренувань на тиждень",
-          "Аналізує своє харчування для поліпшень",
-          "Додає нові методи відновлення організму"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "Вона прокидається о 6:00 з болем у спині після роботи в офісі",
         "a": [
           "Вона ігнорує біль і починає свій день як завжди",
@@ -500,36 +260,6 @@
       }
     ],
     "Кар'єра або Освіта": [
-      {
-        "q": "Жінка відчуває вигорання на роботі після місяця дедлайнів",
-        "a": [
-          "Починає ігнорувати робочі завдання та спати на роботі",
-          "Розставляє пріоритети та делегує завдання колегам",
-          "Розглядає можливість змінити роботу чи спеціаліцію"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона отримала відмову на співбесіді на посаду керівника",
-        "a": [
-          "Відмовляється від подальших спроб та займається хобі",
-          "Аналізує свої помилки на співбесіді та працює над ними",
-          "Рішуче готується до наступної співбесіди з новим резюме"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Її проект не отримав фінансування від інвесторів",
-        "a": [
-          "Передає провину іншим учасникам проекту та припиняє роботу",
-          "Звертається до інших інвесторів та намагається змінити презентацію",
-          "Використовує відмову як можливість створити новий напрям проекту"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "Жінка стоїть перед аудиторією після провальної презентації",
         "a": [
@@ -563,36 +293,6 @@
     ],
     "Екологія або Благодійність": [
       {
-        "q": "Жінка зібрала тонни пластику на міському пляжі",
-        "a": [
-          "Відчуває розчарування від байдужості людей",
-          "Вирішує організувати щотижневі суботники",
-          "Пише статтю в соціальних мережах про проблему"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Вона відвідує зруйноване стихією село у вихідний день",
-        "a": [
-          "Її охоплює жаль через несправедливість життя",
-          "Складає план допомоги від імені своєї організації",
-          "Зустрічається з місцевою ініціативною групою"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Під час засідання екологічного комітету вона відчуває брак підтримки",
-        "a": [
-          "Відчуває образу на колег через брак дій",
-          "Готує переконливу презентацію на наступне засідання",
-          "Запропонувала несподіваний компромісний варіант"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "Жінка стоїть на місці екологічного лиха, відчуваючи безсилля",
         "a": [
           "Закриває очі, щоб не бачити наслідків",
@@ -625,36 +325,6 @@
     ],
     "Особисті стосунки": [
       {
-        "q": "Жінка відмовляється від запрошення на побачення через зайнятість",
-        "a": [
-          "Віддає пріоритет роботі, щоб уникнути відволікання",
-          "Контролює свій час, щоб встигати більше",
-          "Розуміє, що зараз не час для стосунків"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Під час сімейної вечері вона відчуває образу на матір",
-        "a": [
-          "Уникає конфлікту, змінивши тему розмови",
-          "Контролює емоції, щоб не зіпсувати вечері",
-          "Вислуховує матір, приймаючи її точку зору"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Після сварки з партнером вона залишається одна в квартирі",
-        "a": [
-          "Роздумує про сварку, контролюючи свої емоції",
-          "Приймає ситуацію, даючи собі час на роздуми",
-          "Знаходить новий хобі, щоб змінити фокус уваги"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "Вона відмовляється від зустрічі з подругою через конфлікт",
         "a": [
           "Відправляє повідомлення з вибаченнями",
@@ -686,36 +356,6 @@
       }
     ],
     "Духовність": [
-      {
-        "q": "Вона відчуває внутрішній конфлікт під час ранкової медитації вдома",
-        "a": [
-          "Відволікається на телефон, щоб змінити стан",
-          "Зосереджується на диханні, контролюючи емоції",
-          "Записує свої думки, створюючи новий підхід"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Жінка відвідує гірський ретрит для духовного відновлення",
-        "a": [
-          "Відмовляється від спілкування з іншими учасниками",
-          "Активно бере участь у всіх групових заходах",
-          "Знаходить нові однодумці для спільної практики"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Людина відчуває ступор після отримання негативного відгуку",
-        "a": [
-          "Перегортає сторінки соцмереж, уникаючи проблеми",
-          "Аналізує критику, здійснюючи зміни",
-          "Пише подяку автору відгуку за досвід"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "Вона відчуває внутрішню порожнечу після медитації вранці",
         "a": [
@@ -751,36 +391,6 @@
   "en": {
     "Creativity or Self-Expression": [
       {
-        "q": "She stands in front of a blank canvas at her art studio, feeling anxious",
-        "a": [
-          "Quickly glues random shapes to fill the space",
-          "Studies famous paintings to get inspiration",
-          "Takes a deep breath, closes eyes, and lets her instincts guide her brush"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Her rival's successful fashion show has left her feeling stuck and uninspired at home",
-        "a": [
-          "Avoids thinking about it and watches TV all day",
-          "Creates a detailed plan to outdo her rival's next show",
-          "Starts brainstorming new ideas with her design team"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She's on a solo hike, feeling disconnected from her creative spark and inner voice",
-        "a": [
-          "Pushes herself to reach the summit, trying to prove her strength",
-          "Sits by a stream, journaling about her fears and doubts",
-          "Allows herself to daydream, letting her imagination wander freely"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "She stands before a blank canvas in her studio, paint-splattered overalls on, feeling anxious",
         "a": [
           "Quickly switches to a different project to avoid the anxiety",
@@ -812,36 +422,6 @@
       }
     ],
     "Personal Development or Self-Care": [
-      {
-        "q": "She wakes up late on Sunday, feeling anxious about the upcoming week",
-        "a": [
-          "Scrolls through social media to distract herself",
-          "Creates a to-do list to regain control",
-          "Takes a few deep breaths, embracing the calm morning"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "After a long, stressful day, she finds herself mindlessly snacking in her kitchen",
-        "a": [
-          "Continues eating, trying to fill the emotional void",
-          "Prepares a healthy meal to take charge of her choices",
-          "Writes in her journal to explore her emotions"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She spends a solo weekend at her beach house, feeling disconnected from her purpose",
-        "a": [
-          "Tries to fill the silence with TV and books",
-          "Sets a schedule to structure her time",
-          "Takes a walk on the beach, allowing herself to reflect"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "She wakes up anxious on a Monday morning in her small apartment",
         "a": [
@@ -875,36 +455,6 @@
     ],
     "Domestic Life or Household Management": [
       {
-        "q": "She stands in her cluttered kitchen, feeling overwhelmed by dirty dishes and laundry",
-        "a": [
-          "Quickly grabs her phone to order takeout and escape",
-          "Creates a strict cleaning schedule to regain control",
-          "Starts decluttering and makes a game out of organizing"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Her family gathers in the living room, arguing over whose turn it is to do chores",
-        "a": [
-          "Intervenes and assigns tasks to each person firmly",
-          "Suggests they create a chore chart together as a team",
-          "Excuses herself, feeling frustrated and walks away"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She lies awake at 3 AM, worried about tomorrow's household tasks and deadlines",
-        "a": [
-          "Mentally rehearses and plans every detail for control",
-          "Accepts her worries and focuses on breathing exercises",
-          "Jots down creative solutions in a journal beside her bed"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "She stands in her cluttered kitchen, feeling overwhelmed by household chores",
         "a": [
           "Quickly scrolls through her phone to avoid thinking about it",
@@ -936,36 +486,6 @@
       }
     ],
     "Finance": [
-      {
-        "q": "She stares at her empty bank account on her laptop in her small apartment",
-        "a": [
-          "Closes the laptop and watches TV to distract herself",
-          "Creates a strict budget plan to regain control",
-          "Brainstorms ways to monetize her hobbies online"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "The woman receives a overdue invoice notice for her business at her coffee shop",
-        "a": [
-          "Ignores it and hopes the problem goes away",
-          "Immediately calls her accountant to rectify the situation",
-          "Sees it as an opportunity to review and improve her financial systems"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She loses a major investor for her startup during a meeting in New York",
-        "a": [
-          "Becomes defensive and argues with the investor's representative",
-          "Listens to feedback and adjusts her pitch for the next meeting",
-          "Contemplates pivoting her business model to attract new investors"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "She stares at her empty bank account on her laptop screen at 3 am",
         "a": [
@@ -999,36 +519,6 @@
     ],
     "Parenting or Family": [
       {
-        "q": "Her 6-year-old daughter throws a tantrum while she makes breakfast",
-        "a": [
-          "Quickly snaps at her to calm down",
-          "Patiently validates her daughter's feelings and offers empathy",
-          "Hands her daughter a tablet to distract her"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She has to miss her child's school play due to a business meeting",
-        "a": [
-          "Feels guilty and tries to reschedule the meeting",
-          "Delegates tasks to her team to take control",
-          "Records the play to watch later and makes a plan"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Her partner questions her priorities between family and business",
-        "a": [
-          "Defensively argues that her business will secure their future",
-          "Listens to his concerns and tries to find a compromise",
-          "Suggests they re-evaluate their shared goals and values together"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "She feels guilty leaving her toddler at daycare on Monday morning",
         "a": [
           "Rushes home early to compensate for the time apart",
@@ -1060,36 +550,6 @@
       }
     ],
     "Recreation and Hobbies": [
-      {
-        "q": "On a solo hike, she stumbles upon a serene lake at sunset",
-        "a": [
-          "Takes out her phone to capture the perfect shot",
-          "Sits down to meditate and breathe in the calmness",
-          "Writes a poem inspired by the peaceful surroundings"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Her art class is cancelled, and she has free time on Saturday",
-        "a": [
-          "Scrolls through social media to find something to do",
-          "Plans a spontaneous road trip to a nearby town",
-          "Uses the time to organize her art supplies and studio"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She's injured and can't participate in her favorite cycling event",
-        "a": [
-          "Focuses on planning a future event to look forward to",
-          "Tries to find an alternative, accessible activity to enjoy",
-          "Dwells on the disappointment and considers quitting cycling"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "On a solo Sunday afternoon, she wanders aimlessly in a park",
         "a": [
@@ -1123,36 +583,6 @@
     ],
     "Community Involvement or Social Connection": [
       {
-        "q": "The woman cancels her speaking engagement, feeling anxious at the conference hall",
-        "a": [
-          "Immediately texts her team to reschedule",
-          "Stays in the backstage to re-plan her speech",
-          "Decides to attend as a listener instead"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She witnesses a heated argument between two community leaders at a charity event",
-        "a": [
-          "Excuses herself to avoid conflict",
-          "Intervenes to mediate the discussion",
-          "Takes notes to write a reflective blog post"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "After a successful fundraising campaign, she receives unexpected criticism on social media",
-        "a": [
-          "Deletes her accounts to escape negativity",
-          "Crafts a response to address concerns",
-          "Creates a video sharing her vision and goals"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "At a charity gala, she stands alone with a glass of wine, feeling awkward",
         "a": [
           "Quickly scans the room for an escape route",
@@ -1184,36 +614,6 @@
       }
     ],
     "Physical Health": [
-      {
-        "q": "She wakes up late on a Monday morning with a throbbing headache",
-        "a": [
-          "Reaches for her phone to check work emails immediately",
-          "Takes a few deep breaths and does some stretching exercises",
-          "Rolls over and goes back to sleep, hoping it goes away"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "During her lunch break, she discovers a new organic café downtown",
-        "a": [
-          "Avoids trying new foods and sticks to her usual sandwich",
-          "Orders a healthy salad and feels in control of her diet",
-          "Tries a new exotic dish and savors the flavors eagerly"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "After a grueling workout, she feels exhausted and sore on the couch",
-        "a": [
-          "Reaches for her phone to scroll through social media mindlessly",
-          "Creates a soothing playlist to calm her muscles and mind",
-          "Plans a relaxing bath with Epsom salts and essential oils"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "She wakes up late on a Monday morning, feeling exhausted and sore",
         "a": [
@@ -1247,36 +647,6 @@
     ],
     "Career or Education": [
       {
-        "q": "She stands at the podium, facing her largest audience yet, and suddenly feels her mind go blank",
-        "a": [
-          "Rushes through her presentation, hoping no one notices",
-          "Takes a deep breath, pauses, and begins to improvise",
-          "Acknowledges her nervousness and connects with her audience"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Her business partner suggests a new direction, contradicting her original vision",
-        "a": [
-          "Argues fiercely to assert her initial plan",
-          "Listens actively, trying to understand their perspective",
-          "Suggests a compromise, blending their ideas"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She receives an email rejecting her job application, citing lack of experience",
-        "a": [
-          "Feels defeated, puts the email in a folder, and ignores it",
-          "Writes a response, questioning their evaluation criteria",
-          "Sees it as an opportunity to gain new skills and experience"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "She receives an unexpected project cancellation email on a Monday morning",
         "a": [
           "Immediately calls a meeting to discuss alternatives",
@@ -1308,36 +678,6 @@
       }
     ],
     "Environmental or Charitable Causes": [
-      {
-        "q": "At a climate change rally, she holds a sign and feels overwhelmed by the crowd's emotions",
-        "a": [
-          "Quickly checks her phone to distract herself",
-          "Takes charge, leading the chant and directing the protesters",
-          "Breathes deeply, embracing the feelings and connecting with others"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Her charity event faces a last-minute venue cancellation on a stormy fundraising day",
-        "a": [
-          "Frantically searches for a new venue online",
-          "Takes control, assembling a team to brainstorm alternative plans",
-          "Suggests an impromptu, socially distanced outdoor gathering instead"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "While researching environmental impact, she feels guilty about her own plastic usage",
-        "a": [
-          "Avoids thinking about it, focusing on her business plan",
-          "Creates a list, tracking and controlling every single use",
-          "Designs a sustainable product to offset her personal footprint"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "At her charity's annual gala, she discovers a major donor's scandalous business practices",
         "a": [
@@ -1371,36 +711,6 @@
     ],
     "Personal Relationship": [
       {
-        "q": "She sits with her partner on the couch after a big fight at home",
-        "a": [
-          "Changes the subject to avoid more conflict",
-          "Tries to win the argument with facts",
-          "Listens to his perspective with empathy"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "She's on a date and feels uncomfortable with his intense questioning",
-        "a": [
-          "Skips questions and focuses on his interests",
-          "Takes control by asking tough questions back",
-          "Opens up and shares her feelings honestly"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "Her best friend just ended their close friendship with a sudden goodbye",
-        "a": [
-          "Dwells on memories to hold on to the past",
-          "Reaches out to mutual friends for support",
-          "Creates a new ritual to honor the friendship"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
         "q": "She discovers her partner's hidden infidelity on their fifth anniversary",
         "a": [
           "Confronts him aggressively, demanding explanations",
@@ -1432,36 +742,6 @@
       }
     ],
     "Spirituality": [
-      {
-        "q": "During her morning meditation, she feels anxious about upcoming speaking engagement",
-        "a": [
-          "Pushes the thoughts away, focusing on breath control",
-          "Tries to mentally rehearse and perfect her speech",
-          "Allows the anxiety, observing it without judgment"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "After a disappointing networking event, she walks alone in the park at dusk",
-        "a": [
-          "Creates a mental plan to improve her networking skills",
-          "Calls a colleague to discuss and dissect the event",
-          "Lets go of expectations, embracing the uncertainty"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
-      {
-        "q": "When her business partner questions her vision, she feels defensive at the meeting",
-        "a": [
-          "Listens actively, trying to control the conversation",
-          "Avoids conflict by sidestepping the issue",
-          "Explores the partner's concerns, seeking new insights"
-        ],
-        "_day": "2026-07-17",
-        "_provider": "Groq"
-      },
       {
         "q": "During her morning meditation, she feels restless and distracted on her cushion",
         "a": [
